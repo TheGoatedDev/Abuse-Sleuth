@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model AIPDB_Report {
+    id        Int    @id @default(autoincrement())
+    ipAddress String @unique
+
+    abuseScore Int
+
+    country String
+
+    usageType String
+    isp       String
+
+    domain String
+
+    totalReports          Int
+    totalDistinctReportee Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
