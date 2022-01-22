@@ -8,7 +8,7 @@ import {
     Text,
     Textarea,
 } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import { useForm, usePagination } from "@mantine/hooks";
 import axios from "axios";
 import { useState } from "react";
 

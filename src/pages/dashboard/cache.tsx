@@ -2,37 +2,55 @@ import {
     Title,
     Center,
     Table,
+    Text,
     Box,
     Group,
     Checkbox,
     Pagination,
+    Button,
 } from "@mantine/core";
 import { usePagination } from "@mantine/hooks";
 import { AIPDB_Report } from "@prisma/client";
 import prisma from "../../lib/prisma";
 import type { GetServerSideProps, NextPage } from "next";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
+import { useEffect, useState } from "react";
+import { getCache } from "../../lib/helpers/apiHelper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-interface PropsType {
-    page: number;
-    reports: AIPDB_Report[];
-}
+const Cache: NextPage = (props) => {
+    const [page, setPage] = useState(1);
+    const [rows, setRows] = useState<JSX.Element[] | null>(null);
 
-const Cache: NextPage<PropsType> = (props) => {
-    const rows = props.reports.map((report) => (
-        <tr key={report.id}>
-            <td>{report.id}</td>
-            <td>{report.ipAddress}</td>
-            <td>{report.abuseScore}%</td>
-            <td>{report.country}</td>
-            <td>{report.usageType}</td>
-            <td>{report.isp}</td>
-            <td>{report.domain}</td>
-            <td>{report.totalReports}</td>
-            <td>{report.totalDistinctReportee}</td>
-            <td>{report.updatedAt.toISOString()}</td>
-        </tr>
-    ));
+    const incrementPage = () => {
+        setPage(page + 1);
+    };
+
+    const decrementPage = () => {
+        setPage(page - 1);
+    };
+
+    useEffect(() => {
+        (async () => {
+            const reports = await getCache(page, 30);
+            const elements = reports.map((report) => (
+                <tr key={report.id}>
+                    <td>{report.id}</td>
+                    <td>{report.ipAddress}</td>
+                    <td>{report.abuseScore}%</td>
+                    <td>{report.country}</td>
+                    <td>{report.usageType}</td>
+                    <td>{report.isp}</td>
+                    <td>{report.domain}</td>
+                    <td>{report.totalReports}</td>
+                    <td>{report.totalDistinctReportee}</td>
+                    <td>{report.updatedAt}</td>
+                </tr>
+            ));
+            setRows(elements);
+        })();
+    }, [page]);
 
     return (
         <LayoutDashboard>
@@ -46,6 +64,27 @@ const Cache: NextPage<PropsType> = (props) => {
                         <Checkbox label="ID" />
                     </div>
                     <div>
+                        <Center>
+                            <Button
+                                mr="xs"
+                                compact
+                                onClick={() => {
+                                    decrementPage();
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            </Button>
+                            <Text>Page {page}</Text>
+                            <Button
+                                ml="xs"
+                                compact
+                                onClick={() => {
+                                    incrementPage();
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </Button>
+                        </Center>
                         <Table>
                             <thead>
                                 <tr>
