@@ -14,10 +14,6 @@ const queryScheme = Joi.object({
 const handler = nextConnect().get(
     joiValidation({ query: queryScheme }),
     async (req: NextApiRequest, res: NextApiResponse) => {
-        if (req.method !== "GET") {
-            return res.status(405).send("");
-        }
-
         const { ip } = req.query;
 
         //console.log(ip);

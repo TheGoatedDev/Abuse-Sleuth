@@ -5,6 +5,7 @@ import { useForm } from "@mantine/hooks";
 import { AIPDB_Report } from "@prisma/client";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
+import { isIPAddress } from "../lib/utils/regexTest";
 
 interface PropsType {
     setResult: Dispatch<SetStateAction<AIPDB_Report | null>>;
@@ -17,7 +18,7 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
             ignoreCache: false,
         },
         validationRules: {
-            ipAddress: (value) => /^(?:[0-9]{1,3}.){3}[0-9]{1,3}$/.test(value),
+            ipAddress: (value) => isIPAddress(value),
         },
     });
 

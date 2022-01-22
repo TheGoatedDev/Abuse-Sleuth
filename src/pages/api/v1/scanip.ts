@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import joiValidation from "../../../lib/middlewares/joiValidation";
 import { scanIP } from "../../../lib/utils/aipdbClient";
+import apiHandler from "../../../lib/utils/apiHandler";
 
 const queryScheme = Joi.object({
     ipAddress: Joi.string()
@@ -13,7 +14,7 @@ const queryScheme = Joi.object({
     ignoreCache: Joi.bool().required(),
 });
 
-const handler = nextConnect().get(
+const handler = apiHandler.get(
     joiValidation({ query: queryScheme }),
     async (req: NextApiRequest, res: NextApiResponse) => {
         const { ipAddress, ignoreCache } = req.query;

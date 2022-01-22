@@ -71,7 +71,11 @@ const Cache: NextPage<PropsType> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const AIPDB_Reports = await prisma.aIPDB_Report.findMany();
+    const AIPDB_Reports = await prisma.aIPDB_Report.findMany({
+        orderBy: {
+            abuseScore: "desc",
+        },
+    });
     const { page } = context.query;
 
     return { props: { page: page ?? 1, reports: AIPDB_Reports } };
