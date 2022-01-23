@@ -1,7 +1,5 @@
-import { AIPDB_Report } from "@prisma/client";
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import nextConnect from "next-connect";
 import joiValidation from "../../../lib/middlewares/joiValidation";
 import { scanIP } from "../../../lib/utils/aipdbClient";
 import apiHandler from "../../../lib/utils/apiHandler";

@@ -6,7 +6,6 @@ import {
     Box,
     Group,
     Checkbox,
-    Pagination,
     Button,
     SegmentedControl,
     Container,
@@ -19,7 +18,7 @@ import { getCache } from "../../lib/helpers/apiHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const Cache: NextPage = (props) => {
+const Cache: NextPage = () => {
     const [page, setPage] = useState(1);
     const [size, setSize] = useState("15");
     const [rows, setRows] = useState<JSX.Element[] | null>(null);

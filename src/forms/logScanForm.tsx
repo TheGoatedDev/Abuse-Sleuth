@@ -1,6 +1,7 @@
 import { faFile, faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    Anchor,
     Box,
     Button,
     Center,
@@ -103,7 +104,12 @@ const LogScanForm: React.FC = () => {
                 )}
             </Dropzone>
             {reportID !== -1 ? (
-                <Text mt={"xs"}>Report #{reportID} Generated!</Text>
+                <Text mt={"xs"}>
+                    Report #{reportID} Generated!{" "}
+                    <Anchor href={"/dashboard/reports/" + reportID}>
+                        Click Here to Open
+                    </Anchor>
+                </Text>
             ) : (
                 ""
             )}

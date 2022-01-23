@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import NavbarButton from "./buttons/NavbarButton";
 
-const CustomNavbar: React.FC = (props) => {
+const CustomNavbar: React.FC = () => {
     const [cacheCount, setCacheCount] = useState(0);
 
     useEffect(() => {
@@ -18,12 +18,20 @@ const CustomNavbar: React.FC = (props) => {
         <Navbar padding={"md"} width={{ base: 300 }}>
             <Navbar.Section>
                 <Center>
-                    <img src={'/IPSentinel_Logo.svg'} alt={"IP Sentinel Logo"} width={"30%"}/>
+                    <img
+                        src={"/IPSentinel_Logo.svg"}
+                        alt={"IP Sentinel Logo"}
+                        width={"30%"}
+                    />
                 </Center>
             </Navbar.Section>
             <Divider my="md" />
             <Navbar.Section grow>
-                <NavbarButton icon={faSearchengin} color={"blue"} href="/dashboard/scan">
+                <NavbarButton
+                    icon={faSearchengin}
+                    color={"blue"}
+                    href="/dashboard/scan"
+                >
                     Check IP
                 </NavbarButton>
                 <NavbarButton
@@ -33,15 +41,27 @@ const CustomNavbar: React.FC = (props) => {
                 >
                     Scan Logs
                 </NavbarButton>
-                <NavbarButton icon={faFile} color={"orange"} href="/dashboard/reports">
+                <NavbarButton
+                    icon={faFile}
+                    color={"orange"}
+                    href="/dashboard/reports"
+                >
                     View Reports
                 </NavbarButton>
-                <NavbarButton icon={faServer} color={"grape"} href="/dashboard/cache">
+                <NavbarButton
+                    icon={faServer}
+                    color={"grape"}
+                    href="/dashboard/cache"
+                >
                     View Cache
                 </NavbarButton>
             </Navbar.Section>
             <Navbar.Section>
-                <NavbarButton icon={faBug} color={"red"} href="/dashboard/developer">
+                <NavbarButton
+                    icon={faBug}
+                    color={"red"}
+                    href="/dashboard/developer"
+                >
                     Dev Menu
                 </NavbarButton>
             </Navbar.Section>
