@@ -11,8 +11,6 @@ import {
     SegmentedControl,
     Container,
 } from "@mantine/core";
-import { usePagination } from "@mantine/hooks";
-import { AIPDB_Report } from "@prisma/client";
 import prisma from "../../lib/prisma";
 import type { GetServerSideProps, NextPage } from "next";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
