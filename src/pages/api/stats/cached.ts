@@ -6,7 +6,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     if (req.method === "GET") {
-        const count = await prisma.aIPDB_Report.count();
+        const count = await prisma.aIPDBReport.count();
         res.status(200).json({ count: count });
     } else {
         res.status(405).send(null);

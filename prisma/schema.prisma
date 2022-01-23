@@ -10,7 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model AIPDB_Report {
+model AIPDBReport {
     id        Int    @id @default(autoincrement())
     ipAddress String @unique
 
@@ -25,6 +25,32 @@ model AIPDB_Report {
 
     totalReports          Int
     totalDistinctReportee Int
+
+    reportLinks ReportLink[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@map("AIPDB_Report")
+}
+
+model Report {
+    id Int @id @default(autoincrement())
+
+    reportLinks ReportLink[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model ReportLink {
+    id Int @id @default(autoincrement())
+
+
+    aipdbReport   AIPDBReport @relation(fields: [aipdbReportId], references: [id])
+    aipdbReportId Int
+
+    report   Report @relation(fields: [reportId], references: [id])
+    reportId Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

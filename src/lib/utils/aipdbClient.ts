@@ -1,4 +1,4 @@
-import { AIPDB_Report } from "@prisma/client";
+import { AIPDBReport } from "@prisma/client";
 import prisma from "../prisma";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -53,10 +53,10 @@ const runAIPDB = async (
 const scanIP = async (
     ipAddress: string,
     ignoreCache: boolean
-): Promise<AIPDB_Report | null> => {
+): Promise<AIPDBReport | null> => {
     if (ignoreCache === false) {
-        console.log("RUNNING CACHE");
-        var report = await prisma.aIPDB_Report.findFirst({
+        //console.log("RUNNING CACHE");
+        var report = await prisma.aIPDBReport.findFirst({
             where: {
                 ipAddress: ipAddress,
             },
@@ -67,7 +67,7 @@ const scanIP = async (
                 dayjs(report.updatedAt) <
                 dayjs(report.updatedAt).add(1, "month")
             ) {
-                console.log(ipAddress + " still Valid");
+                //console.log(ipAddress + " still Valid");
                 return report;
             }
         }
@@ -80,7 +80,7 @@ const scanIP = async (
         return null;
     }
 
-    const dbReport = await prisma.aIPDB_Report.upsert({
+    const dbReport = await prisma.aIPDBReport.upsert({
         where: {
             ipAddress,
         },

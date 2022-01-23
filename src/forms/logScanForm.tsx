@@ -18,6 +18,7 @@ import { useForm } from "@mantine/hooks";
 import axios from "axios";
 import { useRef, useState } from "react";
 import Papa from "papaparse";
+import { sendLog } from "../lib/helpers/apiHelper";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
@@ -32,26 +33,20 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 const LogScanForm: React.FC = () => {
     const theme = useMantineTheme();
     const [loading, setLoading] = useState(false);
-
-    const form = useForm({
-        initialValues: {
-            ipAddresses: "",
-            ignoreCache: false,
-        },
-    });
+    const [generateReport, setGenerateReport] = useState(false);
+    const [reportID, setReportID] = useState(-1);
 
     const onDropFile = (file: File) => {
-        console.log(file);
         setLoading(true);
 
         const reader = new FileReader();
 
-        reader.onloadend = ({ target }) => {
+        reader.onloadend = async ({ target }) => {
             if (target == null) {
                 return;
             }
             const csv = Papa.parse(target.result as string, { header: true });
-            const IPAddresses = csv.data.map((x: any) => {
+            const RawIPAddresses = csv.data.map((x: any) => {
                 const rawField: string = x["Source IP"];
                 if (rawField) {
                     return rawField.split(" ")[0];
@@ -60,18 +55,30 @@ const LogScanForm: React.FC = () => {
                 }
             });
 
-            // TODO: Add the WEB REQUEST
+            // TODO: Unique IP
+            const IPAddresses = [...new Set(RawIPAddresses)];
 
-            console.log("Done", IPAddresses);
+            // TODO: Add the WEB REQUEST
+            const reportId = await sendLog(IPAddresses, generateReport);
+
+            setReportID(reportId);
+            setLoading(false);
         };
 
         reader.readAsText(file);
-
-        setLoading(false);
     };
 
     return (
         <>
+            <Center mb="xs">
+                <Checkbox
+                    checked={generateReport}
+                    onChange={(event) =>
+                        setGenerateReport(event.currentTarget.checked)
+                    }
+                    label={"Generate Report?"}
+                />
+            </Center>
             <Dropzone
                 multiple={false}
                 onDrop={(files) => onDropFile(files[0])}
@@ -95,6 +102,11 @@ const LogScanForm: React.FC = () => {
                     </Group>
                 )}
             </Dropzone>
+            {reportID !== -1 ? (
+                <Text mt={"xs"}>Report #{reportID} Generated!</Text>
+            ) : (
+                ""
+            )}
         </>
     );
 };

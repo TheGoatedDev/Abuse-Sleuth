@@ -1,4 +1,4 @@
-import { AIPDB_Report } from "@prisma/client";
+import { AIPDBReport } from "@prisma/client";
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
 import joiValidation from "../../../../lib/middlewares/joiValidation";
@@ -13,7 +13,7 @@ const querySchema = Joi.object({
 const handler = apiHandler.get(
     joiValidation({ query: querySchema }),
     async (req: NextApiRequest, res: NextApiResponse) => {
-        let reports: AIPDB_Report[] | null[] = [];
+        let reports: AIPDBReport[] | null[] = [];
 
         if (req.query.page) {
             const page: number = req.query.page ? Number(req.query.page) : 1;
@@ -21,12 +21,12 @@ const handler = apiHandler.get(
                 ? Number(req.query.limit)
                 : 30;
             const skip: number = (page - 1) * limit;
-            reports = await prisma.aIPDB_Report.findMany({
+            reports = await prisma.aIPDBReport.findMany({
                 skip: skip,
                 take: limit,
             });
         } else {
-            reports = await prisma.aIPDB_Report.findMany({});
+            reports = await prisma.aIPDBReport.findMany({});
         }
 
         res.status(200).json({

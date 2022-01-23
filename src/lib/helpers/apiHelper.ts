@@ -26,3 +26,21 @@ export const getCache = async (
         return [];
     }
 };
+
+export const sendLog = async (
+    ipAddresses: string[],
+    generateReport: boolean
+): Promise<number> => {
+    try {
+        const res = await axios.post(
+            API_BASE + "/" + API_VERSION.VERSION_1 + "/scanlog",
+            {
+                ipAddresses: ipAddresses.join(","),
+                generateReport,
+            }
+        );
+        return res.data.data;
+    } catch (error) {
+        return -1;
+    }
+};

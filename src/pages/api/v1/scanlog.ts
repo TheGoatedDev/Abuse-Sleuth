@@ -1,49 +1,72 @@
-import { AIPDB_Report } from "@prisma/client";
+import { AIPDBReport } from "@prisma/client";
 import Joi from "joi";
 import joiValidation from "../../../lib/middlewares/joiValidation";
 import { scanIP } from "../../../lib/utils/aipdbClient";
 import apiHandler from "../../../lib/utils/apiHandler";
+import { isIPAddress } from "../../../lib/utils/regexTest";
 
 const queryScheme = Joi.object({
     ipAddresses: Joi.string().required(),
-    ignoreCache: Joi.bool().required(),
+    generateReport: Joi.bool().required(),
 });
 
 const handler = apiHandler.post(
     joiValidation({ body: queryScheme }),
     async (req, res) => {
         // Take the Array of IP Addresses and Scan them all and add them to the database and generate a report.
-        const allEntriesFromBody = req.body.ipAddresses
-            .replaceAll("\n", "")
-            .split(",");
+        const allEntriesFromBody: string[] = req.body.ipAddresses.split(",");
 
-        const allIPAddresses: string[] = [];
+        const allValidIPs: string[] = [];
 
         allEntriesFromBody.forEach((element: string) => {
-            allIPAddresses.push(element.split(" ")[0]);
+            if (isIPAddress(element)) {
+                allValidIPs.push(element);
+            }
         });
 
-        const allUniqueIPAddresses = [...new Set<string>(allIPAddresses)];
+        const allPromises: Promise<AIPDBReport | null>[] = [];
 
-        console.log(allUniqueIPAddresses);
-
-        const allPromises: Promise<AIPDB_Report | null>[] = [];
-
-        allUniqueIPAddresses.forEach((element) => {
-            allPromises.push(scanIP(element, req.body.ignoreCache));
+        allValidIPs.forEach((element) => {
+            allPromises.push(scanIP(element, false));
         });
 
-        await Promise.allSettled(allPromises);
+        let settled = await Promise.allSettled(allPromises);
 
-        console.log("Done Log Scan");
+        if (req.body.generateReport === true) {
+            settled = settled.filter((x) => x != null);
 
-        res.status(200).json({
-            ok: true,
-            message: "Done Scan",
-            data: {
-                scanAmount: allPromises.length,
-            },
-        });
+            const createRecords: { aipdbReportId: number }[] = [];
+
+            settled.forEach((element: any) => {
+                const aipdb: AIPDBReport = element.value;
+                createRecords.push({ aipdbReportId: aipdb.id });
+            });
+
+            const report = await prisma.report.create({
+                data: {
+                    reportLinks: {
+                        create: [...createRecords],
+                    },
+                },
+                include: {
+                    reportLinks: {
+                        include: {
+                            aipdbReport: true,
+                        },
+                    },
+                },
+            });
+
+            return res.status(200).json({
+                ok: true,
+                data: report.id,
+            });
+        } else {
+            return res.status(200).json({
+                ok: true,
+                data: -1,
+            });
+        }
     }
 );
 

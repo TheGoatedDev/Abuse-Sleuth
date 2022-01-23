@@ -18,7 +18,7 @@ const handler = nextConnect().get(
 
         //console.log(ip);
 
-        const report = await prisma.aIPDB_Report.findUnique({
+        const report = await prisma.aIPDBReport.findUnique({
             where: {
                 ipAddress: ip as string,
             },
