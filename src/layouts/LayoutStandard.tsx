@@ -1,5 +1,4 @@
 import { AppShell } from "@mantine/core";
-import CustomNavbar from "../components/Navbar";
 import HeaderBasic from "../components/HeaderBasic";
 
 interface PropsType {

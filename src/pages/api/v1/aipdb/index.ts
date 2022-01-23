@@ -6,8 +6,8 @@ import prisma from "../../../../lib/prisma";
 import apiHandler from "../../../../lib/utils/apiHandler";
 
 const querySchema = Joi.object({
-    limit: Joi.number().default(30),
-    page: Joi.number().default(1),
+    limit: Joi.number().default(30).max(50).min(15),
+    page: Joi.number().default(1).min(1),
 });
 
 const handler = apiHandler.get(

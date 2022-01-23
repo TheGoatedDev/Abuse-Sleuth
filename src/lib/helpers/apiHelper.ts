@@ -11,15 +11,18 @@ export const getCache = async (
     page: number = 1,
     limit: number = 30
 ): Promise<AIPDB_Report[]> => {
-    const res = await axios.get(
-        API_BASE + "/" + API_VERSION.VERSION_1 + "/aipdb",
-        {
-            params: {
-                page,
-                limit,
-            },
-        }
-    );
-
-    return res.data.data;
+    try {
+        const res = await axios.get(
+            API_BASE + "/" + API_VERSION.VERSION_1 + "/aipdb",
+            {
+                params: {
+                    page,
+                    limit,
+                },
+            }
+        );
+        return res.data.data;
+    } catch (error) {
+        return [];
+    }
 };
