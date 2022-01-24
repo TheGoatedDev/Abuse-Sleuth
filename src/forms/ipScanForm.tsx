@@ -2,13 +2,13 @@ import { faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Center, Checkbox, Divider, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { AIPDB_Report } from "@prisma/client";
+import { AIPDBReport } from "@prisma/client";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { isIPAddress } from "../lib/utils/regexTest";
 
 interface PropsType {
-    setResult: Dispatch<SetStateAction<AIPDB_Report | null>>;
+    setResult: Dispatch<SetStateAction<AIPDBReport | null>>;
 }
 
 const IPScanForm: React.FC<PropsType> = ({ setResult }) => {

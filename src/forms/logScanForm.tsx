@@ -15,8 +15,6 @@ import {
     useMantineTheme,
 } from "@mantine/core";
 import { Dropzone, DropzoneStatus, MIME_TYPES } from "@mantine/dropzone";
-import { useForm } from "@mantine/hooks";
-import axios from "axios";
 import { useRef, useState } from "react";
 import Papa from "papaparse";
 import { sendLog } from "../lib/helpers/apiHelper";

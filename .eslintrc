@@ -1,5 +1,5 @@
 {
-    "extends": ["next", "prettier"],
+    "extends": ["next"],
     "plugins": ["unused-imports", "prettier"],
     "rules": {
         "indent": ["error", 4],
