@@ -15,6 +15,7 @@ const App = (props: AppProps) => {
                 />
             </Head>
 
+
             <MantineProvider
                 withGlobalStyles
                 withNormalizeCSS
