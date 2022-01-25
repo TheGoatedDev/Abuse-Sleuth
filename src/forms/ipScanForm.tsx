@@ -1,21 +1,20 @@
 import { faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Center, Checkbox, Divider, TextInput } from "@mantine/core";
+import { Button, Center, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { AIPDBReport } from "@prisma/client";
+import { AIPDBProfile } from "@prisma/client";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-import { isIPAddress } from "../lib/utils/regexTest";
+import { isIPAddress } from "@lib/utils/regexTest";
 
 interface PropsType {
-    setResult: Dispatch<SetStateAction<AIPDBReport | null>>;
+    setResult: Dispatch<SetStateAction<AIPDBProfile | null>>;
 }
 
 const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
     const form = useForm({
         initialValues: {
             ipAddress: "",
-            ignoreCache: false,
         },
         validationRules: {
             ipAddress: (value) => isIPAddress(value),
@@ -26,7 +25,6 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
         const res = await axios.get("/api/v1/scanip", {
             params: {
                 ipAddress: form.values.ipAddress,
-                ignoreCache: form.values.ignoreCache,
             },
         });
 
@@ -36,7 +34,7 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
 
     return (
         <form
-            onSubmit={form.onSubmit((values) => {
+            onSubmit={form.onSubmit((_values) => {
                 onScanIPBtnClick();
             })}
         >
@@ -47,12 +45,6 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
             />
             <Center mt="xs">
                 <Button type="submit">Scan IP</Button>
-                <Divider />
-                <Checkbox
-                    ml="xl"
-                    label="Ignore Cache"
-                    {...form.getInputProps("ignoreCache")}
-                />
             </Center>
         </form>
     );

@@ -1,21 +1,18 @@
-import { faFile, faLaptop } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Anchor,
     Box,
-    Button,
     Center,
     Checkbox,
-    Divider,
     Group,
     MantineTheme,
     Text,
-    Textarea,
     ThemeIcon,
     useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, DropzoneStatus, MIME_TYPES } from "@mantine/dropzone";
-import { useRef, useState } from "react";
+import { Dropzone, DropzoneStatus } from "@mantine/dropzone";
+import { useState } from "react";
 import Papa from "papaparse";
 import { sendLog } from "../lib/helpers/apiHelper";
 
@@ -54,10 +51,8 @@ const LogScanForm: React.FC = () => {
                 }
             });
 
-            // TODO: Unique IP
             const IPAddresses = [...new Set(RawIPAddresses)];
 
-            // TODO: Add the WEB REQUEST
             const reportId = await sendLog(IPAddresses, generateReport);
 
             setReportID(reportId);

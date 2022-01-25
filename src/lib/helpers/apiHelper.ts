@@ -1,5 +1,5 @@
-import { AIPDBReport } from "@prisma/client";
 import axios from "axios";
+import { GET_AIPDB_Data } from "@lib/types";
 
 export const API_BASE = "/api";
 
@@ -10,7 +10,7 @@ export enum APIVERSION {
 export const getCache = async (
     page: number = 1,
     limit: number = 30
-): Promise<AIPDBReport[]> => {
+): Promise<GET_AIPDB_Data[]> => {
     try {
         const res = await axios.get(API_BASE + "/" + APIVERSION.V1 + "/aipdb", {
             params: {

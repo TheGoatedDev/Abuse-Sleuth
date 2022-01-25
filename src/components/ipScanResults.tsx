@@ -1,10 +1,10 @@
 import { Group, Paper, Text, Title } from "@mantine/core";
-import { AIPDB_Report } from "@prisma/client";
+import { AIPDBProfile } from "@prisma/client";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 interface PropsType {
-    result?: AIPDB_Report;
+    result?: AIPDBProfile;
 }
 
 const IPScanResults: React.FC<PropsType> = (props) => {
@@ -19,10 +19,6 @@ const IPScanResults: React.FC<PropsType> = (props) => {
             <Title order={2} align="center">
                 Results
             </Title>
-            <Group>
-                <Text weight={700}>IP Address: </Text>
-                <Text>{props.result?.ipAddress ?? "?"}</Text>
-            </Group>
             <Group>
                 <Text weight={700}>Abuse Score: </Text>
                 <Text>

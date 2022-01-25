@@ -10,9 +10,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model AIPDBReport {
-    id        Int    @id @default(autoincrement())
-    ipAddress String @unique
+model AIPDBProfile {
+    aipdbProfileID        Int    @id @default(autoincrement())
+    
+    ipProfile IPProfile @relation(fields: [ipProfileId], references: [ipProfileID])
+    ipProfileId Int @unique
 
     abuseScore Int
 
@@ -26,31 +28,41 @@ model AIPDBReport {
     totalReports          Int
     totalDistinctReportee Int
 
-    reportLinks ReportLink[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    @@map("AIPDB_Report")
-}
-
-model Report {
-    id Int @id @default(autoincrement())
-
-    reportLinks ReportLink[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
-model ReportLink {
-    id Int @id @default(autoincrement())
+model IPProfile {
+    ipProfileID        Int    @id @default(autoincrement())
+
+    ipAddress String @unique
+
+    aipdbProfile AIPDBProfile?
+    links ReportIPProfileLink[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model GeneratedReport {
+    generatedReportID Int @id @default(autoincrement())
+
+    links ReportIPProfileLink[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model ReportIPProfileLink {
+    linkID Int @id @default(autoincrement())
 
 
-    aipdbReport   AIPDBReport @relation(fields: [aipdbReportId], references: [id])
-    aipdbReportId Int
+    ipProfile   IPProfile @relation(fields: [ipProfileId], references: [ipProfileID])
+    ipProfileId Int
 
-    report   Report @relation(fields: [reportId], references: [id])
-    reportId Int
+    generatedReport   GeneratedReport @relation(fields: [generatedReportId], references: [generatedReportID])
+    generatedReportId Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

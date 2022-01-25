@@ -1,26 +1,23 @@
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import joiValidation from "../../../lib/middlewares/joiValidation";
-import { scanIP } from "../../../lib/utils/aipdbClient";
-import apiHandler from "../../../lib/utils/apiHandler";
+import joiValidation from "@lib/middlewares/joiValidation";
+import apiHandler from "@lib/utils/apiHandler";
+import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({
     ipAddress: Joi.string()
         .required()
         .regex(/^(?:[0-9]{1,3}.){3}[0-9]{1,3}$/)
         .message("Query Value was not a valid IP Address"),
-    ignoreCache: Joi.bool().required(),
 });
 
+// Responds with AIPDB Profile
 const handler = apiHandler.get(
     joiValidation({ query: queryScheme }),
     async (req: NextApiRequest, res: NextApiResponse) => {
-        const { ipAddress, ignoreCache } = req.query;
+        const { ipAddress } = req.query;
 
-        const result = await scanIP(
-            ipAddress as string,
-            ignoreCache === "true"
-        );
+        const result = await getProfile(ipAddress as string);
 
         if (result == null) {
             res.status(400).send(null);

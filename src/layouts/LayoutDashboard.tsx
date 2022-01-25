@@ -1,5 +1,5 @@
 import { AppShell } from "@mantine/core";
-import CustomNavbar from "../components/Navbar";
+import CustomNavbar from "@components/Navbar";
 
 const LayoutDashboard: React.FC = (props) => {
     return (

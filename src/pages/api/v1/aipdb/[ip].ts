@@ -1,31 +1,54 @@
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import nextConnect from "next-connect";
-import joiValidation from "../../../../lib/middlewares/joiValidation";
-import prisma from "../../../../lib/prisma";
+import joiValidation from "@lib/middlewares/joiValidation";
+import { GET_AIPDB_Data, Response } from "@lib/types";
+import apiHandler from "@lib/utils/apiHandler";
+import { log } from "@lib/utils/log";
+import { ipRegex } from "@lib/utils/regexTest";
+import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({
     ip: Joi.string()
         .required()
-        .regex(/^(?:[0-9]{1,3}.){3}[0-9]{1,3}$/)
+        .regex(ipRegex)
         .message("Query Value was not a valid IP Address"),
 });
 
-const handler = nextConnect().get(
+const handler = apiHandler.get(
     joiValidation({ query: queryScheme }),
-    async (req: NextApiRequest, res: NextApiResponse) => {
-        const { ip } = req.query;
+    async (
+        req: NextApiRequest,
+        res: NextApiResponse<Response<GET_AIPDB_Data>>
+    ) => {
+        try {
+            const { ip } = req.query;
 
-        //console.log(ip);
+            const profile = await getProfile(ip as string);
+            //console.log(report);
+            if (profile === null) {
+                throw new Error(
+                    "Error Occured while getting the AIPDB Profile"
+                );
+            }
 
-        const report = await prisma.aIPDBReport.findUnique({
-            where: {
+            const data: GET_AIPDB_Data = {
                 ipAddress: ip as string,
-            },
-        });
-        //console.log(report);
+                abuseScore: profile.abuseScore,
+                country: profile.country,
+                usageType: profile.usageType,
+                isp: profile.isp,
+                domain: profile.domain,
+                totalReports: profile.totalReports,
+                totalDistinctReportee: profile.totalDistinctReportee,
+                createdAt: profile.createdAt,
+                updatedAt: profile.updatedAt,
+            };
 
-        res.status(200).json({ ok: report !== null, data: report });
+            res.status(200).json({ ok: profile !== null, data: data });
+        } catch (error) {
+            log.error(error);
+            throw error;
+        }
     }
 );
 

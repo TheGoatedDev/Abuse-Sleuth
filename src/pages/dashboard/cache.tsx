@@ -5,13 +5,11 @@ import {
     Text,
     Box,
     Group,
-    Checkbox,
     Button,
     SegmentedControl,
     Container,
 } from "@mantine/core";
-import prisma from "../../lib/prisma";
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import LayoutDashboard from "../../layouts/LayoutDashboard";
 import { useEffect, useState } from "react";
 import { getCache } from "../../lib/helpers/apiHelper";
@@ -37,9 +35,8 @@ const Cache: NextPage = () => {
             if (reports.length === 0) {
                 return setPage(page < 1 ? page + 1 : page - 1);
             }
-            const elements = reports.map((report) => (
-                <tr key={report.id}>
-                    <td>{report.id}</td>
+            const elements = reports.map((report, i) => (
+                <tr key={i}>
                     <td>{report.ipAddress}</td>
                     <td>{report.abuseScore}%</td>
                     <td>{report.country}</td>
@@ -61,12 +58,6 @@ const Cache: NextPage = () => {
             <Container fluid>
                 <Center mt="md">
                     <Group grow direction="column" style={{ width: "100%" }}>
-                        <div>
-                            <Title order={3} align="center">
-                                Filter
-                            </Title>
-                            <Checkbox label="ID" />
-                        </div>
                         <div>
                             <Group position="apart">
                                 <Box></Box>
@@ -103,7 +94,6 @@ const Cache: NextPage = () => {
                             <Table>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>IP</th>
                                         <th>Abuse Score</th>
                                         <th>Country Code</th>
@@ -123,17 +113,6 @@ const Cache: NextPage = () => {
             </Container>
         </LayoutDashboard>
     );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const AIPDBReports = await prisma.aIPDBReport.findMany({
-        orderBy: {
-            abuseScore: "desc",
-        },
-    });
-    const { page } = context.query;
-
-    return { props: { page: page ?? 1, reports: AIPDBReports } };
 };
 
 export default Cache;

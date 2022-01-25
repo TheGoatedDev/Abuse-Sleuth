@@ -1,9 +1,9 @@
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
-import { faBug, faFile, faServer } from "@fortawesome/free-solid-svg-icons";
+import { faBug, faFile } from "@fortawesome/free-solid-svg-icons";
 import { Center, Divider, Group, Navbar, Text } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import NavbarButton from "./buttons/NavbarButton";
+import NavbarButton from "@components/buttons/NavbarButton";
 
 const CustomNavbar: React.FC = () => {
     const [cacheCount, setCacheCount] = useState(0);
@@ -48,13 +48,14 @@ const CustomNavbar: React.FC = () => {
                 >
                     View Reports
                 </NavbarButton>
-                <NavbarButton
+                {/* <NavbarButton
+                    
                     icon={faServer}
                     color={"grape"}
                     href="/dashboard/cache"
                 >
                     View Cache
-                </NavbarButton>
+                </NavbarButton> */}
             </Navbar.Section>
             <Navbar.Section>
                 <NavbarButton
