@@ -1,6 +1,6 @@
 import prisma from "@services/database/prisma";
 
-export const getAIPDBProfileByID = async (ipAddress: string) => {
+export const getAIPDBProfileByIP = async (ipAddress: string) => {
     const aipdb = await prisma.aIPDBProfile.findFirst({
         where: {
             ipProfile: {

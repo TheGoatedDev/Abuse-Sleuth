@@ -6,6 +6,8 @@ import apiHandler from "@libs/utils/apiHandler";
 import { log } from "@libs/utils/log";
 import { ipRegex } from "@libs/utils/regexTest";
 import { getProfile } from "@providers/aipdbProvider";
+import { AIPDBProfile } from "@prisma/client";
+import { getAIPDBProfileByIP } from "@services/database/queries/aipdbProfile/getAIPDBProfileByIP";
 
 const queryScheme = Joi.object({
     ip: Joi.string()
@@ -18,33 +20,14 @@ const handler = apiHandler.get(
     joiValidation({ query: queryScheme }),
     async (
         req: NextApiRequest,
-        res: NextApiResponse<Response<GET_AIPDB_Data>>
+        res: NextApiResponse<Response<AIPDBProfile | null>>
     ) => {
         try {
             const { ip } = req.query;
 
-            const profile = await getProfile(ip as string);
-            //console.log(report);
-            if (profile === null) {
-                throw new Error(
-                    "Error Occured while getting the AIPDB Profile"
-                );
-            }
+            const profile = await getAIPDBProfileByIP(ip as string);
 
-            const data: GET_AIPDB_Data = {
-                ipAddress: ip as string,
-                abuseScore: profile.abuseScore,
-                country: profile.country,
-                usageType: profile.usageType,
-                isp: profile.isp,
-                domain: profile.domain,
-                totalReports: profile.totalReports,
-                totalDistinctReportee: profile.totalDistinctReportee,
-                createdAt: profile.createdAt,
-                updatedAt: profile.updatedAt,
-            };
-
-            res.status(200).json({ ok: profile !== null, data: data });
+            res.status(200).json({ ok: profile !== null, data: profile });
         } catch (error) {
             log.error(error);
             throw error;

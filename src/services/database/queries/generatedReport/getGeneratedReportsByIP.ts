@@ -4,7 +4,7 @@ export const getGeneratedReportsByIP = async (ipAddress: string) => {
     const reports = await prisma.generatedReport.findMany({
         where: {
             links: {
-                every: {
+                some: {
                     ipProfile: {
                         ipAddress,
                     },
