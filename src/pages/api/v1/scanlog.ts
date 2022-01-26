@@ -1,8 +1,8 @@
 import { AIPDBProfile } from "@prisma/client";
 import Joi from "joi";
-import joiValidation from "@lib/middlewares/joiValidation";
-import apiHandler from "@lib/utils/apiHandler";
-import { isIPAddress } from "@lib/utils/regexTest";
+import joiValidation from "@libs/middlewares/joiValidation";
+import apiHandler from "@libs/utils/apiHandler";
+import { isIPAddress } from "@libs/utils/regexTest";
 import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({

@@ -2,9 +2,9 @@ import { Center, Title } from "@mantine/core";
 import { AIPDBProfile } from "@prisma/client";
 import type { NextPage } from "next";
 import { useState } from "react";
-import IPScanResults from "../../components/ipScanResults";
-import IPScanForm from "../../forms/ipScanForm";
-import LayoutDashboard from "../../layouts/LayoutDashboard";
+import IPScanResults from "@components/shared/ipScanResults";
+import IPScanForm from "@components/forms/ipScanForm";
+import LayoutDashboard from "@components/layouts/LayoutDashboard";
 
 const Scan: NextPage = () => {
     const [result, setResult] = useState<AIPDBProfile | null>(null);

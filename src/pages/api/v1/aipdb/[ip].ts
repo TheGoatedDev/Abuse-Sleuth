@@ -1,10 +1,10 @@
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import joiValidation from "@lib/middlewares/joiValidation";
-import { GET_AIPDB_Data, Response } from "@lib/types";
-import apiHandler from "@lib/utils/apiHandler";
-import { log } from "@lib/utils/log";
-import { ipRegex } from "@lib/utils/regexTest";
+import joiValidation from "@libs/middlewares/joiValidation";
+import { GET_AIPDB_Data, Response } from "@libs/types";
+import apiHandler from "@libs/utils/apiHandler";
+import { log } from "@libs/utils/log";
+import { ipRegex } from "@libs/utils/regexTest";
 import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({

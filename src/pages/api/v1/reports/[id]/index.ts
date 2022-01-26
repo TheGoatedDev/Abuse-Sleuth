@@ -1,10 +1,10 @@
 import { IPProfile } from "@prisma/client";
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getReportWithIPProfiles } from "@lib/helpers/reportHelper";
-import joiValidation from "@lib/middlewares/joiValidation";
-import { Response } from "@lib/types";
-import apiHandler from "@lib/utils/apiHandler";
+import { getReportWithIPProfiles } from "@libs/helpers/reportHelper";
+import joiValidation from "@libs/middlewares/joiValidation";
+import { Response } from "@libs/types";
+import apiHandler from "@libs/utils/apiHandler";
 
 const queryScheme = Joi.object({
     id: Joi.number().required(),

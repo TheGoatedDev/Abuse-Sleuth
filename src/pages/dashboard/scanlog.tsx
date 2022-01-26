@@ -1,7 +1,7 @@
 import { Center, Title } from "@mantine/core";
 import type { NextPage } from "next";
-import LogScanForm from "../../forms/logScanForm";
-import LayoutDashboard from "../../layouts/LayoutDashboard";
+import LogScanForm from "../../components/forms/logScanForm";
+import LayoutDashboard from "../../components/layouts/LayoutDashboard";
 
 const Scan: NextPage = () => {
     return (

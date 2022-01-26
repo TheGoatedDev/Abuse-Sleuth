@@ -1,9 +1,9 @@
 import { IPProfile } from "@prisma/client";
 import axios from "axios";
 import dayjs from "dayjs";
-import { generateMockAIPDBData } from "../lib/mock/aipdbMockGen";
-import prisma from "../lib/prisma";
-import { log } from "../lib/utils/log";
+import { generateMockAIPDBData } from "../libs/mock/aipdbMockGen";
+import prisma from "../services/database/prisma";
+import { log } from "../libs/utils/log";
 
 interface StrippedAIPDBProfile {
     abuseScore: number;

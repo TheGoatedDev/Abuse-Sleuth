@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import joiValidation from "@lib/middlewares/joiValidation";
-import apiHandler from "@lib/utils/apiHandler";
+import joiValidation from "@libs/middlewares/joiValidation";
+import apiHandler from "@libs/utils/apiHandler";
 import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({
