@@ -1,9 +1,9 @@
 import prisma from "@services/database/prisma";
 
-export const getIPProfileByIP = async (ipAddress: string) => {
+export const getRawIPProfileByID = async (id: number) => {
     return await prisma.iPProfile.findFirst({
         where: {
-            ipAddress,
+            ipProfileID: id,
         },
     });
 };

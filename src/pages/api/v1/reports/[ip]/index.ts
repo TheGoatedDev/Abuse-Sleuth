@@ -1,12 +1,11 @@
-import { GeneratedReport, IPProfile } from "@prisma/client";
+import { GeneratedReport } from "@prisma/client";
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getReportWithIPProfiles } from "@libs/helpers/reportHelper";
 import joiValidation from "@libs/middlewares/joiValidation";
 import { Response } from "@libs/types";
 import apiHandler from "@libs/utils/apiHandler";
 import { ipRegex } from "@libs/utils/regexTest";
-import { getGeneratedReportsByIP } from "@services/database/queries/generatedReport/getGeneratedReportsByIP";
+import { getRawGeneratedReportsByIP } from "@services/database/queries/generatedReport/getRawGeneratedReportsByIP";
 
 const queryScheme = Joi.object({
     ip: Joi.string()
@@ -24,7 +23,7 @@ const handler = apiHandler.get(
     ) => {
         const { ip } = req.query;
 
-        const reports = await getGeneratedReportsByIP(ip as string);
+        const reports = await getRawGeneratedReportsByIP(ip as string);
 
         res.status(200).json({ ok: reports !== null, data: reports });
     }

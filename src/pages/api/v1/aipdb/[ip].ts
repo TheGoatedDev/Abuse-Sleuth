@@ -1,13 +1,12 @@
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
 import joiValidation from "@libs/middlewares/joiValidation";
-import { GET_AIPDB_Data, Response } from "@libs/types";
+import { Response } from "@libs/types";
 import apiHandler from "@libs/utils/apiHandler";
 import { log } from "@libs/utils/log";
 import { ipRegex } from "@libs/utils/regexTest";
-import { getProfile } from "@providers/aipdbProvider";
 import { AIPDBProfile } from "@prisma/client";
-import { getAIPDBProfileByIP } from "@services/database/queries/aipdbProfile/getAIPDBProfileByIP";
+import { getRawAIPDBProfileByIP } from "@services/database/queries/aipdbProfile/getRawAIPDBProfileByIP";
 
 const queryScheme = Joi.object({
     ip: Joi.string()
@@ -25,7 +24,7 @@ const handler = apiHandler.get(
         try {
             const { ip } = req.query;
 
-            const profile = await getAIPDBProfileByIP(ip as string);
+            const profile = await getRawAIPDBProfileByIP(ip as string);
 
             res.status(200).json({ ok: profile !== null, data: profile });
         } catch (error) {
