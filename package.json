@@ -17,6 +17,7 @@
         "@mantine/hooks": "^3.5.3",
         "@mantine/next": "^3.5.3",
         "@prisma/client": "^3.8.0",
+        "@supabase/supabase-js": "^1.29.4",
         "axios": "^0.24.0",
         "dayjs": "^1.10.7",
         "joi": "^17.5.0",
