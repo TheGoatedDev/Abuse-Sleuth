@@ -13,6 +13,7 @@ const HeaderBasic: React.FC<PropsType> = (props) => {
                     height: "100%",
                 }}
                 position="apart"
+                grow
             >
                 <Group position={"left"}></Group>
                 <img
