@@ -1,19 +1,9 @@
 import { IPProfile } from "@prisma/client";
 import axios from "axios";
 import dayjs from "dayjs";
-import { generateMockAIPDBData } from "../libs/mock/aipdbMockGen";
-import prisma from "../services/database/prisma";
-import { log } from "../libs/utils/log";
-
-interface StrippedAIPDBProfile {
-    abuseScore: number;
-    country: string;
-    usageType: string;
-    isp: string;
-    domain: string;
-    totalReports: number;
-    totalDistinctReportee: number;
-}
+import { generateMockAIPDBData } from "@libs/mock/aipdbMockGen";
+import prisma from "@services/database/prisma";
+import { log } from "@libs/utils/log";
 
 // Get the Required Data to make a AIPDB Entry into the DB
 const makeWebRequest = async (ipAddress: string) => {
@@ -41,7 +31,7 @@ const makeWebRequest = async (ipAddress: string) => {
         }
 
         // Condense the data to only what is needed from AIPDB
-        const strippedData: StrippedAIPDBProfile = {
+        const strippedData: IAIPDBProfileData = {
             abuseScore: data.abuseConfidenceScore,
             country: data.countryCode ?? "Unknown",
             usageType: data.usageType ?? "Unknown",
@@ -59,7 +49,7 @@ const makeWebRequest = async (ipAddress: string) => {
 
 // Create a new AIPDB Profile Based on input data and create a IP Profile if it doesn't exist already.
 const createNewAIPDBProfile = async (
-    data: StrippedAIPDBProfile,
+    data: IAIPDBProfileData,
     ipAddress: string
 ) => {
     await prisma.aIPDBProfile.create({
@@ -87,7 +77,7 @@ const createNewAIPDBProfile = async (
 
 // Updates the AIPDB Profile with input data
 const updateAIPDBProfile = async (
-    data: StrippedAIPDBProfile,
+    data: IAIPDBProfileData,
     ipProfile: IPProfile
 ) => {
     await prisma.aIPDBProfile.update({
