@@ -1,7 +1,8 @@
 import AuthForm from "@components/forms/authForm";
 import LayoutStandard from "@components/layouts/LayoutStandard";
 import { Center } from "@mantine/core";
-import type { NextPage } from "next";
+import { supabaseAdmin } from "@services/supabase/supabaseAdmin";
+import type { GetServerSideProps, NextPage } from "next";
 
 const Login: NextPage = () => {
     return (
@@ -11,6 +12,23 @@ const Login: NextPage = () => {
             </Center>
         </LayoutStandard>
     );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { user } = await supabaseAdmin.auth.api.getUserByCookie(context.req);
+
+    if (user) {
+        return {
+            props: {},
+            redirect: {
+                destination: "/dashboard",
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
 };
 
 export default Login;

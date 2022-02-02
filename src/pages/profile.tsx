@@ -25,7 +25,16 @@ const Profile: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    //TODO: ADD USER AUTH CHECK
+    const { user } = await supabaseAdmin.auth.api.getUserByCookie(context.req);
+
+    if (!user) {
+        return {
+            props: {},
+            redirect: {
+                destination: "/login",
+            },
+        };
+    }
 
     return {
         props: {},
