@@ -7,6 +7,7 @@ import { useState } from "react";
 
 const SignupAuthForm: React.FC = () => {
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const form = useForm({
         initialValues: {
@@ -31,6 +32,7 @@ const SignupAuthForm: React.FC = () => {
             email: values.email,
             password: values.password,
         });
+        setError(error?.message ?? null);
         setLoading(false);
         console.log(user, error);
     };
