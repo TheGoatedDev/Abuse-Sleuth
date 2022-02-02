@@ -1,6 +1,6 @@
 import { faCopy, faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Space, TextInput } from "@mantine/core";
+import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { supabaseClient } from "@services/supabase/supabaseClient";
 import { useState } from "react";
@@ -41,6 +41,7 @@ const SignupAuthForm: React.FC = () => {
                 icon={<FontAwesomeIcon icon={faEnvelope} />}
                 placeholder="example@example.com"
                 label="Email"
+                required
                 {...form.getInputProps("email")}
             />
             <TextInput
@@ -48,6 +49,7 @@ const SignupAuthForm: React.FC = () => {
                 placeholder="Your Password"
                 label="Password"
                 type="password"
+                required
                 {...form.getInputProps("password")}
             />
             <TextInput
@@ -55,12 +57,14 @@ const SignupAuthForm: React.FC = () => {
                 placeholder="Confirm Your Password"
                 label="Confirm Password"
                 type="password"
+                required
                 {...form.getInputProps("passwordConfirm")}
             />
             <Space h={"md"} />
             <Button type="submit" fullWidth loading={loading}>
                 Sign up
             </Button>
+            <Text color="red">{error}</Text>
         </form>
     );
 };

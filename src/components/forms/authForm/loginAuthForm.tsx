@@ -1,6 +1,6 @@
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Space, TextInput } from "@mantine/core";
+import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { supabaseClient } from "@services/supabase/supabaseClient";
 import { useRouter } from "next/router";
@@ -52,6 +52,7 @@ const LoginAuthForm: React.FC = () => {
                 icon={<FontAwesomeIcon icon={faEnvelope} />}
                 placeholder="example@example.com"
                 label="Email"
+                required
                 {...form.getInputProps("email")}
             />
             <TextInput
@@ -59,12 +60,14 @@ const LoginAuthForm: React.FC = () => {
                 placeholder="Your Password"
                 label="Password"
                 type="password"
+                required
                 {...form.getInputProps("password")}
             />
             <Space h={"md"} />
             <Button type="submit" fullWidth loading={loading}>
-                Sign up
+                Login
             </Button>
+            <Text color="red">{error}</Text>
         </form>
     );
 };
