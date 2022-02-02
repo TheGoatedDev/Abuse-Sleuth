@@ -1,13 +1,14 @@
-import { Button, Group, Header } from "@mantine/core";
+import { Group, Header, Text } from "@mantine/core";
+import { supabaseClient } from "@services/supabase/supabaseClient";
 import Link from "next/link";
+import HeaderButton from "../buttons/HeaderButton";
+import UserMenu from "../menus/userMenu";
 
-interface PropsType {
-    disableButtons?: boolean;
-}
+const HeaderBasic: React.FC = (props) => {
+    const user = supabaseClient.auth.user();
 
-const HeaderBasic: React.FC<PropsType> = (props) => {
     return (
-        <Header height={80} padding={"xs"}>
+        <Header height={80} padding={"md"}>
             <Group
                 style={{
                     height: "100%",
@@ -15,19 +16,25 @@ const HeaderBasic: React.FC<PropsType> = (props) => {
                 position="apart"
                 grow
             >
-                <Group position={"left"}></Group>
+                <Group position={"left"} spacing={"md"}>
+                    <HeaderButton href="/">Home</HeaderButton>
+                    <HeaderButton href="/pricing">Pricing</HeaderButton>
+                </Group>
                 <img
                     height={"100%"}
                     src={"/IPSentinel_Logo.svg"}
                     alt={"Logo"}
                 />
                 <Group position={"right"}>
-                    {(props.disableButtons ?? false) !== true ? (
-                        <Link href="/dashboard" passHref>
-                            <Button compact>Dashboard</Button>
-                        </Link>
+                    {user ? (
+                        <>
+                            <HeaderButton href="/login">Dashboard</HeaderButton>
+                            <UserMenu />
+                        </>
                     ) : (
-                        ""
+                        <HeaderButton href="/login">
+                            Login / Signup
+                        </HeaderButton>
                     )}
                 </Group>
             </Group>

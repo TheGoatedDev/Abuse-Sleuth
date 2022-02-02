@@ -1,18 +1,11 @@
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 import { faBug, faFile } from "@fortawesome/free-solid-svg-icons";
-import { Center, Divider, Group, Navbar, Text } from "@mantine/core";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
+import { supabaseClient } from "@services/supabase/supabaseClient";
 
 const CustomNavbar: React.FC = () => {
-    const [cacheCount, setCacheCount] = useState(0);
-
-    useEffect(() => {
-        axios.get("/api/stats/cached").then((value) => {
-            setCacheCount(value.data.count);
-        });
-    }, []);
+    const user = supabaseClient.auth.user();
 
     return (
         <Navbar padding={"md"} width={{ base: 300 }}>
@@ -48,14 +41,6 @@ const CustomNavbar: React.FC = () => {
                 >
                     View Reports
                 </NavbarButton>
-                {/* <NavbarButton
-                    
-                    icon={faServer}
-                    color={"grape"}
-                    href="/dashboard/cache"
-                >
-                    View Cache
-                </NavbarButton> */}
             </Navbar.Section>
             <Navbar.Section>
                 <NavbarButton
@@ -67,16 +52,14 @@ const CustomNavbar: React.FC = () => {
                 </NavbarButton>
             </Navbar.Section>
             <Divider mb="sm" />
-            <Navbar.Section mb="sm">
-                <Text align="center">Stats</Text>
+            <Navbar.Section>
                 <Group>
                     <div>
-                        <Text size="sm">Cached: {cacheCount}</Text>
-                        <Text size="sm">Avg Conf: TODO</Text>
+                        <Skeleton circle height={52} />
                     </div>
                     <div>
-                        <Text size="sm">Reports: TODO</Text>
-                        <Text size="sm">Processed: TODO</Text>
+                        <Text size="sm">{user?.email}</Text>
+                        <Text size="xs">Plan: TODO</Text>
                     </div>
                 </Group>
             </Navbar.Section>
