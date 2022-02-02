@@ -19,7 +19,7 @@ const HeaderButton: React.FC<PropsType> = (props) => {
         <Link href={props.href} passHref>
             <UnstyledButton
                 style={{
-                    padding: "10px",
+                    padding: "5px",
                     fontWeight: "600",
                 }}
                 sx={(theme) => ({

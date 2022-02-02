@@ -2,7 +2,7 @@ import { Group, Header, Text } from "@mantine/core";
 import { supabaseClient } from "@services/supabase/supabaseClient";
 import Link from "next/link";
 import HeaderButton from "../buttons/HeaderButton";
-import UserMenu from "../menus/userMenu";
+import UserMenu from "../menus/UserMenu";
 
 const HeaderBasic: React.FC = (props) => {
     const user = supabaseClient.auth.user();
