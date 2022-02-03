@@ -2,13 +2,13 @@ import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { supabaseClient } from "@services/supabase/supabaseClient";
+import { firebaseAuth } from "@services/firebase";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const LoginAuthForm: React.FC = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [signInWithEmailAndPassword, user, loading, error] =
+        useSignInWithEmailAndPassword(firebaseAuth);
 
     const router = useRouter();
 
@@ -27,17 +27,7 @@ const LoginAuthForm: React.FC = () => {
         email: string;
         password: string;
     }) => {
-        setLoading(true);
-        const { user, error } = await supabaseClient.auth.signIn({
-            email: values.email,
-            password: values.password,
-        });
-        setLoading(false);
-
-        if (error) {
-            setError(error.message);
-            return;
-        }
+        await signInWithEmailAndPassword(values.email, values.password);
 
         if (user) {
             router.push("/dashboard");
@@ -67,7 +57,10 @@ const LoginAuthForm: React.FC = () => {
             <Button type="submit" fullWidth loading={loading}>
                 Login
             </Button>
-            <Text color="red">{error}</Text>
+            {user && !loading && (
+                <Text color="green">You have successfully logged in!</Text>
+            )}
+            <Text color="red">{error?.message}</Text>
         </form>
     );
 };

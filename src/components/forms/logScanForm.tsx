@@ -20,10 +20,10 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
         ? theme.colors[theme.primaryColor][6]
         : status.rejected
-        ? theme.colors.red[6]
-        : theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.black;
+            ? theme.colors.red[6]
+            : theme.colorScheme === "dark"
+                ? theme.colors.dark[0]
+                : theme.black;
 }
 
 const LogScanForm: React.FC = () => {

@@ -2,10 +2,11 @@ import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 import { faBug, faFile } from "@fortawesome/free-solid-svg-icons";
 import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
-import { supabaseClient } from "@services/supabase/supabaseClient";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { firebaseAuth } from "@services/firebase";
 
 const CustomNavbar: React.FC = () => {
-    const user = supabaseClient.auth.user();
+    const [user, loading, error] = useAuthState(firebaseAuth);
 
     return (
         <Navbar padding={"md"} width={{ base: 300 }}>
@@ -58,7 +59,11 @@ const CustomNavbar: React.FC = () => {
                         <Skeleton circle height={52} />
                     </div>
                     <div>
-                        <Text size="sm">{user?.email}</Text>
+                        {user ? (
+                            <Text size="sm">{user?.email}</Text>
+                        ) : (
+                            <Skeleton />
+                        )}
                         <Text size="xs">Plan: TODO</Text>
                     </div>
                 </Group>

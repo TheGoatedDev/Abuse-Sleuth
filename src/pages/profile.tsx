@@ -1,44 +1,22 @@
 import LayoutStandard from "@components/layouts/LayoutStandard";
+import useRedirectIfNotAuth from "@hooks/useRedirectIfNotAuth";
 import { Center } from "@mantine/core";
-import { supabaseAdmin } from "@services/supabase/supabaseAdmin";
-import { supabaseClient } from "@services/supabase/supabaseClient";
-import { User } from "@supabase/supabase-js";
-import axios from "axios";
-import type { GetServerSideProps, NextPage } from "next";
-import { useEffect, useState } from "react";
+import { firebaseAuth } from "@services/firebase";
+import type { NextPage } from "next";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Profile: NextPage = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, loading, error] = useAuthState(firebaseAuth);
 
-    useEffect(() => {
-        const user = supabaseClient.auth.user();
-        if (user) {
-            setUser(user);
-        }
-    }, []);
+    useRedirectIfNotAuth({ redirectTo: "/login" });
 
     return (
         <LayoutStandard>
-            <Center>{JSON.stringify(user, null, 2)}</Center>
+            <Center>
+                <code>{user?.email}</code>
+            </Center>
         </LayoutStandard>
     );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { user } = await supabaseAdmin.auth.api.getUserByCookie(context.req);
-
-    if (!user) {
-        return {
-            props: {},
-            redirect: {
-                destination: "/login",
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
 };
 
 export default Profile;

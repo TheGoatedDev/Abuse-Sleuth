@@ -1,10 +1,11 @@
+import useRedirectIfNotAuth from "@hooks/useRedirectIfNotAuth";
 import { Center, Title } from "@mantine/core";
-import { supabaseAdmin } from "@services/supabase/supabaseAdmin";
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import LogScanForm from "../../components/forms/logScanForm";
 import LayoutDashboard from "../../components/layouts/LayoutDashboard";
 
 const Scan: NextPage = () => {
+    useRedirectIfNotAuth({ redirectTo: "/login" });
     return (
         <LayoutDashboard>
             <Title align="center">Log Scan</Title>
@@ -15,23 +16,6 @@ const Scan: NextPage = () => {
             </Center>
         </LayoutDashboard>
     );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { user } = await supabaseAdmin.auth.api.getUserByCookie(context.req);
-
-    if (!user) {
-        return {
-            props: {},
-            redirect: {
-                destination: "/login",
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
 };
 
 export default Scan;

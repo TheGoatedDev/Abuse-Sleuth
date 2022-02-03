@@ -34,7 +34,6 @@
 		</table>
 		<table name="GeneratedReport" prior="GeneratedReports" >
 			<column name="generatedReportID" type="int" jt="4" mandatory="y" />
-			<column name="userID" type="int" jt="4" />
 			<index name="Pk_GeneratedReport_generatedReportID" unique="PRIMARY_KEY" >
 				<column name="generatedReportID" />
 			</index>

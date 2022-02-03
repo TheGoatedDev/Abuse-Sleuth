@@ -1,8 +1,8 @@
 import { faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Divider, Menu, Text, ThemeIcon } from "@mantine/core";
-import { supabaseSignOutAndReload } from "@services/supabase/functions/supabaseSignOut";
-import { supabaseClient } from "@services/supabase/supabaseClient";
+import { firebaseAuth } from "@services/firebase";
+import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 
 const UserMenu: React.FC = () => {
@@ -32,7 +32,7 @@ const UserMenu: React.FC = () => {
             <Menu.Label>User Interactions</Menu.Label>
             <Menu.Item
                 icon={<FontAwesomeIcon icon={faSignOutAlt} />}
-                onClick={() => supabaseSignOutAndReload(supabaseClient, router)}
+                onClick={() => signOut(firebaseAuth)}
             >
                 <Text color="red">Logout</Text>
             </Menu.Item>

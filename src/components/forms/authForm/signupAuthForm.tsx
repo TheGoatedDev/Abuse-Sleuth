@@ -2,12 +2,12 @@ import { faCopy, faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { supabaseClient } from "@services/supabase/supabaseClient";
-import { useState } from "react";
+import { firebaseAuth } from "@services/firebase";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const SignupAuthForm: React.FC = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [createUserWithEmailAndPassword, _user, loading, error] =
+        useCreateUserWithEmailAndPassword(firebaseAuth);
 
     const form = useForm({
         initialValues: {
@@ -27,14 +27,7 @@ const SignupAuthForm: React.FC = () => {
         email: string;
         password: string;
     }) => {
-        setLoading(true);
-        const { user, error } = await supabaseClient.auth.signUp({
-            email: values.email,
-            password: values.password,
-        });
-        setError(error?.message ?? null);
-        setLoading(false);
-        console.log(user, error);
+        await createUserWithEmailAndPassword(values.email, values.password);
     };
 
     return (
@@ -66,7 +59,7 @@ const SignupAuthForm: React.FC = () => {
             <Button type="submit" fullWidth loading={loading}>
                 Sign up
             </Button>
-            <Text color="red">{error}</Text>
+            <Text color="red">{error?.message}</Text>
         </form>
     );
 };

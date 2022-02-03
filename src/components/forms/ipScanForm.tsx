@@ -2,13 +2,12 @@ import { faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Center, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { AIPDBProfile } from "@prisma/client";
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { isIPAddress } from "@libs/utils/regexTest";
+import { createIPProfile } from "@services/firebase/firestore/queries/ipProfile/createIPProfile";
 
 interface PropsType {
-    setResult: Dispatch<SetStateAction<AIPDBProfile | null>>;
+    setResult: Dispatch<SetStateAction<any | null>>;
 }
 
 const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
@@ -22,14 +21,15 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
     });
 
     const onScanIPBtnClick = async () => {
-        const res = await axios.get("/api/v1/scanip", {
-            params: {
-                ipAddress: form.values.ipAddress,
-            },
-        });
+        // const res = await axios.get("/api/v1/scanip", {
+        //     params: {
+        //         ipAddress: form.values.ipAddress,
+        //     },
+        // });
 
-        const result = res.data.data;
-        setResult(result);
+        // const result = res.data.data;
+        // setResult(result);
+        await createIPProfile(form.values.ipAddress);
     };
 
     return (

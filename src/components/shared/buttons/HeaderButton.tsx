@@ -1,12 +1,6 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Group,
-    ThemeIcon,
     UnstyledButton,
-    useMantineTheme,
     Text,
-    MantineColor,
 } from "@mantine/core";
 import Link from "next/link";
 

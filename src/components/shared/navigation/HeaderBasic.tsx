@@ -1,11 +1,11 @@
-import { Group, Header, Text } from "@mantine/core";
-import { supabaseClient } from "@services/supabase/supabaseClient";
-import Link from "next/link";
+import { Group, Header } from "@mantine/core";
+import { firebaseAuth } from "@services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import HeaderButton from "../buttons/HeaderButton";
 import UserMenu from "../menus/UserMenu";
 
 const HeaderBasic: React.FC = (props) => {
-    const user = supabaseClient.auth.user();
+    const [user, loading, error] = useAuthState(firebaseAuth);
 
     return (
         <Header height={80} padding={"md"}>
@@ -28,7 +28,9 @@ const HeaderBasic: React.FC = (props) => {
                 <Group position={"right"}>
                     {user ? (
                         <>
-                            <HeaderButton href="/login">Dashboard</HeaderButton>
+                            <HeaderButton href="/dashboard">
+                                Dashboard
+                            </HeaderButton>
                             <UserMenu />
                         </>
                     ) : (

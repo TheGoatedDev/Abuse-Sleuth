@@ -1,36 +1,12 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
-import { useEffect } from "react";
-import { supabaseClient } from "@services/supabase/supabaseClient";
-import { AuthChangeEvent, Session } from "@supabase/supabase-js";
-import axios from "axios";
+import { LoadingOverlay, MantineProvider } from "@mantine/core";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { firebaseAuth } from "@services/firebase";
 
 const App = (props: AppProps) => {
     const { Component, pageProps } = props;
-
-    useEffect(() => {
-        const { data } = supabaseClient.auth.onAuthStateChange(
-            (event, session) => {
-                handleAuthChange(event, session);
-            }
-        );
-
-        return () => {
-            data?.unsubscribe();
-        };
-    }, []);
-
-    async function handleAuthChange(
-        event: AuthChangeEvent,
-        session: Session | null
-    ) {
-        /* sets and removes the Supabase cookie */
-        await axios.post("/api/auth", {
-            event,
-            session,
-        });
-    }
+    const [user, loading, error] = useAuthState(firebaseAuth);
 
     return (
         <>
@@ -49,6 +25,11 @@ const App = (props: AppProps) => {
                     colorScheme: "dark",
                 }}
             >
+                <LoadingOverlay
+                    overlayOpacity={1}
+                    transitionDuration={0}
+                    visible={(loading && !user && !error) ?? true}
+                />
                 <Component {...pageProps} />
             </MantineProvider>
         </>

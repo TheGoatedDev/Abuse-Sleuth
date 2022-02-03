@@ -2,7 +2,7 @@ import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
 import joiValidation from "@libs/middlewares/joiValidation";
 import apiHandler from "@libs/utils/apiHandler";
-import { getProfile } from "@providers/aipdbProvider";
+import { createIPProfile } from "@services/firebase/firestore/queries/ipProfile/createIPProfile";
 
 const queryScheme = Joi.object({
     ipAddress: Joi.string()
@@ -17,14 +17,16 @@ const handler = apiHandler.get(
     async (req: NextApiRequest, res: NextApiResponse) => {
         const { ipAddress } = req.query;
 
-        const result = await getProfile(ipAddress as string);
+        const ipProfileDoc = await createIPProfile(ipAddress as string);
 
-        if (result == null) {
+        //const result = await getProfile(ipAddress as string);
+
+        if (ipProfileDoc == null) {
             res.status(400).send(null);
         } else {
             res.status(200).json({
                 ok: true,
-                data: result,
+                data: ipProfileDoc.id,
             });
         }
     }
