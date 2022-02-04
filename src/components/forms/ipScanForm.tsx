@@ -1,16 +1,16 @@
 import { faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Center, TextInput } from "@mantine/core";
+import { Button, Center, Code, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { Dispatch, SetStateAction } from "react";
 import { isIPAddress } from "@libs/utils/regexTest";
-import { createIPProfile } from "@services/firebase/firestore/queries/ipProfile/createIPProfile";
+import { createIPProfile } from "@services/firebase/firestore/queries/ipProfile/clientside/createIPProfile";
+import { useState } from "react";
+import { updateLastAccessIPProfile } from "@services/firebase/firestore/queries/ipProfile/clientside/updateLastAccessIPProfile";
+import logger from "@libs/utils/logger";
+import { getIPProfile } from "@services/firebase/firestore/queries/ipProfile/getIPProfile";
+import { firebaseFirestore } from "@services/firebase";
 
-interface PropsType {
-    setResult: Dispatch<SetStateAction<any | null>>;
-}
-
-const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
+const IPScanForm: React.FC = () => {
     const form = useForm({
         initialValues: {
             ipAddress: "",
@@ -19,6 +19,8 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
             ipAddress: (value) => isIPAddress(value),
         },
     });
+
+    const [result, setResult] = useState<any>(null);
 
     const onScanIPBtnClick = async () => {
         // const res = await axios.get("/api/v1/scanip", {
@@ -29,24 +31,44 @@ const IPScanForm: React.FC<PropsType> = ({ setResult }) => {
 
         // const result = res.data.data;
         // setResult(result);
-        await createIPProfile(form.values.ipAddress);
+        try {
+            await createIPProfile(form.values.ipAddress);
+        } catch (error) {
+            logger.error(error);
+        } finally {
+            form.reset();
+            await updateLastAccessIPProfile(form.values.ipAddress);
+            const data = await getIPProfile(
+                form.values.ipAddress,
+                firebaseFirestore
+            );
+            setResult(data);
+        }
     };
 
     return (
-        <form
-            onSubmit={form.onSubmit((_values) => {
-                onScanIPBtnClick();
-            })}
-        >
-            <TextInput
-                icon={<FontAwesomeIcon icon={faLaptop} />}
-                placeholder="IP Address"
-                {...form.getInputProps("ipAddress")}
-            />
-            <Center mt="xs">
-                <Button type="submit">Scan IP</Button>
-            </Center>
-        </form>
+        <>
+            <form
+                onSubmit={form.onSubmit((_values) => {
+                    onScanIPBtnClick();
+                })}
+            >
+                <TextInput
+                    icon={<FontAwesomeIcon icon={faLaptop} />}
+                    placeholder="IP Address"
+                    {...form.getInputProps("ipAddress")}
+                />
+                <Center mt="xs">
+                    <Button type="submit">Scan IP</Button>
+                </Center>
+            </form>
+            <Space h="sm" />
+            <Code block>
+                {result
+                    ? "Successful: \n" + JSON.stringify(result, null, 2)
+                    : "Waiting for result..."}
+            </Code>
+        </>
     );
 };
 

@@ -1,9 +1,7 @@
-import { AIPDBProfile } from "@prisma/client";
 import Joi from "joi";
 import joiValidation from "@libs/middlewares/joiValidation";
 import apiHandler from "@libs/utils/apiHandler";
 import { isIPAddress } from "@libs/utils/regexTest";
-import { getProfile } from "@providers/aipdbProvider";
 
 const queryScheme = Joi.object({
     ipAddresses: Joi.string().required(),
@@ -24,53 +22,13 @@ const handler = apiHandler.post(
             }
         });
 
-        // Async Scan All IPs and wait for all the result to come back.
-        const allPromises: Promise<AIPDBProfile | null>[] = [];
-        allValidIPs.forEach((element) => {
-            allPromises.push(getProfile(element));
+        //TODO: Add all valid IPs to the database and generate a report.
+
+        // Return the Report ID
+        return res.status(200).json({
+            ok: true,
+            data: "TODO",
         });
-        let settled = await Promise.allSettled(allPromises);
-
-        // Check if the Request wants a Report Generated and generated the report.
-        if (req.body.generateReport === true) {
-            // Filter out all results that were Rejected
-            settled = settled.filter((x) => x != null);
-
-            // Generated the prisma create array from all the results that were resolved.
-            const createRecords: { ipProfileId: number }[] = [];
-            settled.forEach((element: any) => {
-                const aipdb: AIPDBProfile = element.value;
-                createRecords.push({ ipProfileId: aipdb.ipProfileId });
-            });
-
-            // Create the Report with all the ReportLinks
-            const report = await prisma.generatedReport.create({
-                data: {
-                    links: {
-                        create: [...createRecords],
-                    },
-                },
-                include: {
-                    links: {
-                        include: {
-                            ipProfile: true,
-                        },
-                    },
-                },
-            });
-
-            // Return the Report ID
-            return res.status(200).json({
-                ok: true,
-                data: report.generatedReportID,
-            });
-        } else {
-            // Return No Report ID as Request didn't want a report.
-            return res.status(200).json({
-                ok: true,
-                data: -1,
-            });
-        }
     }
 );
 

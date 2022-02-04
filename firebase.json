@@ -9,19 +9,19 @@
     "emulators": {
         "auth": {
             "port": 9001,
-            "host": "0.0.0.0"
+            "host": "127.0.0.1"
         },
         "firestore": {
             "port": 9002,
-            "host": "0.0.0.0"
+            "host": "127.0.0.1"
         },
         "storage": {
             "port": 9003,
-            "host": "0.0.0.0"
+            "host": "127.0.0.1"
         },
         "ui": {
             "port": 9000,
-            "host": "0.0.0.0",
+            "host": "127.0.0.1",
             "enabled": true
         }
     }

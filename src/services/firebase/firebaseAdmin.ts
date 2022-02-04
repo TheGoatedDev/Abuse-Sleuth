@@ -1,10 +1,20 @@
 import logger from "@libs/utils/logger";
+import chalk from "chalk";
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
     logger.info("Initializing Firebase Admin SDK");
     if (process.env.NODE_ENV !== "production") {
         logger.info("Firebase Admin SDK Running in Development Mode");
+        logger.info(
+            chalk.bgRedBright(
+                "Firebase Admin SDK is fucking stupid and can't connect to emulators without ENV variables and also doesn't have the concept of 'localhost'"
+            )
+        );
+        process.env["FIREBASE_AUTH_EMULATOR_HOST"] = "127.0.0.1:9001"; // Firebase Emulator Auth
+        process.env["FIREBASE_STORAGE_EMULATOR_HOST"] = "127.0.0.1:9003"; // Firebase Emulator Storage
+        process.env["FIRESTORE_EMULATOR_HOST"] = "127.0.0.1:9002"; // Firebase Emulator Firestore
+
         admin.initializeApp({
             projectId: "abuse-sleuth",
         });

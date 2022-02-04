@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,16 +15,15 @@ import {
 import { Dropzone, DropzoneStatus } from "@mantine/dropzone";
 import { useState } from "react";
 import Papa from "papaparse";
-import { sendLog } from "../../libs/helpers/apiHelper";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
         ? theme.colors[theme.primaryColor][6]
         : status.rejected
-            ? theme.colors.red[6]
-            : theme.colorScheme === "dark"
-                ? theme.colors.dark[0]
-                : theme.black;
+        ? theme.colors.red[6]
+        : theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.black;
 }
 
 const LogScanForm: React.FC = () => {
@@ -53,9 +53,9 @@ const LogScanForm: React.FC = () => {
 
             const IPAddresses = [...new Set(RawIPAddresses)];
 
-            const reportId = await sendLog(IPAddresses, generateReport);
+            //const reportId = await sendLog(IPAddresses, generateReport);
 
-            setReportID(reportId);
+            //setReportID(reportId);
             setLoading(false);
         };
 

@@ -32,8 +32,6 @@ const LoginAuthForm: React.FC = () => {
         if (user) {
             router.push("/dashboard");
         }
-
-        console.log(user, error);
     };
 
     return (

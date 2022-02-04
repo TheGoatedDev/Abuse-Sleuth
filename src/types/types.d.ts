@@ -1,3 +1,0 @@
-type IFooterStats = {
-    totalIPProfiles: number;
-};

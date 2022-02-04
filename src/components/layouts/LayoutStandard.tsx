@@ -6,13 +6,7 @@ interface PropsType {
 }
 
 const LayoutStandard: React.FC<PropsType> = (props) => {
-    return (
-        <AppShell
-            header={<HeaderBasic disableButtons={props.disableButtons} />}
-        >
-            {props.children}
-        </AppShell>
-    );
+    return <AppShell header={<HeaderBasic />}>{props.children}</AppShell>;
 };
 
 export default LayoutStandard;
