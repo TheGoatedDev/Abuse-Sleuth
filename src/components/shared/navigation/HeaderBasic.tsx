@@ -4,8 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import HeaderButton from "../buttons/HeaderButton";
 import UserMenu from "../menus/UserMenu";
 
-const HeaderBasic: React.FC = (props) => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+const HeaderBasic: React.FC = (_props) => {
+    const [user, _loading, _error] = useAuthState(firebaseAuth);
 
     return (
         <Header height={80} padding={"md"}>

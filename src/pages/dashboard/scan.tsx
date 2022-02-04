@@ -2,19 +2,20 @@ import { Center, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import IPScanForm from "@components/forms/ipScanForm";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import useRedirectIfNotAuth from "@hooks/useRedirectIfNotAuth";
+import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
 
 const Scan: NextPage = () => {
-    useRedirectIfNotAuth({ redirectTo: "/login" });
     return (
-        <LayoutDashboard>
-            <Title align="center">IP Scan</Title>
-            <Center mt="md">
-                <div style={{ width: "400px" }}>
-                    <IPScanForm />
-                </div>
-            </Center>
-        </LayoutDashboard>
+        <ProtectedComponent authRequired redirect="/login">
+            <LayoutDashboard>
+                <Title align="center">IP Scan</Title>
+                <Center mt="md">
+                    <div style={{ width: "400px" }}>
+                        <IPScanForm />
+                    </div>
+                </Center>
+            </LayoutDashboard>
+        </ProtectedComponent>
     );
 };
 

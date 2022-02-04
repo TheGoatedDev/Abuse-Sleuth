@@ -1,10 +1,13 @@
 import type { NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import useRedirectIfNotAuth from "@hooks/useRedirectIfNotAuth";
+import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
 
 const Home: NextPage = () => {
-    useRedirectIfNotAuth({ redirectTo: "/login" });
-    return <LayoutDashboard></LayoutDashboard>;
+    return (
+        <ProtectedComponent authRequired redirect="/login">
+            <LayoutDashboard></LayoutDashboard>
+        </ProtectedComponent>
+    );
 };
 
 export default Home;

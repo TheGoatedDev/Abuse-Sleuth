@@ -30,7 +30,7 @@ const LogScanForm: React.FC = () => {
     const theme = useMantineTheme();
     const [loading, setLoading] = useState(false);
     const [generateReport, setGenerateReport] = useState(false);
-    const [reportID, setReportID] = useState(-1);
+    const [reportID, _setReportID] = useState(-1);
 
     const onDropFile = (file: File) => {
         setLoading(true);
@@ -51,7 +51,7 @@ const LogScanForm: React.FC = () => {
                 }
             });
 
-            const IPAddresses = [...new Set(RawIPAddresses)];
+            const _IPAddresses = [...new Set(RawIPAddresses)];
 
             //const reportId = await sendLog(IPAddresses, generateReport);
 

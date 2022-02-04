@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const Profile: NextPage = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const [user, loading, _error] = useAuthState(firebaseAuth);
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {

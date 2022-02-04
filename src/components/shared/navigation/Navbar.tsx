@@ -6,7 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "@services/firebase";
 
 const CustomNavbar: React.FC = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const [user, _loading, _error] = useAuthState(firebaseAuth);
 
     return (
         <Navbar padding={"md"} width={{ base: 300 }}>

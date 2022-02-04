@@ -28,7 +28,7 @@ const App = (props: AppProps) => {
                 <LoadingOverlay
                     overlayOpacity={1}
                     transitionDuration={0}
-                    visible={(loading && !user && !error) ?? true}
+                    visible={(loading && !user && !!error) ?? true}
                 />
                 <Component {...pageProps} />
             </MantineProvider>
