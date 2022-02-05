@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Center, Code, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { isIPAddress } from "@libs/utils/regexTest";
-import { createIPProfile } from "@services/firebase/firestore/queries/ipProfile/clientside/createIPProfile";
 import { useState } from "react";
-import { updateLastAccessIPProfile } from "@services/firebase/firestore/queries/ipProfile/clientside/updateLastAccessIPProfile";
-import logger from "@libs/utils/logger";
-import { getIPProfile } from "@services/firebase/firestore/queries/ipProfile/getIPProfile";
-import { firebaseFirestore } from "@services/firebase";
+import { firebaseAuth } from "@services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import scanIP from "@services/api/scanIP";
 
 const IPScanForm: React.FC = () => {
+    const [user, loading, error] = useAuthState(firebaseAuth);
+
     const form = useForm({
         initialValues: {
             ipAddress: "",
@@ -23,27 +23,9 @@ const IPScanForm: React.FC = () => {
     const [result, setResult] = useState<any>(null);
 
     const onScanIPBtnClick = async () => {
-        // const res = await axios.get("/api/v1/scanip", {
-        //     params: {
-        //         ipAddress: form.values.ipAddress,
-        //     },
-        // });
+        const apiCall = await scanIP(form.values.ipAddress, user!);
 
-        // const result = res.data.data;
-        // setResult(result);
-        try {
-            await createIPProfile(form.values.ipAddress);
-        } catch (error) {
-            logger.error(error);
-        } finally {
-            form.reset();
-            await updateLastAccessIPProfile(form.values.ipAddress);
-            const data = await getIPProfile(
-                form.values.ipAddress,
-                firebaseFirestore
-            );
-            setResult(data);
-        }
+        setResult(apiCall);
     };
 
     return (

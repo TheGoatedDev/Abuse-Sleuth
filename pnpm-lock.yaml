@@ -32,6 +32,7 @@ specifiers:
   papaparse: ^5.3.1
   preact: ^10.6.4
   prettier: ^2.5.1
+  prisma: ^3.9.1
   react: 17.0.2
   react-dom: 17.0.2
   react-firebase-hooks: ^5.0.1
@@ -48,7 +49,7 @@ dependencies:
   '@mantine/dropzone': 3.6.5_bdb823785bff421c196da1ef283b7c54
   '@mantine/hooks': 3.6.5_react@17.0.2
   '@mantine/next': 3.6.5_676434e83a07d0ba4ed04d5ca6a47005
-  '@prisma/client': 3.9.1
+  '@prisma/client': 3.9.1_prisma@3.9.1
   '@stripe/stripe-js': 1.22.0
   axios: 0.24.0
   chalk: 5.0.0
@@ -78,6 +79,7 @@ devDependencies:
   eslint-plugin-prettier: 4.0.0_eslint@8.6.0+prettier@2.5.1
   eslint-plugin-unused-imports: 2.0.0_eslint@8.6.0
   prettier: 2.5.1
+  prisma: 3.9.1
   typescript: 4.5.4
 
 packages:
@@ -1228,7 +1230,7 @@ packages:
     resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
     dev: false
 
-  /@prisma/client/3.9.1:
+  /@prisma/client/3.9.1_prisma@3.9.1:
     resolution: {integrity: sha512-aLwfXKLvL+loQ0IuPPCXkcq8cXBg1IeoHHa5lqQu3dJHdj45wnislA/Ny4UxRQjD5FXqrfAb8sWtF+jhdmjFTg==}
     engines: {node: '>=12.6'}
     requiresBuild: true
@@ -1239,11 +1241,17 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009
+      prisma: 3.9.1
     dev: false
 
   /@prisma/engines-version/3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009:
     resolution: {integrity: sha512-5Dh+qTDhpPR66w6NNAnPs+/W/Qt4r1DSd+qhfPFcDThUK4uxoZKGlPb2IYQn5LL+18aIGnmteDf7BnVMmvBNSQ==}
     dev: false
+
+  /@prisma/engines/3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009:
+    resolution: {integrity: sha512-qM+uJbkelB21bnK44gYE049YTHIjHysOuj0mj5U2gDGyNLfmiazlggzFPCgEjgme4U5YB2tYs6Z5Hq08Kl8pjA==}
+    requiresBuild: true
+    dev: true
 
   /@protobufjs/aspromise/1.1.2:
     resolution: {integrity: sha1-m4sMxmPWaafY9vXQiToU00jzD78=}
@@ -4320,6 +4328,15 @@ packages:
     hasBin: true
     dev: true
 
+  /prisma/3.9.1:
+    resolution: {integrity: sha512-IGcJAu5LzlFv+i+NNhOEh1J1xVVttsVdRBxmrMN7eIH+7mRN6L89Hz1npUAiz4jOpNlHC7n9QwaOYZGxTqlwQw==}
+    engines: {node: '>=12.6'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 3.9.0-58.bcc2ff906db47790ee902e7bbc76d7ffb1893009
+    dev: true
+
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: false
@@ -4780,8 +4797,8 @@ packages:
       get-intrinsic: 1.1.1
       object-inspect: 1.12.0
 
-  /signal-exit/3.0.6:
-    resolution: {integrity: sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==}
+  /signal-exit/3.0.7:
+    resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
     dev: false
     optional: true
 
@@ -5397,7 +5414,7 @@ packages:
     dependencies:
       imurmurhash: 0.1.4
       is-typedarray: 1.0.0
-      signal-exit: 3.0.6
+      signal-exit: 3.0.7
       typedarray-to-buffer: 3.1.5
     dev: false
     optional: true

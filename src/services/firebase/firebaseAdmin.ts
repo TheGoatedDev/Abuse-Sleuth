@@ -12,8 +12,6 @@ if (!admin.apps.length) {
             )
         );
         process.env["FIREBASE_AUTH_EMULATOR_HOST"] = "127.0.0.1:9001"; // Firebase Emulator Auth
-        process.env["FIREBASE_STORAGE_EMULATOR_HOST"] = "127.0.0.1:9003"; // Firebase Emulator Storage
-        process.env["FIRESTORE_EMULATOR_HOST"] = "127.0.0.1:9002"; // Firebase Emulator Firestore
 
         admin.initializeApp({
             projectId: "abuse-sleuth",
@@ -33,7 +31,5 @@ if (!admin.apps.length) {
 }
 
 const firebaseAdminAuth = admin.auth();
-const firebaseAdminFirestore = admin.firestore();
-const firebaseAdminStorage = admin.storage();
 
-export { firebaseAdminAuth, firebaseAdminFirestore, firebaseAdminStorage };
+export { firebaseAdminAuth };

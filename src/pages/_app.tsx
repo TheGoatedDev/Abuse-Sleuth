@@ -1,17 +1,14 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { LoadingOverlay, MantineProvider } from "@mantine/core";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "@services/firebase";
+import { MantineProvider } from "@mantine/core";
 
 const App = (props: AppProps) => {
     const { Component, pageProps } = props;
-    const [user, loading, error] = useAuthState(firebaseAuth);
 
     return (
         <>
             <Head>
-                <title>Sentinel</title>
+                <title>Abuse Sleuth</title>
                 <meta
                     name="viewport"
                     content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -25,11 +22,6 @@ const App = (props: AppProps) => {
                     colorScheme: "dark",
                 }}
             >
-                <LoadingOverlay
-                    overlayOpacity={1}
-                    transitionDuration={0}
-                    visible={(loading && !user && !!error) ?? true}
-                />
                 <Component {...pageProps} />
             </MantineProvider>
         </>

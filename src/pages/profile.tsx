@@ -1,5 +1,4 @@
 import LayoutStandard from "@components/layouts/LayoutStandard";
-import useRedirectIfNotAuth from "@hooks/useRedirectIfNotAuth";
 import { Box, Center, Code, Group, Text } from "@mantine/core";
 import { firebaseAuth } from "@services/firebase";
 import type { NextPage } from "next";
@@ -19,8 +18,6 @@ const Profile: NextPage = () => {
             }
         })();
     }, [user, loading]);
-
-    useRedirectIfNotAuth({ redirectTo: "/login" });
 
     return (
         <LayoutStandard>
