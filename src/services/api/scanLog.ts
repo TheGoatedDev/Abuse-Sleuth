@@ -1,10 +1,10 @@
 import axios from "axios";
 import { User } from "firebase/auth";
 
-export const scanIP = async (ipAddress: string, user: User) => {
+export const scanLog = async (ipAddresses: string[], user: User) => {
     const webRequest = await axios.post(
-        `/api/scanip`,
-        { ipAddress },
+        `/api/scanlog`,
+        { ipAddresses: ipAddresses },
         {
             headers: {
                 Authorization: `Bearer ${await user.getIdToken()}`,

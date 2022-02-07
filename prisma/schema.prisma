@@ -19,6 +19,8 @@ model IPProfile {
 
   aipdbScanResults AIPDBScanResult?
 
+  logReportItems LogReportItem[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -42,4 +44,27 @@ model AIPDBScanResult {
   updatedAt DateTime @updatedAt
 }
 
+model LogReport {
+  id       Int @id @default(autoincrement())
+  
+  owner String
+
+  logReportItems LogReportItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LogReportItem {
+  id       Int @id @default(autoincrement())
+
+  logReport LogReport @relation(fields: [logReportId], references: [id])
+  logReportId Int
+
+  ipProfile IPProfile @relation(fields: [ipProfileId], references: [id])
+  ipProfileId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 

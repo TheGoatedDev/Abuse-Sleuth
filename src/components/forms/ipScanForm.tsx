@@ -6,7 +6,7 @@ import { isIPAddress } from "@libs/utils/regexTest";
 import { useState } from "react";
 import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import scanIP from "@services/api/scanIP";
+import { scanIP } from "@services/api";
 
 const IPScanForm: React.FC = () => {
     const [user, loading, error] = useAuthState(firebaseAuth);

@@ -15,6 +15,10 @@ import {
 import { Dropzone, DropzoneStatus } from "@mantine/dropzone";
 import { useState } from "react";
 import Papa from "papaparse";
+import { scanLog } from "@services/api";
+import { firebaseAuth } from "@services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import logger from "@libs/utils/logger";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
@@ -28,12 +32,17 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 
 const LogScanForm: React.FC = () => {
     const theme = useMantineTheme();
-    const [loading, setLoading] = useState(false);
+
+    const [scanLoading, setScanLoading] = useState(false);
     const [generateReport, setGenerateReport] = useState(false);
     const [reportID, _setReportID] = useState(-1);
 
+    const [amountIPs, setAmountIPs] = useState(0);
+
+    const [user, loading, error] = useAuthState(firebaseAuth);
+
     const onDropFile = (file: File) => {
-        setLoading(true);
+        setScanLoading(true);
 
         const reader = new FileReader();
 
@@ -42,21 +51,26 @@ const LogScanForm: React.FC = () => {
                 return;
             }
             const csv = Papa.parse(target.result as string, { header: true });
+
+            logger.debug(csv);
+
             const RawIPAddresses = csv.data.map((x: any) => {
                 const rawField: string = x["Source IP"];
                 if (rawField) {
                     return rawField.split(" ")[0];
-                } else {
-                    return "0.0.0.0";
                 }
+                return "0.0.0.0";
             });
 
-            const _IPAddresses = [...new Set(RawIPAddresses)];
+            const ipAddresses = [...new Set(RawIPAddresses)];
+            setAmountIPs(ipAddresses.length);
+
+            scanLog(ipAddresses, user!);
 
             //const reportId = await sendLog(IPAddresses, generateReport);
 
             //setReportID(reportId);
-            setLoading(false);
+            setScanLoading(false);
         };
 
         reader.readAsText(file);
@@ -77,7 +91,7 @@ const LogScanForm: React.FC = () => {
                 multiple={false}
                 onDrop={(files) => onDropFile(files[0])}
                 onReject={(files) => console.log("rejected files", files)}
-                loading={loading}
+                loading={scanLoading}
             >
                 {(status) => (
                     <Group position="center" direction={"row"} spacing={"xl"}>
@@ -96,6 +110,7 @@ const LogScanForm: React.FC = () => {
                     </Group>
                 )}
             </Dropzone>
+            {amountIPs > 0 && <Text>Scanning {amountIPs} IP Addresses</Text>}
             {reportID !== -1 ? (
                 <Text mt={"xs"}>
                     Report #{reportID} Generated!{" "}
