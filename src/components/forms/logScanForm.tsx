@@ -8,6 +8,7 @@ import {
     Checkbox,
     Group,
     MantineTheme,
+    Space,
     Text,
     ThemeIcon,
     useMantineTheme,
@@ -35,7 +36,7 @@ const LogScanForm: React.FC = () => {
 
     const [scanLoading, setScanLoading] = useState(false);
     const [generateReport, setGenerateReport] = useState(false);
-    const [reportID, _setReportID] = useState(-1);
+    const [reportID, setReportID] = useState(-1);
 
     const [amountIPs, setAmountIPs] = useState(0);
 
@@ -52,8 +53,6 @@ const LogScanForm: React.FC = () => {
             }
             const csv = Papa.parse(target.result as string, { header: true });
 
-            logger.debug(csv);
-
             const RawIPAddresses = csv.data.map((x: any) => {
                 const rawField: string = x["Source IP"];
                 if (rawField) {
@@ -65,11 +64,9 @@ const LogScanForm: React.FC = () => {
             const ipAddresses = [...new Set(RawIPAddresses)];
             setAmountIPs(ipAddresses.length);
 
-            await scanLog(ipAddresses, user!);
+            const webRequestResponse = await scanLog(ipAddresses, user!);
 
-            //const reportId = await sendLog(IPAddresses, generateReport);
-
-            //setReportID(reportId);
+            setReportID(webRequestResponse.data.reportId);
             setScanLoading(false);
         };
 
@@ -78,15 +75,6 @@ const LogScanForm: React.FC = () => {
 
     return (
         <>
-            <Center mb="xs">
-                <Checkbox
-                    checked={generateReport}
-                    onChange={(event) =>
-                        setGenerateReport(event.currentTarget.checked)
-                    }
-                    label={"Generate Report?"}
-                />
-            </Center>
             <Dropzone
                 multiple={false}
                 onDrop={(files) => onDropFile(files[0])}
@@ -110,7 +98,12 @@ const LogScanForm: React.FC = () => {
                     </Group>
                 )}
             </Dropzone>
-            {amountIPs > 0 && <Text>Scanning {amountIPs} IP Addresses</Text>}
+            <Space h="sm" />
+            {amountIPs > 0 && (
+                <Center>
+                    <Text>Scanning {amountIPs} IP Addresses</Text>
+                </Center>
+            )}
             {reportID !== -1 ? (
                 <Text mt={"xs"}>
                     Report #{reportID} Generated!{" "}

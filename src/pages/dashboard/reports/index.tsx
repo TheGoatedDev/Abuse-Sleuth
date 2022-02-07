@@ -1,22 +1,29 @@
 import type { NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
 import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
-import { Button, Center, Group, Space, Table, Title } from "@mantine/core";
+import { Button, Center, Group, Table, Title } from "@mantine/core";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "@services/firebase";
 import { useEffect, useState } from "react";
-import { getAPILogReports } from "@services/api";
+import { deleteAPILogReport, getAPILogReports } from "@services/api";
 import logger from "@libs/utils/logger";
+import { useRouter } from "next/router";
 
 const Reports: NextPage = () => {
     const [user, loading, error] = useAuthState(firebaseAuth);
+    const [reports, setReports] = useState<JSX.Element[]>();
 
-    const [reports, setReports] = useState<any>();
+    const router = useRouter();
+
+    const deleteReportOnClick = async (reportID: number) => {
+        await deleteAPILogReport(reportID, user!);
+        router.reload();
+    };
 
     useEffect(() => {
         (async () => {
             if (user) {
-                const logReportsWebRequest = await getAPILogReports(user!);
+                const logReportsWebRequest = await getAPILogReports(user);
 
                 const logReports: IAPILogReport[] = logReportsWebRequest.data;
 
@@ -29,9 +36,24 @@ const Reports: NextPage = () => {
                             <td>{report.createdAt}</td>
                             <td>
                                 <Group>
-                                    <Button compact>View</Button>
+                                    <Button
+                                        compact
+                                        onClick={() =>
+                                            router.push(
+                                                `/dashboard/reports/${report.id}`
+                                            )
+                                        }
+                                    >
+                                        View
+                                    </Button>
 
-                                    <Button color="red" compact>
+                                    <Button
+                                        color="red"
+                                        compact
+                                        onClick={() =>
+                                            deleteReportOnClick(report.id)
+                                        }
+                                    >
                                         Delete
                                     </Button>
                                 </Group>

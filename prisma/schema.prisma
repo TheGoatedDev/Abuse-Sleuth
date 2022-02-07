@@ -58,7 +58,7 @@ model LogReport {
 model LogReportItem {
   id       Int @id @default(autoincrement())
 
-  logReport LogReport @relation(fields: [logReportId], references: [id])
+  logReport LogReport @relation(fields: [logReportId], references: [id], onDelete: Cascade)
   logReportId Int
 
   ipProfile IPProfile @relation(fields: [ipProfileId], references: [id])

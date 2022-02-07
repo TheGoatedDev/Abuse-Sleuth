@@ -6,6 +6,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "migration:create": "prisma migrate dev",
+        "migration:push": "prisma migrate push",
         "run:emulators": "firebase emulators:start"
     },
     "dependencies": {

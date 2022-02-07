@@ -7,6 +7,7 @@ import { LogReport } from "@prisma/client";
 import getLogReportByID from "@services/database/queries/logReport/getLogReportByID";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
+import getIPProfileByLogReport from "@services/database/queries/ipProfiles/getIPProfilesByLogReport";
 
 const querySchema = Joi.object({
     id: Joi.number().required(),
@@ -20,7 +21,9 @@ const handler = async (
     await runMiddleware(req, res, checkAuthenticated);
     await runMiddleware(req, res, joiValidation({ query: querySchema }));
 
-    logger.info(`Getting Log Report #${req.query.id} for ${req.uid}`);
+    logger.info(
+        `Getting Log Report #${req.query.id} IPProfiles  for ${req.uid}`
+    );
 
     let logReport: LogReport | null;
     try {
@@ -39,7 +42,21 @@ const handler = async (
         throw error;
     }
 
-    res.status(200).json({ ok: true, data: logReport });
+    let ipProfiles;
+    try {
+        ipProfiles = await getIPProfileByLogReport(logReport);
+        logger.info(
+            `Got IP Profiles for Log Report #${req.query.id} for ${req.uid}`
+        );
+    } catch (error) {
+        logger.error(
+            `Error getting IP Profiles for Log Report #${req.query.id} for ${req.uid}: `,
+            error
+        );
+        throw error;
+    }
+
+    res.status(200).json({ ok: true, data: ipProfiles });
 };
 
 export default handler;
