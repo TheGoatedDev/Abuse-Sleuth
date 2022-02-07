@@ -1,17 +1,14 @@
 import runMiddleware from "@libs/helpers/runMiddleware";
 import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
-import { makeAIPDBAPIRequest } from "@libs/providers/AbuseIPDB/abuseIPDBProvider";
 import { NextApiRequest, NextApiResponse } from "next";
 import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
-import generateMockData from "@libs/providers/AbuseIPDB/generateMockData";
 import createIPProfile from "@services/database/queries/ipProfiles/createIPProfile";
 import logger from "@libs/utils/logger";
 import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
 import { IPProfile, LogReport, LogReportItem } from "@prisma/client";
-import createAIPDBScanResult from "@services/database/queries/aipdbScanResults/createAIPDBScanResult";
 import createLogReport from "@services/database/queries/logReport/createLogReport";
 import createLogReportItem from "@services/database/queries/logReportItems/createLogReportItem";
 

@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const moduleExports = {
     reactStrictMode: true,
     webpack: (config, { dev, isServer }) => {
         // Replace React with Preact only in client production build
@@ -20,3 +20,5 @@ module.exports = {
         return config;
     },
 };
+
+module.exports = moduleExports;

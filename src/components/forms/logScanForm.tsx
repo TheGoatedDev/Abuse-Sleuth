@@ -65,7 +65,7 @@ const LogScanForm: React.FC = () => {
             const ipAddresses = [...new Set(RawIPAddresses)];
             setAmountIPs(ipAddresses.length);
 
-            scanLog(ipAddresses, user!);
+            await scanLog(ipAddresses, user!);
 
             //const reportId = await sendLog(IPAddresses, generateReport);
 
