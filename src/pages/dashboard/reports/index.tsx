@@ -51,7 +51,9 @@ const Reports: NextPage = () => {
                                         color="red"
                                         compact
                                         onClick={() =>
-                                            deleteReportOnClick(report.id)
+                                            deleteReportOnClick(
+                                                Number(report.id)
+                                            )
                                         }
                                     >
                                         Delete
