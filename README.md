@@ -1,5 +1,3 @@
-# Abuse Sleuth
-
 ![Abuse Sleuth Logo](public/IP-Sentinel-01.png)
 
 ## What is Abuse Sleuth?
