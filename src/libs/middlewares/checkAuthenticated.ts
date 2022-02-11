@@ -1,5 +1,6 @@
 import logger from "@libs/utils/logger";
 import { firebaseAdminAuth } from "@services/firebase/firebaseAdmin";
+import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const checkAuthenticated = async (
@@ -7,18 +8,17 @@ const checkAuthenticated = async (
     res: NextApiResponse<GenericHTTPResponse<any>>,
     next: any
 ) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader)
-        return res.status(401).json({ ok: false, data: "No token provided" });
+    const authCookie = req.cookies.token;
+    if (!authCookie)
+        return res
+            .status(401)
+            .json({ ok: false, data: "No token cookie provided" });
 
     //logger.info(`Authenticating with ${authHeader}`);
 
-    const token = authHeader.split(" ")[1];
+    const token = authCookie;
 
-    if (!token)
-        return res.status(401).json({ ok: false, data: "No token provided" });
-
-    let decodedToken: any;
+    let decodedToken: DecodedIdToken;
     try {
         decodedToken = await firebaseAdminAuth.verifyIdToken(token);
 
