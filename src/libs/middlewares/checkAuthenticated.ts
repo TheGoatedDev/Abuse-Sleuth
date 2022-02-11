@@ -8,15 +8,18 @@ const checkAuthenticated = async (
     res: NextApiResponse<GenericHTTPResponse<any>>,
     next: any
 ) => {
-    const authCookie = req.cookies.token;
-    if (!authCookie)
+    const authHeader = req.cookies.token;
+    if (!authHeader)
         return res
             .status(401)
             .json({ ok: false, data: "No token cookie provided" });
 
     //logger.info(`Authenticating with ${authHeader}`);
 
-    const token = authCookie;
+    const token = authHeader.split(" ")[1];
+
+    if (!token)
+        return res.status(401).json({ ok: false, data: "No token provided" });
 
     let decodedToken: DecodedIdToken;
     try {
