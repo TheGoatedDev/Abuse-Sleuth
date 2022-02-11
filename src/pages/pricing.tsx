@@ -53,11 +53,11 @@ const Pricing: NextPage = () => {
                     ]}
                 />
                 <PriceCard
-                    price="Flexi"
+                    price="Flex"
                     description="Our Pay-as-you-go Plan, don't let those restrictions get you down!"
                     perks={[
                         "$0.0001 per IP Scan",
-                        "$0.01 per Report ",
+                        "Unlimited Reports",
                         "Each Report retained for 12 weeks",
                         "Exporting Reports to CSV",
                     ]}
