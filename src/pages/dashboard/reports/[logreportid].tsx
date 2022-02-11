@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAPILogReportIPProfiles } from "@services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBug, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faBug } from "@fortawesome/free-solid-svg-icons";
 
 const Reports_LogReportsID: NextPage = () => {
     const [user, loading, error] = useAuthState(firebaseAuth);
@@ -61,7 +61,16 @@ const Reports_LogReportsID: NextPage = () => {
                             </td>
                             <td>
                                 <Group>
-                                    <Button compact>View</Button>
+                                    <Button
+                                        compact
+                                        onClick={() =>
+                                            router.push(
+                                                `/dashboard/ipprofile/${ipProfile.ipAddress}`
+                                            )
+                                        }
+                                    >
+                                        View
+                                    </Button>
                                 </Group>
                             </td>
                         </tr>

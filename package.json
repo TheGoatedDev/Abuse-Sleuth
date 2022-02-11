@@ -2,13 +2,16 @@
     "name": "sentinel",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "dev": "npm run dev:cleanup && concurrently -c cyan,magenta,#ffa500 -n NextJS,Stripe,Firebase \"npm:dev:next\" \"npm:dev:stripe\" \"npm:dev:emulators\"",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "dev:cleanup": "node ./scripts/cleanup.js",
+        "dev:next": "next dev",
+        "dev:stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
+        "dev:emulators": "firebase emulators:start",
         "migration:create": "prisma migrate dev",
-        "db:push": "prisma db push",
-        "run:emulators": "firebase emulators:start"
+        "db:push": "prisma db push"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -44,12 +47,14 @@
         "@types/react": "17.0.38",
         "@types/winston": "^2.4.4",
         "babel-plugin-superjson-next": "^0.4.2",
+        "concurrently": "^7.0.0",
         "eslint": "8.6.0",
         "eslint-config-next": "12.0.7",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-unused-imports": "^2.0.0",
         "prettier": "^2.5.1",
         "prisma": "^3.9.1",
+        "ts-node": "^10.5.0",
         "typescript": "4.5.4"
     }
 }
