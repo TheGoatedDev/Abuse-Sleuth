@@ -5,7 +5,6 @@ import {
     Anchor,
     Box,
     Center,
-    Checkbox,
     Group,
     MantineTheme,
     Space,
@@ -19,7 +18,6 @@ import Papa from "papaparse";
 import { scanLog } from "@services/api";
 import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import logger from "@libs/utils/logger";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
@@ -33,14 +31,11 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 
 const LogScanForm: React.FC = () => {
     const theme = useMantineTheme();
+    const [user, loading, error] = useAuthState(firebaseAuth);
 
     const [scanLoading, setScanLoading] = useState(false);
-    const [generateReport, setGenerateReport] = useState(false);
     const [reportID, setReportID] = useState(-1);
-
     const [amountIPs, setAmountIPs] = useState(0);
-
-    const [user, loading, error] = useAuthState(firebaseAuth);
 
     const onDropFile = (file: File) => {
         setScanLoading(true);
@@ -91,8 +86,9 @@ const LogScanForm: React.FC = () => {
                         </ThemeIcon>
 
                         <Box>
-                            <Text inline>
-                                Drag CSV here or Click to select file
+                            <Text>Drag CSV here or Click to select file</Text>
+                            <Text size="sm" weight={"bold"} align="center">
+                                Ensure that you have headers!
                             </Text>
                         </Box>
                     </Group>

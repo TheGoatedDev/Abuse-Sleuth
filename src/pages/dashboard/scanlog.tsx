@@ -1,8 +1,8 @@
+import LogScanForm from "@components/forms/scanForm/logScanForm";
+import LayoutDashboard from "@components/layouts/LayoutDashboard";
 import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
 import { Center, Title } from "@mantine/core";
 import type { NextPage } from "next";
-import LogScanForm from "../../components/forms/logScanForm";
-import LayoutDashboard from "../../components/layouts/LayoutDashboard";
 
 const Scan: NextPage = () => {
     return (

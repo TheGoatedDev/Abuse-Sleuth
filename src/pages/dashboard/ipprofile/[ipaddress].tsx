@@ -1,27 +1,28 @@
 import type { NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
 import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
-import {
-    Button,
-    Center,
-    Group,
-    List,
-    Paper,
-    Space,
-    Table,
-    ThemeIcon,
-    Title,
-    Tooltip,
-} from "@mantine/core";
+import { Center, Code, Title } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { IPProfile } from "@prisma/client";
+import { getAPIIPProfile } from "@services/api";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "@services/firebase";
-import { useRouter } from "next/router";
 
-const Reports_LogReportsID: NextPage = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+const IPProfileIndex: NextPage = () => {
     const router = useRouter();
-
+    const [user, loading, error] = useAuthState(firebaseAuth);
     const { ipaddress } = router.query;
+
+    const [ipProfile, setIPProfile] = useState<IPProfile>();
+
+    useEffect(() => {
+        (async () => {
+            if (user) {
+                setIPProfile(await getAPIIPProfile(ipaddress as string, user));
+            }
+        })();
+    }, [user, ipaddress]);
 
     return (
         <ProtectedComponent authRequired redirect="/login">
@@ -29,9 +30,12 @@ const Reports_LogReportsID: NextPage = () => {
                 <Center>
                     <Title>{ipaddress}</Title>
                 </Center>
+                <Code block>
+                    <pre>{JSON.stringify(ipProfile, null, 4)}</pre>
+                </Code>
             </LayoutDashboard>
         </ProtectedComponent>
     );
 };
 
-export default Reports_LogReportsID;
+export default IPProfileIndex;
