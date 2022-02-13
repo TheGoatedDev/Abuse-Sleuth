@@ -20,9 +20,10 @@ import { useEffect, useState } from "react";
 import { getAPILogReportIPProfiles } from "@services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
+import BetterPaper from "@components/shared/BetterPaper";
 
 const Reports_LogReportsID: NextPage = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const [user, loading, _error] = useAuthState(firebaseAuth);
     const router = useRouter();
     const [logReportIPProfiles, setLogReportIPProfiles] =
         useState<JSX.Element[]>();
@@ -81,26 +82,28 @@ const Reports_LogReportsID: NextPage = () => {
     }, [user]);
 
     return (
-        <ProtectedComponent authRequired redirect="/login">
+        <ProtectedComponent
+            authRequired
+            redirect="/login"
+            user={user}
+            loading={loading}
+        >
             <LayoutDashboard>
                 <Center>
                     <Title>Report</Title>
                 </Center>
                 <Space h="md" />
                 <Group position="center">
-                    <Paper
-                        sx={(theme) => ({
-                            backgroundColor: theme.colors.gray[8],
-                        })}
-                        padding={"xl"}
-                        shadow={"md"}
-                    >
+                    <BetterPaper>
+                        <Title order={2} align="center">
+                            Details
+                        </Title>
                         <List>
                             <List.Item>Report ID: {logReportID}</List.Item>
                             <List.Item>Total IPs Scanned: {totalIP}</List.Item>
                             <List.Item>Report Created At: TODO</List.Item>
                         </List>
-                    </Paper>
+                    </BetterPaper>
 
                     <Table>
                         <thead>

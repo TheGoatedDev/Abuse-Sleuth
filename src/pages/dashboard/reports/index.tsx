@@ -68,7 +68,12 @@ const Reports: NextPage = () => {
     }, [user]);
 
     return (
-        <ProtectedComponent authRequired redirect="/login">
+        <ProtectedComponent
+            authRequired
+            redirect="/login"
+            user={user}
+            loading={loading}
+        >
             <LayoutDashboard>
                 <Center>
                     <Title>Reports</Title>
