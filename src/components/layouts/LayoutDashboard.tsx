@@ -5,10 +5,10 @@ const LayoutDashboard: React.FC = (props) => {
     return (
         <AppShell
             navbar={<CustomNavbar />}
-            fixed
             styles={(theme) => ({
                 main: {
                     padding: theme.spacing.md,
+                    marginLeft: 300,
                 },
             })}
         >

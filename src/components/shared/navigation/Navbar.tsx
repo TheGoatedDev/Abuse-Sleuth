@@ -9,7 +9,7 @@ const CustomNavbar: React.FC = () => {
     const [user, _loading, _error] = useAuthState(firebaseAuth);
 
     return (
-        <Navbar padding={"md"} width={{ base: 300 }}>
+        <Navbar fixed padding={"md"} width={{ base: 300 }}>
             <Navbar.Section>
                 <Center>
                     <img
