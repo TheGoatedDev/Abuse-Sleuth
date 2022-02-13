@@ -20,6 +20,12 @@
             "@*": ["*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "scripts/cleanup.js"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "scripts/cleanup.js",
+        "src/pages/_error.js"
+    ],
     "exclude": ["node_modules"]
 }

@@ -1,6 +1,5 @@
-import { faLaptop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Center, Code, Space, TextInput } from "@mantine/core";
+import { Button, Center, Code, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { isIPAddress } from "@libs/utils/regexTest";
 import { useState } from "react";
@@ -29,14 +28,14 @@ const IPScanForm: React.FC = () => {
     };
 
     return (
-        <>
+        <Group direction="column" align={"center"}>
             <form
                 onSubmit={form.onSubmit((_values) => {
                     onScanIPBtnClick();
                 })}
             >
                 <TextInput
-                    icon={<FontAwesomeIcon icon={faLaptop} />}
+                    icon={<FontAwesomeIcon icon={"laptop"} />}
                     placeholder="IP Address"
                     {...form.getInputProps("ipAddress")}
                 />
@@ -44,13 +43,12 @@ const IPScanForm: React.FC = () => {
                     <Button type="submit">Scan IP</Button>
                 </Center>
             </form>
-            <Space h="sm" />
             <Code block>
                 {result
                     ? "Successful: \n" + JSON.stringify(result, null, 2)
-                    : "Waiting for result..."}
+                    : "Waiting for results..."}
             </Code>
-        </>
+        </Group>
     );
 };
 

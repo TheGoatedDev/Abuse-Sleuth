@@ -6,7 +6,6 @@ import {
     Center,
     Group,
     List,
-    Paper,
     Space,
     Table,
     ThemeIcon,
@@ -19,7 +18,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAPILogReportIPProfiles } from "@services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBug } from "@fortawesome/free-solid-svg-icons";
 import BetterPaper from "@components/shared/BetterPaper";
 
 const Reports_LogReportsID: NextPage = () => {
@@ -55,7 +53,7 @@ const Reports_LogReportsID: NextPage = () => {
                                                     : "red"
                                             }
                                         >
-                                            <FontAwesomeIcon icon={faBug} />
+                                            <FontAwesomeIcon icon={"bug"} />
                                         </ThemeIcon>
                                     </Tooltip>
                                 </Group>

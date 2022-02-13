@@ -1,4 +1,3 @@
-import { faCopy, faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
@@ -33,14 +32,14 @@ const SignupAuthForm: React.FC = () => {
     return (
         <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
             <TextInput
-                icon={<FontAwesomeIcon icon={faEnvelope} />}
+                icon={<FontAwesomeIcon icon={"envelope"} />}
                 placeholder="example@example.com"
                 label="Email"
                 required
                 {...form.getInputProps("email")}
             />
             <TextInput
-                icon={<FontAwesomeIcon icon={faKey} />}
+                icon={<FontAwesomeIcon icon={"key"} />}
                 placeholder="Your Password"
                 label="Password"
                 type="password"
@@ -48,7 +47,7 @@ const SignupAuthForm: React.FC = () => {
                 {...form.getInputProps("password")}
             />
             <TextInput
-                icon={<FontAwesomeIcon icon={faCopy} />}
+                icon={<FontAwesomeIcon icon={"copy"} />}
                 placeholder="Confirm Your Password"
                 label="Confirm Password"
                 type="password"

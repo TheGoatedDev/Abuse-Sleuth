@@ -19,9 +19,7 @@ const Scan: NextPage = () => {
             <LayoutDashboard>
                 <Title align="center">IP Scan</Title>
                 <Center mt="md">
-                    <div style={{ width: "400px" }}>
-                        <IPScanForm />
-                    </div>
+                    <IPScanForm />
                 </Center>
             </LayoutDashboard>
         </ProtectedComponent>

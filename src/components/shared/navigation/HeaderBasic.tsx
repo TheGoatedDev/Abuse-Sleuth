@@ -2,7 +2,7 @@ import { Group, Header } from "@mantine/core";
 import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import HeaderButton from "../buttons/HeaderButton";
-import UserMenu from "../menus/UserMenu";
+import UserMenu from "../menus/userMenu";
 
 const HeaderBasic: React.FC = (_props) => {
     const [user, _loading, _error] = useAuthState(firebaseAuth);

@@ -1,4 +1,3 @@
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
@@ -27,7 +26,7 @@ const ResetPasswordAuthForm: React.FC = () => {
     return (
         <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
             <TextInput
-                icon={<FontAwesomeIcon icon={faEnvelope} />}
+                icon={<FontAwesomeIcon icon={"envelope"} />}
                 placeholder="example@example.com"
                 label="Email"
                 required

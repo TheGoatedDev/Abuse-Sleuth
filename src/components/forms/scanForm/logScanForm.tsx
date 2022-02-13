@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Anchor,
@@ -82,7 +81,7 @@ const LogScanForm: React.FC = () => {
                             size={80}
                             color={getIconColor(status, theme)}
                         >
-                            <FontAwesomeIcon icon={faFile} size={"3x"} />
+                            <FontAwesomeIcon icon={"file"} size={"3x"} />
                         </ThemeIcon>
 
                         <Box>

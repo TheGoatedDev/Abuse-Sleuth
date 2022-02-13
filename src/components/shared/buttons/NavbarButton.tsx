@@ -1,5 +1,4 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Group,
@@ -13,7 +12,7 @@ import Link from "next/link";
 
 interface PropsType {
     color: MantineColor;
-    icon: IconProp | IconDefinition;
+    icon: IconProp;
     href: string;
 }
 

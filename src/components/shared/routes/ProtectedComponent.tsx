@@ -1,7 +1,6 @@
-import { firebaseAuth } from "@services/firebase";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+
 import LayoutLoading from "@components/layouts/LayoutLoading";
 import { User } from "firebase/auth";
 

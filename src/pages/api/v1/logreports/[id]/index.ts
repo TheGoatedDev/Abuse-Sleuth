@@ -53,6 +53,15 @@ const handler = async (
         let logReport: LogReport | null;
         try {
             logReport = await getLogReportByID(Number(logReportID));
+
+            if (logReport == null) {
+                logger.error(`Log Report ${logReportID} does not exist`);
+                return res.status(404).json({
+                    ok: false,
+                    data: "Log Report does not exist",
+                });
+            }
+
             if (logReport.owner !== ownerUID) {
                 logger.error(
                     `User ${ownerUID} does not own Log Report ${logReportID}`

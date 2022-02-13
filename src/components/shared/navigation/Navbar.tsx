@@ -1,5 +1,3 @@
-import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
-import { faBug, faFile } from "@fortawesome/free-solid-svg-icons";
 import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -22,21 +20,21 @@ const CustomNavbar: React.FC = () => {
             <Divider my="md" />
             <Navbar.Section grow>
                 <NavbarButton
-                    icon={faSearchengin}
+                    icon={"searchengin"}
                     color={"blue"}
                     href="/dashboard/scan"
                 >
                     Check IP
                 </NavbarButton>
                 <NavbarButton
-                    icon={faSearchengin}
+                    icon={"searchengin"}
                     color={"green"}
                     href="/dashboard/scanlog"
                 >
                     Scan Logs
                 </NavbarButton>
                 <NavbarButton
-                    icon={faFile}
+                    icon={"file"}
                     color={"orange"}
                     href="/dashboard/reports"
                 >
@@ -45,7 +43,7 @@ const CustomNavbar: React.FC = () => {
             </Navbar.Section>
             <Navbar.Section>
                 <NavbarButton
-                    icon={faBug}
+                    icon={"bug"}
                     color={"red"}
                     href="/dashboard/developer"
                 >

@@ -1,16 +1,7 @@
 import type { NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
 import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
-import {
-    Center,
-    Code,
-    Group,
-    Paper,
-    Title,
-    Text,
-    Divider,
-    Space,
-} from "@mantine/core";
+import { Group, Title, Text, Divider, Space } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { IPProfile } from "@prisma/client";
