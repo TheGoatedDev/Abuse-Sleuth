@@ -1,6 +1,9 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { BootstrapFontAwesome } from "@bootstrap/fontAwesome";
+
+BootstrapFontAwesome();
 
 const App = (props: AppProps) => {
     const { Component, pageProps } = props;

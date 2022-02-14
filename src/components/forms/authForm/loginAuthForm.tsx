@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EnvelopeIcon, KeyIcon } from "@icons";
 import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { firebaseAuth } from "@services/firebase";
@@ -36,14 +36,14 @@ const LoginAuthForm: React.FC = () => {
     return (
         <form onSubmit={form.onSubmit((values) => onSubmitForm(values))}>
             <TextInput
-                icon={<FontAwesomeIcon icon={"envelope"} />}
+                icon={<EnvelopeIcon />}
                 placeholder="example@example.com"
                 label="Email"
                 required
                 {...form.getInputProps("email")}
             />
             <TextInput
-                icon={<FontAwesomeIcon icon={"key"} />}
+                icon={<KeyIcon />}
                 placeholder="Your Password"
                 label="Password"
                 type="password"

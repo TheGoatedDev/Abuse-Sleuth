@@ -17,8 +17,8 @@ import { firebaseAuth } from "@services/firebase";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAPILogReportIPProfiles } from "@services/api";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BetterPaper from "@components/shared/BetterPaper";
+import { BugIcon } from "@icons";
 
 const Reports_LogReportsID: NextPage = () => {
     const [user, loading, _error] = useAuthState(firebaseAuth);
@@ -53,7 +53,7 @@ const Reports_LogReportsID: NextPage = () => {
                                                     : "red"
                                             }
                                         >
-                                            <FontAwesomeIcon icon={"bug"} />
+                                            <BugIcon />
                                         </ThemeIcon>
                                     </Tooltip>
                                 </Group>

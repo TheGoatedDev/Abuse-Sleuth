@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Anchor,
     Box,
@@ -17,6 +16,7 @@ import Papa from "papaparse";
 import { scanLog } from "@services/api";
 import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { FileIcon } from "@icons";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
@@ -81,7 +81,7 @@ const LogScanForm: React.FC = () => {
                             size={80}
                             color={getIconColor(status, theme)}
                         >
-                            <FontAwesomeIcon icon={"file"} size={"3x"} />
+                            <FileIcon size={"3x"} />
                         </ThemeIcon>
 
                         <Box>

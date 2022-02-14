@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SignOutIcon, UserIcon } from "@icons";
 import { Button, Divider, Menu, Text, ThemeIcon } from "@mantine/core";
 import { firebaseAuth } from "@services/firebase";
 import { signOut } from "firebase/auth";
@@ -18,7 +18,7 @@ const UserMenu: React.FC = () => {
                     }}
                 >
                     <ThemeIcon size={"lg"} radius={"xl"} color={"cyan"}>
-                        <FontAwesomeIcon size="lg" icon={"user"} />
+                        <UserIcon size="lg" />
                     </ThemeIcon>
                 </Button>
             }
@@ -30,7 +30,7 @@ const UserMenu: React.FC = () => {
             <Divider />
             <Menu.Label>User Interactions</Menu.Label>
             <Menu.Item
-                icon={<FontAwesomeIcon icon={"sign-out"} />}
+                icon={<SignOutIcon />}
                 onClick={() => signOut(firebaseAuth)}
             >
                 <Text color="red">Logout</Text>

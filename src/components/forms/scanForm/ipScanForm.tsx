@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Center, Code, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { isIPAddress } from "@libs/utils/regexTest";
@@ -6,6 +5,7 @@ import { useState } from "react";
 import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { scanIP } from "@services/api";
+import { LaptopIcon } from "@icons";
 
 const IPScanForm: React.FC = () => {
     const [user, loading, error] = useAuthState(firebaseAuth);
@@ -35,7 +35,7 @@ const IPScanForm: React.FC = () => {
                 })}
             >
                 <TextInput
-                    icon={<FontAwesomeIcon icon={"laptop"} />}
+                    icon={<LaptopIcon />}
                     placeholder="IP Address"
                     {...form.getInputProps("ipAddress")}
                 />

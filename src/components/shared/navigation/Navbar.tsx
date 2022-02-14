@@ -20,14 +20,14 @@ const CustomNavbar: React.FC = () => {
             <Divider my="md" />
             <Navbar.Section grow>
                 <NavbarButton
-                    icon={"searchengin"}
+                    icon={"search"}
                     color={"blue"}
                     href="/dashboard/scan"
                 >
                     Check IP
                 </NavbarButton>
                 <NavbarButton
-                    icon={"searchengin"}
+                    icon={"search"}
                     color={"green"}
                     href="/dashboard/scanlog"
                 >
