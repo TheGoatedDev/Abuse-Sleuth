@@ -1,4 +1,4 @@
-interface AbuseSleuthFAIconProps
+interface FAIconProps
     extends BackwardCompatibleOmit<
         SVGAttributes<SVGSVGElement>,
         "children" | "mask" | "transform"
