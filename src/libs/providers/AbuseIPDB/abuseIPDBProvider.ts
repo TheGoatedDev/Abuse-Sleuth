@@ -1,4 +1,4 @@
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import axios from "axios";
 
 export const makeAIPDBAPIRequest = async (ipAddress: string) => {
@@ -16,8 +16,6 @@ export const makeAIPDBAPIRequest = async (ipAddress: string) => {
             }
         );
 
-        logger.info(webRequest.headers);
-
         const responseData = webRequest.data.data;
 
         const data: IAIPDBScanResultData = {
@@ -32,7 +30,7 @@ export const makeAIPDBAPIRequest = async (ipAddress: string) => {
 
         return data;
     } catch (error) {
-        logger.error(error);
+        Logger.error("Abuse IP DB Provider", error);
         throw error;
     }
 };

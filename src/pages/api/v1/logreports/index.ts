@@ -2,7 +2,7 @@ import runMiddleware from "@libs/helpers/runMiddleware";
 import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import getLogReportsByOwner from "@services/database/queries/logReport/getLogReportsByOwner";
 import { LogReport } from "@prisma/client";
 import getLogReportItemCountByLogReport from "@services/database/queries/logReportItems/getLogReportItemCountByLogReport";
@@ -14,18 +14,25 @@ const handler = async (
     await runMiddleware(req, res, checkMethod(["GET"]));
     await runMiddleware(req, res, checkAuthenticated);
 
-    logger.info(`Getting all Log Reports for ${req.uid}`);
+    Logger.info("API /v1/logreports", `Getting all Log Reports for ${req.uid}`);
 
     let logReports: LogReport[] | null;
     try {
         logReports = await getLogReportsByOwner(req.uid);
     } catch (error) {
-        logger.error(`Error getting Log Reports for ${req.uid}: `, error);
+        Logger.error(
+            "API /v1/logreports",
+            `Error getting Log Reports for ${req.uid}: `,
+            error
+        );
         throw error;
     }
 
     if (logReports === null) {
-        logger.error(`Log Reports for ${req.uid} was null`);
+        Logger.error(
+            "API /v1/logreports",
+            `Log Reports for ${req.uid} was null`
+        );
         throw new Error("Log Reports was null");
     }
 

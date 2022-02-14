@@ -6,7 +6,7 @@ import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
 import createIPProfile from "@services/database/queries/ipProfiles/createIPProfile";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
 import { IPProfile, LogReport, LogReportItem } from "@prisma/client";
 import createLogReport from "@services/database/queries/logReport/createLogReport";
@@ -31,19 +31,22 @@ const handler = async (
 
     const ipAddressArray: string[] = ipAddresses;
 
-    logger.debug("Now Generating Log Report");
+    Logger.debug("API /scanlog", "Now Generating Log Report");
 
     //Generated a Report Entry to be added to the database
     let logReport: LogReport;
     try {
         logReport = await createLogReport(req.uid);
-        logger.info(`Created LogReport #${logReport.id} for ${req.uid}`);
+        Logger.info(
+            "API /scanlog",
+            `Created LogReport #${logReport.id} for ${req.uid}`
+        );
     } catch (error) {
-        logger.error(`Error creating Log Report: ${error}`);
+        Logger.error("API /scanlog", `Error creating Log Report: ${error}`);
         throw error;
     }
 
-    logger.debug("Now Generating IP Profiles");
+    Logger.debug("API /scanlog", "Now Generating IP Profiles");
 
     // Attempt to create the IP Profiles
     const ipProfiles: IPProfile[] = [];
@@ -52,10 +55,10 @@ const handler = async (
         let ipProfile: IPProfile | null;
         try {
             ipProfile = await createIPProfile(ipAddress, req.uid);
-            logger.info(`Created IPProfile for ${ipAddress}`);
+            Logger.info("API /scanlog", `Created IPProfile for ${ipAddress}`);
         } catch (error) {
             ipProfile = await getIPProfileByIP(ipAddress);
-            logger.info(`Got IPProfile for ${ipAddress}`);
+            Logger.info("API /scanlog", `Got IPProfile for ${ipAddress}`);
         }
 
         if (ipProfile !== null) {
@@ -63,7 +66,7 @@ const handler = async (
         }
     }
 
-    logger.debug("Now Generating Log Report Items");
+    Logger.debug("API /scanlog", "Now Generating Log Report Items");
 
     // Make Log Report Items for all the IP Profiles
     const logReportItems: LogReportItem[] = [];
@@ -71,11 +74,15 @@ const handler = async (
         let logReportItem: LogReportItem;
         try {
             logReportItem = await createLogReportItem(logReport, ipProfile);
-            logger.info(
+            Logger.info(
+                "API /scanlog",
                 `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
             );
         } catch (error) {
-            logger.error(`Error creating Log Report Item: ${error}`);
+            Logger.error(
+                "API /scanlog",
+                `Error creating Log Report Item: ${error}`
+            );
             throw error;
         }
 

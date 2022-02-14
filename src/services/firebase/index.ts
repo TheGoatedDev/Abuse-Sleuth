@@ -1,6 +1,6 @@
 import { FirebaseOptions, getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 
 if (getApps().length === 0) {
     let firebaseConfig: FirebaseOptions = {
@@ -14,7 +14,10 @@ if (getApps().length === 0) {
     };
 
     if (process.env.NODE_ENV !== "production") {
-        logger.info("Firebase Config Running in Development Mode");
+        Logger.info(
+            "Firebase Client",
+            "Firebase Config Running in Development Mode"
+        );
         firebaseConfig = {
             apiKey: "dev",
             authDomain: "dev",
@@ -25,7 +28,10 @@ if (getApps().length === 0) {
             measurementId: "dev",
         };
     } else {
-        logger.info("Firebase Config Running in Production Mode");
+        Logger.info(
+            "Firebase Client",
+            "Firebase Config Running in Production Mode"
+        );
     }
 
     const _firebaseApp = initializeApp(firebaseConfig);
@@ -34,10 +40,13 @@ if (getApps().length === 0) {
 const firebaseAuth = getAuth();
 
 if (process.env.NODE_ENV !== "production") {
-    logger.info("Connecting to Firebase Emulator for Authentication");
+    Logger.info(
+        "Firebase Client",
+        "Connecting to Firebase Emulator for Authentication"
+    );
     connectAuthEmulator(firebaseAuth, "http://localhost:9001");
 
-    logger.info("Connected to all Firebase Emulators");
+    Logger.info("Firebase Client", "Connected to all Firebase Emulators");
 }
 
 export { firebaseAuth };

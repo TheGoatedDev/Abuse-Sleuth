@@ -1,12 +1,16 @@
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import chalk from "chalk";
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
-    logger.info("Initializing Firebase Admin SDK");
+    Logger.info("Firebase Admin", "Initializing Firebase Admin SDK");
     if (process.env.NODE_ENV !== "production") {
-        logger.info("Firebase Admin SDK Running in Development Mode");
-        logger.info(
+        Logger.info(
+            "Firebase Admin",
+            "Firebase Admin SDK Running in Development Mode"
+        );
+        Logger.info(
+            "Firebase Admin",
             chalk.bgRedBright(
                 "Firebase Admin SDK is fucking stupid and can't connect to emulators without ENV variables and also doesn't have the concept of 'localhost'"
             )
@@ -17,7 +21,10 @@ if (!admin.apps.length) {
             projectId: "abuse-sleuth",
         });
     } else {
-        logger.info("Firebase Admin SDK Running in Production Mode");
+        Logger.info(
+            "Firebase Admin",
+            "Firebase Admin SDK Running in Production Mode"
+        );
         try {
             admin.initializeApp({
                 credential: admin.credential.cert(
@@ -25,7 +32,11 @@ if (!admin.apps.length) {
                 ),
             });
         } catch (error) {
-            logger.error("Error Initializing Firebase Admin SDK:", error);
+            Logger.error(
+                "Firebase Admin",
+                "Error Initializing Firebase Admin SDK:",
+                error
+            );
         }
     }
 }

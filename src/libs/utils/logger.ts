@@ -1,22 +1,30 @@
 import chalk from "chalk";
 
-const logger = {
-    info: (...args: any[]) =>
-        console.log(new Date().toISOString(), chalk.green("INFO"), ...args),
-    error: (...args: any[]) =>
-        console.error(
+const Logger = {
+    info: (title: string, ...args: any[]) =>
+        console.log(
             new Date().toISOString(),
-            `[${__filename.split("\\").pop()}]`,
-            chalk.red("ERROR"),
+            chalk.green(`INFO | ${title}`),
             ...args
         ),
-    debug: (...args: any[]) =>
+    warn: (title: string, ...args: any[]) =>
+        console.warn(
+            new Date().toISOString(),
+            chalk.yellow(`WARN | ${title}`),
+            ...args
+        ),
+    error: (title: string, ...args: any[]) =>
+        console.error(
+            new Date().toISOString(),
+            chalk.bgRedBright(`ERROR | ${title}`),
+            ...args
+        ),
+    debug: (title: string, ...args: any[]) =>
         console.debug(
             new Date().toISOString(),
-            `[${__filename.split("\\").pop()}]`,
-            chalk.magenta("DEBUG"),
+            chalk.magenta(`DEBUG | ${title}`),
             ...args
         ),
 };
 
-export default logger;
+export default Logger;

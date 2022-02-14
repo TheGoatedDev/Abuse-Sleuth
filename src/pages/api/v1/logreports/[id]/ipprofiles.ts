@@ -2,7 +2,7 @@ import runMiddleware from "@libs/helpers/runMiddleware";
 import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import { LogReport } from "@prisma/client";
 import getLogReportByID from "@services/database/queries/logReport/getLogReportByID";
 import joiValidation from "@libs/middlewares/joiValidation";
@@ -21,7 +21,8 @@ const handler = async (
     await runMiddleware(req, res, checkAuthenticated);
     await runMiddleware(req, res, joiValidation({ query: querySchema }));
 
-    logger.info(
+    Logger.info(
+        "API /v1/logreports/[id]",
         `Getting Log Report #${req.query.id} IPProfiles  for ${req.uid}`
     );
 
@@ -29,7 +30,8 @@ const handler = async (
     try {
         logReport = await getLogReportByID(Number(req.query.id));
         if (logReport?.owner !== req.uid) {
-            logger.error(
+            Logger.error(
+                "API /v1/logreports/[id]",
                 `User ${req.uid} does not own Log Report ${req.query.id}`
             );
             return res.status(403).json({
@@ -38,18 +40,24 @@ const handler = async (
             });
         }
     } catch (error) {
-        logger.error(`Error getting Log Report for ${req.uid}: `, error);
+        Logger.error(
+            "API /v1/logreports/[id]",
+            `Error getting Log Report for ${req.uid}: `,
+            error
+        );
         throw error;
     }
 
     let ipProfiles;
     try {
         ipProfiles = await getIPProfileByLogReport(logReport);
-        logger.info(
+        Logger.info(
+            "API /v1/logreports/[id]",
             `Got IP Profiles for Log Report #${req.query.id} for ${req.uid}`
         );
     } catch (error) {
-        logger.error(
+        Logger.error(
+            "API /v1/logreports/[id]",
             `Error getting IP Profiles for Log Report #${req.query.id} for ${req.uid}: `,
             error
         );

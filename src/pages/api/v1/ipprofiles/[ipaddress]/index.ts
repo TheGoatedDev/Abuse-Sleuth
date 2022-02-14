@@ -2,7 +2,7 @@ import runMiddleware from "@libs/helpers/runMiddleware";
 import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import { IPProfile } from "@prisma/client";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
@@ -26,13 +26,17 @@ const handler = async (
 
     const ipAddress: string = req.query.ipaddress as string;
 
-    logger.info(`Getting IP Profile ${ipAddress} for ${req.uid}`);
+    Logger.info(
+        "API /v1/ipprofiles/[ipaddress]",
+        `Getting IP Profile ${ipAddress} for ${req.uid}`
+    );
 
     let ipProfile: IPProfile | null;
     try {
         ipProfile = await getIPProfileByIP(ipAddress);
     } catch (error) {
-        logger.error(
+        Logger.error(
+            "API /v1/ipprofiles/[ipaddress]",
             `Error getting IP Profile ${ipAddress} for ${req.uid}: `,
             error
         );
@@ -40,7 +44,10 @@ const handler = async (
     }
 
     if (ipProfile === null) {
-        logger.error(`IP Profile ${ipAddress} for ${req.uid} was null`);
+        Logger.error(
+            "API /v1/ipprofiles/[ipaddress]",
+            `IP Profile ${ipAddress} for ${req.uid} was null`
+        );
         throw new Error("IP Profile was null");
     }
 

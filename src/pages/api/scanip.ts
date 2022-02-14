@@ -8,7 +8,7 @@ import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
 import generateMockData from "@libs/providers/AbuseIPDB/generateMockData";
 import createIPProfile from "@services/database/queries/ipProfiles/createIPProfile";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
 import { IPProfile } from "@prisma/client";
 import createAIPDBScanResult from "@services/database/queries/aipdbScanResults/createAIPDBScanResult";
@@ -28,20 +28,29 @@ const handler = async (
     // Get the IP address from the request body
     const { ipAddress } = req.body;
 
-    logger.info(`Performing a IP Scan for ${ipAddress}`);
+    Logger.info(
+        "API Scan IP Endpoint",
+        `Performing a IP Scan for ${ipAddress}`
+    );
 
     // Get a IP Profile
     let ipProfile: IPProfile | null;
     try {
         ipProfile = await createIPProfile(ipAddress, req.uid);
-        logger.info(`Created IPProfile for ${ipAddress}`);
+        Logger.info(
+            "API Scan IP Endpoint",
+            `Created IPProfile for ${ipAddress}`
+        );
     } catch (error) {
         ipProfile = await getIPProfileByIP(ipAddress);
-        logger.info(`Got IPProfile for ${ipAddress}`);
+        Logger.info("API Scan IP Endpoint", `Got IPProfile for ${ipAddress}`);
     }
 
     if (ipProfile === null) {
-        logger.error(`IPProfile for ${ipAddress} was null`);
+        Logger.error(
+            "API Scan IP Endpoint",
+            `IPProfile for ${ipAddress} was null`
+        );
         return res.status(500).json({
             ok: false,
             data: "IP Profile was null",
@@ -59,9 +68,15 @@ const handler = async (
     // Added the Data to the AIPDB Scan Results in the the database
     try {
         await createAIPDBScanResult(data, ipProfile);
-        logger.info(`Created AIPDB Scan Result for ${ipAddress}`);
+        Logger.info(
+            "API Scan IP Endpoint",
+            `Created AIPDB Scan Result for ${ipAddress}`
+        );
     } catch (error) {
-        logger.info(`Got AIPDB Scan Result for ${ipAddress}`);
+        Logger.info(
+            "API Scan IP Endpoint",
+            `Got AIPDB Scan Result for ${ipAddress}`
+        );
     }
 
     res.status(200).json({ ok: true, data: ipProfile });

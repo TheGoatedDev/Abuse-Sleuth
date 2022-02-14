@@ -6,7 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "@services/firebase";
 import { useEffect, useState } from "react";
 import { deleteAPILogReport, getAPILogReports } from "@services/api";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import { useRouter } from "next/router";
 
 const Reports: NextPage = () => {
@@ -27,7 +27,7 @@ const Reports: NextPage = () => {
 
                 const logReports: IAPILogReport[] = logReportsWebRequest.data;
 
-                logger.info(logReports);
+                Logger.info("UI /dashboard/reports", logReports);
 
                 setReports(
                     logReports.map((report: IAPILogReport, index) => (

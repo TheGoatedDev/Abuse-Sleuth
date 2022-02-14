@@ -2,7 +2,7 @@ import runMiddleware from "@libs/helpers/runMiddleware";
 import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
-import logger from "@libs/utils/logger";
+import Logger from "@libs/utils/Logger";
 import { LogReport } from "@prisma/client";
 import getLogReportByID from "@services/database/queries/logReport/getLogReportByID";
 import joiValidation from "@libs/middlewares/joiValidation";
@@ -25,13 +25,17 @@ const handler = async (
     const { id: logReportID } = req.query;
 
     if (req.method === "GET") {
-        logger.info(`Getting Log Report #${logReportID} for ${ownerUID}`);
+        Logger.info(
+            "API /v1/logreports/[id]",
+            `Getting Log Report #${logReportID} for ${ownerUID}`
+        );
 
         let logReport: LogReport | null;
         try {
             logReport = await getLogReportByID(Number(logReportID));
             if (logReport?.owner !== ownerUID) {
-                logger.error(
+                Logger.error(
+                    "API /v1/logreports/[id]",
                     `User ${ownerUID} does not own Log Report ${req.query.id}`
                 );
                 return res.status(403).json({
@@ -40,7 +44,11 @@ const handler = async (
                 });
             }
         } catch (error) {
-            logger.error(`Error getting Log Report for ${ownerUID}: `, error);
+            Logger.error(
+                "API /v1/logreports/[id]",
+                `Error getting Log Report for ${ownerUID}: `,
+                error
+            );
             throw error;
         }
 
@@ -48,14 +56,20 @@ const handler = async (
     }
 
     if (req.method === "DELETE") {
-        logger.info(`Deleting Log Report #${logReportID} for ${ownerUID}`);
+        Logger.info(
+            "API /v1/logreports/[id]",
+            `Deleting Log Report #${logReportID} for ${ownerUID}`
+        );
 
         let logReport: LogReport | null;
         try {
             logReport = await getLogReportByID(Number(logReportID));
 
             if (logReport == null) {
-                logger.error(`Log Report ${logReportID} does not exist`);
+                Logger.error(
+                    "API /v1/logreports/[id]",
+                    `Log Report ${logReportID} does not exist`
+                );
                 return res.status(404).json({
                     ok: false,
                     data: "Log Report does not exist",
@@ -63,7 +77,8 @@ const handler = async (
             }
 
             if (logReport.owner !== ownerUID) {
-                logger.error(
+                Logger.error(
+                    "API /v1/logreports/[id]",
                     `User ${ownerUID} does not own Log Report ${logReportID}`
                 );
                 return res.status(403).json({
@@ -72,14 +87,22 @@ const handler = async (
                 });
             }
         } catch (error) {
-            logger.error(`Error getting Log Report for ${ownerUID}: `, error);
+            Logger.error(
+                "API /v1/logreports/[id]",
+                `Error getting Log Report for ${ownerUID}: `,
+                error
+            );
             throw error;
         }
 
         try {
             await deleteLogReportByID(Number(logReportID));
         } catch (error) {
-            logger.error(`Error deleting Log Report for ${ownerUID}: `, error);
+            Logger.error(
+                "API /v1/logreports/[id]",
+                `Error deleting Log Report for ${ownerUID}: `,
+                error
+            );
             throw error;
         }
 
