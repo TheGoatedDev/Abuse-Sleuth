@@ -8,7 +8,8 @@ const BetterPaper: React.FC = (props) => {
                 width: "auto",
                 flexGrow: 1,
             })}
-            padding="sm"
+            padding="md"
+            shadow={"md"}
         >
             {props.children}
         </Paper>
