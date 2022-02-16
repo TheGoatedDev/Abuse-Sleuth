@@ -2,11 +2,10 @@
     "name": "sentinel",
     "private": true,
     "scripts": {
-        "dev": "npm run dev:cleanup && concurrently -c cyan,magenta,#ffa500 -n NextJS,Stripe,Firebase \"npm:dev:next\" \"npm:dev:stripe\" \"npm:dev:emulators\"",
+        "dev": "concurrently -c cyan,magenta,#ffa500 -n NextJS,Stripe,Firebase \"npm:dev:next\" \"npm:dev:stripe\" \"npm:dev:emulators\"",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "dev:cleanup": "node ./scripts/cleanup.js",
         "dev:next": "next dev",
         "dev:stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
         "dev:emulators": "firebase emulators:start",
