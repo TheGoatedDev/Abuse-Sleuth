@@ -1,5 +1,5 @@
 import { IPProfile, LogReport } from "@prisma/client";
-import prisma from "@services/database/prismaClient";
+import prisma from "@services/firestore/prismaClient";
 
 const getIPProfileByLogReport = async (
     logReport: LogReport

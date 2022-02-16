@@ -1,5 +1,5 @@
 import { LogReport, LogReportItem } from "@prisma/client";
-import prisma from "@services/database/prismaClient";
+import prisma from "@services/firestore/prismaClient";
 
 const getLogReportItemCountByLogReport = async (
     logReport: LogReport

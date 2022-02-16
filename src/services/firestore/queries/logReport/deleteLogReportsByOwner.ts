@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import prisma from "@services/database/prismaClient";
+import prisma from "@services/firestore/prismaClient";
 
 const deleteLogReportByID = async (
     uid: string
