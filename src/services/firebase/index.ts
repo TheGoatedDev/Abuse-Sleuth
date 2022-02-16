@@ -49,4 +49,4 @@ if (process.env.NODE_ENV !== "production") {
     Logger.info("Firebase Client", "Connected to all Firebase Emulators");
 }
 
-export { firebaseAuth };
+//export { firebaseAuth };
