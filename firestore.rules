@@ -6,20 +6,5 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    match /IPProfiles/{document} {
-      allow create, update, get: if isSignedIn();
-    }
-
-    match /AIPDBScanResults/{document} {
-      allow get: if isSignedIn();
-    }
-
-    match /GeneratedReports/{document} {
-      allow get: if isSignedIn();
-    }
   }
-}
-
-function isSignedIn() {
-  return request.auth != null;
 }

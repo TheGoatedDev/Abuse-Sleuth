@@ -12,6 +12,8 @@ const Profile: NextPage = () => {
                 <Group direction="column">
                     <Text>{user?.email}</Text>
 
+                    <Text>{loading ? "Loading..." : null}</Text>
+
                     <Box style={{ width: "300px" }}>
                         <Code block>
                             <pre>{JSON.stringify(user, null, 4)}</pre>
