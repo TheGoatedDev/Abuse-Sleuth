@@ -11,23 +11,21 @@ export default DashboardHome;
 export const getServerSideProps: GetServerSideProps = async (context) => {
     // TODO: Create a seperate file for checking the session cookie and redirecting
 
-    const user = await checkSessionCookie(context.req.cookies.token);
+    if (context.req.cookies.token !== undefined) {
+        const user = await checkSessionCookie(context.req.cookies.token);
 
-    if (user === null) {
-        return {
-            redirect: {
-                destination: "/login",
-                permanent: false,
-            },
-            props: {}, // will be passed to the page component as props
-        };
+        if (user !== null) {
+            return {
+                props: {}, // will be passed to the page component as props
+            };
+        }
     }
 
     return {
-        // redirect: {
-        //     destination: "/login",
-        //     permanent: false,
-        // },
+        redirect: {
+            destination: "/login",
+            permanent: false,
+        },
         props: {}, // will be passed to the page component as props
     };
 };
