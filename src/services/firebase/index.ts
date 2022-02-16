@@ -1,5 +1,7 @@
 import { FirebaseOptions, getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import Logger from "@libs/utils/Logger";
 
 if (getApps().length === 0) {
@@ -38,6 +40,8 @@ if (getApps().length === 0) {
 }
 
 const firebaseAuth = getAuth();
+const firebaseFireStore = getFirestore();
+const firebaseFunctions = getFunctions();
 
 if (process.env.NODE_ENV !== "production") {
     Logger.info(
@@ -45,6 +49,8 @@ if (process.env.NODE_ENV !== "production") {
         "Connecting to Firebase Emulator for Authentication"
     );
     connectAuthEmulator(firebaseAuth, "http://localhost:9001");
+    connectFirestoreEmulator(firebaseFireStore, "localhost", 9002);
+    connectFunctionsEmulator(firebaseFunctions, "localhost", 9003);
 
     Logger.info("Firebase Client", "Connected to all Firebase Emulators");
 }
