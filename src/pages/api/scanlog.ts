@@ -5,12 +5,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
-import createIPProfile from "@services/database/queries/ipProfiles/createIPProfile";
+import createIPProfile from "@services/firestore/queries/ipProfiles/createIPProfile";
 import Logger from "@libs/utils/Logger";
-import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
+import getIPProfileByIP from "@services/firestore/queries/ipProfiles/getIPProfileByIP";
 import { IPProfile, LogReport, LogReportItem } from "@prisma/client";
-import createLogReport from "@services/database/queries/logReport/createLogReport";
-import createLogReportItem from "@services/database/queries/logReportItems/createLogReportItem";
+import createLogReport from "@services/firestore/queries/logReport/createLogReport";
+import createLogReportItem from "@services/firestore/queries/logReportItems/createLogReportItem";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()

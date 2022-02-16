@@ -3,9 +3,9 @@ import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
 import Logger from "@libs/utils/Logger";
-import getLogReportsByOwner from "@services/database/queries/logReport/getLogReportsByOwner";
+import getLogReportsByOwner from "@services/firestore/queries/logReport/getLogReportsByOwner";
 import { LogReport } from "@prisma/client";
-import getLogReportItemCountByLogReport from "@services/database/queries/logReportItems/getLogReportItemCountByLogReport";
+import getLogReportItemCountByLogReport from "@services/firestore/queries/logReportItems/getLogReportItemCountByLogReport";
 
 const handler = async (
     req: NextApiRequest & { uid: string },

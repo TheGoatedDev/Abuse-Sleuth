@@ -4,10 +4,10 @@ import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
 import Logger from "@libs/utils/Logger";
 import { LogReport } from "@prisma/client";
-import getLogReportByID from "@services/database/queries/logReport/getLogReportByID";
+import getLogReportByID from "@services/firestore/queries/logReport/getLogReportByID";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
-import getIPProfileByLogReport from "@services/database/queries/ipProfiles/getIPProfilesByLogReport";
+import getIPProfileByLogReport from "@services/firestore/queries/ipProfiles/getIPProfilesByLogReport";
 
 const querySchema = Joi.object({
     id: Joi.number().required(),

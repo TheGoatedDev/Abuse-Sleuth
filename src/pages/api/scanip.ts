@@ -7,11 +7,11 @@ import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
 import generateMockData from "@libs/providers/AbuseIPDB/generateMockData";
-import createIPProfile from "@services/database/queries/ipProfiles/createIPProfile";
+import createIPProfile from "@services/firestore/queries/ipProfiles/createIPProfile";
 import Logger from "@libs/utils/Logger";
-import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
+import getIPProfileByIP from "@services/firestore/queries/ipProfiles/getIPProfileByIP";
 import { IPProfile } from "@prisma/client";
-import createAIPDBScanResult from "@services/database/queries/aipdbScanResults/createAIPDBScanResult";
+import createAIPDBScanResult from "@services/firestore/queries/aipdbScanResults/createAIPDBScanResult";
 
 const bodyScheme = Joi.object({
     ipAddress: Joi.string().regex(ipRegex).required(),

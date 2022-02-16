@@ -7,7 +7,7 @@ import { IPProfile } from "@prisma/client";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
-import getIPProfileByIP from "@services/database/queries/ipProfiles/getIPProfileByIP";
+import getIPProfileByIP from "@services/firestore/queries/ipProfiles/getIPProfileByIP";
 
 const querySchema = Joi.object({
     ipaddress: Joi.string()
