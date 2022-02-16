@@ -2,6 +2,7 @@ import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "@services/firebase";
+import Link from "next/link";
 
 const CustomNavbar: React.FC = () => {
     const [user, _loading, _error] = useAuthState(firebaseAuth);
@@ -10,11 +11,13 @@ const CustomNavbar: React.FC = () => {
         <Navbar fixed padding={"md"} width={{ base: 300 }}>
             <Navbar.Section>
                 <Center>
-                    <img
-                        src={"/IPSentinel_Logo.svg"}
-                        alt={"IP Sentinel Logo"}
-                        width={"30%"}
-                    />
+                    <Link href="/" passHref>
+                        <img
+                            src={"/IPSentinel_Logo.svg"}
+                            alt={"IP Sentinel Logo"}
+                            width={"30%"}
+                        />
+                    </Link>
                 </Center>
             </Navbar.Section>
             <Divider my="md" />
