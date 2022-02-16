@@ -2,10 +2,11 @@
     "name": "sentinel",
     "private": true,
     "scripts": {
-        "dev": "concurrently -c cyan,magenta,#ffa500 -n NextJS,Stripe,Firebase \"npm:dev:next\" \"npm:dev:stripe\" \"npm:dev:emulators\"",
+        "dev": "npm run dev:build-functions && concurrently -c cyan,magenta,#ffa500 -n NextJS,Stripe,Firebase \"npm:dev:next\" \"npm:dev:stripe\" \"npm:dev:emulators\"",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "dev:build-functions": "npm run build --prefix functions",
         "dev:next": "next dev",
         "dev:stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
         "dev:emulators": "firebase emulators:start",

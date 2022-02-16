@@ -1,5 +1,10 @@
 import { FirebaseOptions, getApps, initializeApp } from "firebase/app";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import {
+    connectAuthEmulator,
+    getAuth,
+    inMemoryPersistence,
+    setPersistence,
+} from "firebase/auth";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import Logger from "@libs/utils/Logger";
@@ -40,6 +45,8 @@ if (getApps().length === 0) {
 }
 
 const firebaseAuth = getAuth();
+setPersistence(firebaseAuth, inMemoryPersistence);
+
 const firebaseFireStore = getFirestore();
 const firebaseFunctions = getFunctions();
 
@@ -55,4 +62,4 @@ if (process.env.NODE_ENV !== "production") {
     Logger.info("Firebase Client", "Connected to all Firebase Emulators");
 }
 
-//export { firebaseAuth };
+export { firebaseAuth };

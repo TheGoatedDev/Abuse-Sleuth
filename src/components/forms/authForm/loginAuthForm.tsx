@@ -1,14 +1,12 @@
 import { EnvelopeIcon, KeyIcon } from "@icons";
 import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
+import { sendAPIAuth } from "@services/api";
 import { firebaseAuth } from "@services/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const LoginAuthForm: React.FC = () => {
-    const [signInWithEmailAndPassword, user, loading, error] =
-        useSignInWithEmailAndPassword(firebaseAuth);
-
     const router = useRouter();
 
     const form = useForm({
@@ -26,11 +24,24 @@ const LoginAuthForm: React.FC = () => {
         email: string;
         password: string;
     }) => {
-        await signInWithEmailAndPassword(values.email, values.password);
+        //TODO: Make a Seperate File for this
+        const userCreds = await signInWithEmailAndPassword(
+            firebaseAuth,
+            values.email,
+            values.password
+        );
 
-        if (user) {
-            router.push("/dashboard");
-        }
+        const token = await userCreds.user.getIdToken();
+
+        console.log(token);
+
+        const res = await sendAPIAuth(token);
+
+        console.log(res);
+
+        // if (user) {
+        //     router.push("/dashboard");
+        // }
     };
 
     return (
@@ -51,13 +62,13 @@ const LoginAuthForm: React.FC = () => {
                 {...form.getInputProps("password")}
             />
             <Space h={"md"} />
-            <Button type="submit" fullWidth loading={loading}>
+            <Button type="submit" fullWidth>
                 Login
             </Button>
-            {user && !loading && (
+            {/* {user && !loading && (
                 <Text color="green">You have successfully logged in!</Text>
             )}
-            <Text color="red">{error?.message}</Text>
+            <Text color="red">{error?.message}</Text> */}
         </form>
     );
 };

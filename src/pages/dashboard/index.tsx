@@ -1,22 +1,33 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "@services/firebase";
+import { checkSessionCookie } from "@services/firebase/auth/checkSessionCookie";
 
-const Home: NextPage = () => {
-    const [user, loading, _error] = useAuthState(firebaseAuth);
-
-    return (
-        <ProtectedComponent
-            authRequired
-            redirect="/login"
-            user={user}
-            loading={loading}
-        >
-            <LayoutDashboard></LayoutDashboard>
-        </ProtectedComponent>
-    );
+const DashboardHome: NextPage = () => {
+    return <LayoutDashboard></LayoutDashboard>;
 };
 
-export default Home;
+export default DashboardHome;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    // TODO: Create a seperate file for checking the session cookie and redirecting
+
+    const user = await checkSessionCookie(context.req.cookies.token);
+
+    if (user === null) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+            props: {}, // will be passed to the page component as props
+        };
+    }
+
+    return {
+        // redirect: {
+        //     destination: "/login",
+        //     permanent: false,
+        // },
+        props: {}, // will be passed to the page component as props
+    };
+};

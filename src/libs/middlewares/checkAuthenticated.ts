@@ -8,11 +8,7 @@ const checkAuthenticated = async (
     res: NextApiResponse<GenericHTTPResponse<any>>,
     next: any
 ) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader)
-        return res.status(401).json({ ok: false, data: "No token provided" });
-
-    const token = authHeader.split(" ")[1];
+    const token = req.cookies.token;
 
     if (!token)
         return res.status(401).json({ ok: false, data: "No token provided" });

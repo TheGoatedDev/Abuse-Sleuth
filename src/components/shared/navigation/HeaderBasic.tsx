@@ -1,12 +1,9 @@
 import { Group, Header } from "@mantine/core";
-import { firebaseAuth } from "@services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import HeaderButton from "../buttons/HeaderButton";
 import UserMenu from "../menus/userMenu";
 
 const HeaderBasic: React.FC = (_props) => {
-    const [user, _loading, _error] = useAuthState(firebaseAuth);
-
     return (
         <Header height={80} padding={"md"}>
             <Group
@@ -26,7 +23,7 @@ const HeaderBasic: React.FC = (_props) => {
                     alt={"Logo"}
                 />
                 <Group position={"right"}>
-                    {user ? (
+                    {false ? (
                         <>
                             <HeaderButton href="/dashboard">
                                 Dashboard
