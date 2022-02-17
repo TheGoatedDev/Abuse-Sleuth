@@ -1,16 +1,17 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
+
 import { Button, Center, Group, Table, Title } from "@mantine/core";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "@services/firebase";
+
 import { useEffect, useState } from "react";
 import { deleteAPILogReport, getAPILogReports } from "@services/api";
 import Logger from "@libs/utils/Logger";
 import { useRouter } from "next/router";
+import { useAuth } from "@contexts/AuthProvider";
+import { redirectIfNoAuth } from "@libs/helpers/redirectIfNoAuth";
 
 const Reports: NextPage = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const { user, loading, error } = useAuth();
     const [reports, setReports] = useState<JSX.Element[]>();
 
     const router = useRouter();
@@ -68,29 +69,26 @@ const Reports: NextPage = () => {
     }, [user]);
 
     return (
-        <ProtectedComponent
-            authRequired
-            redirect="/login"
-            user={user}
-            loading={loading}
-        >
-            <LayoutDashboard>
-                <Center>
-                    <Title>Reports</Title>
-                </Center>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>IP #</th>
-                            <th>Created At</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>{reports}</tbody>
-                </Table>
-            </LayoutDashboard>
-        </ProtectedComponent>
+        <LayoutDashboard>
+            <Center>
+                <Title>Reports</Title>
+            </Center>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>IP #</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>{reports}</tbody>
+            </Table>
+        </LayoutDashboard>
     );
 };
 
 export default Reports;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await redirectIfNoAuth(context);
+};

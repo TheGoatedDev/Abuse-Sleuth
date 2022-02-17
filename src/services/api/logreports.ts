@@ -1,4 +1,3 @@
-import { IPProfile } from "@prisma/client";
 import axios from "axios";
 import { User } from "firebase/auth";
 

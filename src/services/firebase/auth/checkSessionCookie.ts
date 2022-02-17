@@ -17,7 +17,7 @@ export const checkSessionCookie = async (cookie: string) => {
         // If Decoded Token is valid, set req.uid to decodedToken
         return decodedToken;
     } catch (error) {
-        Logger.error("GET /api/auth", error);
+        Logger.error("checkSessionCookie", error);
         return null;
     }
 };

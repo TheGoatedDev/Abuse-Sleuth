@@ -1,7 +1,6 @@
 import { SignOutIcon, UserIcon } from "@icons";
 import { Button, Divider, Menu, Text, ThemeIcon } from "@mantine/core";
-import { firebaseAuth } from "@services/firebase";
-import { signOut } from "firebase/auth";
+import { sendAPIAuthSignOut } from "@services/api";
 import { useRouter } from "next/router";
 
 const UserMenu: React.FC = () => {
@@ -31,7 +30,10 @@ const UserMenu: React.FC = () => {
             <Menu.Label>User Interactions</Menu.Label>
             <Menu.Item
                 icon={<SignOutIcon />}
-                onClick={() => signOut(firebaseAuth)}
+                onClick={() => {
+                    sendAPIAuthSignOut();
+                    router.reload();
+                }}
             >
                 <Text color="red">Logout</Text>
             </Menu.Item>

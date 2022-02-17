@@ -3,7 +3,6 @@ import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
 import Logger from "@libs/utils/Logger";
-import { LogReport } from "@prisma/client";
 import getLogReportByID from "@services/firestore/queries/logReport/getLogReportByID";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
@@ -26,7 +25,7 @@ const handler = async (
         `Getting Log Report #${req.query.id} IPProfiles  for ${req.uid}`
     );
 
-    let logReport: LogReport | null;
+    let logReport: any | null;
     try {
         logReport = await getLogReportByID(Number(req.query.id));
         if (logReport?.owner !== req.uid) {

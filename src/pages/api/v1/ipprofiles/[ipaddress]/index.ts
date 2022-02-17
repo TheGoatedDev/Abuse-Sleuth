@@ -3,7 +3,6 @@ import checkAuthenticated from "@libs/middlewares/checkAuthenticated";
 import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
 import Logger from "@libs/utils/Logger";
-import { IPProfile } from "@prisma/client";
 import joiValidation from "@libs/middlewares/joiValidation";
 import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
@@ -31,13 +30,13 @@ const handler = async (
         `Getting IP Profile ${ipAddress} for ${req.uid}`
     );
 
-    let ipProfile: IPProfile | null;
+    let ipProfile: any | null;
     try {
         ipProfile = await getIPProfileByIP(ipAddress);
     } catch (error) {
         Logger.error(
             "API /v1/ipprofiles/[ipaddress]",
-            `Error getting IP Profile ${ipAddress} for ${req.uid}: `,
+            `Error getting IP Profile ${ipAddress} for ${req.uid}:`,
             error
         );
         throw error;

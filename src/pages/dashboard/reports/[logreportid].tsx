@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
 import {
     Button,
     Center,
@@ -12,16 +11,17 @@ import {
     Title,
     Tooltip,
 } from "@mantine/core";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "@services/firebase";
+
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAPILogReportIPProfiles } from "@services/api";
 import BetterPaper from "@components/shared/BetterPaper";
 import { BugIcon } from "@icons";
+import { useAuth } from "@contexts/AuthProvider";
+import { redirectIfNoAuth } from "@libs/helpers/redirectIfNoAuth";
 
 const Reports_LogReportsID: NextPage = () => {
-    const [user, loading, _error] = useAuthState(firebaseAuth);
+    const { user, loading, error } = useAuth();
     const router = useRouter();
     const [logReportIPProfiles, setLogReportIPProfiles] =
         useState<JSX.Element[]>();
@@ -80,43 +80,40 @@ const Reports_LogReportsID: NextPage = () => {
     }, [user]);
 
     return (
-        <ProtectedComponent
-            authRequired
-            redirect="/login"
-            user={user}
-            loading={loading}
-        >
-            <LayoutDashboard>
-                <Center>
-                    <Title>Report</Title>
-                </Center>
-                <Space h="md" />
-                <Group position="center">
-                    <BetterPaper>
-                        <Title order={2} align="center">
-                            Details
-                        </Title>
-                        <List>
-                            <List.Item>Report ID: {logReportID}</List.Item>
-                            <List.Item>Total IPs Scanned: {totalIP}</List.Item>
-                            <List.Item>Report Created At: TODO</List.Item>
-                        </List>
-                    </BetterPaper>
+        <LayoutDashboard>
+            <Center>
+                <Title>Report</Title>
+            </Center>
+            <Space h="md" />
+            <Group position="center">
+                <BetterPaper>
+                    <Title order={2} align="center">
+                        Details
+                    </Title>
+                    <List>
+                        <List.Item>Report ID: {logReportID}</List.Item>
+                        <List.Item>Total IPs Scanned: {totalIP}</List.Item>
+                        <List.Item>Report Created At: TODO</List.Item>
+                    </List>
+                </BetterPaper>
 
-                    <Table>
-                        <thead>
-                            <tr>
-                                <td>IP Address</td>
-                                <td>Data Provider Scan Status</td>
-                                <td>Action</td>
-                            </tr>
-                        </thead>
-                        <tbody>{logReportIPProfiles}</tbody>
-                    </Table>
-                </Group>
-            </LayoutDashboard>
-        </ProtectedComponent>
+                <Table>
+                    <thead>
+                        <tr>
+                            <td>IP Address</td>
+                            <td>Data Provider Scan Status</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>{logReportIPProfiles}</tbody>
+                </Table>
+            </Group>
+        </LayoutDashboard>
     );
 };
 
 export default Reports_LogReportsID;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await redirectIfNoAuth(context);
+};

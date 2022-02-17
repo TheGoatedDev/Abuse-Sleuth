@@ -1,10 +1,11 @@
 import LayoutStandard from "@components/layouts/LayoutStandard";
-import useServerSideAuthentication from "@hooks/useServerSideAuthentication";
+import { useAuth } from "@contexts/AuthProvider";
+import { redirectIfNoAuth } from "@libs/helpers/redirectIfNoAuth";
 import { Box, Center, Code, Group, Text } from "@mantine/core";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 
 const Profile: NextPage = () => {
-    const { user, loading } = useServerSideAuthentication();
+    const { user, loading, error } = useAuth();
 
     return (
         <LayoutStandard>
@@ -26,3 +27,7 @@ const Profile: NextPage = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await redirectIfNoAuth(context);
+};

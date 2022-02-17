@@ -1,11 +1,10 @@
 import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { firebaseAuth } from "@services/firebase";
 import Link from "next/link";
+import { useAuth } from "@contexts/AuthProvider";
 
 const CustomNavbar: React.FC = () => {
-    const [user, _loading, _error] = useAuthState(firebaseAuth);
+    const { user } = useAuth();
 
     return (
         <Navbar fixed padding={"md"} width={{ base: 300 }}>

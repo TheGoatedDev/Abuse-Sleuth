@@ -2,12 +2,9 @@ import { CopyIcon, EnvelopeIcon, KeyIcon } from "@icons";
 import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { firebaseAuth } from "@services/firebase";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignupAuthForm: React.FC = () => {
-    const [createUserWithEmailAndPassword, _user, loading, error] =
-        useCreateUserWithEmailAndPassword(firebaseAuth);
-
     const form = useForm({
         initialValues: {
             email: "",
@@ -26,7 +23,11 @@ const SignupAuthForm: React.FC = () => {
         email: string;
         password: string;
     }) => {
-        await createUserWithEmailAndPassword(values.email, values.password);
+        await createUserWithEmailAndPassword(
+            firebaseAuth,
+            values.email,
+            values.password
+        );
     };
 
     return (
@@ -55,10 +56,10 @@ const SignupAuthForm: React.FC = () => {
                 {...form.getInputProps("passwordConfirm")}
             />
             <Space h={"md"} />
-            <Button type="submit" fullWidth loading={loading}>
+            <Button type="submit" fullWidth>
                 Sign up
             </Button>
-            <Text color="red">{error?.message}</Text>
+            {/* <Text color="red">{error?.message}</Text> */}
         </form>
     );
 };

@@ -2,14 +2,10 @@ import { Button, Center, Code, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { isIPAddress } from "@libs/utils/regexTest";
 import { useState } from "react";
-import { firebaseAuth } from "@services/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { scanIP } from "@services/api";
 import { LaptopIcon } from "@icons";
 
 const IPScanForm: React.FC = () => {
-    const [user, loading, error] = useAuthState(firebaseAuth);
-
     const form = useForm({
         initialValues: {
             ipAddress: "",
@@ -22,7 +18,7 @@ const IPScanForm: React.FC = () => {
     const [result, setResult] = useState<any>(null);
 
     const onScanIPBtnClick = async () => {
-        const apiCall = await scanIP(form.values.ipAddress, user!);
+        const apiCall = await scanIP(form.values.ipAddress);
 
         setResult(apiCall);
     };

@@ -1,12 +1,9 @@
 import { EnvelopeIcon } from "@icons";
 import { Button, Space, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { firebaseAuth } from "@services/firebase";
-import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 
 const ResetPasswordAuthForm: React.FC = () => {
-    const [sendPasswordResetEmail, loading, error] =
-        useSendPasswordResetEmail(firebaseAuth);
+    //const [sendPasswordResetEmail, loading, error] = useSendPasswordResetEmail(firebaseAuth);
 
     const form = useForm({
         initialValues: {
@@ -19,7 +16,7 @@ const ResetPasswordAuthForm: React.FC = () => {
     });
 
     const onSubmitForm = async (values: { email: string }) => {
-        await sendPasswordResetEmail(values.email);
+        //await sendPasswordResetEmail(values.email);
         alert("Sent Password Reset Email to " + values.email);
     };
 
@@ -33,10 +30,10 @@ const ResetPasswordAuthForm: React.FC = () => {
                 {...form.getInputProps("email")}
             />
             <Space h={"md"} />
-            <Button type="submit" fullWidth loading={loading}>
+            <Button type="submit" fullWidth>
                 Reset Password
             </Button>
-            <Text color="red">{error?.message}</Text>
+            {/* <Text color="red">{error?.message}</Text> */}
         </form>
     );
 };

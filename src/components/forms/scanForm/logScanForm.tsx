@@ -14,9 +14,8 @@ import { Dropzone, DropzoneStatus } from "@mantine/dropzone";
 import { useState } from "react";
 import Papa from "papaparse";
 import { scanLog } from "@services/api";
-import { firebaseAuth } from "@services/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { FileIcon } from "@icons";
+import { useAuth } from "@contexts/AuthProvider";
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
     return status.accepted
@@ -30,7 +29,7 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
 
 const LogScanForm: React.FC = () => {
     const theme = useMantineTheme();
-    const [user, loading, error] = useAuthState(firebaseAuth);
+    const { user } = useAuth();
 
     const [scanLoading, setScanLoading] = useState(false);
     const [reportID, setReportID] = useState(-1);

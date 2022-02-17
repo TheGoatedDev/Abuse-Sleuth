@@ -4,7 +4,13 @@ const Logger = {
     info: (title: string, ...args: any[]) =>
         console.log(
             new Date().toISOString(),
-            chalk.green(`INFO | ${title}`),
+            chalk.cyan(`INFO | ${title}`),
+            ...args
+        ),
+    success: (title: string, ...args: any[]) =>
+        console.log(
+            new Date().toISOString(),
+            chalk.green(`SUCCESS | ${title}`),
             ...args
         ),
     warn: (title: string, ...args: any[]) =>

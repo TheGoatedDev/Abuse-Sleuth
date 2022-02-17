@@ -8,9 +8,7 @@ import joiValidation from "@libs/middlewares/joiValidation";
 import createIPProfile from "@services/firestore/queries/ipProfiles/createIPProfile";
 import Logger from "@libs/utils/Logger";
 import getIPProfileByIP from "@services/firestore/queries/ipProfiles/getIPProfileByIP";
-import { IPProfile, LogReport, LogReportItem } from "@prisma/client";
-import createLogReport from "@services/firestore/queries/logReport/createLogReport";
-import createLogReportItem from "@services/firestore/queries/logReportItems/createLogReportItem";
+import { parseIPProfile } from "@services/firestore/queries/ipProfiles/parseIPProfile";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()
@@ -34,60 +32,61 @@ const handler = async (
     Logger.debug("API /scanlog", "Now Generating Log Report");
 
     //Generated a Report Entry to be added to the database
-    let logReport: LogReport;
-    try {
-        logReport = await createLogReport(req.uid);
-        Logger.info(
-            "API /scanlog",
-            `Created LogReport #${logReport.id} for ${req.uid}`
-        );
-    } catch (error) {
-        Logger.error("API /scanlog", `Error creating Log Report: ${error}`);
-        throw error;
-    }
+    // let logReport: LogReport;
+    // try {
+    //     logReport = await createLogReport(req.uid);
+    //     Logger.info(
+    //         "API /scanlog",
+    //         `Created LogReport #${logReport.id} for ${req.uid}`
+    //     );
+    // } catch (error) {
+    //     Logger.error("API /scanlog", `Error creating Log Report: ${error}`);
+    //     throw error;
+    // }
 
     Logger.debug("API /scanlog", "Now Generating IP Profiles");
 
     // Attempt to create the IP Profiles
-    const ipProfiles: IPProfile[] = [];
+    const ipProfiles: IIPProfile[] = [];
     for (const ipAddress of ipAddressArray) {
         // Get a IP Profile
-        let ipProfile: IPProfile | null;
+        let ipProfileDoc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData> | null;
         try {
-            ipProfile = await createIPProfile(ipAddress, req.uid);
+            ipProfileDoc = await createIPProfile(ipAddress);
             Logger.info("API /scanlog", `Created IPProfile for ${ipAddress}`);
         } catch (error) {
-            ipProfile = await getIPProfileByIP(ipAddress);
-            Logger.info("API /scanlog", `Got IPProfile for ${ipAddress}`);
+            Logger.error("API /scanlog", `Error creating IP Profile: ${error}`);
         }
 
-        if (ipProfile !== null) {
-            ipProfiles.push(ipProfile);
-        }
+        ipProfileDoc = await getIPProfileByIP(ipAddress);
+        Logger.info("API /scanlog", `Got IPProfile for ${ipAddress}`);
+
+        const ipProfile = parseIPProfile(ipProfileDoc);
+        if (ipProfile) ipProfiles.push(ipProfile);
     }
 
     Logger.debug("API /scanlog", "Now Generating Log Report Items");
 
     // Make Log Report Items for all the IP Profiles
-    const logReportItems: LogReportItem[] = [];
-    for (const ipProfile of ipProfiles) {
-        let logReportItem: LogReportItem;
-        try {
-            logReportItem = await createLogReportItem(logReport, ipProfile);
-            Logger.info(
-                "API /scanlog",
-                `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
-            );
-        } catch (error) {
-            Logger.error(
-                "API /scanlog",
-                `Error creating Log Report Item: ${error}`
-            );
-            throw error;
-        }
+    // const logReportItems: LogReportItem[] = [];
+    // for (const ipProfile of ipProfiles) {
+    //     let logReportItem: LogReportItem;
+    //     try {
+    //         logReportItem = await createLogReportItem(logReport, ipProfile);
+    //         Logger.info(
+    //             "API /scanlog",
+    //             `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
+    //         );
+    //     } catch (error) {
+    //         Logger.error(
+    //             "API /scanlog",
+    //             `Error creating Log Report Item: ${error}`
+    //         );
+    //         throw error;
+    //     }
 
-        logReportItems.push(logReportItem);
-    }
+    //     logReportItems.push(logReportItem);
+    // }
 
     // Make the API request if in production else use the mock data
     // let data;
@@ -105,7 +104,7 @@ const handler = async (
     //     logger.info(`Got AIPDB Scan Result for ${ipAddress}`);
     // }
 
-    res.status(200).json({ ok: true, data: { reportId: logReport.id } });
+    res.status(200).json({ ok: true, data: { reportId: ipProfiles.length } });
 };
 
 export default handler;

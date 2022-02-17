@@ -15,7 +15,7 @@ const checkAuthenticated = async (
 
     let decodedToken: DecodedIdToken;
     try {
-        decodedToken = await firebaseAdminAuth.verifyIdToken(token);
+        decodedToken = await firebaseAdminAuth.verifySessionCookie(token);
 
         // If Decoded Token is undefined or invalid, return 401
         if (!decodedToken || !decodedToken.uid)
@@ -23,7 +23,7 @@ const checkAuthenticated = async (
 
         Logger.info(
             "Auth Check Middleware",
-            `Decoded Token for: ${decodedToken.email}`
+            `Authenticated: ${decodedToken.email}`
         );
         // If Decoded Token is valid, set req.uid to decodedToken
         req.uid = decodedToken.uid;

@@ -1,29 +1,22 @@
 import { Center, Title } from "@mantine/core";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import LayoutDashboard from "@components/layouts/LayoutDashboard";
-import ProtectedComponent from "@components/shared/routes/ProtectedComponent";
-import { firebaseAuth } from "@services/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import IPScanForm from "@components/forms/scanForm/ipScanForm";
+import { redirectIfNoAuth } from "@libs/helpers/redirectIfNoAuth";
 
 const Scan: NextPage = () => {
-    const [user, loading, _error] = useAuthState(firebaseAuth);
-
     return (
-        <ProtectedComponent
-            authRequired
-            redirect="/login"
-            user={user}
-            loading={loading}
-        >
-            <LayoutDashboard>
-                <Title align="center">IP Scan</Title>
-                <Center mt="md">
-                    <IPScanForm />
-                </Center>
-            </LayoutDashboard>
-        </ProtectedComponent>
+        <LayoutDashboard>
+            <Title align="center">IP Scan</Title>
+            <Center mt="md">
+                <IPScanForm />
+            </Center>
+        </LayoutDashboard>
     );
 };
 
 export default Scan;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await redirectIfNoAuth(context);
+};

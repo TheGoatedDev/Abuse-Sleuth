@@ -4,7 +4,6 @@ import checkMethod from "@libs/middlewares/checkMethod";
 import { NextApiRequest, NextApiResponse } from "next";
 import Logger from "@libs/utils/Logger";
 import getLogReportsByOwner from "@services/firestore/queries/logReport/getLogReportsByOwner";
-import { LogReport } from "@prisma/client";
 import getLogReportItemCountByLogReport from "@services/firestore/queries/logReportItems/getLogReportItemCountByLogReport";
 
 const handler = async (
@@ -16,7 +15,7 @@ const handler = async (
 
     Logger.info("API /v1/logreports", `Getting all Log Reports for ${req.uid}`);
 
-    let logReports: LogReport[] | null;
+    let logReports: any[] | null;
     try {
         logReports = await getLogReportsByOwner(req.uid);
     } catch (error) {

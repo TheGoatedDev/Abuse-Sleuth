@@ -2,6 +2,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { BootstrapFontAwesome } from "@bootstrap/FontAwesome";
+import { AuthProvider } from "@contexts/AuthProvider";
 
 BootstrapFontAwesome();
 
@@ -18,15 +19,17 @@ const App = (props: AppProps) => {
                 />
             </Head>
 
-            <MantineProvider
-                withGlobalStyles
-                withNormalizeCSS
-                theme={{
-                    colorScheme: "dark",
-                }}
-            >
-                <Component {...pageProps} />
-            </MantineProvider>
+            <AuthProvider>
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{
+                        colorScheme: "dark",
+                    }}
+                >
+                    <Component {...pageProps} />
+                </MantineProvider>
+            </AuthProvider>
         </>
     );
 };

@@ -5,16 +5,20 @@ admin.initializeApp();
 
 exports.onUserCreate = functions.auth.user().onCreate((user) => {
     return admin.firestore().collection("users").doc(user.uid).set({
-        uid: user.uid,
         email: user.email,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 });
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+exports.onUserDelete = functions.auth.user().onDelete((user) => {
+    return admin.firestore().collection("users").doc(user.uid).delete();
+});
+
+exports.onIPProfileCreate = functions.firestore
+    .document("ipProfiles/{ipAddress}")
+    .onCreate(async (snapshot) => {
+        const ipAddress = snapshot.data().ipAddress;
+        return admin.firestore().collection("scanQueue").doc(ipAddress).set({
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+    });

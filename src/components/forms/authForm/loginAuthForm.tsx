@@ -1,12 +1,14 @@
 import { EnvelopeIcon, KeyIcon } from "@icons";
-import { Button, Space, Text, TextInput } from "@mantine/core";
+import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { sendAPIAuth } from "@services/api";
 import { firebaseAuth } from "@services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const LoginAuthForm: React.FC = () => {
+    const [error, setError] = useState<any | null>(null);
     const router = useRouter();
 
     const form = useForm({
@@ -25,19 +27,24 @@ const LoginAuthForm: React.FC = () => {
         password: string;
     }) => {
         //TODO: Make a Seperate File for this
-        const userCreds = await signInWithEmailAndPassword(
-            firebaseAuth,
-            values.email,
-            values.password
-        );
 
-        const token = await userCreds.user.getIdToken();
+        try {
+            const userCreds = await signInWithEmailAndPassword(
+                firebaseAuth,
+                values.email,
+                values.password
+            );
 
-        console.log(token);
+            const token = await userCreds.user.getIdToken();
 
-        const res = await sendAPIAuth(token);
+            console.log(token);
 
-        console.log(res);
+            const res = await sendAPIAuth(token);
+
+            router.push("/dashboard");
+        } catch (error: any) {
+            setError(error);
+        }
 
         // if (user) {
         //     router.push("/dashboard");
@@ -67,8 +74,8 @@ const LoginAuthForm: React.FC = () => {
             </Button>
             {/* {user && !loading && (
                 <Text color="green">You have successfully logged in!</Text>
-            )}
-            <Text color="red">{error?.message}</Text> */}
+            )} */}
+            {error ? <Text color="red">{error.code}</Text> : null}
         </form>
     );
 };
