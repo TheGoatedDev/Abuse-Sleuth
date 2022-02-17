@@ -1,10 +1,15 @@
 import { CopyIcon, EnvelopeIcon, KeyIcon } from "@icons";
+import Logger from "@libs/utils/Logger";
 import { Button, Space, TextInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { firebaseAuth } from "@services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const SignupAuthForm: React.FC = () => {
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
     const form = useForm({
         initialValues: {
             email: "",
@@ -23,11 +28,20 @@ const SignupAuthForm: React.FC = () => {
         email: string;
         password: string;
     }) => {
-        await createUserWithEmailAndPassword(
-            firebaseAuth,
-            values.email,
-            values.password
-        );
+        try {
+            const cred = await createUserWithEmailAndPassword(
+                firebaseAuth,
+                values.email,
+                values.password
+            );
+
+            if (cred.user.uid) {
+                router.reload();
+            }
+        } catch (error: any) {
+            Logger.error(error);
+            setError(error.code);
+        }
     };
 
     return (
@@ -59,7 +73,9 @@ const SignupAuthForm: React.FC = () => {
             <Button type="submit" fullWidth>
                 Sign up
             </Button>
-            {/* <Text color="red">{error?.message}</Text> */}
+            <Text mt="xs" align="center" color="red">
+                {error}
+            </Text>
         </form>
     );
 };
