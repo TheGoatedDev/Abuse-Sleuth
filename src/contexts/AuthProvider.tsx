@@ -23,7 +23,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
-    const { data, error: swrError } = useSWR("/api/auth", fetcher);
+    const { data, error: swrError } = useSWR("/api/auth", fetcher, {
+        refreshInterval: 60000,
+    });
 
     useEffect(() => {
         if (data) {
