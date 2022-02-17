@@ -1,70 +1,78 @@
 import LayoutStandard from "@components/layouts/LayoutStandard";
 import PriceCard from "@components/shared/cards/PriceCards";
 import { Group, Space, Title } from "@mantine/core";
-import type { NextPage } from "next";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
+import type { GetStaticProps, NextPage } from "next";
+import { useEffect, useState } from "react";
+import { Stripe } from "stripe";
 
-const Pricing: NextPage = () => {
+const Pricing: NextPage<{
+    products: Stripe.Product[];
+    prices: Stripe.Response<Stripe.ApiList<Stripe.Price>>;
+}> = (props) => {
+    const [products, setProducts] = useState<any>();
+
+    useEffect(() => {
+        setProducts(
+            props.products.map((product) => {
+                const price = props.prices.data.find(
+                    (price) => price.product == product.id
+                );
+                return (
+                    <PriceCard
+                        key={product.id}
+                        name={product.name}
+                        price={"$" + (price?.unit_amount! / 100).toFixed(2)}
+                        smallPriceText={price?.unit_amount ? "per month" : ""}
+                        description={product.description ?? ""}
+                        perks={[
+                            product.metadata.point1,
+                            product.metadata.point2,
+                            product.metadata.point3,
+                            product.metadata.point4,
+                        ]}
+                    />
+                );
+            })
+        );
+    }, []);
+
     return (
         <LayoutStandard>
             <Title align="center">Pricing Plans</Title>
             <Space h="lg" />
             <Group position="center" spacing={"md"}>
-                <PriceCard
-                    price="Free"
-                    description="Our forever Free Plan, where you have just enough to get started."
-                    perks={[
-                        "1000 IP Scans/day",
-                        "4 Reports/month",
-                        "Each Report retained for 1 week",
-                        "No Exporting",
-                    ]}
-                />
-                <PriceCard
-                    price="$10.00"
-                    smallPriceText="/month"
-                    description="Our Basic Plan, Will be able to provide for all your basic scanning needs."
-                    perks={[
-                        "10000 IP Scans/day",
-                        "8 Reports/month",
-                        "Each Report retained for 2 weeks",
-                        "Exporting Reports to CSV",
-                    ]}
-                />
-                <PriceCard
-                    price="$25.00"
-                    smallPriceText="/month"
-                    description="Our Advanced Plan, this will contain what you need for advanced analyst needs."
-                    perks={[
-                        "25000 IP Scans/day",
-                        "12 Reports/month",
-                        "Each Report retained for 4 weeks",
-                        "Exporting Reports to CSV",
-                    ]}
-                />
-                <PriceCard
-                    price="$50.00"
-                    smallPriceText="/month"
-                    description="Our Elite Plan, provides everything for your business or personal network."
-                    perks={[
-                        "50000 IP Scans/day",
-                        "16 Reports/month",
-                        "Each Report retained for 8 weeks",
-                        "Exporting Reports to CSV",
-                    ]}
-                />
-                <PriceCard
-                    price="Flex"
-                    description="Our Pay-as-you-go Plan, don't let those restrictions get you down!"
-                    perks={[
-                        "$0.0001 per IP Scan",
-                        "Unlimited Reports",
-                        "Each Report retained for 12 weeks",
-                        "Exporting Reports to CSV",
-                    ]}
-                />
+                {products}
             </Group>
         </LayoutStandard>
     );
 };
 
 export default Pricing;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const stripe = getStripeAdmin();
+
+    const getProductByName = (name: string, data: Stripe.Product[]) => {
+        return data.find((product) => product.name == name);
+    };
+
+    const raw = (await stripe.products.list()).data;
+
+    const products = [];
+
+    products.push(getProductByName("Free", raw));
+    products.push(getProductByName("Basic", raw));
+    products.push(getProductByName("Advanced", raw));
+    products.push(getProductByName("Elite", raw));
+    products.push(getProductByName("Flex", raw));
+
+    const prices = await stripe.prices.list();
+
+    return {
+        props: {
+            products: products,
+            prices,
+        },
+    };
+};

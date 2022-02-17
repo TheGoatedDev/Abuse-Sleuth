@@ -13,6 +13,7 @@ import {
 
 interface PropsType {
     price: string;
+    name: string;
     smallPriceText?: string;
     description: string;
     perks: string[];
@@ -24,11 +25,16 @@ const PriceCard: React.FC<PropsType> = (props) => {
     ));
 
     return (
-        <div style={{ width: "350px", height: "350px" }}>
+        <div style={{ width: "350px" }}>
             <Card shadow="sm" padding="xl">
+                <Title align="center">{props.name}</Title>
                 <Group position="center">
-                    <Title align="center">{props.price}</Title>
-                    <Text size="xs">{props.smallPriceText}</Text>
+                    <Title order={3} align="center">
+                        {props.price == "$0.00" ? "" : props.price}
+                    </Title>
+                    {props.smallPriceText && (
+                        <Text size="xs">{props.smallPriceText}</Text>
+                    )}
                 </Group>
                 <Space h="sm" />
                 <Divider />
