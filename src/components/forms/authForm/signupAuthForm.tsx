@@ -36,6 +36,7 @@ const SignupAuthForm: React.FC = () => {
             );
 
             if (cred.user.uid) {
+                alert("User created successfully, check your email!");
                 router.reload();
             }
         } catch (error: any) {
