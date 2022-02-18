@@ -28,7 +28,11 @@ const handler = async (
 
     // Create or Get a IP Profile if not exists
     let ipProfileDoc = await createOrGetIPProfile(ipAddress);
-    Logger.info("API /api/scanip", `Got IPProfile for ${ipAddress}`);
+    Logger.info(
+        "API /api/scanip",
+        `Got IPProfile Doc for ${ipAddress}:`,
+        ipProfileDoc.data()
+    );
 
     // Parse Document Snapshot
     const ipProfile = sanatiseIPProfile(ipProfileDoc);

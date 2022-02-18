@@ -3,18 +3,18 @@ import admin from "firebase-admin";
 
 admin.initializeApp();
 
-exports.onUserCreate = functions.auth.user().onCreate((user) => {
+export const onUserCreate = functions.auth.user().onCreate((user) => {
     return admin.firestore().collection("users").doc(user.uid).set({
         email: user.email,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 });
 
-exports.onUserDelete = functions.auth.user().onDelete((user) => {
+export const onUserDelete = functions.auth.user().onDelete((user) => {
     return admin.firestore().collection("users").doc(user.uid).delete();
 });
 
-exports.onIPProfileCreate = functions.firestore
+export const onIPProfileCreate = functions.firestore
     .document("ipProfiles/{ipAddress}")
     .onCreate(async (snapshot) => {
         const ipAddress = snapshot.data().ipAddress;

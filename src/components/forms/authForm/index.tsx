@@ -6,7 +6,7 @@ import SignupAuthForm from "./signupAuthForm";
 
 const AuthForm: React.FC = () => {
     return (
-        <Tabs position="center" style={{ width: "350px" }}>
+        <Tabs position="center" style={{ width: "400px" }}>
             <Tabs.Tab label="Login" icon={<UserIcon />} color={"teal"}>
                 <LoginAuthForm />
             </Tabs.Tab>
