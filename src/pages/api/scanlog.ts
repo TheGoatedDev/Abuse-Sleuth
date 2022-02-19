@@ -7,8 +7,8 @@ import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
 import createIPProfile from "@services/firestore/queries/ipProfiles/createIPProfile";
 import Logger from "@libs/utils/Logger";
-import getIPProfileByIP from "@services/firestore/queries/ipProfiles/getIPProfileByIP";
-import { parseIPProfile } from "@services/firestore/queries/ipProfiles/parseIPProfile";
+import createOrGetIPProfile from "@services/firestore/queries/ipProfiles/createOrGetIPProfile";
+import sanatiseIPProfile from "@services/firestore/queries/ipProfiles/sanatiseIPProfile";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()
@@ -47,22 +47,19 @@ const handler = async (
     Logger.debug("API /scanlog", "Now Generating IP Profiles");
 
     // Attempt to create the IP Profiles
-    const ipProfiles: IIPProfile[] = [];
+    const ipProfiles: IPProfile[] = [];
     for (const ipAddress of ipAddressArray) {
         // Get a IP Profile
-        let ipProfileDoc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData> | null;
+        let ipProfileDoc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>;
         try {
-            ipProfileDoc = await createIPProfile(ipAddress);
+            ipProfileDoc = await createOrGetIPProfile(ipAddress);
             Logger.info("API /scanlog", `Created IPProfile for ${ipAddress}`);
+
+            const ipProfile = sanatiseIPProfile(ipProfileDoc);
+            if (ipProfile) ipProfiles.push(ipProfile);
         } catch (error) {
             Logger.error("API /scanlog", `Error creating IP Profile: ${error}`);
         }
-
-        ipProfileDoc = await getIPProfileByIP(ipAddress);
-        Logger.info("API /scanlog", `Got IPProfile for ${ipAddress}`);
-
-        const ipProfile = parseIPProfile(ipProfileDoc);
-        if (ipProfile) ipProfiles.push(ipProfile);
     }
 
     Logger.debug("API /scanlog", "Now Generating Log Report Items");
