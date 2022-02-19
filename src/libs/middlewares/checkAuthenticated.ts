@@ -1,10 +1,11 @@
 import Logger from "@libs/utils/Logger";
 import { firebaseAdminAuth } from "@services/firebase/firebaseAdmin";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const checkAuthenticated = async (
-    req: NextApiRequest & { uid: string },
+    req: NextApiRequest & { user: UserRecord },
     res: NextApiResponse<GenericHTTPResponse<any>>,
     next: any
 ) => {
@@ -26,7 +27,7 @@ const checkAuthenticated = async (
             `Authenticated: ${decodedToken.email}`
         );
         // If Decoded Token is valid, set req.uid to decodedToken
-        req.uid = decodedToken.uid;
+        req.user = await firebaseAdminAuth.getUser(decodedToken.uid);
         next();
     } catch (error) {
         Logger.error("Auth Check Middleware", error);

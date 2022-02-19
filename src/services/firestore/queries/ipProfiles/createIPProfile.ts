@@ -1,7 +1,7 @@
 import { firebaseAdminFirestore } from "@services/firebase/firebaseAdmin";
 
 const createIPProfile = async (ipAddress: string) => {
-    await firebaseAdminFirestore
+    return await firebaseAdminFirestore
         .collection("ipProfiles")
         .doc(ipAddress)
         .create({

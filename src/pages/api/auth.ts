@@ -7,6 +7,7 @@ import { firebaseAdminAuth } from "@services/firebase/firebaseAdmin";
 import { setCookie, destroyCookie } from "nookies";
 import Logger from "@libs/utils/Logger";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
 
 const bodyScheme = Joi.object({
     token: Joi.string().required(),
@@ -51,7 +52,7 @@ const postHandler = async (
 
 const getHandler = async (
     req: NextApiRequest,
-    res: NextApiResponse<GenericHTTPResponse>
+    res: NextApiResponse<GenericHTTPResponse<UserRecord | string>>
 ) => {
     const token = req.cookies.token;
 
@@ -80,7 +81,7 @@ const getHandler = async (
             ok: true,
             data: await firebaseAdminAuth.getUser(decodedToken.uid),
         });
-    } catch (error) {
+    } catch (error: any) {
         destroyCookie({ res }, "token", { path: "/" });
         Logger.error("GET /api/auth", error);
         return res.status(401).json({ ok: false, data: error });

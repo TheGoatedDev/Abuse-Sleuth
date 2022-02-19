@@ -5,10 +5,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Joi from "joi";
 import { ipRegex } from "@libs/utils/regexTest";
 import joiValidation from "@libs/middlewares/joiValidation";
-import createIPProfile from "@services/firestore/queries/ipProfiles/createIPProfile";
 import Logger from "@libs/utils/Logger";
 import createOrGetIPProfile from "@services/firestore/queries/ipProfiles/createOrGetIPProfile";
 import sanatiseIPProfile from "@services/firestore/queries/ipProfiles/sanatiseIPProfile";
+import createOrGetLogReport from "@services/firestore/queries/logReports/createOrGetLogReport";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import sanatiseLogReport from "@services/firestore/queries/logReports/sanatiseLogReport";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()
@@ -17,7 +19,7 @@ const bodyScheme = Joi.object({
 });
 
 const handler = async (
-    req: NextApiRequest & { uid: string },
+    req: NextApiRequest & { user: UserRecord },
     res: NextApiResponse<GenericHTTPResponse>
 ) => {
     await runMiddleware(req, res, checkMethod(["POST"]));
@@ -32,19 +34,24 @@ const handler = async (
     Logger.debug("API /scanlog", "Now Generating Log Report");
 
     //Generated a Report Entry to be added to the database
-    // let logReport: LogReport;
-    // try {
-    //     logReport = await createLogReport(req.uid);
-    //     Logger.info(
-    //         "API /scanlog",
-    //         `Created LogReport #${logReport.id} for ${req.uid}`
-    //     );
-    // } catch (error) {
-    //     Logger.error("API /scanlog", `Error creating Log Report: ${error}`);
-    //     throw error;
-    // }
+    let logReport: LogReport;
+    try {
+        const doc = await createOrGetLogReport(req.user);
+        Logger.info(
+            "API /scanlog",
+            `Created LogReport #${doc.id} for ${req.user.email}`
+        );
+        logReport = sanatiseLogReport(doc);
+    } catch (error) {
+        Logger.error("API /scanlog", `Error creating Log Report: ${error}`);
+        throw error;
+    }
 
-    Logger.debug("API /scanlog", "Now Generating IP Profiles");
+    Logger.debug(
+        "API /scanlog",
+        "Now Generating IP Profiles for Log Report #",
+        logReport.id
+    );
 
     // Attempt to create the IP Profiles
     const ipProfiles: IPProfile[] = [];

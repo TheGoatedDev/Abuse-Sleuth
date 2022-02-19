@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { User } from "firebase/auth";
 
 export const sendAPIAuth = async (
@@ -11,7 +12,9 @@ export const sendAPIAuth = async (
     return webRequest.data;
 };
 
-export const getAPIAuthUser = async (): Promise<GenericHTTPResponse<User>> => {
+export const getAPIAuthUser = async (): Promise<
+    GenericHTTPResponse<UserRecord>
+> => {
     const webRequest = await axios.get(`/api/auth`);
 
     return webRequest.data;
