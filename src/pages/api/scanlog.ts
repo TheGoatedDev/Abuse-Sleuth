@@ -11,6 +11,7 @@ import sanatiseIPProfile from "@services/firestore/queries/ipProfiles/sanatiseIP
 import createOrGetLogReport from "@services/firestore/queries/logReports/createOrGetLogReport";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import sanatiseLogReport from "@services/firestore/queries/logReports/sanatiseLogReport";
+import createLogReportItem from "@services/firestore/queries/logReportItems/createLogReportItem";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()
@@ -72,43 +73,23 @@ const handler = async (
     Logger.debug("API /scanlog", "Now Generating Log Report Items");
 
     // Make Log Report Items for all the IP Profiles
-    // const logReportItems: LogReportItem[] = [];
-    // for (const ipProfile of ipProfiles) {
-    //     let logReportItem: LogReportItem;
-    //     try {
-    //         logReportItem = await createLogReportItem(logReport, ipProfile);
-    //         Logger.info(
-    //             "API /scanlog",
-    //             `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
-    //         );
-    //     } catch (error) {
-    //         Logger.error(
-    //             "API /scanlog",
-    //             `Error creating Log Report Item: ${error}`
-    //         );
-    //         throw error;
-    //     }
+    for (const ipProfile of ipProfiles) {
+        try {
+            await createLogReportItem(logReport, ipProfile);
+            Logger.info(
+                "API /scanlog",
+                `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
+            );
+        } catch (error) {
+            Logger.error(
+                "API /scanlog",
+                `Error creating Log Report Item: ${error}`
+            );
+            throw error;
+        }
+    }
 
-    //     logReportItems.push(logReportItem);
-    // }
-
-    // Make the API request if in production else use the mock data
-    // let data;
-    // if (process.env.NODE_ENV === "production") {
-    //     data = await makeAIPDBAPIRequest(ipAddress);
-    // } else {
-    //     data = generateMockData();
-    // }
-
-    // Added the Data to the AIPDB Scan Results in the the database
-    // try {
-    //     await createAIPDBScanResult(data, ipProfile);
-    //     logger.info(`Created AIPDB Scan Result for ${ipAddress}`);
-    // } catch (error) {
-    //     logger.info(`Got AIPDB Scan Result for ${ipAddress}`);
-    // }
-
-    res.status(200).json({ ok: true, data: { reportId: ipProfiles.length } });
+    res.status(200).json({ ok: true, data: { reportId: logReport.id } });
 };
 
 export default handler;

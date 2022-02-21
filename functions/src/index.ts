@@ -10,7 +10,17 @@ export const onUserCreate = functions.auth.user().onCreate((user) => {
     });
 });
 
-export const onUserDelete = functions.auth.user().onDelete((user) => {
+export const onUserDelete = functions.auth.user().onDelete(async (user) => {
+    const batch = admin.firestore().batch();
+    const logReportsRef = await admin
+        .firestore()
+        .collection("logReports")
+        .where("ownerUID", "==", user.uid)
+        .get();
+    await logReportsRef.forEach((logReport) => {
+        batch.delete(logReport.ref);
+    });
+    await batch.commit();
     return admin.firestore().collection("users").doc(user.uid).delete();
 });
 
@@ -21,4 +31,19 @@ export const onIPProfileCreate = functions.firestore
         return admin.firestore().collection("scanQueue").doc(ipAddress).set({
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
         });
+    });
+
+export const onLogReportDelete = functions.firestore
+    .document("logReports/{id}")
+    .onDelete(async (snapshot) => {
+        //const batch = admin.firestore().batch();
+        const logReportItemsRef = await admin
+            .firestore()
+            .collection("logReportItems")
+            .where("logReportID", "==", snapshot.id)
+            .get();
+        await logReportItemsRef.forEach((logReportItem) => {
+            logReportItem.ref.delete();
+        });
+        //await batch.commit();
     });
