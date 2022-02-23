@@ -1,11 +1,12 @@
 import { firebaseAdminFirestore } from "@services/firebase/firebaseAdmin";
 import FirestoreCollections from "@services/firestore/enums/FirestoreCollections";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
 
-const getLogReport = async (logReportID: string) => {
+const getLogReportsByOwner = async (owner: UserRecord) => {
     return await firebaseAdminFirestore
         .collection(FirestoreCollections.LogReports)
-        .doc(logReportID)
+        .where("ownerUID", "==", owner.uid)
         .get();
 };
 
-export default getLogReport;
+export default getLogReportsByOwner;

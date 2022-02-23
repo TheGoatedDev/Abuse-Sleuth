@@ -10,6 +10,7 @@ import {
     faSearch,
     faBug,
     faLaptop,
+    faFileUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const BootstrapFontAwesome = () => {
@@ -24,6 +25,7 @@ export const BootstrapFontAwesome = () => {
         faSearch, // "search"
         faFile, // "file"
         faBug, // "bug"
-        faLaptop // "laptop"
+        faLaptop, // "laptop"
+        faFileUpload // "file-upload"
     );
 };

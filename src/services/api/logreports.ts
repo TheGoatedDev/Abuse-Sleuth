@@ -1,40 +1,25 @@
 import axios from "axios";
-import { User } from "firebase/auth";
 
-export const getAPILogReports = async (
-    user: User
-): Promise<GenericHTTPResponse<IAPILogReport[]>> => {
-    const webRequest = await axios.get(`/api/v1/logreports`, {
-        headers: {
-            Authorization: `Bearer ${await user.getIdToken()}`,
-        },
-    });
+export const getAPILogReports = async (): Promise<
+    GenericHTTPResponse<LogReport[]>
+> => {
+    const webRequest = await axios.get(`/api/v1/logreports`, {});
 
     return webRequest.data;
 };
 
 export const deleteAPILogReport = async (
-    id: number,
-    user: User
-): Promise<GenericHTTPResponse<IAPILogReport[]>> => {
-    const webRequest = await axios.delete(`/api/v1/logreports/${id}`, {
-        headers: {
-            Authorization: `Bearer ${await user.getIdToken()}`,
-        },
-    });
+    reportID: string
+): Promise<GenericHTTPResponse<LogReport[]>> => {
+    const webRequest = await axios.delete(`/api/v1/logreports/${reportID}`, {});
 
     return webRequest.data;
 };
 
 export const getAPILogReportIPProfiles = async (
-    id: number,
-    user: User
+    id: number
 ): Promise<GenericHTTPResponse<IPProfile[]>> => {
-    const webRequest = await axios.get(`/api/v1/logreports/${id}/ipprofiles`, {
-        headers: {
-            Authorization: `Bearer ${await user.getIdToken()}`,
-        },
-    });
+    const webRequest = await axios.get(`/api/v1/logreports/${id}/ipprofiles`);
 
     return webRequest.data;
 };

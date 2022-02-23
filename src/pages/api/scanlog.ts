@@ -11,7 +11,7 @@ import sanatiseIPProfile from "@services/firestore/queries/ipProfiles/sanatiseIP
 import createOrGetLogReport from "@services/firestore/queries/logReports/createOrGetLogReport";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import sanatiseLogReport from "@services/firestore/queries/logReports/sanatiseLogReport";
-import createLogReportItem from "@services/firestore/queries/logReportItems/createLogReportItem";
+import createBulkLogReportItems from "@services/firestore/queries/logReportItems/createBulkLogReportItems";
 
 const bodyScheme = Joi.object({
     ipAddresses: Joi.array()
@@ -73,22 +73,19 @@ const handler = async (
     Logger.debug("API /scanlog", "Now Generating Log Report Items");
 
     // Make Log Report Items for all the IP Profiles
-    for (const ipProfile of ipProfiles) {
-        try {
-            await createLogReportItem(logReport, ipProfile);
-            Logger.info(
-                "API /scanlog",
-                `Created Log Report Item for ${ipProfile.ipAddress} to Report #${logReport.id}`
-            );
-        } catch (error) {
-            Logger.error(
-                "API /scanlog",
-                `Error creating Log Report Item: ${error}`
-            );
-            throw error;
-        }
+    try {
+        await createBulkLogReportItems(logReport, ipProfiles);
+        Logger.info(
+            "API /scanlog",
+            `Created Log Report Item for Report #${logReport.id}`
+        );
+    } catch (error) {
+        Logger.error(
+            "API /scanlog",
+            `Error creating Log Report Item: ${error}`
+        );
+        throw error;
     }
-
     res.status(200).json({ ok: true, data: { reportId: logReport.id } });
 };
 

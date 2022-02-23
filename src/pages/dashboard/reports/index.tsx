@@ -16,25 +16,26 @@ const Reports: NextPage = () => {
 
     const router = useRouter();
 
-    const deleteReportOnClick = async (reportID: number) => {
-        await deleteAPILogReport(reportID, user!);
+    const deleteReportOnClick = async (reportID: string) => {
+        await deleteAPILogReport(reportID);
         router.reload();
     };
 
     useEffect(() => {
         (async () => {
             if (user) {
-                const logReportsWebRequest = await getAPILogReports(user);
+                const logReportsWebRequest = await getAPILogReports();
 
-                const logReports: IAPILogReport[] = logReportsWebRequest.data;
+                const logReports: LogReport[] = logReportsWebRequest.data;
 
                 Logger.info("UI /dashboard/reports", logReports);
 
                 setReports(
-                    logReports.map((report: IAPILogReport, index) => (
+                    logReports.map((report: LogReport, index) => (
                         <tr key={index}>
-                            <td>{report["itemCount"]}</td>
+                            <td>{report.id}</td>
                             <td>{report.createdAt}</td>
+                            <td>{report.expiresAt}</td>
                             <td>
                                 <Group>
                                     <Button
@@ -52,9 +53,7 @@ const Reports: NextPage = () => {
                                         color="red"
                                         compact
                                         onClick={() =>
-                                            deleteReportOnClick(
-                                                Number(report.id)
-                                            )
+                                            deleteReportOnClick(report.id)
                                         }
                                     >
                                         Delete
@@ -76,8 +75,9 @@ const Reports: NextPage = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th>IP #</th>
+                        <th>Report ID</th>
                         <th>Created At</th>
+                        <th>Expires At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

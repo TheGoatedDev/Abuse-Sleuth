@@ -43,6 +43,7 @@ const postHandler = async (
         return res.end();
     } catch (error) {
         Logger.error("POST /api/auth", error);
+        destroyCookie({ res }, "token", { path: "/" });
         return res.status(400).json({
             ok: false,
             data: "Unauthorized token",

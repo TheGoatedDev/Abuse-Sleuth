@@ -1,11 +1,12 @@
 import { firebaseAdminFirestore } from "@services/firebase/firebaseAdmin";
+import FirestoreCollections from "@services/firestore/enums/FirestoreCollections";
 
 const createLogReportItem = async (
     logReport: LogReport,
     ipProfile: IPProfile
 ) => {
     return await firebaseAdminFirestore
-        .collection("logReportItems")
+        .collection(FirestoreCollections.LogReportItems)
         .doc(`${logReport.id}-${ipProfile.ipAddress}`)
         .create({
             ipProfile: ipProfile.ipAddress,

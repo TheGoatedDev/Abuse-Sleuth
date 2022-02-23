@@ -1,7 +1,16 @@
-import { Center, Divider, Group, Navbar, Skeleton, Text } from "@mantine/core";
+import {
+    Box,
+    Center,
+    Divider,
+    Group,
+    Navbar,
+    Skeleton,
+    Text,
+} from "@mantine/core";
 import NavbarButton from "@components/shared/buttons/NavbarButton";
 import Link from "next/link";
 import { useAuth } from "@contexts/AuthProvider";
+import Gravatar from "react-gravatar";
 
 const CustomNavbar: React.FC = () => {
     const { user } = useAuth();
@@ -29,7 +38,7 @@ const CustomNavbar: React.FC = () => {
                     Check IP
                 </NavbarButton>
                 <NavbarButton
-                    icon={"search"}
+                    icon={"file-upload"}
                     color={"green"}
                     href="/dashboard/scanlog"
                 >
@@ -55,17 +64,21 @@ const CustomNavbar: React.FC = () => {
             <Divider mb="sm" />
             <Navbar.Section>
                 <Group>
-                    <div>
-                        <Skeleton circle height={52} />
-                    </div>
-                    <div>
+                    <Box>
+                        <Gravatar
+                            height={48}
+                            email={user?.email ?? ""}
+                            style={{ borderRadius: "50%" }}
+                        />
+                    </Box>
+                    <Box>
                         {user ? (
                             <Text size="sm">{user?.email}</Text>
                         ) : (
                             <Skeleton />
                         )}
                         <Text size="xs">Plan: TODO</Text>
-                    </div>
+                    </Box>
                 </Group>
             </Navbar.Section>
         </Navbar>

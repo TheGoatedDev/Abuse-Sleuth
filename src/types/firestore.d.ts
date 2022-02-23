@@ -7,4 +7,5 @@ interface LogReport {
     id: string;
     ownerUID: string;
     createdAt: Date;
+    expiresAt: Date;
 }

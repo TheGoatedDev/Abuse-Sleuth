@@ -6,6 +6,7 @@ const sanatiseLogReport = (
         id: docSnap.id,
         ownerUID: data?.ownerUID,
         createdAt: data?.createdAt.toDate(),
+        expiresAt: data?.expiresAt.toDate(),
     };
 
     return logReport;
