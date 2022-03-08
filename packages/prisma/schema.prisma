@@ -11,13 +11,6 @@ datasource db {
   
 }
 
-enum UserPlan {
-    FREE
-    BASIC
-    ADVANCED
-    ELITE
-    FLEX
-}
 
 model User {
     id              String      @id @default(cuid())
@@ -36,12 +29,9 @@ model User {
     twoFactorSecret String?
     twoFactorEnabled Boolean @default(false)
 
-    // Payment
-    plan            UserPlan @default(FREE)
-    stripeCustomerId String?
-
     // Relations
     reports         Report[]
+    userPaymentPlan    UserPaymentPlan?
 
     // Time
     createdAt       DateTime @default(now())
@@ -49,6 +39,27 @@ model User {
 
     @@map("users")
 }
+
+model UserPaymentPlan {
+    id              String      @id @default(cuid())
+
+    // User Info
+    userId          String
+    stripeCustomerId String
+
+    // Subscription Info
+    plan            String?
+    
+    // Relations
+    user            User @relation(fields: [userId], references: [id])
+
+    // Time
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("userPaymentPlans")
+}
+
 
 model IPProfile {
     id              String      @id @default(cuid())
@@ -81,7 +92,7 @@ model Report {
 
     // Owner User Info
     ownerId         String
-    owner           User      @relation(fields: [ownerId], references: [id])
+    owner           User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
     // Relations
     ipProfiles      IPProfileOnReport[]

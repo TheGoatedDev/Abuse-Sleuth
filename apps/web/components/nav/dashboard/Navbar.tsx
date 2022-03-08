@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -102,6 +102,7 @@ const MyNavbar: React.FC = () => {
                     leftIcon={<FontAwesomeIcon icon={["fas", "sign-out"]} />}
                     variant="default"
                     radius={"xl"}
+                    onClick={() => signOut()}
                     fullWidth>
                     Logout
                 </Button>

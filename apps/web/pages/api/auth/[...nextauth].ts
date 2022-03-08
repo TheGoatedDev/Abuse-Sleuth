@@ -20,6 +20,7 @@ export default NextAuth({
     },
     callbacks: {
         async jwt({ token, user, account }) {
+            //console.log("JWT Callback", token, user, account);
             if (account && account.type === "credentials") {
                 return {
                     id: user.id,
@@ -31,7 +32,19 @@ export default NextAuth({
             return token;
         },
         async session({ token, session, user }) {
+            //console.log("CHECKING Session", session);
             const { id, username, email } = token;
+
+            const checkUser = await prisma.user.findUnique({
+                where: {
+                    id: id as string,
+                },
+            });
+
+            if (!checkUser) {
+                return null;
+            }
+
             const userSession: Session = {
                 ...session,
                 user: {
@@ -41,9 +54,11 @@ export default NextAuth({
                     email: email as string,
                 },
             };
+            //console.log("USER SESSION", userSession);
             return userSession;
         },
         async signIn({ user, account, profile }) {
+            //console.log("CHECKING SIGNIN");
             if (account.type === "credentials") {
                 return true;
             }

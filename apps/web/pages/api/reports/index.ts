@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
 import getHandler from "@libs/api/handler";

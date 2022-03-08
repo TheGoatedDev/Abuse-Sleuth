@@ -61,7 +61,11 @@ handler.post(async (req, res) => {
             username,
             email: formattedEmail,
             password: passwordHashed,
-            stripeCustomerId: customer.id,
+            userPaymentPlan: {
+                create: {
+                    stripeCustomerId: customer.id,
+                },
+            },
         },
     });
 

@@ -21,7 +21,7 @@ const myCredentialsProvider = CredentialsProvider({
         totp: { label: "TOTP", type: "text", placeholder: "123456" },
     },
     authorize: async (credentials) => {
-        //console.log("Authorizing credentials", credentials);
+        console.log("Authorizing credentials", credentials);
         if (!credentials) {
             console.error("No credentials provided somehow");
             throw new Error("Internal Server Error");
@@ -48,7 +48,8 @@ const myCredentialsProvider = CredentialsProvider({
             throw new Error("Incorrect password");
         }
 
-        //console.log("User authorized", user);
+        console.log("User authorized", user);
+
         return {
             id: user.id,
             username: user.username,

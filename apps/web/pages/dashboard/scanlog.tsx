@@ -1,4 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import Papa from "papaparse";
 import { useState } from "react";
 
@@ -215,3 +217,22 @@ export default function ScanLog() {
         </DashboardLayout>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await getSession(context);
+
+    console.log(session);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/auth/login",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {},
+    };
+};
