@@ -1,0 +1,19 @@
+{
+    "extends": "@abuse-sleuth/tsconfig/nextjs.json",
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "baseUrl": ".",
+        "paths": {
+            "@libs/*": ["./libs/*"],
+            "@components/*": ["./components/*"],
+            "@layouts/*": ["./layouts/*"]
+        }
+    },
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "../../packages/prisma/client/runtime.d.ts"
+    ],
+    "exclude": ["node_modules"]
+}

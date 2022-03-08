@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  
+}
+
+enum UserPlan {
+    FREE
+    BASIC
+    ADVANCED
+    ELITE
+    FLEX
+}
+
+model User {
+    id              String      @id @default(cuid())
+
+    // User Info
+    username        String      @unique
+    name            String?
+    image           String?
+    
+
+    // Authentication
+    email           String       @unique
+    emailVerified   DateTime?
+    password        String
+
+    twoFactorSecret String?
+    twoFactorEnabled Boolean @default(false)
+
+    // Payment
+    plan            UserPlan @default(FREE)
+    stripeCustomerId String?
+
+    // Relations
+    reports         Report[]
+
+    // Time
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("users")
+}
+
+model IPProfile {
+    id              String      @id @default(cuid())
+
+    ipAddress       String      @unique
+
+    // Relations
+    reports         IPProfileOnReport[]
+
+    // Time
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("ipProfiles")
+}
+
+model IPProfileOnReport {
+    ipProfileId     String
+    reportId        String      
+
+    ipProfile       IPProfile @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
+    report          Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+
+    @@id([ipProfileId, reportId])
+}
+
+model Report {
+    id              String      @id @default(cuid())
+
+    // Owner User Info
+    ownerId         String
+    owner           User      @relation(fields: [ownerId], references: [id])
+
+    // Relations
+    ipProfiles      IPProfileOnReport[]
+
+    // Time
+    expiresAt       DateTime
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("reports")
+}

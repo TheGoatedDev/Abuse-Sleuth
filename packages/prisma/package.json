@@ -1,0 +1,32 @@
+{
+    "name": "@abuse-sleuth/prisma",
+    "version": "0.0.0",
+    "main": "index.ts",
+    "types": "index.d.ts",
+    "scripts": {
+        "dev": "npm run db-setup",
+        "clean": "rm -rf .turbo && rm -rf node_modules && run-s db-down",
+        "deploy": "run-s build db-deploy",
+        "build": "npm run db-generate",
+        "db-generate": "prisma generate",
+        "db-migrate": "prisma migrate dev",
+        "db-deploy": "prisma migrate deploy",
+        "db-seed": "prisma db seed",
+        "db-up": "docker-compose up -d",
+        "db-down": "docker-compose down --volumes --remove-orphans",
+        "db-setup": "run-s db-up db-deploy db-seed",
+        "db-reset": "run-s db-down db-setup",
+        "db-studio": "prisma studio"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5",
+        "prisma": "^3.10.0",
+        "ts-node": "^10.5.0"
+    },
+    "prisma": {
+        "seed": "ts-node seed.ts"
+    },
+    "dependencies": {
+        "@prisma/client": "^3.10.0"
+    }
+}
