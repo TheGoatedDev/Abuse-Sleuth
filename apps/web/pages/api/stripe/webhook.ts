@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
 import getHandler from "@libs/api/handler";
+import prisma from "@libs/prisma";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 export const config = {
@@ -35,7 +36,33 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
 
-    console.log("Stripe Webhook Hander", event);
+    //console.log("Stripe Webhook Hander", event.type);
+
+    switch (event.type) {
+        case "customer.subscription.created":
+        case "customer.subscription.updated":
+        case "customer.subscription.deleted":
+            const subscription = event.data.object as Stripe.Subscription;
+            const customerID = subscription.customer.toString();
+            const productID =
+                subscription.items.data[0].price.product.toString();
+            const product = await stripe.products.retrieve(productID);
+
+            await prisma.userPaymentPlan.update({
+                where: {
+                    stripeCustomerId: customerID,
+                },
+                data: {
+                    plan:
+                        subscription.status === "active" ? product.name : null,
+                },
+            });
+
+            break;
+
+        default:
+            break;
+    }
 
     res.send({
         ok: true,

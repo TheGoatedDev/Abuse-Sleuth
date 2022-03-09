@@ -6,7 +6,7 @@ import { Card, Group, MantineColor, Text, Title } from "@mantine/core";
 
 type IComponentProps = {
     title: string;
-    stat: string;
+    stat: JSX.Element;
     icon: IconProp;
     color: MantineColor;
 };

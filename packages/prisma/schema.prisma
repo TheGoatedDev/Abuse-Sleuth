@@ -44,8 +44,8 @@ model UserPaymentPlan {
     id              String      @id @default(cuid())
 
     // User Info
-    userId          String
-    stripeCustomerId String
+    userId          String      @unique
+    stripeCustomerId String     @unique
 
     // Subscription Info
     plan            String?
@@ -57,6 +57,7 @@ model UserPaymentPlan {
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
 
+    
     @@map("userPaymentPlans")
 }
 
@@ -65,6 +66,7 @@ model IPProfile {
     id              String      @id @default(cuid())
 
     ipAddress       String      @unique
+    countryCode     String?
 
     // Relations
     reports         IPProfileOnReport[]

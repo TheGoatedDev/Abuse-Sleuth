@@ -1,3 +1,4 @@
+import geoip from "geoip-lite";
 import { getSession } from "next-auth/react";
 
 import getHandler from "@libs/api/handler";
@@ -35,6 +36,7 @@ handler.post(async (req, res) => {
         ipProfile = await prisma.iPProfile.create({
             data: {
                 ipAddress,
+                countryCode: geoip.lookup(ipAddress)?.country ?? "Unknown",
             },
         });
     }
