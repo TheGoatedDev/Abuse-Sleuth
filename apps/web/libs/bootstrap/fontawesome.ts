@@ -2,6 +2,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import {
     faBug,
+    faCalendar,
     faCircleCheck,
     faCircleXmark,
     faCog,
@@ -40,7 +41,8 @@ export const initializeFontAwesome = () => {
         faEarth,
         faBug,
         faHome,
-        faFlag
+        faFlag,
+        faCalendar
     );
 };
 

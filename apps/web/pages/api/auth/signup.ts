@@ -54,20 +54,23 @@ handler.post(async (req, res) => {
         email: formattedEmail,
     });
 
-    const passwordHashed = await hashPassword(password);
-
-    const user = await prisma.user.create({
-        data: {
-            username,
-            email: formattedEmail,
-            password: passwordHashed,
-            userPaymentPlan: {
-                create: {
-                    stripeCustomerId: customer.id,
+    try {
+        const passwordHashed = await hashPassword(password);
+        await prisma.user.create({
+            data: {
+                username,
+                email: formattedEmail,
+                password: passwordHashed,
+                userBillingInfo: {
+                    create: {
+                        stripeCustomerId: customer.id,
+                    },
                 },
             },
-        },
-    });
+        });
+    } catch (error) {
+        await stripe.customers.del(customer.id);
+    }
 
     res.status(201).json({
         ok: true,

@@ -31,7 +31,7 @@ model User {
 
     // Relations
     reports         Report[]
-    userPaymentPlan    UserPaymentPlan?
+    userBillingInfo    UserBillingInfo?
 
     // Time
     createdAt       DateTime @default(now())
@@ -40,7 +40,7 @@ model User {
     @@map("users")
 }
 
-model UserPaymentPlan {
+model UserBillingInfo {
     id              String      @id @default(cuid())
 
     // User Info
@@ -58,7 +58,7 @@ model UserPaymentPlan {
     updatedAt       DateTime @updatedAt
 
     
-    @@map("userPaymentPlans")
+    @@map("userBillingInfos")
 }
 
 

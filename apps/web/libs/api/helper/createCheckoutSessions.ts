@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const createCheckoutSession = async (priceID: string) => {
+export const createCheckoutSessionFromAPI = async (priceID: string) => {
     const response = await axios.post("/api/stripe/checkout_session", {
         priceID: priceID,
     });
@@ -12,4 +12,4 @@ export const createCheckoutSession = async (priceID: string) => {
     }
 };
 
-export default createCheckoutSession;
+export default createCheckoutSessionFromAPI;

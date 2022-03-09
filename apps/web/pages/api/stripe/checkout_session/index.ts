@@ -21,7 +21,7 @@ handler.post(async (req, res) => {
         return;
     }
 
-    const userPaymentInfo = await prisma.userPaymentPlan.findUnique({
+    const userBillingInfo = await prisma.userBillingInfo.findUnique({
         where: {
             userId: session.user.id,
         },
@@ -32,7 +32,7 @@ handler.post(async (req, res) => {
     const checkoutSession = await stripe.checkout.sessions.create({
         mode: "subscription",
         payment_method_types: ["card"],
-        customer: userPaymentInfo.stripeCustomerId,
+        customer: userBillingInfo.stripeCustomerId,
         customer_update: {
             address: "auto",
         },

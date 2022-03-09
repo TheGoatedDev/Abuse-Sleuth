@@ -48,7 +48,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
                 subscription.items.data[0].price.product.toString();
             const product = await stripe.products.retrieve(productID);
 
-            await prisma.userPaymentPlan.update({
+            await prisma.userBillingInfo.update({
                 where: {
                     stripeCustomerId: customerID,
                 },
