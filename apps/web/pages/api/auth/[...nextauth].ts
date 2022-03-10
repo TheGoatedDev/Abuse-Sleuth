@@ -2,6 +2,7 @@ import NextAuth, { Session } from "next-auth";
 import { Provider } from "next-auth/providers";
 
 import myCredentialsProvider from "@libs/authProviders/CredentialProvider";
+import prisma from "@libs/prisma";
 
 const providers: Provider[] = [];
 

@@ -127,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         customer: userBillingInfo.stripeCustomerId,
     });
 
-    console.log(subscriptions);
+    //console.log(subscriptions);
 
     //const subscriptions = customer.subscriptions.data as Stripe.Subscription[];
 
