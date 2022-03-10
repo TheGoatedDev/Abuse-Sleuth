@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { report } from "process";
@@ -52,14 +53,25 @@ export default function UserBilling({
                                 { minWidth: "md", cols: 3 },
                             ]}>
                             <StatsCard
+                                icon={["fas", "file"]}
+                                title="Current Plan"
+                                stat={<>{product.name}</>}
+                                color={"default"}
+                            />
+                            <StatsCard
                                 icon={["fas", "money-check"]}
                                 title="Monthly Bill"
                                 stat={
                                     <>
-                                        $
-                                        {subscription.items.data[0].plan
-                                            .amount / 100}
-                                        .00
+                                        {(
+                                            subscription.items.data[0].plan
+                                                .amount / 100
+                                        ).toLocaleString("en-US", {
+                                            style: "currency",
+                                            currency:
+                                                subscription.items.data[0].plan
+                                                    .currency,
+                                        })}
                                     </>
                                 }
                                 color={"default"}
@@ -67,13 +79,14 @@ export default function UserBilling({
                             <StatsCard
                                 icon={["fas", "calendar"]}
                                 title="Next Billing Date"
-                                stat={<>TODO</>}
-                                color={"default"}
-                            />
-                            <StatsCard
-                                icon={["fas", "file"]}
-                                title="Current Plan"
-                                stat={<>{product.name}</>}
+                                stat={
+                                    <>
+                                        {dayjs(
+                                            subscription.current_period_end *
+                                                1000
+                                        ).format("DD/MM/YYYY")}
+                                    </>
+                                }
                                 color={"default"}
                             />
                         </SimpleGrid>
@@ -110,14 +123,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const stripe = getStripeAdmin();
 
-    const customer = await stripe.customers.retrieve(
-        userBillingInfo.stripeCustomerId,
-        { expand: ["subscriptions"] }
-    );
+    const subscriptions = await stripe.subscriptions.list({
+        customer: userBillingInfo.stripeCustomerId,
+    });
 
-    const subscriptions = customer.subscriptions.data as Stripe.Subscription[];
+    console.log(subscriptions);
 
-    const subscription = subscriptions[0];
+    //const subscriptions = customer.subscriptions.data as Stripe.Subscription[];
+
+    const subscription = subscriptions.data[0];
 
     if (subscription) {
         const product = await stripe.products.retrieve(

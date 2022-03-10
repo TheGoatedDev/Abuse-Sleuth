@@ -1,4 +1,5 @@
 import geoip from "geoip-lite";
+import { isPrivate, isV4Format, isV6Format } from "ip";
 import { getSession } from "next-auth/react";
 
 import getHandler from "@libs/api/handler";
@@ -25,27 +26,42 @@ handler.post(async (req, res) => {
         return;
     }
 
-    const report = await prisma.report.create({
+    const report = await prisma.scanReport.create({
         data: {
             expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), //TODO: Change to be inline with A Subscription
             ownerId: session.user.id,
             ipProfiles: {
                 create: [
-                    ...ipAddresses.map((ipAddress) => ({
-                        ipProfile: {
-                            connectOrCreate: {
-                                create: {
-                                    ipAddress: ipAddress,
-                                    countryCode:
-                                        geoip.lookup(ipAddress)?.country ??
-                                        "Unknown",
-                                },
-                                where: {
-                                    ipAddress: ipAddress,
+                    ...ipAddresses.map((ipAddress) => {
+                        const geo = geoip.lookup(ipAddress);
+                        const isValid =
+                            isV4Format(ipAddress) || isV6Format(ipAddress);
+                        // TODO: Error is invalid IP Address
+
+                        const isPrivateAddress = isPrivate(ipAddress);
+                        const version = isV4Format(ipAddress) ? "4" : "6";
+                        return {
+                            ipProfile: {
+                                connectOrCreate: {
+                                    create: {
+                                        ipAddress: ipAddress,
+                                        version: version,
+                                        ipProfileDetails: {
+                                            create: {
+                                                countryCode:
+                                                    geo?.country ?? "Unknown",
+                                                privateAddress:
+                                                    isPrivateAddress,
+                                            },
+                                        },
+                                    },
+                                    where: {
+                                        ipAddress: ipAddress,
+                                    },
                                 },
                             },
-                        },
-                    })),
+                        };
+                    }),
                 ],
             },
         },

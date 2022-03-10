@@ -11,7 +11,7 @@ handler.use(requireAuth);
 handler.get(async (req, res) => {
     const session = await getSession({ req });
 
-    const reports = await prisma.report.findMany({
+    const reports = await prisma.scanReport.findMany({
         where: {
             ownerId: session.user.id,
         },

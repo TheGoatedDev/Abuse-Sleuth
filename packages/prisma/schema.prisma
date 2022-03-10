@@ -30,7 +30,7 @@ model User {
     twoFactorEnabled Boolean @default(false)
 
     // Relations
-    reports         Report[]
+    reports         ScanReport[]
     userBillingInfo    UserBillingInfo?
 
     // Time
@@ -66,10 +66,11 @@ model IPProfile {
     id              String      @id @default(cuid())
 
     ipAddress       String      @unique
-    countryCode     String?
+    version         String
 
     // Relations
-    reports         IPProfileOnReport[]
+    reports         IPProfileOnScanReport[]
+    ipProfileDetails    IPProfileDetails?
 
     // Time
     createdAt       DateTime @default(now())
@@ -78,18 +79,38 @@ model IPProfile {
     @@map("ipProfiles")
 }
 
-model IPProfileOnReport {
+model IPProfileDetails {
+    id              String      @id @default(cuid())
+
+    // Details
+    countryCode    String?
+
+    privateAddress         Boolean
+    
+
+    // Relations
+    ipProfileId     String      @unique
+    ipProfile       IPProfile @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
+
+    // Time
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("ipProfileDetails")
+}
+
+model IPProfileOnScanReport {
     ipProfileId     String
     reportId        String      
 
     ipProfile       IPProfile @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
-    report          Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+    report          ScanReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
 
     @@id([ipProfileId, reportId])
 }
 
-model Report {
+model ScanReport {
     id              String      @id @default(cuid())
 
     // Owner User Info
@@ -97,12 +118,11 @@ model Report {
     owner           User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
     // Relations
-    ipProfiles      IPProfileOnReport[]
+    ipProfiles      IPProfileOnScanReport[]
 
     // Time
     expiresAt       DateTime
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
 
-    @@map("reports")
 }

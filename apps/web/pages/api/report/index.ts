@@ -13,7 +13,7 @@ handler.get(async (req, res) => {
 
     const reportID: string = req.query.reportID as string;
 
-    const rawReport = await prisma.report.findFirst({
+    const rawReport = await prisma.scanReport.findFirst({
         where: {
             ownerId: session.user.id,
 
@@ -22,7 +22,11 @@ handler.get(async (req, res) => {
         include: {
             ipProfiles: {
                 include: {
-                    ipProfile: true,
+                    ipProfile: {
+                        include: {
+                            ipProfileDetails: true,
+                        },
+                    },
                 },
             },
         },
@@ -37,9 +41,14 @@ handler.get(async (req, res) => {
 
     const report = {
         id: rawReport.id,
-        ipProfiles: rawReport.ipProfiles.map(
-            (ipProfile) => ipProfile.ipProfile
-        ),
+        ipProfiles: rawReport.ipProfiles.map((ipProfile) => {
+            return {
+                ...ipProfile.ipProfile,
+                countryCode: ipProfile.ipProfile.ipProfileDetails.countryCode,
+                privateAddress:
+                    ipProfile.ipProfile.ipProfileDetails.privateAddress,
+            };
+        }),
         expiresAt: rawReport.expiresAt,
         createdAt: rawReport.createdAt,
         updatedAt: rawReport.updatedAt,

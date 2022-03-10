@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { isIPv4 } from "is-ip";
+import { isV4Format, isV6Format } from "ip";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
@@ -29,10 +29,10 @@ export default function CheckIP() {
             ipAddress: "",
         },
         validationRules: {
-            ipAddress: (value) => isIPv4(value),
+            ipAddress: (value) => isV4Format(value) || isV6Format(value),
         },
         errorMessages: {
-            ipAddress: "Please enter a valid IP address",
+            ipAddress: "Please enter a valid IP address V4 and V6",
         },
     });
 
@@ -40,16 +40,9 @@ export default function CheckIP() {
         setLoading(true);
         const ipAddress = values.ipAddress;
 
-        const isIP = isIPv4(ipAddress);
-
-        if (!isIP) {
-            setError("Invalid IP Address");
-        } else {
-            setError("");
-        }
-
         try {
             const res = await axios.post("/api/scan/scanip", { ipAddress });
+            setError("");
             setResult(
                 <Text>
                     Redirecting or Click{" "}

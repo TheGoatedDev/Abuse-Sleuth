@@ -1,4 +1,5 @@
 import geoip from "geoip-lite";
+import { isPrivate, isV4Format, isV6Format } from "ip";
 import { getSession } from "next-auth/react";
 
 import getHandler from "@libs/api/handler";
@@ -16,7 +17,7 @@ handler.use(requireAuth);
 handler.post(async (req, res) => {
     const { ipAddress }: IRequestBody = req.body;
 
-    const session = await getSession({ req });
+    // TODO: Make a better validation with middleware.
 
     if (!ipAddress) {
         res.status(422).send({
@@ -26,6 +27,17 @@ handler.post(async (req, res) => {
         return;
     }
 
+    const isValid = isV4Format(ipAddress) || isV6Format(ipAddress);
+    if (!isValid) {
+        res.status(422).send({
+            ok: false,
+            error: "IP Address is Invalid.",
+        });
+        return;
+    }
+
+    const isPrivateAddress = isPrivate(ipAddress);
+
     let ipProfile = await prisma.iPProfile.findUnique({
         where: {
             ipAddress,
@@ -33,10 +45,18 @@ handler.post(async (req, res) => {
     });
 
     if (!ipProfile) {
+        const geo = geoip.lookup(ipAddress);
+        const version = isV4Format(ipAddress) ? "4" : "6";
         ipProfile = await prisma.iPProfile.create({
             data: {
                 ipAddress,
-                countryCode: geoip.lookup(ipAddress)?.country ?? "Unknown",
+                version: version,
+                ipProfileDetails: {
+                    create: {
+                        countryCode: geo?.country ?? "Unknown",
+                        privateAddress: isPrivateAddress,
+                    },
+                },
             },
         });
     }

@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
@@ -6,6 +7,7 @@ import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 import StatsCard from "@components/StatsCard";
+import { CountryFlagText } from "@components/widgets/countryFlagText";
 import DashboardLayout from "@layouts/dashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 
@@ -19,6 +21,7 @@ import {
     Title,
     Text,
     Loader,
+    Group,
 } from "@mantine/core";
 
 function mode(arr) {
@@ -49,31 +52,44 @@ export default function ReportView() {
         if (report) {
             const countries = report.ipProfiles.map((item) => item.countryCode);
 
-            console.log(countries);
+            //console.log(countries);
 
             setMostCommonCountry(mode(countries));
 
+            // TODO: Complete the Scan Status
             setTableItems(
-                report.ipProfiles.map((ipProfile, index) => (
-                    <tr key={index}>
-                        <td>{ipProfile.ipAddress}</td>
-                        <td>
-                            {ipProfile.countryCode !== "Unknown" && (
-                                <ReactCountryFlag
+                report.ipProfiles.map((ipProfile, index) => {
+                    const scanAmount = Math.round(Math.random() * 5);
+                    const scanColor =
+                        scanAmount > 4
+                            ? "green"
+                            : scanAmount > 2
+                            ? "yellow"
+                            : "red";
+
+                    return (
+                        <tr key={index}>
+                            <td>{ipProfile.ipAddress}</td>
+                            <td>
+                                <CountryFlagText
+                                    isPrivateAddress={ipProfile.privateAddress}
                                     countryCode={ipProfile.countryCode}
                                 />
-                            )}{" "}
-                            {ipProfile.countryCode}
-                        </td>
-                        <td>TODO</td>
-                        <td>
-                            {dayjs(ipProfile.createdAt).format(
-                                "DD/MM/YYYY hh:mm:ss A"
-                            )}
-                        </td>
-                        <td>TODO</td>
-                    </tr>
-                ))
+                            </td>
+                            <td>
+                                <Text size="sm" color={scanColor}>
+                                    {scanAmount}/5
+                                </Text>
+                            </td>
+                            <td>
+                                {dayjs(ipProfile.createdAt).format(
+                                    "DD/MM/YYYY hh:mm:ss A"
+                                )}
+                            </td>
+                            <td>TODO</td>
+                        </tr>
+                    );
+                })
             );
         }
     }, [report]);
@@ -97,7 +113,7 @@ export default function ReportView() {
                 <Center>
                     <Card withBorder>
                         <Title order={2}>Report: {reportID}</Title>
-                        <Text color={"subtle"} size="xs" mb="xs">
+                        <Text color={"dimmed"} size="xs" mb="xs">
                             Created At:{" "}
                             {dayjs(report.createdAt).format(
                                 "DD/MM/YYYY hh:mm:ss A"

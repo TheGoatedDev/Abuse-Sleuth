@@ -7,12 +7,12 @@ const onError = (
     res: NextApiResponse<any>,
     next: NextApiHandler
 ) => {
-    console.error(err.stack);
+    console.error(err);
     res.status(500).end("Something broke!");
 };
 
 const onNoMatch = (req: NextApiRequest, res: NextApiResponse<any>) => {
-    console.log("OOF");
+    //console.log("OOF");
     res.status(404).send({
         message: "Not Found",
     });

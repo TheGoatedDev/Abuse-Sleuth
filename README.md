@@ -12,7 +12,7 @@ Abuse Sleuth is a free-to-use data analyse platform for IP Address related infor
 -   [x] Collect Multiple IP Addresses from Logs
 -   [x] Create Report Based on Scanned Logs
 -   [x] View Reports
--   [ ] View Informative Data about Reports
+-   [x] View Informative Data about Reports
 -   [ ] View Individual IP Address Profiles
 -   [ ] Export CSV of expected Malicous IP Addresses
 

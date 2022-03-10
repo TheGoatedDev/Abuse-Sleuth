@@ -12,7 +12,7 @@ const Pricing: NextPage<{
     products: Stripe.Product[];
     prices: Stripe.Response<Stripe.ApiList<Stripe.Price>>;
 }> = (props) => {
-    const [products, setProducts] = useState<any>();
+    const [products, setProducts] = useState<JSX.Element[]>();
 
     useEffect(() => {
         setProducts(
@@ -24,7 +24,13 @@ const Pricing: NextPage<{
                     <PriceCard
                         key={product.id}
                         name={product.name}
-                        price={"$" + (price?.unit_amount! / 100).toFixed(2)}
+                        price={(price?.unit_amount! / 100).toLocaleString(
+                            "en-US",
+                            {
+                                style: "currency",
+                                currency: "usd",
+                            }
+                        )}
                         smallPriceText={price?.unit_amount ? "per month" : ""}
                         description={product.description ?? ""}
                         perks={[
@@ -37,7 +43,7 @@ const Pricing: NextPage<{
                 );
             })
         );
-    }, []);
+    }, [products]);
 
     return (
         <DefaultLayout>

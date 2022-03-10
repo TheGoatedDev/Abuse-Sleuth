@@ -11,6 +11,7 @@ import {
     faFile,
     faFlag,
     faHome,
+    faLock,
     faMoneyCheck,
     faMoon,
     faSearch,
@@ -42,7 +43,8 @@ export const initializeFontAwesome = () => {
         faBug,
         faHome,
         faFlag,
-        faCalendar
+        faCalendar,
+        faLock
     );
 };
 
