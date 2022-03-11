@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 import StatsCard from "@components/StatsCard";
+import { ReportIPProfileItem } from "@components/tables/reportInfoViewer/reportIPProfileItem";
 import { CountryFlagText } from "@components/widgets/countryFlagText";
 import DashboardLayout from "@layouts/dashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
@@ -59,35 +60,17 @@ export default function ReportView() {
             // TODO: Complete the Scan Status
             setTableItems(
                 report.ipProfiles.map((ipProfile, index) => {
-                    const scanAmount = Math.round(Math.random() * 5);
-                    const scanColor =
-                        scanAmount > 4
-                            ? "green"
-                            : scanAmount > 2
-                            ? "yellow"
-                            : "red";
-
                     return (
-                        <tr key={index}>
-                            <td>{ipProfile.ipAddress}</td>
-                            <td>
-                                <CountryFlagText
-                                    isPrivateAddress={ipProfile.privateAddress}
-                                    countryCode={ipProfile.countryCode}
-                                />
-                            </td>
-                            <td>
-                                <Text size="sm" color={scanColor}>
-                                    {scanAmount}/5
-                                </Text>
-                            </td>
-                            <td>
-                                {dayjs(ipProfile.createdAt).format(
-                                    "DD/MM/YYYY hh:mm:ss A"
-                                )}
-                            </td>
-                            <td>TODO</td>
-                        </tr>
+                        <ReportIPProfileItem
+                            key={index}
+                            ipAddress={ipProfile.ipAddress}
+                            countryCode={ipProfile.countryCode}
+                            isPrivate={ipProfile.privateAddress}
+                            createdAt={ipProfile.createdAt}
+                            scanStatuses={{
+                                abuseIPDB: "Completed",
+                            }}
+                        />
                     );
                 })
             );
@@ -134,12 +117,10 @@ export default function ReportView() {
                                 icon={["fas", "flag"]}
                                 title="Most Common Country"
                                 stat={
-                                    <>
-                                        {mostCommonCountry}{" "}
-                                        <ReactCountryFlag
-                                            countryCode={mostCommonCountry}
-                                        />
-                                    </>
+                                    <CountryFlagText
+                                        countryCode={mostCommonCountry}
+                                        isPrivateAddress={false}
+                                    />
                                 }
                                 color={"green"}
                             />

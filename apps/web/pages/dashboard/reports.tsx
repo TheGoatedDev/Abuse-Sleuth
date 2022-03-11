@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-import { ReportItem } from "@components/tables/reportViewer/reportItem";
+import { ReportItem } from "@components/tables/reportListViewer/reportItem";
 import DashboardLayout from "@layouts/dashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
 

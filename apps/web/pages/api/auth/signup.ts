@@ -1,5 +1,6 @@
 import getHandler from "@libs/api/handler";
 import { hashPassword } from "@libs/auth";
+import { createUser } from "@libs/database/user/createUser";
 import prisma from "@libs/prisma";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
@@ -48,28 +49,10 @@ handler.post(async (req, res) => {
         return;
     }
 
-    const stripe = getStripeAdmin();
-
-    const customer = await stripe.customers.create({
-        email: formattedEmail,
-    });
-
     try {
-        const passwordHashed = await hashPassword(password);
-        await prisma.user.create({
-            data: {
-                username,
-                email: formattedEmail,
-                password: passwordHashed,
-                userBillingInfo: {
-                    create: {
-                        stripeCustomerId: customer.id,
-                    },
-                },
-            },
-        });
+        const user = await createUser(username, formattedEmail, password);
     } catch (error) {
-        await stripe.customers.del(customer.id);
+        throw error;
     }
 
     res.status(201).json({
