@@ -4,7 +4,7 @@ import { useState } from "react";
 import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 
 import { Alert, Textarea, Button, Text } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 
 const ScanLogText: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -14,7 +14,6 @@ const ScanLogText: React.FC = () => {
         initialValues: {
             ipAddresses: "",
         },
-        validationRules: {},
     });
 
     const onSubmit = async (values: { ipAddresses: string }) => {

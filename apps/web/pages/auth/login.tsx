@@ -1,5 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GetServerSidePropsContext } from "next";
+import { getCsrfToken, getSession, signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 import DefaultLayout from "@layouts/defaultLayout";
+
 import {
     Alert,
     Anchor,
@@ -15,12 +22,7 @@ import {
     TextInput,
     Title,
 } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
-import { GetServerSidePropsContext } from "next";
-import { getCsrfToken, getSession, signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useForm } from "@mantine/form";
 
 type IFormData = {
     email: string;
@@ -69,7 +71,7 @@ const Login = ({ csrfToken }) => {
                 })}>
                 <Paper
                     withBorder
-                    padding={"md"}
+                    p={"md"}
                     shadow={"md"}
                     sx={(theme) => ({ width: "400px" })}>
                     <Center my="md">

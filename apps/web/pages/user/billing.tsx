@@ -41,7 +41,7 @@ export default function UserBilling({
 
     return (
         <DashboardLayout>
-            <Container padding={"xl"} mt="md">
+            <Container p={"xl"} mt="md">
                 <Title align="center" mb="md">
                     Billing
                 </Title>

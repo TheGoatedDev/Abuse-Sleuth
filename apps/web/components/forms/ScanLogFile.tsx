@@ -6,7 +6,7 @@ import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 
 import { Alert, Button, Text, Group, NativeSelect } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 
 const ScanLogFile: React.FC = () => {
     const [csvContent, setCsvContent] = useState(null);

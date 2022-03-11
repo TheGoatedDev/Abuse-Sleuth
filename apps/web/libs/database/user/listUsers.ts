@@ -1,5 +1,9 @@
 export const listUsers = async () => {
-    const users = await prisma.user.findMany({});
+    const users = await prisma.user.findMany({
+        include: {
+            userBillingInfo: true,
+        },
+    });
 
     return users;
 };

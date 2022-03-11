@@ -8,7 +8,7 @@ const DashboardLayout: React.FC = (props) => {
             sx={(theme) => ({
                 height: "100vh",
             })}
-            padding={0}
+            p={0}
             navbar={<MyNavbar />}>
             <Box
                 sx={(theme) => ({

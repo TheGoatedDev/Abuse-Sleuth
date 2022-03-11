@@ -1,16 +1,16 @@
-import {
-    ColorScheme,
-    ColorSchemeProvider,
-    MantineProvider,
-} from "@mantine/core";
-import { useLocalStorageValue } from "@mantine/hooks";
-import { Session } from "inspector";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import initializeFontAwesome from "@libs/bootstrap/fontawesome";
+
+import {
+    ColorScheme,
+    ColorSchemeProvider,
+    MantineProvider,
+} from "@mantine/core";
+import { useLocalStorageValue } from "@mantine/hooks";
 
 initializeFontAwesome();
 

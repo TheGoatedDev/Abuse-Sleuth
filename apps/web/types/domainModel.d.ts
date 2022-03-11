@@ -8,10 +8,7 @@ type UserDomainModel = {
     email: string;
     emailVerified?: Date;
 
-    password: string;
-
     twoFactorEnabled: boolean;
-    twoFactorSecret?: string;
 
     userBillingInfo?: UserBillingInfoDomainModel;
 
@@ -27,6 +24,25 @@ type UserBillingInfoDomainModel = {
     stripeCustomerId: string;
 
     plan?: string;
+
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+type IPProfileDomainModel = {
+    id: string;
+    ipAddress: string;
+    version: "4" | "6";
+    details?: IPProfileDetailsDomainModel;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+type IPProfileDetailsDomainModel = {
+    id: string;
+
+    countryCode?: string;
+    privateAddress: boolean;
 
     createdAt: Date;
     updatedAt: Date;

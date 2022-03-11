@@ -16,7 +16,7 @@ export default function ScanLog() {
                 })}>
                 <Paper
                     withBorder
-                    padding={"md"}
+                    p={"md"}
                     shadow={"md"}
                     sx={(theme) => ({ width: "400px" })}>
                     <Title align="center" order={2}>

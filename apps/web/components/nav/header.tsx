@@ -1,3 +1,8 @@
+import Link from "next/link";
+import { useState } from "react";
+
+import { HeaderBody } from "@components/nav/headerBody";
+
 import {
     Box,
     Burger,
@@ -11,10 +16,6 @@ import {
     Title,
     useMantineTheme,
 } from "@mantine/core";
-import Link from "next/link";
-import { useState } from "react";
-
-import { HeaderBody } from "@components/nav/headerBody";
 
 export const MyHeader: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -23,7 +24,7 @@ export const MyHeader: React.FC = () => {
         <>
             <Header
                 height={64}
-                padding="md"
+                p="md"
                 sx={(theme) => ({
                     border: "none",
                     background: "transparent",
@@ -63,7 +64,7 @@ export const MyHeader: React.FC = () => {
                         <Drawer
                             hideCloseButton
                             opened={isOpen}
-                            padding="md"
+                            p="md"
                             size="sm"
                             onClose={() => setIsOpen(false)}>
                             <Center>

@@ -1,5 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 import DefaultLayout from "@layouts/defaultLayout";
+
 import {
     Alert,
     Text,
@@ -13,12 +20,7 @@ import {
     Title,
     Group,
 } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
-import { GetServerSidePropsContext } from "next";
-import { getSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useForm } from "@mantine/form";
 
 type IFormData = {
     username: string;
@@ -41,13 +43,13 @@ const Signup = () => {
             passwordConfirm: "",
             apiError: "",
         },
-        validationRules: {
-            email: (value) => /^\S+@\S+$/.test(value),
-            passwordConfirm: (value, values) => value === values.password,
-        },
-        errorMessages: {
-            email: "Invalid email address",
-            passwordConfirm: "Passwords do not match",
+        validate: {
+            email: (value) =>
+                /^\S+@\S+$/.test(value) ? undefined : "Invalid email",
+            passwordConfirm: (value, values) =>
+                value === values.password
+                    ? undefined
+                    : "Passwords do not match",
         },
     });
 
@@ -91,7 +93,7 @@ const Signup = () => {
                 })}>
                 <Paper
                     withBorder
-                    padding={"md"}
+                    p={"md"}
                     shadow={"md"}
                     sx={(theme) => ({ width: "400px" })}>
                     <Center my="md">

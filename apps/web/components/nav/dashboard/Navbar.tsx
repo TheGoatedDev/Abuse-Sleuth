@@ -25,7 +25,7 @@ const MyNavbar: React.FC = () => {
     const router = useRouter();
 
     return (
-        <Navbar width={{ base: 250 }} padding="sm" fixed>
+        <Navbar width={{ base: 250 }} p="sm" fixed>
             <Navbar.Section>
                 <Group position="center">
                     <Link href="/" passHref>

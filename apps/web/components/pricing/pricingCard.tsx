@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
     Button,
     Card,
@@ -10,7 +12,6 @@ import {
     Text,
     Title,
 } from "@mantine/core";
-import Link from "next/link";
 
 interface PropsType {
     price: string;
@@ -27,7 +28,7 @@ const PriceCard: React.FC<PropsType> = (props) => {
 
     return (
         <div style={{ width: "350px" }}>
-            <Card shadow="sm" padding="xl" withBorder>
+            <Card shadow="sm" p="xl" withBorder>
                 <Title align="center">{props.name}</Title>
                 <Group position="center">
                     <Title order={3} align="center">
