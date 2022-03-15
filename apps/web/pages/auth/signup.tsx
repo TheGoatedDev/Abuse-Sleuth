@@ -44,8 +44,6 @@ const Signup = () => {
             apiError: "",
         },
         validate: {
-            email: (value) =>
-                /^\S+@\S+$/.test(value) ? undefined : "Invalid email",
             passwordConfirm: (value, values) =>
                 value === values.password
                     ? undefined

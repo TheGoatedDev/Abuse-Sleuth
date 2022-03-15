@@ -62,9 +62,8 @@ export const MyHeader: React.FC = () => {
                             </Box>
                         </MediaQuery>
                         <Drawer
-                            hideCloseButton
                             opened={isOpen}
-                            p="md"
+                            padding="md"
                             size="sm"
                             onClose={() => setIsOpen(false)}>
                             <Center>

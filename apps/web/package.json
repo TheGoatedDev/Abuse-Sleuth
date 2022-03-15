@@ -6,6 +6,7 @@
         "dev": "concurrently -n Stripe,Next \"npm:stripe:listen-webhook\" \"npm:dev:next\"",
         "dev:next": "next dev",
         "build": "next build",
+        "build:docker": "cd ../../ && docker build -t abuse-sleuth-web -f ./apps/web/Dockerfile .",
         "start": "next start",
         "lint": "next lint",
         "stripe:listen-webhook": "stripe listen --forward-to localhost:3000/api/stripe/webhook"

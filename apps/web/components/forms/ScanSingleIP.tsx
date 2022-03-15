@@ -4,6 +4,7 @@ import { isV4Format, isV6Format } from "ip";
 import { useState } from "react";
 
 import DashboardLayout from "@layouts/dashboardLayout";
+import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
 
 import {
     Anchor,
@@ -15,7 +16,7 @@ import {
     Button,
     Text,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, joiResolver } from "@mantine/form";
 
 export const ScanSingleIP = () => {
     const [loading, setLoading] = useState(false);
@@ -26,12 +27,7 @@ export const ScanSingleIP = () => {
         initialValues: {
             ipAddress: "",
         },
-        validate: {
-            ipAddress: (value) =>
-                isV4Format(value) || isV6Format(value)
-                    ? undefined
-                    : "Please enter a valid IP address V4 and V6",
-        },
+        schema: joiResolver(scanSingleIPSchema),
     });
 
     const onSubmitForm = async (values: { ipAddress: string }) => {

@@ -6,7 +6,7 @@ import { CountryFlagText } from "@components/widgets/countryFlagText";
 
 import { Button, Group, Text } from "@mantine/core";
 
-enum ScanStatus {
+export enum ScanStatus {
     PENDING = "Pending",
     IN_PROGRESS = "In Progress",
     COMPLETED = "Completed",

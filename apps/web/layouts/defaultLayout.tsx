@@ -9,7 +9,7 @@ const DefaultLayout: React.FC = (props) => {
             sx={(theme) => ({
                 height: "100vh",
             })}
-            p={0}
+            padding={0}
             header={<Header />}>
             {props.children}
         </AppShell>

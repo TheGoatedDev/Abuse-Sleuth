@@ -9,8 +9,6 @@ import DefaultLayout from "@layouts/defaultLayout";
 
 import {
     Alert,
-    Anchor,
-    Box,
     Button,
     Center,
     Divider,

@@ -5,13 +5,15 @@
     "scripts": {
         "start": "turbo run start --scope=\"@abuse-sleuth/web\"",
         "build": "turbo run build --scope=\"@abuse-sleuth/web\" --include-dependencies",
+        "build:docker": "turbo run build:docker",
         "dev": "turbo run dev --scope=\"@abuse-sleuth/web\"  --include-dependencies",
         "dev-docs": "turbo run dev --scope=\"@abuse-sleuth/docs\" --include-dependencies",
         "deploy": "turbo run deploy",
         "clean": "turbo run clean",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "turbo": "turbo"
     },
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",

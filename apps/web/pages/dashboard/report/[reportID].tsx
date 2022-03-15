@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 import StatsCard from "@components/StatsCard";
-import { ReportIPProfileItem } from "@components/tables/reportInfoViewer/reportIPProfileItem";
+import {
+    ReportIPProfileItem,
+    ScanStatus,
+} from "@components/tables/reportInfoViewer/reportIPProfileItem";
 import { CountryFlagText } from "@components/widgets/countryFlagText";
 import DashboardLayout from "@layouts/dashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
@@ -68,7 +71,7 @@ export default function ReportView() {
                             isPrivate={ipProfile.privateAddress}
                             createdAt={ipProfile.createdAt}
                             scanStatuses={{
-                                abuseIPDB: "Completed",
+                                abuseIPDB: ScanStatus.COMPLETED,
                             }}
                         />
                     );

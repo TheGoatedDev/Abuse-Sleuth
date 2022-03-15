@@ -9,12 +9,15 @@
             "dependsOn": ["^build"],
             "outputs": ["dist/**", ".next/**", "build/**"]
         },
+        "build:docker": {
+            "outputs": ["docker/**"]
+        },
         "clean": {},
         "lint": {
             "outputs": []
         },
         "dev": {
             "cache": false
-        },
+        }
     }
 }
