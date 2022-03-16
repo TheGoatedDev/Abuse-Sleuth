@@ -4,7 +4,7 @@
     "main": "index.ts",
     "types": "index.d.ts",
     "scripts": {
-        "dev": "npm run db-setup",
+        "dev": "run-s db-setup",
         "clean": "rm -rf .turbo && rm -rf node_modules && run-s db-down",
         "deploy": "run-s build db-deploy",
         "build": "npm run db-generate",
@@ -14,7 +14,7 @@
         "db-seed": "prisma db seed",
         "db-up": "docker-compose up -d",
         "db-down": "docker-compose down --volumes --remove-orphans",
-        "db-setup": "run-s db-up db-deploy db-seed",
+        "db-setup": "run-s db-up db-deploy",
         "db-reset": "run-s db-down db-setup",
         "db-studio": "prisma studio"
     },
