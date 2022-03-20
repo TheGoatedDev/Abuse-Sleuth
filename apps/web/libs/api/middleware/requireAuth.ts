@@ -1,4 +1,3 @@
-import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 

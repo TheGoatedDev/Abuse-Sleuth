@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/router";
 import React from "react";
 import ReactCountryFlag from "react-country-flag";
 
-import { Group, Text } from "@mantine/core";
+import { Box, Group, Text } from "@mantine/core";
 
 type IComponentProps = {
     countryCode: string;
@@ -14,10 +13,12 @@ export const CountryFlagText: React.FC<IComponentProps> = ({
     countryCode,
     isPrivateAddress,
 }) => {
-    const router = useRouter();
-
     return (
-        <>
+        <Box
+            sx={(theme) => ({
+                display: "flex",
+                alignItems: "center",
+            })}>
             {isPrivateAddress ? (
                 <Group spacing={5}>
                     <FontAwesomeIcon icon={["fas", "lock"]} />
@@ -28,11 +29,15 @@ export const CountryFlagText: React.FC<IComponentProps> = ({
             ) : (
                 <>
                     {countryCode !== "Unknown" && (
-                        <ReactCountryFlag countryCode={countryCode} />
-                    )}{" "}
+                        <>
+                            <ReactCountryFlag countryCode={countryCode} svg />
+                            &nbsp;
+                        </>
+                    )}
+
                     {countryCode}
                 </>
             )}
-        </>
+        </Box>
     );
 };

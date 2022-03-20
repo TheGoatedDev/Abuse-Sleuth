@@ -19,6 +19,7 @@ type IComponentProps = {
     createdAt: Date;
     scanStatuses: {
         abuseIPDB?: ScanStatus;
+        whois?: ScanStatus;
     };
 };
 
@@ -29,15 +30,18 @@ export const ReportIPProfileItem: React.FC<IComponentProps> = ({
     createdAt,
     scanStatuses,
 }) => {
+    const totalScans = Object.keys(scanStatuses).length;
+
     const scanAmount = isPrivate
         ? 0
-        : scanStatuses.abuseIPDB === ScanStatus.COMPLETED
-        ? 1
-        : 0;
+        : Object.values(scanStatuses).filter((v) => v === ScanStatus.COMPLETED)
+              .length;
     const scanColor =
-        scanAmount > 4 ? "green" : scanAmount > 2 ? "yellow" : "red";
-
-    console.log(scanStatuses);
+        scanAmount == totalScans
+            ? "green"
+            : scanAmount >= totalScans / 2
+            ? "yellow"
+            : "red";
 
     return (
         <tr>
@@ -49,9 +53,15 @@ export const ReportIPProfileItem: React.FC<IComponentProps> = ({
                 />
             </td>
             <td>
-                <Text size="sm" weight={"bold"} color={scanColor}>
-                    {scanAmount}/1
-                </Text>
+                {isPrivate ? (
+                    <Text size="sm" color={"red"}>
+                        -
+                    </Text>
+                ) : (
+                    <Text size="sm" weight={"bold"} color={scanColor}>
+                        {scanAmount}/{totalScans}
+                    </Text>
+                )}
             </td>
             <td>{dayjs(createdAt).format("DD/MM/YYYY hh:mm:ss A")}</td>
             <td>TODO</td>

@@ -1,5 +1,8 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 import {
     Group,
     ThemeIcon,
@@ -8,8 +11,6 @@ import {
     Text,
     MantineColor,
 } from "@mantine/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 interface PropsType {
     color: MantineColor;
@@ -43,10 +44,10 @@ const NavbarButton: React.FC<PropsType> = (props) => {
                     marginBottom: theme.spacing.xs,
                     borderRadius: theme.radius.md,
                     transition: "transform,background ease-in-out 1s",
-                    "&:hover > div > div:nth-child(2)": {
+                    "&:hover > div > div:nth-of-type(2)": {
                         transform: "translateX(15px)",
                     },
-                    "& > div > div:nth-child(2)": {
+                    "& > div > div:nth-of-type(2)": {
                         transform: isActive ? "translateX(15px)" : "",
                         transition: "transform ease-in-out .25s",
                     },

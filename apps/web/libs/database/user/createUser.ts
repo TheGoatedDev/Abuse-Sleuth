@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "@abuse-sleuth/prisma";
 
 import { hashPassword } from "@libs/auth";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";

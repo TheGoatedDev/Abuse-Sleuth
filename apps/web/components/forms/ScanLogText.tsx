@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
+import { scanLogSchema } from "@libs/validationSchemas/scanLogSchema";
 
 import { Alert, Textarea, Button, Text } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { joiResolver, useForm } from "@mantine/form";
 
 const ScanLogText: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ const ScanLogText: React.FC = () => {
         initialValues: {
             ipAddresses: "",
         },
+        validate: joiResolver(scanLogSchema),
     });
 
     const onSubmit = async (values: { ipAddresses: string }) => {

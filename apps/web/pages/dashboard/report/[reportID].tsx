@@ -1,10 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import ReactCountryFlag from "react-country-flag";
 
 import StatsCard from "@components/StatsCard";
 import {
@@ -28,6 +26,7 @@ import {
     Group,
 } from "@mantine/core";
 
+// TODO: Migrate to another file
 function mode(arr) {
     return arr
         .sort(
@@ -36,6 +35,20 @@ function mode(arr) {
                 arr.filter((v) => v === b).length
         )
         .pop();
+}
+
+// TODO: Removed after Testing
+function getRandomEnumValue<T>(anEnum: T): T[keyof T] {
+    //save enums inside array
+    const enumValues = Object.keys(anEnum) as Array<keyof T>;
+
+    //Generate a random index (max is array length)
+    const randomIndex = Math.floor(Math.random() * enumValues.length);
+    // get the random enum value
+
+    const randomEnumKey = enumValues[randomIndex];
+    return anEnum[randomEnumKey];
+    // if you want to have the key than return randomEnumKey
 }
 
 export default function ReportView() {
@@ -63,6 +76,7 @@ export default function ReportView() {
             // TODO: Complete the Scan Status
             setTableItems(
                 report.ipProfiles.map((ipProfile, index) => {
+                    //console.log(getRandomEnumValue(ScanStatus));
                     return (
                         <ReportIPProfileItem
                             key={index}
@@ -71,7 +85,8 @@ export default function ReportView() {
                             isPrivate={ipProfile.privateAddress}
                             createdAt={ipProfile.createdAt}
                             scanStatuses={{
-                                abuseIPDB: ScanStatus.COMPLETED,
+                                abuseIPDB: getRandomEnumValue(ScanStatus),
+                                whois: getRandomEnumValue(ScanStatus),
                             }}
                         />
                     );

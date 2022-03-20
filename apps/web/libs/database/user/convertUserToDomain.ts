@@ -1,4 +1,4 @@
-import { User, UserBillingInfo } from "@prisma/client";
+import { User, UserBillingInfo } from "@abuse-sleuth/prisma";
 
 export const convertUserToDomain = (
     user: User & { userBillingInfo?: UserBillingInfo }

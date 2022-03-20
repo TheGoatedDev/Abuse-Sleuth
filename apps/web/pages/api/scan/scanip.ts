@@ -2,9 +2,10 @@ import geoip from "geoip-lite";
 import { isPrivate, isV4Format, isV6Format } from "ip";
 import { getSession } from "next-auth/react";
 
+import { prisma } from "@abuse-sleuth/prisma";
+
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
-import prisma from "@libs/prisma";
 
 type IRequestBody = {
     ipAddress: string;

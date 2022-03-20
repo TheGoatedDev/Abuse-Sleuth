@@ -1,7 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import { prisma } from "@abuse-sleuth/prisma";
+
 import { verifyPassword } from "@libs/auth";
-import prisma from "@libs/prisma";
 
 const myCredentialsProvider = CredentialsProvider({
     id: "credentials",

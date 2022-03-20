@@ -2,8 +2,9 @@ import { buffer } from "micro";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
+import { prisma } from "@abuse-sleuth/prisma";
+
 import getHandler from "@libs/api/handler";
-import prisma from "@libs/prisma";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 export const config = {

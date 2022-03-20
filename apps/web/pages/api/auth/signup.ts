@@ -1,7 +1,8 @@
+import { prisma } from "@abuse-sleuth/prisma";
+
 import getHandler from "@libs/api/handler";
 import { hashPassword } from "@libs/auth";
 import { createUser } from "@libs/database/user/createUser";
-import prisma from "@libs/prisma";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 const handler = getHandler();

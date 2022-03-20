@@ -40,7 +40,7 @@ export default function ScanLog() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
 
-    console.log(session);
+    //console.log(session);
 
     if (!session) {
         return {

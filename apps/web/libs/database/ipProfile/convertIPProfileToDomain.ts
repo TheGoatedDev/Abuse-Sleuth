@@ -1,4 +1,4 @@
-import { IPProfile, IPProfileDetails } from "@prisma/client";
+import { IPProfile, IPProfileDetails } from "@abuse-sleuth/prisma";
 
 export const convertIPProfileToDomain = (
     ipProfile: IPProfile & { ipProfileDetails?: IPProfileDetails }
