@@ -3,9 +3,7 @@ import axios from "axios";
 import { isV4Format, isV6Format } from "ip";
 import { useState } from "react";
 
-import DashboardLayout from "@layouts/dashboardLayout";
-import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
-
+import { AlertBox } from "@abuse-sleuth/ui";
 import {
     Anchor,
     Center,
@@ -15,7 +13,11 @@ import {
     TextInput,
     Button,
     Text,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
+
+import DashboardLayout from "@layouts/dashboardLayout";
+import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
+
 import { useForm, joiResolver } from "@mantine/form";
 
 export const ScanSingleIP = () => {
@@ -40,7 +42,7 @@ export const ScanSingleIP = () => {
             setResult(
                 <Text>
                     Redirecting or Click{" "}
-                    <Anchor href={`/dashboard/ipprofile/${res.data.message}`}>
+                    <Anchor href={`/dashboard/ipprofile/${res.data.data}`}>
                         View
                     </Anchor>
                 </Text>
@@ -70,30 +72,28 @@ export const ScanSingleIP = () => {
                         This does count as a scan towards your quota.
                     </Text>
                     {result !== "" && (
-                        <Alert
+                        <AlertBox
                             title="Success!"
                             color={"green"}
-                            mb="xs"
                             icon={
                                 <FontAwesomeIcon
                                     icon={["fas", "circle-check"]}
                                 />
                             }>
                             {result}
-                        </Alert>
+                        </AlertBox>
                     )}
                     {error !== "" && (
-                        <Alert
+                        <AlertBox
                             title="Error!"
                             color={"red"}
-                            mb="xs"
                             icon={
                                 <FontAwesomeIcon
                                     icon={["fas", "circle-xmark"]}
                                 />
                             }>
                             {error}
-                        </Alert>
+                        </AlertBox>
                     )}
                     <form
                         onSubmit={form.onSubmit((values) =>

@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import DefaultLayout from "@layouts/defaultLayout";
-
 import {
     Alert,
     Text,
@@ -19,7 +17,10 @@ import {
     TextInput,
     Title,
     Group,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
+
+import DefaultLayout from "@layouts/defaultLayout";
+
 import { useForm } from "@mantine/form";
 
 type IFormData = {

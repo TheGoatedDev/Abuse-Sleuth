@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 
-import DashboardLayout from "@layouts/dashboardLayout";
+import { Box, Container, Group, Title } from "@abuse-sleuth/ui";
 
-import { Box, Container, Group, Title } from "@mantine/core";
+import DashboardLayout from "@layouts/dashboardLayout";
 
 export default function UserBilling() {
     return (

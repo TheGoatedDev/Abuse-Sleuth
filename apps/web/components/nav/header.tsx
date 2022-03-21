@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { HeaderBody } from "@components/nav/headerBody";
-
 import {
     Box,
     Burger,
@@ -15,7 +13,9 @@ import {
     Text,
     Title,
     useMantineTheme,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
+
+import { HeaderBody } from "@components/nav/headerBody";
 
 export const MyHeader: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

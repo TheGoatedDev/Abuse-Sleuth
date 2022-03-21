@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useState } from "react";
 
+import { Alert, Button, Text, Group, NativeSelect } from "@abuse-sleuth/ui";
+
 import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 
-import { Alert, Button, Text, Group, NativeSelect } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 

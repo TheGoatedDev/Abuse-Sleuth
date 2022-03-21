@@ -1,11 +1,11 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 
+import { Center, Paper, Title, Text, Divider } from "@abuse-sleuth/ui";
+
 import ScanLogFile from "@components/forms/ScanLogFile";
 import ScanLogText from "@components/forms/ScanLogText";
 import DashboardLayout from "@layouts/dashboardLayout";
-
-import { Center, Paper, Title, Text, Divider } from "@mantine/core";
 
 export default function ScanLog() {
     return (

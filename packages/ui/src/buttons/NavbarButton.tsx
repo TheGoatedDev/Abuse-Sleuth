@@ -1,7 +1,7 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import * as React from "react";
+import { ReactNode } from "react";
 
 import {
     Group,
@@ -12,14 +12,13 @@ import {
     MantineColor,
 } from "@mantine/core";
 
-interface PropsType {
+export interface INavbarButtonProps {
     color: MantineColor;
-    icon: IconProp;
+    icon: ReactNode;
     href: string;
 }
 
-const NavbarButton: React.FC<PropsType> = (props) => {
-    const theme = useMantineTheme();
+export const NavbarButton: React.FC<INavbarButtonProps> = (props) => {
     const router = useRouter();
     const isActive = router.pathname === props.href;
 
@@ -30,12 +29,8 @@ const NavbarButton: React.FC<PropsType> = (props) => {
                     background: isActive
                         ? theme.fn.linearGradient(
                               90,
-                              theme.colorScheme === "dark"
-                                  ? theme.colors[props.color][5]
-                                  : theme.colors[props.color][2],
-                              theme.colorScheme === "dark"
-                                  ? theme.colors.dark[7]
-                                  : theme.white
+                              theme.colors[props.color][5],
+                              theme.colors.dark[7]
                           )
                         : "transparent",
 
@@ -54,22 +49,14 @@ const NavbarButton: React.FC<PropsType> = (props) => {
                     "&:hover": {
                         background: theme.fn.linearGradient(
                             90,
-                            theme.colorScheme === "dark"
-                                ? theme.colors[props.color][5]
-                                : theme.colors[props.color][2],
-                            theme.colorScheme === "dark"
-                                ? theme.colors.dark[7]
-                                : theme.white
+                            theme.colors[props.color][5],
+                            theme.colors.dark[7]
                         ),
                     },
                 })}>
                 <Group>
                     <ThemeIcon color={props.color} size={"lg"}>
-                        <FontAwesomeIcon
-                            color={theme.colors[props.color][1]}
-                            icon={props.icon}
-                            size="lg"
-                        />
+                        {props.icon}
                     </ThemeIcon>
                     <Text>{props.children}</Text>
                 </Group>
@@ -77,5 +64,3 @@ const NavbarButton: React.FC<PropsType> = (props) => {
         </Link>
     );
 };
-
-export default NavbarButton;

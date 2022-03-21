@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { Button, Group } from "@mantine/core";
+import { Button, Group } from "@abuse-sleuth/ui";
 
 type IComponentProps = {
     report: {

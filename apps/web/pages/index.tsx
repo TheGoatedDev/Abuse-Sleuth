@@ -1,6 +1,6 @@
-import DefaultLayout from "@layouts/defaultLayout";
+import { Box, Container, Group, Title } from "@abuse-sleuth/ui";
 
-import { Box, Container, Group, Title } from "@mantine/core";
+import DefaultLayout from "@layouts/defaultLayout";
 
 export default function Home() {
     return (

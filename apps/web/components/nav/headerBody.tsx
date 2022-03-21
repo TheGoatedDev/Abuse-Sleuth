@@ -1,13 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ActionIcon, Button, Divider, Group, Menu, Text } from "@mantine/core";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import BasicThemeSwitcher from "@components/themeSwitcher/basicThemeSwitcher";
-
-import NavLink from "./navlink";
+import {
+    ActionIcon,
+    Button,
+    Divider,
+    Group,
+    Menu,
+    NavLink,
+} from "@abuse-sleuth/ui";
 
 type IComponentProps = {
     isDrawer?: boolean;
@@ -27,7 +31,6 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
                 alignItems: "center",
             })}>
             <NavLink href={"/pricing"}>Pricing</NavLink>
-            <BasicThemeSwitcher />
             {session.status !== "authenticated" ? (
                 <Link href={"/auth/login"} passHref>
                     <Button radius={"md"} variant="filled" component="a">

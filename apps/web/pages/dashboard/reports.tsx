@@ -2,11 +2,11 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
+import { Container, Table, Title } from "@abuse-sleuth/ui";
+
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
 import DashboardLayout from "@layouts/dashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
-
-import { Container, Table, Title } from "@mantine/core";
 
 export default function ReportViewer() {
     const [reports, setReports] = useState<JSX.Element[]>();

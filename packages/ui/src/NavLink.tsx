@@ -1,8 +1,14 @@
-import { Text, ThemeIcon } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
 
-export const NavLink = ({ href, children }) => {
+import { Text } from "@mantine/core";
+
+export type INavLinkProps = {
+    href: string;
+};
+
+export const NavLink: React.FC<INavLinkProps> = ({ href, children }) => {
     const router = useRouter();
     const isActive = router.pathname === href;
 
@@ -14,10 +20,7 @@ export const NavLink = ({ href, children }) => {
                     textDecoration: isActive ? "underline" : "none",
                     transition: "color 0.2s ease-in-out",
                     "&:hover": {
-                        color:
-                            theme.colorScheme == "dark"
-                                ? theme.white
-                                : theme.colors.gray[7],
+                        color: theme.white,
                     },
                 })}
                 component="a">

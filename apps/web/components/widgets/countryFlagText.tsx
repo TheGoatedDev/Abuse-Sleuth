@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import ReactCountryFlag from "react-country-flag";
 
-import { Box, Group, Text } from "@mantine/core";
+import { Box, Group, Text } from "@abuse-sleuth/ui";
 
 type IComponentProps = {
     countryCode: string;

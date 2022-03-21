@@ -1,24 +1,24 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Stripe from "stripe";
 
 import { prisma } from "@abuse-sleuth/prisma";
-
-import StatsCard from "@components/StatsCard";
-import DashboardLayout from "@layouts/dashboardLayout";
-import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
-import getStripeClient from "@libs/stripe/stripeClient";
-
 import {
     Box,
     Button,
     Center,
     Container,
     SimpleGrid,
+    StatsCard,
     Title,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
+
+import DashboardLayout from "@layouts/dashboardLayout";
+import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
+import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import getStripeClient from "@libs/stripe/stripeClient";
 
 export default function UserBilling({
     subscription,
@@ -52,13 +52,19 @@ export default function UserBilling({
                                 { minWidth: "md", cols: 3 },
                             ]}>
                             <StatsCard
-                                icon={["fas", "file"]}
+                                icon={
+                                    <FontAwesomeIcon icon={["fas", "file"]} />
+                                }
                                 title="Current Plan"
                                 stat={<>{product.name}</>}
                                 color={"default"}
                             />
                             <StatsCard
-                                icon={["fas", "money-check"]}
+                                icon={
+                                    <FontAwesomeIcon
+                                        icon={["fas", "money-check"]}
+                                    />
+                                }
                                 title="Monthly Bill"
                                 stat={
                                     <>

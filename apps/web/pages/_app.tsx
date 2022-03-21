@@ -1,35 +1,15 @@
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+
+import { CustomMantineProvider } from "@abuse-sleuth/ui";
 
 import initializeFontAwesome from "@libs/bootstrap/fontawesome";
-
-import {
-    ColorScheme,
-    ColorSchemeProvider,
-    MantineProvider,
-} from "@mantine/core";
-import { useLocalStorageValue } from "@mantine/hooks";
 
 initializeFontAwesome();
 
 export default function App(props: AppProps) {
     const { Component, pageProps } = props;
-    const [localTheme, setLocalTheme] = useLocalStorageValue<ColorScheme>({
-        key: "theme",
-        defaultValue: "dark",
-    });
-    const [colorScheme, setColorScheme] = useState<ColorScheme>(
-        localTheme as ColorScheme
-    );
-    const toggleColorScheme = () => {
-        setColorScheme(colorScheme === "light" ? "dark" : "light");
-    };
-
-    useEffect(() => {
-        setLocalTheme(colorScheme);
-    }, [colorScheme, setLocalTheme]);
 
     return (
         <>
@@ -42,19 +22,12 @@ export default function App(props: AppProps) {
             </Head>
 
             <SessionProvider>
-                <ColorSchemeProvider
-                    colorScheme={colorScheme}
-                    toggleColorScheme={toggleColorScheme}>
-                    <MantineProvider
-                        withGlobalStyles
-                        withNormalizeCSS
-                        theme={{
-                            /** Put your mantine theme override here */
-                            colorScheme: colorScheme,
-                        }}>
-                        <Component {...pageProps} />
-                    </MantineProvider>
-                </ColorSchemeProvider>
+                <CustomMantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{ colorScheme: "dark" }}>
+                    <Component {...pageProps} />
+                </CustomMantineProvider>
             </SessionProvider>
         </>
     );

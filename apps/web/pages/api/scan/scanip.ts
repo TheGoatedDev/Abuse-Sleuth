@@ -6,6 +6,8 @@ import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
+import requireValidation from "@libs/api/middleware/requireValidation";
+import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
 
 type IRequestBody = {
     ipAddress: string;
@@ -14,6 +16,7 @@ type IRequestBody = {
 const handler = getHandler();
 
 handler.use(requireAuth);
+handler.use(requireValidation({ bodySchema: scanSingleIPSchema }));
 
 handler.post(async (req, res) => {
     const { ipAddress }: IRequestBody = req.body;

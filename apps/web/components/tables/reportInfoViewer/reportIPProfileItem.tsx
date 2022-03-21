@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { CountryFlagText } from "@components/widgets/countryFlagText";
+import { Button, Group, Text } from "@abuse-sleuth/ui";
 
-import { Button, Group, Text } from "@mantine/core";
+import { CountryFlagText } from "@components/widgets/countryFlagText";
 
 export enum ScanStatus {
     PENDING = "Pending",

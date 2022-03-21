@@ -5,8 +5,8 @@ export const requireValidation = ({
     querySchema,
     bodySchema,
 }: {
-    querySchema: Schema;
-    bodySchema: Schema;
+    querySchema?;
+    bodySchema?;
 }) => {
     return async (
         req: NextApiRequest,

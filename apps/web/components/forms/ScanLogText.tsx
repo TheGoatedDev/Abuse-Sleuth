@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
+import { AlertBox } from "@abuse-sleuth/ui";
+import { Alert, Textarea, Button, Text } from "@abuse-sleuth/ui";
+
 import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 import { scanLogSchema } from "@libs/validationSchemas/scanLogSchema";
 
-import { Alert, Textarea, Button, Text } from "@mantine/core";
 import { joiResolver, useForm } from "@mantine/form";
 
 const ScanLogText: React.FC = () => {
@@ -15,16 +17,15 @@ const ScanLogText: React.FC = () => {
         initialValues: {
             ipAddresses: "",
         },
-        validate: joiResolver(scanLogSchema),
     });
 
-    const onSubmit = async (values: { ipAddresses: string }) => {
+    const onSubmit = async (values) => {
         setLoading(true);
         const allIPs = values.ipAddresses.match(
             /((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g
         );
 
-        const allUniqueIPs = [...new Set(allIPs)];
+        const allUniqueIPs = [...new Set(allIPs)] as string[];
 
         scanTextForm.setFieldValue(
             "ipAddresses",
@@ -42,13 +43,12 @@ const ScanLogText: React.FC = () => {
     return (
         <>
             {result !== "" && (
-                <Alert
+                <AlertBox
                     title="Success!"
                     color={"green"}
-                    mb="xs"
                     icon={<FontAwesomeIcon icon={["fas", "circle-check"]} />}>
                     {result}
-                </Alert>
+                </AlertBox>
             )}
             <form
                 onSubmit={scanTextForm.onSubmit((values) => onSubmit(values))}>

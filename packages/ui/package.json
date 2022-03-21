@@ -1,14 +1,31 @@
 {
-  "name": "@abuse-sleuth/ui",
-  "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@abuse-sleuth/tsconfig": "*",
-    "@abuse-sleuth/config": "*",
-    "typescript": "^4.5.3"
-  }
+    "name": "@abuse-sleuth/ui",
+    "version": "0.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "source": "src/index.tsx",
+    "license": "MIT",
+    "files": [
+        "dist/**"
+    ],
+    "devDependencies": {
+        "@abuse-sleuth/config": "*",
+        "@abuse-sleuth/tsconfig": "*",
+        "@types/react": "^17.0.37",
+        "@types/react-dom": "^17.0.11",
+        "tsup": "^5.12.1",
+        "typescript": "^4.5.3"
+    },
+    "scripts": {
+        "build": "tsup src/index.tsx --dts --external react",
+        "dev": "tsup src/index.tsx --watch --dts --external react",
+        "clean": "rm -rf .turbo  && rm -rf dist && rm -rf coverage && rm -rf node_modules"
+    },
+    "dependencies": {
+        "@mantine/core": "^4.0.7",
+        "@mantine/dropzone": "^4.0.7",
+        "@mantine/form": "^4.0.7",
+        "@mantine/hooks": "^4.0.7",
+        "next": "^12.1.0"
+    }
 }

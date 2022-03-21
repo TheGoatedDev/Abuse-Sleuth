@@ -2,11 +2,11 @@ import { GetStaticProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import Stripe from "stripe";
 
+import { Group, Title } from "@abuse-sleuth/ui";
+
 import PriceCard from "@components/pricing/pricingCard";
 import DefaultLayout from "@layouts/defaultLayout";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
-
-import { Group, Title } from "@mantine/core";
 
 const Pricing: NextPage<{
     products: Stripe.Product[];
@@ -43,7 +43,7 @@ const Pricing: NextPage<{
                 );
             })
         );
-    }, [products]);
+    }, []);
 
     return (
         <DefaultLayout>

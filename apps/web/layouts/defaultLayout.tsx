@@ -1,7 +1,7 @@
+import { AppShell } from "@abuse-sleuth/ui";
+
 import Footer from "@components/footer/footer";
 import Header from "@components/nav/header";
-
-import { AppShell } from "@mantine/core";
 
 const DefaultLayout: React.FC = (props) => {
     return (

@@ -1,17 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-import StatsCard from "@components/StatsCard";
-import {
-    ReportIPProfileItem,
-    ScanStatus,
-} from "@components/tables/reportInfoViewer/reportIPProfileItem";
-import { CountryFlagText } from "@components/widgets/countryFlagText";
-import DashboardLayout from "@layouts/dashboardLayout";
-import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 
 import {
     Card,
@@ -24,7 +16,16 @@ import {
     Text,
     Loader,
     Group,
-} from "@mantine/core";
+    StatsCard,
+} from "@abuse-sleuth/ui";
+
+import {
+    ReportIPProfileItem,
+    ScanStatus,
+} from "@components/tables/reportInfoViewer/reportIPProfileItem";
+import { CountryFlagText } from "@components/widgets/countryFlagText";
+import DashboardLayout from "@layouts/dashboardLayout";
+import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 
 // TODO: Migrate to another file
 function mode(arr) {
@@ -126,13 +127,17 @@ export default function ReportView() {
                                 { minWidth: "md", cols: 2 },
                             ]}>
                             <StatsCard
-                                icon={["fas", "earth"]}
+                                icon={
+                                    <FontAwesomeIcon icon={["fas", "earth"]} />
+                                }
                                 title="Total IPs Scanned"
                                 stat={report.ipProfiles.length}
                                 color={"blue"}
                             />
                             <StatsCard
-                                icon={["fas", "flag"]}
+                                icon={
+                                    <FontAwesomeIcon icon={["fas", "flag"]} />
+                                }
                                 title="Most Common Country"
                                 stat={
                                     <CountryFlagText

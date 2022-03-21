@@ -11,7 +11,7 @@ import {
     Space,
     Text,
     Title,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
 
 interface PropsType {
     price: string;

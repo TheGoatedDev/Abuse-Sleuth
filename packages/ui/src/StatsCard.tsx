@@ -1,17 +1,20 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 import { Card, Group, MantineColor, Text, Title } from "@mantine/core";
 
-type IComponentProps = {
+export type IStatsCardProps = {
     title: string;
-    stat: JSX.Element | string;
-    icon: IconProp;
+    stat: React.ReactNode;
+    icon: React.ReactNode;
     color: MantineColor;
 };
 
-const StatsCard: React.FC<IComponentProps> = ({ title, stat, icon, color }) => {
+export const StatsCard: React.FC<IStatsCardProps> = ({
+    title,
+    stat,
+    icon,
+    color,
+}) => {
     return (
         <Card
             shadow={"md"}
@@ -22,7 +25,7 @@ const StatsCard: React.FC<IComponentProps> = ({ title, stat, icon, color }) => {
             })}>
             <Group spacing={"xs"} direction="column">
                 <Group>
-                    <FontAwesomeIcon icon={icon} size="lg" />
+                    {icon}
                     <Title order={5}>{title}:</Title>
                 </Group>
                 <Text color={color} weight="bold">
@@ -32,5 +35,3 @@ const StatsCard: React.FC<IComponentProps> = ({ title, stat, icon, color }) => {
         </Card>
     );
 };
-
-export default StatsCard;

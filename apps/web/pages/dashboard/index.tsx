@@ -1,9 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-
-import StatsCard from "@components/StatsCard";
-import DashboardLayout from "@layouts/dashboardLayout";
-import DefaultLayout from "@layouts/defaultLayout";
 
 import {
     Box,
@@ -13,9 +10,13 @@ import {
     Group,
     Paper,
     SimpleGrid,
+    StatsCard,
     Text,
     Title,
-} from "@mantine/core";
+} from "@abuse-sleuth/ui";
+
+import DashboardLayout from "@layouts/dashboardLayout";
+import DefaultLayout from "@layouts/defaultLayout";
 
 export default function Dashboard() {
     return (
@@ -32,19 +33,23 @@ export default function Dashboard() {
                                 { minWidth: "md", cols: 3 },
                             ]}>
                             <StatsCard
-                                icon={["fas", "earth"]}
+                                icon={
+                                    <FontAwesomeIcon icon={["fas", "earth"]} />
+                                }
                                 title="Global IPs Scanned"
                                 stat="TODO"
                                 color={"blue"}
                             />
                             <StatsCard
-                                icon={["fas", "file"]}
+                                icon={
+                                    <FontAwesomeIcon icon={["fas", "file"]} />
+                                }
                                 title="IPs Scanned"
                                 stat="TODO"
                                 color={"blue"}
                             />
                             <StatsCard
-                                icon={["fas", "bug"]}
+                                icon={<FontAwesomeIcon icon={["fas", "bug"]} />}
                                 title="Malicious IPs"
                                 stat="TODO"
                                 color={"red"}
