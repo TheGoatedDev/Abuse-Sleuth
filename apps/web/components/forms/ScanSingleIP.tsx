@@ -15,7 +15,7 @@ import {
     Text,
 } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@layouts/dashboardLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
 
 import { useForm, joiResolver } from "@mantine/form";

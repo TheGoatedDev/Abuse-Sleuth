@@ -13,17 +13,14 @@ import {
     Menu,
     NavbarButton,
     Text,
+    DashboardLayout as ASDashboardLayout,
 } from "@abuse-sleuth/ui";
 
-const DashboardLayout: React.FC = (props) => {
+const DashboardLayout: React.FC = ({ children }) => {
     const session = useSession();
 
     return (
-        <AppShell
-            sx={(theme) => ({
-                height: "100vh",
-            })}
-            padding={0}
+        <ASDashboardLayout
             navbar={
                 <DashboardNavbar
                     mainZone={
@@ -125,13 +122,8 @@ const DashboardLayout: React.FC = (props) => {
                     }
                 />
             }>
-            <Box
-                sx={(theme) => ({
-                    marginLeft: "250px",
-                })}>
-                {props.children}
-            </Box>
-        </AppShell>
+            {children}
+        </ASDashboardLayout>
     );
 };
 

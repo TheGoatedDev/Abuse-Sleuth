@@ -15,7 +15,7 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@layouts/dashboardLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 import getStripeClient from "@libs/stripe/stripeClient";
