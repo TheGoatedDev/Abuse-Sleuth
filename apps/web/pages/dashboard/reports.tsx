@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Container, Table, Title } from "@abuse-sleuth/ui";
 
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
-import DashboardLayout from "@layouts/dashboardLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
 
 export default function ReportViewer() {

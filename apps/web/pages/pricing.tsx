@@ -34,10 +34,18 @@ const Pricing: NextPage<{
                         smallPriceText={price?.unit_amount ? "per month" : ""}
                         description={product.description ?? ""}
                         perks={[
-                            product.metadata.point1,
-                            product.metadata.point2,
-                            product.metadata.point3,
-                            product.metadata.point4,
+                            `${product.metadata.dailyIPQuota} IP Searches per Day`,
+                            `${product.metadata.monthlyScanQuota} Log Scans per Month`,
+                            `Scan Report retains for ${
+                                product.metadata.reportRetentionSpanWeeks
+                            } week${
+                                Number(
+                                    product.metadata.reportRetentionSpanWeek
+                                ) > 1
+                                    ? "s"
+                                    : ""
+                            }`,
+                            ...product.metadata.additional.split(","),
                         ]}
                     />
                 );

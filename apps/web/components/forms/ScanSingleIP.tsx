@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { isV4Format, isV6Format } from "ip";
 import { useState } from "react";
 
 import { AlertBox } from "@abuse-sleuth/ui";

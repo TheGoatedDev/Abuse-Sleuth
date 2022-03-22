@@ -2,7 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useState } from "react";
 
-import { Alert, Button, Text, Group, NativeSelect } from "@abuse-sleuth/ui";
+import {
+    Alert,
+    Button,
+    Text,
+    Group,
+    NativeSelect,
+    AlertBox,
+} from "@abuse-sleuth/ui";
 
 import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 
@@ -79,17 +86,16 @@ const ScanLogFile: React.FC = () => {
             ) : (
                 <>
                     {result !== "" && (
-                        <Alert
+                        <AlertBox
                             title="Success!"
                             color={"green"}
-                            mb="xs"
                             icon={
                                 <FontAwesomeIcon
                                     icon={["fas", "circle-check"]}
                                 />
                             }>
                             {result}
-                        </Alert>
+                        </AlertBox>
                     )}
                     <Dropzone
                         multiple={false}

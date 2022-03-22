@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-export const prisma =
+export const prisma: PrismaClient =
     (globalThis as any).prisma ||
     new PrismaClient({
         log: ["error", "warn"],
