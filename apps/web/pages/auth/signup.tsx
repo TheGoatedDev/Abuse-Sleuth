@@ -19,7 +19,7 @@ import {
     Group,
 } from "@abuse-sleuth/ui";
 
-import DefaultLayout from "@layouts/defaultLayout";
+import DefaultLayout from "@layouts/DefaultLayout";
 
 import { useForm } from "@mantine/form";
 

@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 import { Box, Container, Group, Title } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@layouts/DashboardLayout";
-import DefaultLayout from "@layouts/defaultLayout";
+import DefaultLayout from "@layouts/DefaultLayout";
 
 export default function UserIndex() {
     return (

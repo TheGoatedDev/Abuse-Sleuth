@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { Group, Title } from "@abuse-sleuth/ui";
 
 import PriceCard from "@components/pricing/pricingCard";
-import DefaultLayout from "@layouts/defaultLayout";
+import DefaultLayout from "@layouts/DefaultLayout";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 const Pricing: NextPage<{
