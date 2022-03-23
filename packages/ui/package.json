@@ -26,6 +26,7 @@
         "@mantine/dropzone": "^4.0.7",
         "@mantine/form": "^4.0.7",
         "@mantine/hooks": "^4.0.7",
-        "next": "^12.1.0"
+        "next": "^12.1.0",
+        "react-country-flag": "^3.0.2"
     }
 }

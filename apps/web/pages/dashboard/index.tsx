@@ -18,7 +18,6 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@layouts/DashboardLayout";
-import DefaultLayout from "@layouts/defaultLayout";
 
 export default function Dashboard({
     totalIPs,
@@ -85,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const countIPs = await prisma.iPProfile.count({
         where: {
             updatedAt: {
-                lte: dayjs().subtract(30, "day").toDate(),
+                gte: dayjs().subtract(30, "day").toDate(),
             },
         },
     });
@@ -94,11 +93,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             report: {
                 ownerId: session.user.id,
                 updatedAt: {
-                    lte: dayjs().subtract(30, "day").toDate(),
+                    gte: dayjs().subtract(30, "day").toDate(),
                 },
             },
         },
     });
+
+    console.log(countIPs, countIPLinksByUser);
 
     return {
         props: {

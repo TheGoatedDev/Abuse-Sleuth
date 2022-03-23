@@ -17,14 +17,14 @@ import {
     Loader,
     Group,
     StatsCard,
+    CountryFlagText,
 } from "@abuse-sleuth/ui";
 
 import {
     ReportIPProfileItem,
     ScanStatus,
 } from "@components/tables/reportInfoViewer/reportIPProfileItem";
-import { CountryFlagText } from "@components/widgets/countryFlagText";
-import DashboardLayout from "@layouts/dashboardLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 
 // TODO: Migrate to another file
@@ -142,7 +142,6 @@ export default function ReportView() {
                                 stat={
                                     <CountryFlagText
                                         countryCode={mostCommonCountry}
-                                        isPrivateAddress={false}
                                     />
                                 }
                                 color={"green"}

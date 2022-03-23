@@ -2,9 +2,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { Button, Group, Text } from "@abuse-sleuth/ui";
-
-import { CountryFlagText } from "@components/widgets/countryFlagText";
+import { Button, Group, Text, CountryFlagText } from "@abuse-sleuth/ui";
 
 export enum ScanStatus {
     PENDING = "Pending",
@@ -47,10 +45,13 @@ export const ReportIPProfileItem: React.FC<IComponentProps> = ({
         <tr>
             <td>{ipAddress}</td>
             <td>
-                <CountryFlagText
-                    isPrivateAddress={isPrivate}
-                    countryCode={countryCode}
-                />
+                {!isPrivate ? (
+                    <CountryFlagText countryCode={countryCode} />
+                ) : (
+                    <Text size="sm" color="red">
+                        Private
+                    </Text>
+                )}
             </td>
             <td>
                 {isPrivate ? (

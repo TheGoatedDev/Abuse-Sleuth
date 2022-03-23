@@ -5,7 +5,7 @@ import { Center, Paper, Title, Text, Divider } from "@abuse-sleuth/ui";
 
 import ScanLogFile from "@components/forms/ScanLogFile";
 import ScanLogText from "@components/forms/ScanLogText";
-import DashboardLayout from "@layouts/dashboardLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 
 export default function ScanLog() {
     return (
