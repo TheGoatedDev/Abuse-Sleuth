@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 
 import { Center, Paper, Title, Text, Divider } from "@abuse-sleuth/ui";
@@ -7,7 +7,7 @@ import ScanLogFile from "@components/forms/ScanLogFile";
 import ScanLogText from "@components/forms/ScanLogText";
 import DashboardLayout from "@layouts/DashboardLayout";
 
-export default function ScanLog() {
+const ScanLog: NextPage = () => {
     return (
         <DashboardLayout>
             <Center
@@ -35,7 +35,9 @@ export default function ScanLog() {
             </Center>
         </DashboardLayout>
     );
-}
+};
+
+export default ScanLog;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);

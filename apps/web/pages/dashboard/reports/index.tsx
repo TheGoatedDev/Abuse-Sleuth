@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container, Table, Title } from "@abuse-sleuth/ui";
 
@@ -9,7 +9,7 @@ import DashboardLayout from "@layouts/DashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
 
 export default function ReportViewer() {
-    const [reports, setReports] = useState<JSX.Element[]>();
+    const [reports, setReports] = useState<React.ReactElement[]>();
 
     useEffect(() => {
         (async () => {
