@@ -36,32 +36,6 @@ const Login = ({ csrfToken }) => {
     const [formResp, setFormResp] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
 
-    const form = useForm<IFormData>({
-        initialValues: {
-            email: "",
-            password: "",
-            csrfToken: csrfToken,
-            apiError: "",
-        },
-    });
-
-    const login = async (data: IFormData) => {
-        console.log("Logging In...");
-        setLoading(true);
-        setFormResp("");
-        signIn<"credentials">("credentials", { ...data, redirect: false }).then(
-            (res) => {
-                if (!res.error) {
-                    setFormResp("Logged In Successfully!");
-                    router.push("/");
-                } else {
-                    form.setFieldError("apiError", res.error);
-                }
-                setLoading(false);
-            }
-        );
-    };
-
     return (
         <DefaultLayout>
             <Center
@@ -83,65 +57,6 @@ const Login = ({ csrfToken }) => {
                         Start locking out those malicous actors now!
                     </Text>
 
-                    <form onSubmit={form.onSubmit(login)}>
-                        {form.errors.apiError && (
-                            <Alert
-                                title="Error!"
-                                color={"red"}
-                                mb="xs"
-                                icon={
-                                    <FontAwesomeIcon
-                                        icon={["fas", "circle-xmark"]}
-                                    />
-                                }>
-                                {form.errors.apiError}
-                            </Alert>
-                        )}
-                        {formResp !== "" && (
-                            <Alert
-                                title="Success!"
-                                color={"green"}
-                                mb="xs"
-                                icon={
-                                    <FontAwesomeIcon
-                                        icon={["fas", "circle-check"]}
-                                    />
-                                }>
-                                {formResp}, Redirecting!
-                            </Alert>
-                        )}
-                        <TextInput
-                            mb={"xs"}
-                            name="email"
-                            label="Email"
-                            required
-                            {...form.getInputProps("email")}
-                        />
-                        <PasswordInput
-                            mb={"xs"}
-                            name="password"
-                            label="Password"
-                            required
-                            {...form.getInputProps("password")}
-                        />
-                        <input
-                            defaultValue={csrfToken || undefined}
-                            type="hidden"
-                            hidden
-                            {...form.getInputProps("csrfToken")}
-                        />
-                        <Space h="md" />
-
-                        <Button
-                            type="submit"
-                            color={"green"}
-                            fullWidth
-                            loading={loading}>
-                            Login
-                        </Button>
-                    </form>
-
-                    <Divider label="OR" labelPosition="center" my="sm" />
                     <Group>
                         <Button
                             variant="default"
@@ -153,6 +68,9 @@ const Login = ({ csrfToken }) => {
                                     size={"lg"}
                                 />
                             }
+                            onClick={() => {
+                                signIn("google");
+                            }}
                             disabled>
                             Login with Google
                         </Button>
@@ -166,18 +84,11 @@ const Login = ({ csrfToken }) => {
                                     size={"lg"}
                                 />
                             }
-                            disabled>
+                            onClick={() => {
+                                signIn("github");
+                            }}>
                             Login with Github
                         </Button>
-                    </Group>
-                    <Space h="lg" />
-                    <Group position="center">
-                        <Text size="sm">Don&apos;t have an account?</Text>
-                        <Link href="/auth/signup" passHref>
-                            <Text size="sm" variant="link" component="a">
-                                Create One.
-                            </Text>
-                        </Link>
                     </Group>
                 </Paper>
             </Center>

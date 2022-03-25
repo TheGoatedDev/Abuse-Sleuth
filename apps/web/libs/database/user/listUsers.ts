@@ -1,3 +1,5 @@
+import { prisma } from "@abuse-sleuth/prisma";
+
 export const listUsers = async () => {
     const users = await prisma.user.findMany({
         include: {

@@ -1,3 +1,5 @@
+import { prisma } from "@abuse-sleuth/prisma";
+
 export const listIPProfiles = async () => {
     const ipProfilesWithDetails = await prisma.iPProfile.findMany({
         include: {

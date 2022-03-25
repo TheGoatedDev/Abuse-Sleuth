@@ -1,3 +1,5 @@
+import { prisma } from "@abuse-sleuth/prisma";
+
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 export const deleteUserByID = async (id: string) => {

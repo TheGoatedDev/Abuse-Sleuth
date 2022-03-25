@@ -38,7 +38,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                 icon={
                                     <FontAwesomeIcon icon={["fas", "search"]} />
                                 }
-                                href={"/dashboard/checkip"}>
+                                href={"/dashboard/scan/ip"}>
                                 Check Single IP
                             </NavbarButton>
                             <NavbarButton
@@ -48,7 +48,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                         icon={["fas", "search-plus"]}
                                     />
                                 }
-                                href={"/dashboard/scanlog"}>
+                                href={"/dashboard/scan/log"}>
                                 Scan Logs
                             </NavbarButton>
 
@@ -64,16 +64,29 @@ const DashboardLayout: React.FC = ({ children }) => {
                     }
                     bottomZone={
                         <>
-                            <Center>
-                                <Group mb="xs" align={"center"}>
-                                    <Avatar
-                                        size={"md"}
-                                        radius={"xl"}
-                                        color="blue"
-                                    />
-                                    <Text align="left">
-                                        {session.data?.user?.email}
+                            <Group mb="xs" align={"center"} grow>
+                                <Group spacing={"sm"}>
+                                    <Box
+                                        sx={(theme) => ({
+                                            textAlign: "left",
+                                        })}>
+                                        <Avatar
+                                            size={"md"}
+                                            radius={"xl"}
+                                            color="blue"
+                                            src={session.data?.user?.image}
+                                        />
+                                    </Box>
+
+                                    <Text align="center">
+                                        {session.data?.user?.name}
                                     </Text>
+                                </Group>
+
+                                <Box
+                                    sx={(theme) => ({
+                                        textAlign: "right",
+                                    })}>
                                     <Menu
                                         position="right"
                                         gutter={25}
@@ -104,8 +117,9 @@ const DashboardLayout: React.FC = ({ children }) => {
                                             Settings
                                         </Menu.Item>
                                     </Menu>
-                                </Group>
-                            </Center>
+                                </Box>
+                            </Group>
+
                             <Button
                                 leftIcon={
                                     <FontAwesomeIcon

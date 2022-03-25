@@ -1,14 +1,27 @@
+import * as Sentry from "@sentry/node";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import nc from "next-connect";
 
-const onError = (
+const onError = async (
     err: any,
     req: NextApiRequest,
     res: NextApiResponse<any>,
     next: NextApiHandler
 ) => {
-    console.error(err);
-    res.status(500).end("Something broke!");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const session = await getSession({ req });
+    Sentry.setUser(
+        session.user
+            ? {
+                  id: session.user.id,
+                  email: session.user.email,
+                  ip_address: "{{auto}}",
+              }
+            : null
+    );
+    Sentry.captureException(err);
+    return res.status(500).end("Something broke!");
 };
 
 const onNoMatch = (req: NextApiRequest, res: NextApiResponse<any>) => {

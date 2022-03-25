@@ -12,6 +12,8 @@ handler.use(requireAuth);
 handler.get(async (req, res) => {
     const session = await getSession({ req });
 
+    console.log(JSON.stringify(session, null, 4));
+
     const reports = await prisma.scanReport.findMany({
         where: {
             ownerId: session.user.id,
