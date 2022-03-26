@@ -99,7 +99,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
     });
 
-    console.log(countIPs, countIPLinksByUser);
+    //console.log(countIPs, countIPLinksByUser);
 
     return {
         props: {

@@ -19,7 +19,7 @@ export const ReportItem: React.FC<IComponentProps> = ({ report }) => {
         <tr>
             <td>{report.id}</td>
             <td>{dayjs(report.createdAt).format("DD/MM/YYYY hh:mm:ss A")}</td>
-            <td>{dayjs(report.expiresAt).format("DD/MM/YYYY hh:mm:ss A")}</td>
+            <td>{dayjs(report.expiresAt).fromNow(true)}</td>
             <td>
                 <Group>
                     <Button

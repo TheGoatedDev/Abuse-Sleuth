@@ -29,6 +29,13 @@ handler.post(async (req, res) => {
         },
     });
 
+    if (userBillingInfo.plan !== "" || userBillingInfo.plan !== null) {
+        res.status(400).send({
+            ok: false,
+            error: "You already have a plan.",
+        });
+    }
+
     const stripe = getStripeAdmin();
 
     const checkoutSession = await stripe.checkout.sessions.create({

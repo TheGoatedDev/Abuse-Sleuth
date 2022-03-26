@@ -32,7 +32,7 @@ export default function ReportViewer() {
                         <tr>
                             <th>Report ID</th>
                             <th>Created At</th>
-                            <th>Expires At</th>
+                            <th>Expires In</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

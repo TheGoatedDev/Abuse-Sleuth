@@ -44,64 +44,70 @@ export default function UserBilling({
                 <Title align="center" mb="md">
                     Billing
                 </Title>
-                {subscription && product && (
-                    <>
-                        <SimpleGrid
-                            breakpoints={[
-                                { minWidth: "sm", cols: 1 },
-                                { minWidth: "md", cols: 3 },
-                            ]}>
-                            <StatsCard
-                                icon={
-                                    <FontAwesomeIcon icon={["fas", "file"]} />
-                                }
-                                title="Current Plan"
-                                stat={<>{product.name}</>}
-                                color={"default"}
-                            />
-                            <StatsCard
-                                icon={
-                                    <FontAwesomeIcon
-                                        icon={["fas", "money-check"]}
-                                    />
-                                }
-                                title="Monthly Bill"
-                                stat={
-                                    <>
-                                        {(
+
+                <SimpleGrid
+                    breakpoints={[
+                        { minWidth: "sm", cols: 1 },
+                        { minWidth: "md", cols: 3 },
+                    ]}>
+                    <StatsCard
+                        icon={<FontAwesomeIcon icon={["fas", "file"]} />}
+                        title="Current Plan"
+                        stat={product ? product.name : "Free"}
+                        color={"default"}
+                    />
+                    <StatsCard
+                        icon={<FontAwesomeIcon icon={["fas", "money-check"]} />}
+                        title="Monthly Bill"
+                        stat={
+                            subscription ? (
+                                <>
+                                    {(
+                                        subscription.items.data[0].plan.amount /
+                                        100
+                                    ).toLocaleString("en-US", {
+                                        style: "currency",
+                                        currency:
                                             subscription.items.data[0].plan
-                                                .amount / 100
-                                        ).toLocaleString("en-US", {
-                                            style: "currency",
-                                            currency:
-                                                subscription.items.data[0].plan
-                                                    .currency,
-                                        })}
-                                    </>
-                                }
-                                color={"default"}
-                            />
-                            <StatsCard
-                                icon={["fas", "calendar"]}
-                                title="Next Billing Date"
-                                stat={
-                                    <>
-                                        {dayjs(
-                                            subscription.current_period_end *
-                                                1000
-                                        ).format("DD/MM/YYYY")}
-                                    </>
-                                }
-                                color={"default"}
-                            />
-                        </SimpleGrid>
-                        <Center mt={"md"}>
-                            <Button color={"red"} onClick={onTestClick}>
-                                Cancel Plan
-                            </Button>
-                        </Center>
-                    </>
-                )}
+                                                .currency,
+                                    })}
+                                </>
+                            ) : (
+                                "None"
+                            )
+                        }
+                        color={"default"}
+                    />
+                    <StatsCard
+                        icon={<FontAwesomeIcon icon={["fas", "calendar"]} />}
+                        title="Next Billing Date"
+                        stat={
+                            subscription ? (
+                                <>
+                                    {dayjs(
+                                        subscription.current_period_end * 1000
+                                    ).format("DD/MM/YYYY")}
+                                </>
+                            ) : (
+                                "None"
+                            )
+                        }
+                        color={"default"}
+                    />
+                </SimpleGrid>
+                <Center mt={"md"}>
+                    <Button
+                        color={"red"}
+                        onClick={onTestClick}
+                        disabled={
+                            subscription === undefined ||
+                            subscription === null ||
+                            product === undefined ||
+                            product === null
+                        }>
+                        Cancel Plan
+                    </Button>
+                </Center>
                 <Button onClick={onTestClick}>Test</Button>
             </Container>
         </DashboardLayout>

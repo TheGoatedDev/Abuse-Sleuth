@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -7,6 +9,7 @@ import { CustomMantineProvider } from "@abuse-sleuth/ui";
 import initializeFontAwesome from "@libs/bootstrap/fontawesome";
 
 initializeFontAwesome();
+dayjs.extend(relativeTime);
 
 export default function App(props: AppProps) {
     const { Component, pageProps } = props;
