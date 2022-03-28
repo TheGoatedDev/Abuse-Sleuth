@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signOut, useSession } from "next-auth/react";
+import { useAuth } from "contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -13,13 +13,15 @@ import {
     NavLink,
 } from "@abuse-sleuth/ui";
 
+import { logout } from "@libs/auth/authClientHelpers";
+
 type IComponentProps = {
     isDrawer?: boolean;
 };
 
 export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
-    const session = useSession();
     const router = useRouter();
+    const auth = useAuth();
 
     const [opened, setOpened] = useState(false);
 
@@ -31,7 +33,7 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
                 alignItems: "center",
             })}>
             <NavLink href={"/pricing"}>Pricing</NavLink>
-            {session.status !== "authenticated" ? (
+            {auth.isAuthenticated === false ? (
                 <Link href={"/auth/login"} passHref>
                     <Button radius={"md"} variant="filled" component="a">
                         Login
@@ -80,7 +82,9 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
                                 <FontAwesomeIcon icon={["fas", "sign-out"]} />
                             }
                             color={"red"}
-                            onClick={() => signOut()}>
+                            onClick={() => {
+                                logout();
+                            }}>
                             Sign Out
                         </Menu.Item>
                     </Menu>

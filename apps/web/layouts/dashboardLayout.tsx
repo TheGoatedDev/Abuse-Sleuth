@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useAuth } from "contexts/AuthContext";
 import router from "next/router";
 
 import {
@@ -16,8 +16,10 @@ import {
     DashboardLayout as ASDashboardLayout,
 } from "@abuse-sleuth/ui";
 
+import { logout } from "@libs/auth/authClientHelpers";
+
 const DashboardLayout: React.FC = ({ children }) => {
-    const session = useSession();
+    const auth = useAuth(undefined, "/auth/login");
 
     return (
         <ASDashboardLayout
@@ -64,24 +66,21 @@ const DashboardLayout: React.FC = ({ children }) => {
                     }
                     bottomZone={
                         <>
-                            <Group mb="xs" align={"center"} grow>
-                                <Group spacing={"sm"}>
-                                    <Box
-                                        sx={(theme) => ({
-                                            textAlign: "left",
-                                        })}>
-                                        <Avatar
-                                            size={"md"}
-                                            radius={"xl"}
-                                            color="blue"
-                                            src={session.data?.user?.image}
-                                        />
-                                    </Box>
+                            <Group mb="xs">
+                                <Box
+                                    sx={(theme) => ({
+                                        textAlign: "left",
+                                    })}>
+                                    <Avatar
+                                        size={"md"}
+                                        radius={"xl"}
+                                        color="blue"
+                                    />
+                                </Box>
 
-                                    <Text align="center">
-                                        {session.data?.user?.name}
-                                    </Text>
-                                </Group>
+                                <Text size="xs">
+                                    {auth.user.emails[0].email}
+                                </Text>
 
                                 <Box
                                     sx={(theme) => ({
@@ -128,7 +127,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                 }
                                 variant="default"
                                 radius={"xl"}
-                                onClick={() => signOut()}
+                                onClick={() => logout()}
                                 fullWidth>
                                 Logout
                             </Button>

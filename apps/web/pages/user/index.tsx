@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 
 import { Box, Container, Group, Title } from "@abuse-sleuth/ui";
 

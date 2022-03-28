@@ -1,18 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
-import { useSession, getSession } from "next-auth/react";
 import NextErrorComponent from "next/error";
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
-    const session = useSession();
-    Sentry.setUser(
-        session.data?.user
-            ? {
-                  id: session.data.user.id,
-                  email: session.data.user.email,
-                  ip_address: "{{auto}}",
-              }
-            : null
-    );
     if (!hasGetInitialPropsRun && err) {
         // getInitialProps is not called in case of
         // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -28,17 +17,6 @@ MyError.getInitialProps = async (context) => {
     const errorInitialProps = await NextErrorComponent.getInitialProps(context);
 
     const { res, req, err, asPath } = context;
-
-    const session = await getSession({ req });
-    Sentry.setUser(
-        session.data?.user
-            ? {
-                  id: session.data.user.id,
-                  email: session.data.user.email,
-                  ip_address: "{{auto}}",
-              }
-            : null
-    );
 
     // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
     // getInitialProps has run

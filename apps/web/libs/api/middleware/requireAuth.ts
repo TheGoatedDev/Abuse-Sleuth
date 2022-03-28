@@ -1,23 +1,24 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from "next";
+import { StytchUser } from "types/user";
+
+import { getSession } from "@libs/auth/authServerHelpers";
 
 export const requireAuth = async (
-    req: NextApiRequest,
+    req: NextApiRequest & { user?: StytchUser },
     res: NextApiResponse<GenericHTTPResponse>,
     next: any
 ) => {
-    const session = await getSession({ req });
+    try {
+        const stytchUser = await getSession(req, res);
 
-    // console.log(session);
+        req.user = stytchUser;
 
-    if (!session) {
-        res.status(401).send({
-            ok: false,
-            error: "Unauthorized",
-        });
-        return;
-    } else {
         next();
+    } catch (error) {
+        return res.status(400).send({
+            ok: false,
+            error: error,
+        });
     }
 };
 

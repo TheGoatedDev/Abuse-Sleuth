@@ -1,12 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { useAuth } from "contexts/AuthContext";
+import Joi from "joi";
 import { GetServerSidePropsContext } from "next";
-import { getCsrfToken, getSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Alert,
+    AlertBox,
     Button,
     Center,
     Divider,
@@ -20,21 +23,65 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DefaultLayout from "@layouts/DefaultLayout";
+import { getGithubAuth } from "@libs/auth/authClientHelpers";
+import { ROUTES } from "@libs/configs/routes";
 
-import { useForm } from "@mantine/form";
+import { joiResolver, useForm } from "@mantine/form";
 
 type IFormData = {
     email: string;
-    password: string;
-    csrfToken: string;
-    apiError: string;
 };
 
-const Login = ({ csrfToken }) => {
+const magicLinkSchema = Joi.object({
+    email: Joi.string()
+        .email({
+            tlds: false,
+        })
+        .required(),
+});
+
+const Login = () => {
     const router = useRouter();
 
-    const [formResp, setFormResp] = useState<string>("");
+    const [result, setResult] = useState<string>("");
+    const [error, setError] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+
+    const magicLinkForm = useForm<IFormData>({
+        initialValues: {
+            email: "",
+        },
+        schema: joiResolver(magicLinkSchema),
+    });
+
+    const magicLinkFormSubmit = async (data: IFormData) => {
+        setLoading(true);
+        setError("");
+        setResult("");
+        const res = await fetch(ROUTES.api.auth.magicLinkSend, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const resData: GenericHTTPResponse = await res.json();
+        if (resData.ok === true) {
+            setResult(resData.data);
+        } else {
+            setError(resData.error);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        (async () => {
+            if (router.query.token) {
+                const token = router.query.token as string;
+                axios.post(ROUTES.api.auth.magicLinkAuthenticate, { token });
+            }
+        })();
+    });
 
     return (
         <DefaultLayout>
@@ -56,24 +103,53 @@ const Login = ({ csrfToken }) => {
                     <Text mb="sm" size="sm" align="center">
                         Start locking out those malicous actors now!
                     </Text>
+                    {result !== "" && (
+                        <AlertBox
+                            title="Success!"
+                            color={"green"}
+                            icon={
+                                <FontAwesomeIcon
+                                    icon={["fas", "circle-check"]}
+                                />
+                            }>
+                            {result}
+                        </AlertBox>
+                    )}
+                    {error !== "" && (
+                        <AlertBox
+                            title="Error!"
+                            color={"red"}
+                            icon={
+                                <FontAwesomeIcon
+                                    icon={["fas", "circle-xmark"]}
+                                />
+                            }>
+                            {error}
+                        </AlertBox>
+                    )}
+                    <form
+                        onSubmit={magicLinkForm.onSubmit((values) => {
+                            magicLinkFormSubmit(values);
+                        })}>
+                        <TextInput
+                            required
+                            type="email"
+                            label="Email"
+                            placeholder="your@email.com"
+                            {...magicLinkForm.getInputProps("email")}
+                        />
+                        <Button
+                            type="submit"
+                            mt="sm"
+                            fullWidth
+                            loading={loading}>
+                            Send Magic Link
+                        </Button>
+                    </form>
+
+                    <Divider label="OR" labelPosition="center" />
 
                     <Group>
-                        <Button
-                            variant="default"
-                            color={"dark"}
-                            fullWidth
-                            leftIcon={
-                                <FontAwesomeIcon
-                                    icon={["fab", "google"]}
-                                    size={"lg"}
-                                />
-                            }
-                            onClick={() => {
-                                signIn("google");
-                            }}
-                            disabled>
-                            Login with Google
-                        </Button>
                         <Button
                             variant="default"
                             color={"dark"}
@@ -84,9 +160,8 @@ const Login = ({ csrfToken }) => {
                                     size={"lg"}
                                 />
                             }
-                            onClick={() => {
-                                signIn("github");
-                            }}>
+                            onClick={() => {}}
+                            disabled>
                             Login with Github
                         </Button>
                     </Group>
@@ -97,22 +172,3 @@ const Login = ({ csrfToken }) => {
 };
 
 export default Login;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const session = await getSession({ req: context.req });
-
-    if (session) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {
-            csrfToken: await getCsrfToken(),
-        },
-    };
-}

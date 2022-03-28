@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 
 import { prisma } from "@abuse-sleuth/prisma";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@layouts/DashboardLayout";
+import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function Dashboard({
     totalIPs,
@@ -70,9 +70,34 @@ export default function Dashboard({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
+    try {
+        const session = await getSession(context.req, context.res);
 
-    if (!session) {
+        const countIPs = await prisma.iPProfile.count({
+            where: {
+                updatedAt: {
+                    gte: dayjs().subtract(30, "day").toDate(),
+                },
+            },
+        });
+        const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
+            where: {
+                report: {
+                    userId: session.id,
+                    updatedAt: {
+                        gte: dayjs().subtract(30, "day").toDate(),
+                    },
+                },
+            },
+        });
+
+        return {
+            props: {
+                totalIPs: countIPs,
+                totalScans: countIPLinksByUser,
+            },
+        };
+    } catch (error) {
         return {
             redirect: {
                 destination: "/auth/login",
@@ -80,31 +105,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             },
         };
     }
-
-    const countIPs = await prisma.iPProfile.count({
-        where: {
-            updatedAt: {
-                gte: dayjs().subtract(30, "day").toDate(),
-            },
-        },
-    });
-    const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
-        where: {
-            report: {
-                ownerId: session.user.id,
-                updatedAt: {
-                    gte: dayjs().subtract(30, "day").toDate(),
-                },
-            },
-        },
-    });
-
-    //console.log(countIPs, countIPLinksByUser);
-
-    return {
-        props: {
-            totalIPs: countIPs,
-            totalScans: countIPLinksByUser,
-        },
-    };
 };
