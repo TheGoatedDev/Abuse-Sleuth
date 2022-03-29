@@ -1,4 +1,3 @@
-import { AuthProvider } from "contexts/AuthContext";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AppProps } from "next/app";
@@ -24,14 +23,12 @@ export default function App(props: AppProps) {
                 />
             </Head>
 
-            <AuthProvider>
-                <CustomMantineProvider
-                    withGlobalStyles
-                    withNormalizeCSS
-                    theme={{ colorScheme: "dark" }}>
-                    <Component {...pageProps} />
-                </CustomMantineProvider>
-            </AuthProvider>
+            <CustomMantineProvider
+                withGlobalStyles
+                withNormalizeCSS
+                theme={{ colorScheme: "dark" }}>
+                <Component {...pageProps} />
+            </CustomMantineProvider>
         </>
     );
 }

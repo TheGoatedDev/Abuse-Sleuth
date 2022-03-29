@@ -2,8 +2,9 @@ import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
 
+import { StytchClient } from "@abuse-sleuth/auth";
+
 import getHandler from "@libs/api/handler";
-import { stytchClient } from "@libs/auth/stytchClient";
 
 const handler = getHandler();
 
@@ -11,7 +12,7 @@ handler.post(async (req, res) => {
     const token: string = req.body.token;
 
     try {
-        const magicLinkRes = await stytchClient.magicLinks.authenticate(token, {
+        const magicLinkRes = await StytchClient.magicLinks.authenticate(token, {
             session_duration_minutes: 60 * 24 * 7,
         });
 

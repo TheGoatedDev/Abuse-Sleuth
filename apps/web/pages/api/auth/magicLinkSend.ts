@@ -1,7 +1,8 @@
 import { StytchError } from "stytch";
 
+import { StytchClient } from "@abuse-sleuth/auth";
+
 import getHandler from "@libs/api/handler";
-import { stytchClient } from "@libs/auth/stytchClient";
 import { ROUTES } from "@libs/configs/routes";
 
 const handler = getHandler();
@@ -10,7 +11,7 @@ handler.post(async (req, res) => {
     const email: string = req.body.email;
 
     try {
-        const magicLinkRes = await stytchClient.magicLinks.email.loginOrCreate({
+        const magicLinkRes = await StytchClient.magicLinks.email.loginOrCreate({
             email,
             login_magic_link_url: `${ROUTES.baseURL}${ROUTES.auth.login}`,
             signup_magic_link_url: `${ROUTES.baseURL}${ROUTES.auth.login}`,

@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import { StytchUser } from "types/user";
 
-import { stytchClient } from "./stytchClient";
+import { StytchClient } from "@abuse-sleuth/auth";
 
 // TODO: Do Correct Type for params
 export const getSession = async (
@@ -15,11 +15,11 @@ export const getSession = async (
     }
 
     try {
-        const authRes = await stytchClient.sessions.authenticate({
+        const authRes = await StytchClient.sessions.authenticate({
             session_jwt: tokenCookie.toString(),
         });
 
-        const user = await stytchClient.users.get(authRes.session.user_id);
+        const user = await StytchClient.users.get(authRes.session.user_id);
 
         const stytchUser: StytchUser = {
             id: user.user_id,

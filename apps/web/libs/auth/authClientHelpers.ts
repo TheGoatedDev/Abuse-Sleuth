@@ -1,9 +1,5 @@
 import { ROUTES } from "@libs/configs/routes";
 
-export const logout = () => {
-    fetch(ROUTES.api.auth.logout);
-};
-
 export const getUser = async (): Promise<GenericHTTPResponse> => {
     return await (await fetch(ROUTES.api.auth.user)).json();
 };

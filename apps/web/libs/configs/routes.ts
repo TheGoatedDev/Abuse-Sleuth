@@ -1,6 +1,8 @@
 export const ROUTES = {
     baseURL: "http://localhost:3000",
 
+    home: "/",
+
     auth: {
         login: "/auth/login",
     },

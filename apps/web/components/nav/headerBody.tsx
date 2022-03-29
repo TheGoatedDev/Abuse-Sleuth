@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "contexts/AuthContext";
+import { useAuth } from "hooks/AuthHook";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -12,8 +12,6 @@ import {
     Menu,
     NavLink,
 } from "@abuse-sleuth/ui";
-
-import { logout } from "@libs/auth/authClientHelpers";
 
 type IComponentProps = {
     isDrawer?: boolean;
@@ -33,7 +31,7 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
                 alignItems: "center",
             })}>
             <NavLink href={"/pricing"}>Pricing</NavLink>
-            {auth.isAuthenticated === false ? (
+            {!auth.user ? (
                 <Link href={"/auth/login"} passHref>
                     <Button radius={"md"} variant="filled" component="a">
                         Login
@@ -83,7 +81,7 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
                             }
                             color={"red"}
                             onClick={() => {
-                                logout();
+                                auth.logout();
                             }}>
                             Sign Out
                         </Menu.Item>

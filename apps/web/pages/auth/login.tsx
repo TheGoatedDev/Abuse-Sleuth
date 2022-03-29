@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { useAuth } from "contexts/AuthContext";
+import { useAuth } from "hooks/AuthHook";
 import Joi from "joi";
 import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
@@ -23,7 +23,6 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DefaultLayout from "@layouts/DefaultLayout";
-import { getGithubAuth } from "@libs/auth/authClientHelpers";
 import { ROUTES } from "@libs/configs/routes";
 
 import { joiResolver, useForm } from "@mantine/form";
@@ -78,7 +77,17 @@ const Login = () => {
         (async () => {
             if (router.query.token) {
                 const token = router.query.token as string;
-                axios.post(ROUTES.api.auth.magicLinkAuthenticate, { token });
+                const res = await fetch(ROUTES.api.auth.magicLinkAuthenticate, {
+                    method: "POST",
+                    body: JSON.stringify({ token }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                if (data.ok === true) {
+                    router.push(ROUTES.home);
+                }
             }
         })();
     });

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "contexts/AuthContext";
+import { useAuth } from "hooks/AuthHook";
 import router from "next/router";
 
 import {
@@ -14,12 +14,11 @@ import {
     NavbarButton,
     Text,
     DashboardLayout as ASDashboardLayout,
+    Skeleton,
 } from "@abuse-sleuth/ui";
 
-import { logout } from "@libs/auth/authClientHelpers";
-
 const DashboardLayout: React.FC = ({ children }) => {
-    const auth = useAuth(undefined, "/auth/login");
+    const auth = useAuth();
 
     return (
         <ASDashboardLayout
@@ -66,7 +65,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                     }
                     bottomZone={
                         <>
-                            <Group mb="xs">
+                            <Group mb="xs" position="apart">
                                 <Box
                                     sx={(theme) => ({
                                         textAlign: "left",
@@ -78,9 +77,22 @@ const DashboardLayout: React.FC = ({ children }) => {
                                     />
                                 </Box>
 
-                                <Text size="xs">
-                                    {auth.user.emails[0].email}
-                                </Text>
+                                {auth.user ? (
+                                    <Text
+                                        align="center"
+                                        sx={(theme) => ({
+                                            flexGrow: "2",
+                                        })}
+                                        size="xs">
+                                        {auth.user.emails[0].email}
+                                    </Text>
+                                ) : (
+                                    <Skeleton
+                                        height={8}
+                                        width="100px"
+                                        animate
+                                    />
+                                )}
 
                                 <Box
                                     sx={(theme) => ({
@@ -127,7 +139,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                 }
                                 variant="default"
                                 radius={"xl"}
-                                onClick={() => logout()}
+                                onClick={() => auth.logout()}
                                 fullWidth>
                                 Logout
                             </Button>
