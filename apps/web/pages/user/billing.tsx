@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 import Stripe from "stripe";
 
 import { prisma } from "@abuse-sleuth/prisma";
@@ -17,6 +16,7 @@ import {
 
 import DashboardLayout from "@layouts/DashboardLayout";
 import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
+import { getSession } from "@libs/auth/authServerHelpers";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 import getStripeClient from "@libs/stripe/stripeClient";
 
@@ -115,7 +115,7 @@ export default function UserBilling({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
+    const session = await getSession(context.req, context.res);
 
     if (!session) {
         return {
@@ -128,7 +128,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const userBillingInfo = await prisma.userBillingInfo.findUnique({
         where: {
-            userId: session.user.id,
+            userId: session.id,
         },
     });
 

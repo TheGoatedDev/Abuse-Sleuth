@@ -16,7 +16,7 @@ handler.post(async (req, res) => {
             session_duration_minutes: 60 * 24 * 7,
         });
 
-        console.log(JSON.stringify(magicLinkRes, null, 4));
+        //console.log(JSON.stringify(magicLinkRes, null, 4));
 
         //console.log(jwtToken);
 

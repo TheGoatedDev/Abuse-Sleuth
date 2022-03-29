@@ -4,6 +4,8 @@
         "downlevelIteration": true,
         "baseUrl": ".",
         "paths": {
+            "@hooks/*": ["./hooks/*"],
+            "@contexts/*": ["./contexts/*"],
             "@libs/*": ["./libs/*"],
             "@components/*": ["./components/*"],
             "@layouts/*": ["./layouts/*"]

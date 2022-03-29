@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 import { Container, Table, Title } from "@abuse-sleuth/ui";
@@ -7,6 +6,7 @@ import { Container, Table, Title } from "@abuse-sleuth/ui";
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
 import DashboardLayout from "@layouts/DashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
+import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function ReportViewer() {
     const [reports, setReports] = useState<React.ReactElement[]>();
@@ -44,7 +44,7 @@ export default function ReportViewer() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
+    const session = await getSession(context.req, context.res);
 
     if (!session) {
         return {

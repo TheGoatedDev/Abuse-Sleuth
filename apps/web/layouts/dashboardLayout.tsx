@@ -15,6 +15,7 @@ import {
     Text,
     DashboardLayout as ASDashboardLayout,
     Skeleton,
+    Loader,
 } from "@abuse-sleuth/ui";
 
 const DashboardLayout: React.FC = ({ children }) => {
@@ -87,11 +88,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                         {auth.user.emails[0].email}
                                     </Text>
                                 ) : (
-                                    <Skeleton
-                                        height={8}
-                                        width="100px"
-                                        animate
-                                    />
+                                    <Loader size={"sm"} />
                                 )}
 
                                 <Box

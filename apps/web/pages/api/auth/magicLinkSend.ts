@@ -19,7 +19,7 @@ handler.post(async (req, res) => {
 
         res.status(200).send({
             ok: true,
-            data: "Magic Link Sent",
+            data: `Magic Link Sent to ${email}`,
         });
     } catch (error) {
         res.status(400).send({

@@ -86,7 +86,8 @@ const Login = () => {
                 });
                 const data = await res.json();
                 if (data.ok === true) {
-                    router.push(ROUTES.home);
+                    setResult("Logged in!");
+                    router.reload();
                 }
             }
         })();

@@ -11,15 +11,19 @@ export const getSession = async (
     const tokenCookie = getCookie("token", { req, res });
 
     if (!tokenCookie) {
-        throw new Error("No token cookie found");
+        return null;
     }
 
     try {
-        const authRes = await StytchClient.sessions.authenticate({
-            session_jwt: tokenCookie.toString(),
-        });
+        console.time("Get Session Auth Token");
+        const authRes = await StytchClient.sessions.authenticateJwt(
+            tokenCookie.toString()
+        );
+        console.timeEnd("Get Session Auth Token");
 
+        console.time("Get Session Get User");
         const user = await StytchClient.users.get(authRes.session.user_id);
+        console.timeEnd("Get Session Get User");
 
         const stytchUser: StytchUser = {
             id: user.user_id,

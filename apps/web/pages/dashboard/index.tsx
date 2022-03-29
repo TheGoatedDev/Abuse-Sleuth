@@ -71,7 +71,9 @@ export default function Dashboard({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
+        console.time("Get Session");
         const session = await getSession(context.req, context.res);
+        console.timeEnd("Get Session");
 
         const countIPs = await prisma.iPProfile.count({
             where: {
