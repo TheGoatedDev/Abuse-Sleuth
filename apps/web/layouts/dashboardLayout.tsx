@@ -84,7 +84,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                         sx={(theme) => ({
                                             flexGrow: "2",
                                         })}
-                                        size="xs">
+                                        size="sm">
                                         {auth.user.emails[0].email}
                                     </Text>
                                 ) : (

@@ -1,3 +1,6 @@
+import { AxiosInstance } from "axios";
+import http from "http";
+import https from "https";
 import * as Stytch from "stytch";
 
 export const StytchClient: Stytch.Client =
@@ -10,6 +13,19 @@ export const StytchClient: Stytch.Client =
                 ? Stytch.envs.live
                 : Stytch.envs.test,
     });
+
+const agentSecure = new https.Agent({
+    keepAlive: true,
+});
+
+const agent = new http.Agent({
+    keepAlive: true,
+});
+
+const cl = (StytchClient as any).client as AxiosInstance;
+
+cl.defaults.httpsAgent = agentSecure;
+cl.defaults.httpAgent = agent;
 
 if (process.env.NODE_ENV !== "production") {
     (globalThis as any).stytchClient = StytchClient;

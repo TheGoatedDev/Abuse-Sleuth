@@ -11,11 +11,6 @@
             "@layouts/*": ["./layouts/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        "../../packages/prisma/client/runtime.d.ts"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
 }

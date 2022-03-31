@@ -21,6 +21,12 @@ export const getSession = async (
         );
         console.timeEnd("Get Session Auth Token");
 
+        // for (let i = 0; i < 10; i++) {
+        //     console.time("Get Session Get User");
+        //     const user = await StytchClient.users.get(authRes.session.user_id);
+        //     console.timeEnd("Get Session Get User");
+        // }
+
         console.time("Get Session Get User");
         const user = await StytchClient.users.get(authRes.session.user_id);
         console.timeEnd("Get Session Get User");
