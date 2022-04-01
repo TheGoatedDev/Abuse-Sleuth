@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuth } from "@hooks/AuthHook";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -26,6 +26,7 @@ import {
 } from "@components/tables/reportInfoViewer/reportIPProfileItem";
 import DashboardLayout from "@layouts/DashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
+import { getSession } from "@libs/auth/authServerHelpers";
 
 // TODO: Migrate to another file
 function mode(arr) {
@@ -54,6 +55,7 @@ function getRandomEnumValue<T>(anEnum: T): T[keyof T] {
 
 export default function ReportView() {
     const router = useRouter();
+    const auth = useAuth(true);
     const { reportID } = router.query;
 
     const [report, setReport] = useState<any>();
@@ -166,20 +168,3 @@ export default function ReportView() {
         </DashboardLayout>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
-};

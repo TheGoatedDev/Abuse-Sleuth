@@ -1,17 +1,19 @@
-import { getSession } from "next-auth/react";
+import { NextApiRequest } from "next";
+import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
+import { getSession } from "@libs/auth/authServerHelpers";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.post(async (req, res) => {
-    const session = await getSession({ req });
+handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
+    const user = req.user;
 
     const { priceID } = req.body;
 
@@ -25,7 +27,7 @@ handler.post(async (req, res) => {
 
     const userBillingInfo = await prisma.userBillingInfo.findUnique({
         where: {
-            userId: session.user.id,
+            userId: user.id,
         },
     });
 
