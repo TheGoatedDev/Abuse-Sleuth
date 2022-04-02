@@ -15,21 +15,10 @@ export const getSession = async (
     }
 
     try {
-        console.time("Get Session Auth Token");
         const authRes = await StytchClient.sessions.authenticateJwt(
             tokenCookie.toString()
         );
-        console.timeEnd("Get Session Auth Token");
-
-        // for (let i = 0; i < 10; i++) {
-        //     console.time("Get Session Get User");
-        //     const user = await StytchClient.users.get(authRes.session.user_id);
-        //     console.timeEnd("Get Session Get User");
-        // }
-
-        console.time("Get Session Get User");
         const user = await StytchClient.users.get(authRes.session.user_id);
-        console.timeEnd("Get Session Get User");
 
         const stytchUser: StytchUser = {
             id: user.user_id,

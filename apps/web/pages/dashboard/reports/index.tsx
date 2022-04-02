@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 
-import { Container, Table, Title } from "@abuse-sleuth/ui";
+import { Center, Container, Loader, Table, Title } from "@abuse-sleuth/ui";
 
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
 import DashboardLayout from "@layouts/DashboardLayout";
@@ -9,7 +9,7 @@ import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
 import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function ReportViewer() {
-    const [reports, setReports] = useState<React.ReactElement[]>();
+    const [reports, setReports] = useState<React.ReactElement[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -27,17 +27,23 @@ export default function ReportViewer() {
         <DashboardLayout>
             <Container mt={"lg"}>
                 <Title align="center">Report Viewer</Title>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Report ID</th>
-                            <th>Created At</th>
-                            <th>Expires In</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>{reports}</tbody>
-                </Table>
+                {reports.length > 0 ? (
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Report ID</th>
+                                <th>Created At</th>
+                                <th>Expires In</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>{reports}</tbody>
+                    </Table>
+                ) : (
+                    <Center>
+                        <Loader mt={"xl"} />
+                    </Center>
+                )}
             </Container>
         </DashboardLayout>
     );

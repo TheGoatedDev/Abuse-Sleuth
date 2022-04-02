@@ -1,21 +1,21 @@
+import { NextApiRequest } from "next";
+import { StytchUser } from "types/user";
+
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
-import { getSession } from "@libs/auth/authServerHelpers";
 
 const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.get(async (req, res) => {
-    const session = await getSession(req, res);
-
-    console.log(JSON.stringify(session, null, 4));
+handler.get(async (req: NextApiRequest & { user: StytchUser }, res) => {
+    const user = req.user;
 
     const reports = await prisma.scanReport.findMany({
         where: {
-            userId: session.id,
+            userId: user.id,
         },
     });
 
