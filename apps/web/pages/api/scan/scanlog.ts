@@ -1,6 +1,7 @@
 import geoip from "geoip-lite";
 import { isPrivate, isV4Format, isV6Format } from "ip";
 import { NextApiRequest } from "next";
+import { NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
@@ -16,7 +17,7 @@ const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
+handler.post(async (req: NextApiRequestWithUser, res) => {
     const { ipAddresses }: IRequestBody = req.body;
     const user = req.user;
 
@@ -31,7 +32,11 @@ handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
     const report = await prisma.scanReport.create({
         data: {
             expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), //TODO: Change to be inline with A Subscription
-            userId: user.id,
+            user: {
+                connect: {
+                    id: user.id,
+                },
+            },
             ipProfiles: {
                 create: [
                     ...ipAddresses.map((ipAddress) => {

@@ -85,7 +85,7 @@ const DashboardLayout: React.FC = ({ children }) => {
                                             flexGrow: "2",
                                         })}
                                         size="sm">
-                                        {auth.user.emails[0].email}
+                                        {auth.user.email}
                                     </Text>
                                 ) : (
                                     <Loader size={"sm"} />

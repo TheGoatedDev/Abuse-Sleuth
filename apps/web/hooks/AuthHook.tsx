@@ -3,6 +3,8 @@ import { useContext, useEffect } from "react";
 import { useSWRConfig } from "swr";
 import { StytchUser } from "types/user";
 
+import { User } from "@abuse-sleuth/prisma";
+
 import { AuthContext } from "@contexts/AuthContext";
 import { ROUTES } from "@libs/configs/routes";
 
@@ -10,7 +12,7 @@ export const useAuth = (
     shouldAuth: boolean = false
 ): {
     loading: boolean;
-    user: StytchUser | null;
+    user: User | null;
     logout: () => void;
 } => {
     const { loading, user } = useContext(AuthContext);
@@ -24,9 +26,8 @@ export const useAuth = (
         router.push(ROUTES.auth.login);
     };
 
-    // TODO: I AM FUCKING BROKE
     useEffect(() => {
-        console.log(loading, user, shouldAuth);
+        //console.log(loading, user, shouldAuth);
         if (!loading) {
             if (shouldAuth && user === null) {
                 router.push(ROUTES.auth.login);

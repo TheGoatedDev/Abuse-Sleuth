@@ -1,31 +1,14 @@
-import { GetServerSideProps } from "next";
+import { Title } from "@abuse-sleuth/ui";
 
-import { Box, Container, Group, Title } from "@abuse-sleuth/ui";
-
+import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
-import DefaultLayout from "@layouts/DefaultLayout";
 
 export default function UserIndex() {
+    const auth = useAuth(true);
+
     return (
         <DashboardLayout>
-            <Title>User</Title>
+            <Title>User: {auth.user.emails[0].email}</Title>
         </DashboardLayout>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
-};

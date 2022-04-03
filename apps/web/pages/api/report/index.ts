@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
@@ -11,14 +12,16 @@ const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.get(async (req: NextApiRequest & { user?: StytchUser }, res) => {
+handler.get(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const reportID: string = req.query.reportID as string;
 
     const rawReport = await prisma.scanReport.findFirst({
         where: {
-            userId: user.id,
+            user: {
+                id: user.id,
+            },
 
             id: reportID,
         },

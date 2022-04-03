@@ -1,17 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { GenericHTTPResponse, NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
+
+import { prisma, User } from "@abuse-sleuth/prisma";
 
 import { getSession } from "@libs/auth/authServerHelpers";
 
 export const requireAuth = async (
-    req: NextApiRequest & { user?: StytchUser },
+    req: NextApiRequestWithUser,
     res: NextApiResponse<GenericHTTPResponse>,
     next: any
 ) => {
     try {
-        const stytchUser = await getSession(req, res);
+        const user = await getSession(req, res);
 
-        req.user = stytchUser;
+        req.user = user;
 
         next();
     } catch (error) {

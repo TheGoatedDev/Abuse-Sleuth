@@ -1,50 +1,51 @@
+import { StytchClient } from "@abuse-sleuth/auth";
 import { User, prisma } from "@abuse-sleuth/prisma";
 
-import { hashPassword } from "@libs/auth";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 import { deleteUserByID } from "./deleteUser";
 
-export const createUser = async (
-    username: string,
-    email: string,
-    password: string
-) => {
-    const stripe = getStripeAdmin();
-
-    const customer = await stripe.customers.create({
-        email: email,
+export const createUser = async (stytchUserID: string, email: string) => {
+    let userBillingData = await prisma.userBillingInfo.findFirst({
+        where: {
+            user: {
+                stytchUserID: stytchUserID,
+                email: email,
+            },
+        },
     });
 
-    let user: User;
-    try {
-        const hashedPassword = await hashPassword(password);
+    if (userBillingData === null) {
+        try {
+            const stripeAdmin = getStripeAdmin();
+            const stytchUser = await StytchClient.users.get(stytchUserID);
 
-        user = await prisma.user.create({
-            data: {
-                username,
-                email,
-                password: hashedPassword,
-            },
-        });
+            const customer = await stripeAdmin.customers.create({
+                email: stytchUser.emails[0].email,
+            });
 
-        await prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                userBillingInfo: {
-                    create: {
-                        stripeCustomerId: customer.id,
+            await prisma.userBillingInfo.create({
+                data: {
+                    user: {
+                        connectOrCreate: {
+                            where: {
+                                stytchUserID: stytchUserID,
+                            },
+                            create: {
+                                stytchUserID: stytchUserID,
+                                email: email,
+                            },
+                        },
                     },
+                    stripeCustomerId: customer.id,
                 },
-            },
-        });
-
-        return user;
-    } catch (error) {
-        await deleteUserByID(user.id);
-        await stripe.customers.del(customer.id);
-        throw error;
+                include: {
+                    user: true,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
     }
 };

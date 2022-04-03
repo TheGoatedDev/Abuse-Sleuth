@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -14,7 +13,6 @@ import {
     Title,
     Text,
     Loader,
-    Group,
     StatsCard,
     CountryFlagText,
 } from "@abuse-sleuth/ui";

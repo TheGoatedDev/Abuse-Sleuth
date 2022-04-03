@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
 
 import getHandler from "@libs/api/handler";
@@ -8,7 +9,7 @@ const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.all(async (req: NextApiRequest & { user: StytchUser }, res) => {
+handler.all(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     return res.status(200).send({

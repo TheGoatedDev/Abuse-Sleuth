@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
@@ -12,7 +13,7 @@ const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
+handler.post(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const { priceID } = req.body;
@@ -31,8 +32,12 @@ handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
         },
     });
 
-    if (userBillingInfo.plan !== "" || userBillingInfo.plan !== null) {
-        res.status(400).send({
+    if (
+        userBillingInfo.plan !== "Free" &&
+        userBillingInfo.plan !== "" &&
+        userBillingInfo.plan !== null
+    ) {
+        return res.status(400).send({
             ok: false,
             error: "You already have a plan.",
         });
@@ -60,7 +65,7 @@ handler.post(async (req: NextApiRequest & { user?: StytchUser }, res) => {
         cancel_url: `${req.headers.origin}/payment/cancel`,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
         ok: true,
         data: checkoutSession,
     });

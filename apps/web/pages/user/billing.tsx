@@ -129,9 +129,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     }
 
-    const userBillingInfo = await prisma.userBillingInfo.findUnique({
+    const userBillingInfo = await prisma.userBillingInfo.findFirst({
         where: {
-            userId: session.id,
+            user: {
+                stytchUserID: session.id,
+            },
         },
     });
 

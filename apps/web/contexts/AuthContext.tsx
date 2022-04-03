@@ -1,12 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 import useSWR from "swr";
+import { GenericHTTPResponse } from "types/http";
 import { StytchUser } from "types/user";
+
+import { User } from "@abuse-sleuth/prisma";
 
 import { ROUTES } from "@libs/configs/routes";
 
 export type IAuthContext = {
     loading: boolean;
-    user?: StytchUser;
+    user?: User;
 };
 
 export const AuthContextDefaultValues: IAuthContext = {
@@ -24,7 +27,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(
         AuthContextDefaultValues.loading
     );
-    const [user, setUser] = useState<StytchUser | undefined>(
+    const [user, setUser] = useState<User | null>(
         AuthContextDefaultValues.user
     );
 

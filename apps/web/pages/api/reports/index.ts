@@ -1,4 +1,5 @@
 import { NextApiRequest } from "next";
+import { NextApiRequestWithUser } from "types/http";
 import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
@@ -10,12 +11,14 @@ const handler = getHandler();
 
 handler.use(requireAuth);
 
-handler.get(async (req: NextApiRequest & { user: StytchUser }, res) => {
+handler.get(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const reports = await prisma.scanReport.findMany({
         where: {
-            userId: user.id,
+            user: {
+                id: user.id,
+            },
         },
     });
 

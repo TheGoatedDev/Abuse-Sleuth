@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/node";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
+import { GenericHTTPResponse } from "types/http";
 
 const onError = async (
     err: any,

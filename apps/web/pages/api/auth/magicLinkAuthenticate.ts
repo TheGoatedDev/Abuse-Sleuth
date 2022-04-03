@@ -1,10 +1,12 @@
 import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
-import jwt from "jsonwebtoken";
 
 import { StytchClient } from "@abuse-sleuth/auth";
+import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
+import { createUser } from "@libs/database/user/createUser";
+import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 const handler = getHandler();
 
@@ -16,10 +18,11 @@ handler.post(async (req, res) => {
             session_duration_minutes: 60 * 24 * 7,
         });
 
-        //console.log(JSON.stringify(magicLinkRes, null, 4));
+        const user = await StytchClient.users.get(magicLinkRes.session.user_id);
 
-        //console.log(jwtToken);
+        await createUser(magicLinkRes.user_id, user.emails[0].email);
 
+        // Set the Cookie after the user has been authenticated and precheck have ran.
         setCookies("token", magicLinkRes.session_jwt, {
             req,
             res,
@@ -36,7 +39,7 @@ handler.post(async (req, res) => {
     } catch (error) {
         return res.status(400).send({
             ok: false,
-            error: error.error_message,
+            error: error.error_message || error || "Failed to authenticate.",
         });
     }
 });

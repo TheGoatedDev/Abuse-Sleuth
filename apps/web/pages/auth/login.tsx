@@ -6,6 +6,7 @@ import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { GenericHTTPResponse } from "types/http";
 
 import {
     Alert,
@@ -91,7 +92,7 @@ const Login = () => {
                 }
             }
         })();
-    });
+    }, [router]);
 
     return (
         <DefaultLayout>

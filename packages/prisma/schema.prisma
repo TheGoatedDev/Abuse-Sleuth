@@ -11,6 +11,23 @@ datasource db {
   
 }
 
+model User {
+    id              String      @id @default(cuid())
+
+    stytchUserID    String      @unique
+    email           String      @unique
+
+    // Relations
+    scanReports ScanReport[]
+    userBillingInfo UserBillingInfo?
+
+    // Time
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map("users")
+}
+
 
 model UserBillingInfo {
     id              String      @id @default(cuid())
@@ -20,8 +37,10 @@ model UserBillingInfo {
     stripeCustomerId String     @unique
 
     // Subscription Info
-    plan            String?
+    plan            String      @default("Free")
             
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     // Time
     createdAt       DateTime @default(now())
@@ -88,6 +107,7 @@ model ScanReport {
 
     // Relations
     ipProfiles      IPProfileOnScanReport[]
+    user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     // Time
     expiresAt       DateTime
