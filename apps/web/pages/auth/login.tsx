@@ -69,7 +69,7 @@ const Login = () => {
         if (resData.ok === true) {
             setResult(resData.data);
         } else {
-            setError(resData.error);
+            setError(JSON.stringify(resData.error));
         }
         setLoading(false);
     };
@@ -88,7 +88,9 @@ const Login = () => {
                 const data = await res.json();
                 if (data.ok === true) {
                     setResult("Logged in!");
-                    router.reload();
+                    router.push(ROUTES.home);
+                } else {
+                    setError(data.error);
                 }
             }
         })();

@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "concurrently -n Stripe,Next \"npm:stripe:listen-webhook\" \"npm:dev:next\"",
         "dev:next": "next dev",
+        "clean": "rm -rf .turbo && rm -rf node_modules && run-s db-down",
         "build": "next build",
         "build:docker": "cd ../../ && docker build -t abuse-sleuth-web -f ./apps/web/Dockerfile .",
         "start": "next start",
