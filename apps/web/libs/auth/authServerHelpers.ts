@@ -1,5 +1,4 @@
 import { getCookie } from "cookies-next";
-import { StytchUser } from "types/user";
 
 import { StytchClient } from "@abuse-sleuth/auth";
 import { prisma, User } from "@abuse-sleuth/prisma";
