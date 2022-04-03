@@ -114,8 +114,11 @@ export default function UserBilling({
     );
 }
 
+// TODO: Make this an API Endpoint
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    console.time("OOF");
     const session = await getSession(context.req, context.res);
+    console.timeEnd("OOF");
 
     if (!session) {
         return {

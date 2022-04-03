@@ -4,10 +4,12 @@ import { Center, Paper, Title, Text, Divider } from "@abuse-sleuth/ui";
 
 import ScanLogFile from "@components/forms/ScanLogFile";
 import ScanLogText from "@components/forms/ScanLogText";
+import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
 import { getSession } from "@libs/auth/authServerHelpers";
 
 const ScanLog: NextPage = () => {
+    const auth = useAuth(true);
     return (
         <DashboardLayout>
             <Center
@@ -38,22 +40,3 @@ const ScanLog: NextPage = () => {
 };
 
 export default ScanLog;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context.req, context.res);
-
-    //console.log(session);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
-};

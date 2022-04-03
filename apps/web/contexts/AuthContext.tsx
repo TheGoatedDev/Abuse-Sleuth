@@ -11,7 +11,7 @@ export type IAuthContext = {
 
 export const AuthContextDefaultValues: IAuthContext = {
     loading: true,
-    user: undefined,
+    user: null,
 };
 
 export const AuthContext = createContext<IAuthContext>(
@@ -51,7 +51,9 @@ export const AuthProvider: React.FC = ({ children }) => {
                 setUser(undefined);
             }
         }
-        setLoading(false);
+        if (error || data) {
+            setLoading(false);
+        }
     }, [data, error]);
 
     return (

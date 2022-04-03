@@ -1,25 +1,29 @@
-import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
 
 import { Center, Container, Loader, Table, Title } from "@abuse-sleuth/ui";
 
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
+import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
 import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
-import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function ReportViewer() {
+    const auth = useAuth(true);
     const [reports, setReports] = useState<React.ReactElement[]>([]);
 
     useEffect(() => {
         (async () => {
-            const data = await getReportsFromAPI();
+            try {
+                const data = await getReportsFromAPI();
 
-            setReports(
-                data.map((report, index) => (
-                    <ReportItem key={index} report={report} />
-                ))
-            );
+                setReports(
+                    data.map((report, index) => (
+                        <ReportItem key={index} report={report} />
+                    ))
+                );
+            } catch (error) {
+                console.error(error);
+            }
         })();
     }, []);
 
@@ -48,20 +52,3 @@ export default function ReportViewer() {
         </DashboardLayout>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context.req, context.res);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
-};

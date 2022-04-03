@@ -16,6 +16,7 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
+import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
 import { getSession } from "@libs/auth/authServerHelpers";
 
@@ -26,6 +27,7 @@ export default function Dashboard({
     totalIPs: number;
     totalScans: number;
 }) {
+    const auth = useAuth(true);
     return (
         <DashboardLayout>
             <Container mt={"xl"}>
@@ -70,41 +72,30 @@ export default function Dashboard({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    try {
-        console.time("Get Session");
-        const session = await getSession(context.req, context.res);
-        console.timeEnd("Get Session");
+    const session = await getSession(context.req, context.res);
 
-        const countIPs = await prisma.iPProfile.count({
-            where: {
+    const countIPs = await prisma.iPProfile.count({
+        where: {
+            updatedAt: {
+                gte: dayjs().subtract(30, "day").toDate(),
+            },
+        },
+    });
+    const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
+        where: {
+            report: {
+                userId: session.id,
                 updatedAt: {
                     gte: dayjs().subtract(30, "day").toDate(),
                 },
             },
-        });
-        const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
-            where: {
-                report: {
-                    userId: session.id,
-                    updatedAt: {
-                        gte: dayjs().subtract(30, "day").toDate(),
-                    },
-                },
-            },
-        });
+        },
+    });
 
-        return {
-            props: {
-                totalIPs: countIPs,
-                totalScans: countIPLinksByUser,
-            },
-        };
-    } catch (error) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
+    return {
+        props: {
+            totalIPs: countIPs,
+            totalScans: countIPLinksByUser,
+        },
+    };
 };

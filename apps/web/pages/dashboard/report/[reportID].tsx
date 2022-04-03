@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "@hooks/AuthHook";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -24,9 +23,9 @@ import {
     ReportIPProfileItem,
     ScanStatus,
 } from "@components/tables/reportInfoViewer/reportIPProfileItem";
+import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
 import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
-import { getSession } from "@libs/auth/authServerHelpers";
 
 // TODO: Migrate to another file
 function mode(arr) {

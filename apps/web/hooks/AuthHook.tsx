@@ -1,16 +1,16 @@
-import { AuthContext } from "@contexts/AuthContext";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { useSWRConfig } from "swr";
 import { StytchUser } from "types/user";
 
+import { AuthContext } from "@contexts/AuthContext";
 import { ROUTES } from "@libs/configs/routes";
 
 export const useAuth = (
     shouldAuth: boolean = false
 ): {
     loading: boolean;
-    user?: StytchUser;
+    user: StytchUser | null;
     logout: () => void;
 } => {
     const { loading, user } = useContext(AuthContext);
@@ -18,16 +18,17 @@ export const useAuth = (
     const router = useRouter();
     const { mutate } = useSWRConfig();
 
-    const logout = () => {
-        fetch(ROUTES.api.auth.logout).then(() => {
-            mutate(ROUTES.api.auth.user);
-            router.reload();
-        });
+    const logout = async () => {
+        await fetch(ROUTES.api.auth.logout);
+        await mutate(ROUTES.api.auth.user);
+        router.push(ROUTES.auth.login);
     };
 
+    // TODO: I AM FUCKING BROKE
     useEffect(() => {
+        console.log(loading, user, shouldAuth);
         if (!loading) {
-            if (shouldAuth && !user) {
+            if (shouldAuth && user === null) {
                 router.push(ROUTES.auth.login);
             }
         }

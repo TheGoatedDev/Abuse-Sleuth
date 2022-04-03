@@ -5,25 +5,10 @@ import { GetServerSideProps } from "next";
 import { useState } from "react";
 
 import { ScanSingleIP } from "@components/forms/ScanSingleIP";
+import { useAuth } from "@hooks/AuthHook";
 import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function CheckIP() {
+    const auth = useAuth(true);
     return <ScanSingleIP />;
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context.req, context.res);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: "/auth/login",
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {},
-    };
-};
