@@ -2,13 +2,15 @@ import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
 
 import { StytchClient } from "@abuse-sleuth/auth";
-import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
+import requireValidation from "@libs/api/middleware/requireValidation";
 import { createUser } from "@libs/database/user/createUser";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import { magicLinkAuthenticateSchema } from "@libs/validationSchemas/magicLinkAuthenticateSchema";
 
 const handler = getHandler();
+
+handler.use(requireValidation({ bodySchema: magicLinkAuthenticateSchema }));
 
 handler.post(async (req, res) => {
     const token: string = req.body.token;
@@ -37,6 +39,9 @@ handler.post(async (req, res) => {
             data: "Authenticated",
         });
     } catch (error) {
+        console.error(
+            error.error_message || error || "Failed to authenticate."
+        );
         return res.status(400).send({
             ok: false,
             error: error.error_message || error || "Failed to authenticate.",

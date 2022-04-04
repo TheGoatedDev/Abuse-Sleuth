@@ -55,7 +55,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
                 },
                 data: {
                     plan:
-                        subscription.status === "active" ? product.name : null,
+                        subscription.status === "active"
+                            ? product.name
+                            : undefined,
                 },
             });
 

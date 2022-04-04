@@ -1,13 +1,13 @@
 import geoip from "geoip-lite";
-import { isPrivate, isV4Format, isV6Format } from "ip";
-import { NextApiRequest } from "next";
+import { isPrivate, isV4Format } from "ip";
 import { NextApiRequestWithUser } from "types/http";
-import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
+import requireValidation from "@libs/api/middleware/requireValidation";
+import { scanLogSchema } from "@libs/validationSchemas/scanLogSchema";
 
 type IRequestBody = {
     ipAddresses: string[];
@@ -16,18 +16,11 @@ type IRequestBody = {
 const handler = getHandler();
 
 handler.use(requireAuth);
+handler.use(requireValidation({ bodySchema: scanLogSchema }));
 
 handler.post(async (req: NextApiRequestWithUser, res) => {
     const { ipAddresses }: IRequestBody = req.body;
     const user = req.user;
-
-    if (!ipAddresses) {
-        res.status(422).send({
-            ok: false,
-            error: "IP Addresses is required.",
-        });
-        return;
-    }
 
     const report = await prisma.scanReport.create({
         data: {
@@ -41,9 +34,6 @@ handler.post(async (req: NextApiRequestWithUser, res) => {
                 create: [
                     ...ipAddresses.map((ipAddress) => {
                         const geo = geoip.lookup(ipAddress);
-                        const isValid =
-                            isV4Format(ipAddress) || isV6Format(ipAddress);
-                        // TODO: Error is invalid IP Address
 
                         const isPrivateAddress = isPrivate(ipAddress);
                         const version = isV4Format(ipAddress) ? "4" : "6";

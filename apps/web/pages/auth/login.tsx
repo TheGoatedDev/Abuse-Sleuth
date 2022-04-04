@@ -1,23 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import { useAuth } from "hooks/AuthHook";
 import Joi from "joi";
-import { GetServerSidePropsContext } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { GenericHTTPResponse } from "types/http";
 
 import {
-    Alert,
     AlertBox,
     Button,
     Center,
     Divider,
     Group,
     Paper,
-    PasswordInput,
-    Space,
     Text,
     TextInput,
     Title,

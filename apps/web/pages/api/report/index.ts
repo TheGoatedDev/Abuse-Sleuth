@@ -1,16 +1,16 @@
-import { NextApiRequest } from "next";
 import { NextApiRequestWithUser } from "types/http";
-import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
-import { getSession } from "@libs/auth/authServerHelpers";
+import requireValidation from "@libs/api/middleware/requireValidation";
+import { reportQuerySchema } from "@libs/validationSchemas/reportQuerySchema";
 
 const handler = getHandler();
 
 handler.use(requireAuth);
+handler.use(requireValidation({ querySchema: reportQuerySchema }));
 
 handler.get(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;

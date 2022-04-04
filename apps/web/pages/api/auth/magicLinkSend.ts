@@ -1,11 +1,13 @@
-import { StytchError } from "stytch";
-
 import { StytchClient } from "@abuse-sleuth/auth";
 
 import getHandler from "@libs/api/handler";
+import requireValidation from "@libs/api/middleware/requireValidation";
 import { ROUTES } from "@libs/configs/routes";
+import { magicLinkSendSchema } from "@libs/validationSchemas/magicLinkSendSchema";
 
 const handler = getHandler();
+
+handler.use(requireValidation({ bodySchema: magicLinkSendSchema }));
 
 handler.post(async (req, res) => {
     const email: string = req.body.email;
@@ -24,7 +26,7 @@ handler.post(async (req, res) => {
     } catch (error) {
         res.status(400).send({
             ok: false,
-            error: error.error_message,
+            error: error.error_message || error || "Failed to Send Magic Link",
         });
     }
 });

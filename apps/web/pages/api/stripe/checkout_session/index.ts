@@ -1,30 +1,22 @@
-import { NextApiRequest } from "next";
 import { NextApiRequestWithUser } from "types/http";
-import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
-import { getSession } from "@libs/auth/authServerHelpers";
+import requireValidation from "@libs/api/middleware/requireValidation";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import { stripeCheckoutSchema } from "@libs/validationSchemas/stripeCheckoutSchema";
 
 const handler = getHandler();
 
 handler.use(requireAuth);
+handler.use(requireValidation({ bodySchema: stripeCheckoutSchema }));
 
 handler.post(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const { priceID } = req.body;
-
-    if (!priceID) {
-        res.status(422).send({
-            ok: false,
-            error: "priceID is required.",
-        });
-        return;
-    }
 
     const userBillingInfo = await prisma.userBillingInfo.findUnique({
         where: {

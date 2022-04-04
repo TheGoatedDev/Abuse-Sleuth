@@ -1,6 +1,4 @@
-import { NextApiRequest } from "next";
 import { NextApiRequestWithUser } from "types/http";
-import { StytchUser } from "types/user";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
