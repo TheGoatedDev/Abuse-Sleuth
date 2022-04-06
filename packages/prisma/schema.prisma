@@ -11,11 +11,19 @@ datasource db {
   
 }
 
+enum UserRole {
+    DEVELOPER
+    ADMIN
+    USER
+}
+
 model User {
     id              String      @id @default(cuid())
 
     stytchUserID    String      @unique
     email           String      @unique
+
+    userRole        UserRole    @default(USER)
 
     // Relations
     scanReports ScanReport[]
