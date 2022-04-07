@@ -132,7 +132,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const userBillingInfo = await prisma.userBillingInfo.findFirst({
         where: {
             user: {
-                stytchUserID: session.id,
+                id: session.id,
             },
         },
     });
