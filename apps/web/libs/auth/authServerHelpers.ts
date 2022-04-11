@@ -1,10 +1,14 @@
 import { getCookie } from "cookies-next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import { StytchClient } from "@abuse-sleuth/auth";
 import { prisma, User } from "@abuse-sleuth/prisma";
 
 // TODO: Do Correct Type for params
-export const getSession = async (req: any, res: any): Promise<User | null> => {
+export const getSession = async (
+    req: NextApiRequest,
+    res: NextApiResponse
+): Promise<User | null> => {
     const tokenCookie = getCookie("token", { req, res });
 
     if (!tokenCookie) {

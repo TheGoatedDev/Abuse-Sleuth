@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { GenericHTTPResponse } from "types/http";
-import { StytchUser } from "types/user";
 
 import { User } from "@abuse-sleuth/prisma";
 
@@ -21,7 +20,7 @@ export const AuthContext = createContext<IAuthContext>(
     AuthContextDefaultValues
 );
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(
@@ -32,7 +31,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     );
 
     const { data, error } = useSWR<GenericHTTPResponse>(
-        ROUTES.api.auth.user,
+        ROUTES.api.user.getCurrentUserInfo,
         fetcher,
         {
             revalidateIfStale: true,

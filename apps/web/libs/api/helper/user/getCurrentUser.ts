@@ -3,10 +3,8 @@ import { GenericHTTPResponse } from "types/http";
 
 import { ROUTES } from "@libs/configs/routes";
 
-export const createCheckoutSessionFromAPI = async (priceID: string) => {
-    const response = await axios.post(ROUTES.api.stripe.createCheckoutSession, {
-        priceID: priceID,
-    });
+export const getCurrentUser = async () => {
+    const response = await axios.get(ROUTES.api.user.getCurrentUserInfo);
     const { ok, error, data }: GenericHTTPResponse = response.data;
     if (ok) {
         return data;
@@ -15,4 +13,4 @@ export const createCheckoutSessionFromAPI = async (priceID: string) => {
     }
 };
 
-export default createCheckoutSessionFromAPI;
+export default getCurrentUser;

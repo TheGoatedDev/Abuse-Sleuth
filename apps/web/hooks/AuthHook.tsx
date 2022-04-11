@@ -22,7 +22,7 @@ export const useAuth = (
 
     const logout = async () => {
         await fetch(ROUTES.api.auth.logout);
-        await mutate(ROUTES.api.auth.user);
+        await mutate(ROUTES.api.user.getCurrentUserInfo);
         router.push(ROUTES.auth.login);
     };
 

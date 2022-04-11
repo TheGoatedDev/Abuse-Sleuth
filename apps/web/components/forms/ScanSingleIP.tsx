@@ -15,6 +15,7 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@layouts/DashboardLayout";
+import { ROUTES } from "@libs/configs/routes";
 import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
 
 import { useForm, joiResolver } from "@mantine/form";
@@ -36,7 +37,9 @@ export const ScanSingleIP = () => {
         const ipAddress = values.ipAddress;
 
         try {
-            const res = await axios.post("/api/scan/scanip", { ipAddress });
+            const res = await axios.post(ROUTES.api.scans.scanSingleIP, {
+                ipAddress,
+            });
             setError("");
             setResult(
                 <Text>

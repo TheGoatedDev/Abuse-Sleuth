@@ -1,7 +1,10 @@
 import axios from "axios";
+import { GenericHTTPResponse } from "types/http";
+
+import { ROUTES } from "@libs/configs/routes";
 
 export const getReportsFromAPI = async () => {
-    const response = await axios.get("/api/reports/");
+    const response = await axios.get(ROUTES.api.reports.getReports);
     const { ok, error, data }: GenericHTTPResponse = response.data;
     if (ok) {
         return data;

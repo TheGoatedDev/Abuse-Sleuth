@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { GenericHTTPResponse, NextApiRequestWithUser } from "types/http";
-import { StytchUser } from "types/user";
-
-import { prisma, User } from "@abuse-sleuth/prisma";
 
 import { getSession } from "@libs/auth/authServerHelpers";
 
