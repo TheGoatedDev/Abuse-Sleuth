@@ -32,7 +32,7 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
             })}>
             <NavLink href={"/pricing"}>Pricing</NavLink>
             {!auth.user ? (
-                <Link href={"/auth/login"} passHref>
+                <Link href={"/login"} passHref>
                     <Button radius={"md"} variant="filled" component="a">
                         Login
                     </Button>

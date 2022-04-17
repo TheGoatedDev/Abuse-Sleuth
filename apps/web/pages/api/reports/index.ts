@@ -13,6 +13,11 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const reports = await prisma.scanReport.findMany({
+        select: {
+            id: true,
+            createdAt: true,
+            expiresAt: true,
+        },
         where: {
             user: {
                 id: user.id,

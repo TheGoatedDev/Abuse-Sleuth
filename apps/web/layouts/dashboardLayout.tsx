@@ -66,25 +66,15 @@ const DashboardLayout: React.FC = ({ children }) => {
                     }
                     bottomZone={
                         <>
-                            <Group mb="xs" position="apart">
-                                <Box
-                                    sx={(theme) => ({
-                                        textAlign: "left",
-                                    })}>
-                                    <Avatar
-                                        size={"md"}
-                                        radius={"xl"}
-                                        color="blue"
-                                    />
-                                </Box>
-
+                            <Group mb="xs" position="center">
                                 {auth.user ? (
                                     <Text
-                                        align="center"
+                                        align="left"
                                         sx={(theme) => ({
-                                            flexGrow: "2",
+                                            flexGrow: "1",
                                         })}
-                                        size="sm">
+                                        size="sm"
+                                        ml="xs">
                                         {auth.user.email}
                                     </Text>
                                 ) : (

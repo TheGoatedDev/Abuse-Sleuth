@@ -4,7 +4,7 @@ export const ROUTES = {
     home: "/",
 
     auth: {
-        login: "/auth/login",
+        login: "/login",
     },
 
     dashboard: {
@@ -14,8 +14,7 @@ export const ROUTES = {
     api: {
         // Everything Related to Authentication
         auth: {
-            magicLinkSend: "/api/auth/magicLinkSend",
-            magicLinkAuthenticate: "/api/auth/magicLinkAuthenticate",
+            authenticate: "/api/auth/authenticate",
             logout: "/api/auth/logout",
         },
         // Everything Related to User

@@ -6,26 +6,29 @@ import { StytchClient } from "@abuse-sleuth/auth";
 import getHandler from "@libs/api/handler";
 import requireValidation from "@libs/api/middleware/requireValidation";
 import { createUser } from "@libs/database/user/createUser";
-import { magicLinkAuthenticateSchema } from "@libs/validationSchemas/magicLinkAuthenticateSchema";
+import { oauthAuthenticateSchema } from "@libs/validationSchemas/oauthAuthenticateSchema";
 
 const handler = getHandler();
 
-handler.use(requireValidation({ bodySchema: magicLinkAuthenticateSchema }));
+handler.use(requireValidation({ bodySchema: oauthAuthenticateSchema }));
 
 handler.post(async (req, res) => {
     const token: string = req.body.token;
 
     try {
-        const magicLinkRes = await StytchClient.magicLinks.authenticate(token, {
+        const oauthRes = await StytchClient.oauth.authenticate(token, {
             session_duration_minutes: 60 * 24 * 7,
+            session_management_type: "stytch",
         });
 
-        const user = await StytchClient.users.get(magicLinkRes.session.user_id);
+        const user = await StytchClient.users.get(oauthRes.user_id);
 
-        await createUser(magicLinkRes.user_id, user.emails[0].email);
+        await createUser(oauthRes.user_id, user.emails[0].email);
+
+        console.log(JSON.stringify(oauthRes, null, 2));
 
         // Set the Cookie after the user has been authenticated and precheck have ran.
-        setCookies("token", magicLinkRes.session_jwt, {
+        setCookies("token", oauthRes.session.stytch_session.session_jwt, {
             req,
             res,
             path: "/",
