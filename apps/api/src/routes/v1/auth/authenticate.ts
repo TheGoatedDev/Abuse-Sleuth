@@ -1,18 +1,12 @@
-import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
+import { Router } from "express";
 
 import { StytchClient } from "@abuse-sleuth/auth";
 
-import getHandler from "@libs/api/handler";
-import requireValidation from "@libs/api/middleware/requireValidation";
-import { createUser } from "@libs/database/user/createUser";
-import { oauthAuthenticateSchema } from "@libs/validationSchemas/oauthAuthenticateSchema";
+const authenticateController = Router();
 
-const handler = getHandler();
-
-handler.use(requireValidation({ bodySchema: oauthAuthenticateSchema }));
-
-handler.post(async (req, res) => {
+authenticateController.post("/", async (req, res) => {
+    //console.log(JSON.stringify(req.body, null, 2));
     const token: string = req.body.token;
 
     try {
@@ -23,25 +17,28 @@ handler.post(async (req, res) => {
 
         const user = await StytchClient.users.get(oauthRes.user_id);
 
-        await createUser(oauthRes.user_id, user.emails[0].email);
+        //await createUser(oauthRes.user_id, user.emails[0].email);
 
         // console.log(JSON.stringify(oauthRes, null, 2));
 
         // Set the Cookie after the user has been authenticated and precheck have ran.
-        setCookies("token", oauthRes.session.stytch_session.session_jwt, {
-            req,
-            res,
+        res.cookie("token", oauthRes.session?.stytch_session?.session_jwt, {
+            domain: "localhost",
             path: "/",
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             expires: dayjs().add(7, "day").toDate(),
+            sameSite: "none",
         });
+
+        //console.log(oauthRes.session?.stytch_session?.session_jwt);
 
         return res.status(200).send({
             ok: true,
             data: "Authenticated",
         });
-    } catch (error) {
+    } catch (err) {
+        const error = err as any;
         console.error(
             error.error_message || error || "Failed to authenticate."
         );
@@ -52,4 +49,4 @@ handler.post(async (req, res) => {
     }
 });
 
-export default handler;
+export default authenticateController;

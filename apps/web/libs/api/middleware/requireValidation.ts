@@ -1,5 +1,6 @@
 import { Schema, ValidationError } from "joi";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { GenericHTTPResponse } from "types/http";
 
 export const requireValidation = ({
     querySchema,

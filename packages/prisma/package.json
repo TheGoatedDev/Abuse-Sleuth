@@ -7,7 +7,7 @@
         "dist"
     ],
     "scripts": {
-        "dev": "run-s db-generate && tsup index.ts --dts --watch",
+        "dev": "run-s db:generate && tsup index.ts --dts --watch",
         "clean": "rm -rf .turbo && rm -rf node_modules",
         "deploy": "run-s build db:deploy",
         "build": "npm run db:generate",

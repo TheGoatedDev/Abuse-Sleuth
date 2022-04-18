@@ -8,7 +8,7 @@ import { ROUTES } from "@libs/configs/routes";
 
 export type IAuthContext = {
     loading: boolean;
-    user?: User;
+    user: User | null;
 };
 
 export const AuthContextDefaultValues: IAuthContext = {

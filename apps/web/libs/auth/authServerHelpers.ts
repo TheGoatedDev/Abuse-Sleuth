@@ -6,8 +6,8 @@ import { prisma, User } from "@abuse-sleuth/prisma";
 
 // TODO: Do Correct Type for params
 export const getSession = async (
-    req: NextApiRequest,
-    res: NextApiResponse
+    req: any,
+    res: any
 ): Promise<User | null> => {
     const tokenCookie = getCookie("token", { req, res });
 

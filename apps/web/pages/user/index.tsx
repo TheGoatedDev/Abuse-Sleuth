@@ -8,7 +8,7 @@ export default function UserIndex() {
 
     return (
         <DashboardLayout>
-            <Title>User: {auth.user.emails[0].email}</Title>
+            <Title>User: {auth.user ? auth.user.email : ""}</Title>
         </DashboardLayout>
     );
 }
