@@ -14,6 +14,10 @@ export const createUser = async (stytchUserID: string, email: string) => {
         },
     });
 
+    if (userBillingData) {
+        return;
+    }
+
     const customer = await stripeAdmin.customers.create({
         email: email,
     });
