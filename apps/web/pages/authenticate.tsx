@@ -1,10 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Joi from "joi";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSWRConfig } from "swr";
-import { GenericHTTPResponse } from "types/http";
 
 import {
     AlertBox,

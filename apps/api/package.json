@@ -8,7 +8,7 @@
     "scripts": {
         "start": "node dist/index.js",
         "build": "tsup src/index.ts",
-        "dev": "nodemon",
+        "dev": "dotenv nodemon",
         "clean": "rm -rf .turbo  && rm -rf dist && rm -rf coverage && rm -rf node_modules"
     },
     "dependencies": {
@@ -23,6 +23,7 @@
         "@abuse-sleuth/tsconfig": "*",
         "@types/cors": "^2.8.12",
         "@types/express": "^4.17.13",
+        "dotenv-cli": "^5.1.0",
         "nodemon": "^2.0.15",
         "serverless-offline": "^8.7.0",
         "serverless-plugin-typescript": "^2.1.2",
