@@ -1,8 +1,7 @@
 <p align="center">
     <img src="apps/web/public/logo.png" height="100px" />
+    <h2 align="center">What is Abuse Sleuth?</h2>
 </p>
-
-## What is Abuse Sleuth?
 
 Abuse Sleuth is a free-to-use data analyse platform for IP Address related information. This platform's intended use is to gather data from multiple data sources and be able to aggregate it, so that it can determine is the IP Address is currently being used for malicous intent or if it is still being used for malicious intent. Network Admins, System Admins and Blue Team Security Experts will be able to use this tool to be able to block or blacklist IP Addresses that have been hitting there firewall or IPS (Intrusion Prevent System).
 
