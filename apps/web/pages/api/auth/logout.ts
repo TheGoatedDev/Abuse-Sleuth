@@ -1,6 +1,8 @@
 import { removeCookies } from "cookies-next";
 
 import getHandler from "@libs/api/handler";
+import EnvConfig from "@libs/configs/env";
+
 
 const handler = getHandler();
 
@@ -10,7 +12,7 @@ handler.all(async (req, res) => {
         res,
         path: "/",
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: EnvConfig.isProduction,
     });
 
     return res.status(200).send({

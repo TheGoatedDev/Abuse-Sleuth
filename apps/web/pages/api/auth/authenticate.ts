@@ -7,6 +7,8 @@ import getHandler from "@libs/api/handler";
 import requireValidation from "@libs/api/middleware/requireValidation";
 import { createUser } from "@libs/database/user/createUser";
 import { oauthAuthenticateSchema } from "@libs/validationSchemas/oauthAuthenticateSchema";
+import EnvConfig from "@libs/configs/env";
+
 
 const handler = getHandler();
 
@@ -33,7 +35,7 @@ handler.post(async (req, res) => {
             res,
             path: "/",
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: EnvConfig.isProduction,
             expires: dayjs().add(7, "day").toDate(),
         });
 

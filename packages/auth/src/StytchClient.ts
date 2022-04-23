@@ -3,8 +3,6 @@ import http from "http";
 import https from "https";
 import * as Stytch from "stytch";
 
-//console.log(JSON.stringify(process.env, null, 4));
-
 export const StytchClient: Stytch.Client =
     (globalThis as any).stytchClient ||
     new Stytch.Client({

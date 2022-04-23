@@ -6,6 +6,7 @@ import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import EnvConfig from "@libs/configs/env";
 
 export const config = {
     api: {
@@ -26,7 +27,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         event = stripe.webhooks.constructEvent(
             await buffer(req),
             sig,
-            process.env.STRIPE_WEBHOOK_SIGNING_SECRET!
+            EnvConfig.stripe.signingSecret
         );
     } catch (error: any) {
         console.error("Stripe Webhook Hander", error);

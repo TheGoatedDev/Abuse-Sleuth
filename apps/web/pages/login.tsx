@@ -14,6 +14,8 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DefaultLayout from "@layouts/DefaultLayout";
+import EnvConfig from "@libs/configs/env";
+
 
 const Login = () => {
     return (
@@ -39,24 +41,7 @@ const Login = () => {
 
                     <Group>
                         <Link
-                            href={`https://test.stytch.com/v1/public/oauth/github/start?public_token=${process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN}`}
-                            passHref>
-                            <Button
-                                variant="default"
-                                color={"dark"}
-                                fullWidth
-                                leftIcon={
-                                    <FontAwesomeIcon
-                                        icon={["fab", "github"]}
-                                        size={"lg"}
-                                    />
-                                }
-                                component="a">
-                                Login with Github
-                            </Button>
-                        </Link>
-                        <Link
-                            href={`https://test.stytch.com/v1/public/oauth/google/start?public_token=${process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN}`}
+                            href={`https://test.stytch.com/v1/public/oauth/google/start?public_token=${EnvConfig.public.stytch.publicToken}`}
                             passHref>
                             <Button
                                 variant="default"
@@ -70,6 +55,23 @@ const Login = () => {
                                 }
                                 component="a">
                                 Login with Google
+                            </Button>
+                        </Link>
+                        <Link
+                            href={`https://test.stytch.com/v1/public/oauth/github/start?public_token=${EnvConfig.public.stytch.publicToken}`}
+                            passHref>
+                            <Button
+                                variant="default"
+                                color={"dark"}
+                                fullWidth
+                                leftIcon={
+                                    <FontAwesomeIcon
+                                        icon={["fab", "github"]}
+                                        size={"lg"}
+                                    />
+                                }
+                                component="a">
+                                Login with Github
                             </Button>
                         </Link>
                     </Group>
