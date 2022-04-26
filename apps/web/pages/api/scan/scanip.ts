@@ -20,12 +20,14 @@ handler.use(requireValidation({ bodySchema: scanSingleIPSchema }));
 handler.post(async (req, res) => {
     const { ipAddress }: IRequestBody = req.body;
 
+    // Try to get IP Profile
     let ipProfile = await prisma.iPProfile.findUnique({
         where: {
             ipAddress,
         },
     });
 
+    // If IP Profile doesnt exist create one
     if (!ipProfile) {
         const geo = geoip.lookup(ipAddress);
         const version = isV4Format(ipAddress) ? "4" : "6";

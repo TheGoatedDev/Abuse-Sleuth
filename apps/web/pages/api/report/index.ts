@@ -15,6 +15,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
 
     const reportID: string = req.query.reportID as string;
 
+    // Get the Raw Report with all links
     const rawReport = await prisma.scanReport.findFirst({
         where: {
             user: {
@@ -36,6 +37,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
         },
     });
 
+    // Check if the Report is valid
     if (!rawReport) {
         return res.status(400).send({
             ok: false,
@@ -43,6 +45,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
         });
     }
 
+    // Parse Reports
     const report = {
         id: rawReport.id,
         ipProfiles: rawReport.ipProfiles.map((ipProfile) => {
