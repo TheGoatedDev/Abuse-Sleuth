@@ -1,7 +1,7 @@
+import { getCookie } from "cookies-next";
 import { NextApiRequest, NextApiResponse } from "next";
-import { GenericHTTPResponse, NextApiRequestWithUser } from "types/http";
 
-import { getSession } from "@libs/auth/authServerHelpers";
+import { getSession } from "@abuse-sleuth/auth";
 
 export const requireAuth = async (
     req: NextApiRequestWithUser,
@@ -9,12 +9,18 @@ export const requireAuth = async (
     next: any
 ) => {
     try {
-        const user = await getSession(req, res);
+        // Getting the Token from Cookies
+        const token = getCookie("token", { req, res });
 
+        // Checking Stytch for Token and returns User
+        const user = await getSession(token.toString());
+
+        // Make Request contain user for further use
         req.user = user;
 
         next();
     } catch (error) {
+        // Error if Above fails
         return res.status(400).send({
             ok: false,
             error: error,

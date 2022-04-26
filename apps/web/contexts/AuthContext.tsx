@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import useSWR from "swr";
-import { GenericHTTPResponse } from "types/http";
+import useSWR, { Fetcher } from "swr";
 
 import { User } from "@abuse-sleuth/prisma";
 
@@ -20,9 +19,11 @@ export const AuthContext = createContext<IAuthContext>(
     AuthContextDefaultValues
 );
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const getCurrentUserFetcher: Fetcher<GenericHTTPResponse<User>> = () =>
+    fetch(ROUTES.api.user.getCurrentUserInfo).then((res) => res.json());
 
 export const AuthProvider: React.FC = ({ children }) => {
+    // Grab Getter and Setting for loading and user from AuthContext
     const [loading, setLoading] = useState<boolean>(
         AuthContextDefaultValues.loading
     );
@@ -30,22 +31,26 @@ export const AuthProvider: React.FC = ({ children }) => {
         AuthContextDefaultValues.user
     );
 
-    const { data, error } = useSWR<GenericHTTPResponse>(
-        ROUTES.api.user.getCurrentUserInfo,
-        fetcher,
+    // SWR for verifing cookie and getting user data.
+    const { data, error } = useSWR<GenericHTTPResponse<User>>(
+        "getCurrentUser",
+        getCurrentUserFetcher,
         {
             revalidateIfStale: true,
             revalidateOnFocus: true,
         }
     );
 
+    // Handle SWR changes
     useEffect(() => {
         setLoading(true);
+        // Error if error
         if (error) {
             console.error(error);
             throw error;
         }
 
+        // Set Context for user to user from SWR
         if (data) {
             if (data.ok) {
                 setUser(data.data);
@@ -53,6 +58,8 @@ export const AuthProvider: React.FC = ({ children }) => {
                 setUser(undefined);
             }
         }
+
+        // Set Loading to false
         if (error || data) {
             setLoading(false);
         }

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { GenericHTTPResponse } from "types/http";
 
 import { ROUTES } from "@libs/configs/routes";
 

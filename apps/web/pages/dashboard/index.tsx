@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 
+import { getSession } from "@abuse-sleuth/auth";
 import { prisma } from "@abuse-sleuth/prisma";
 import {
     Box,
@@ -18,7 +20,6 @@ import {
 
 import { useAuth } from "@hooks/AuthHook";
 import DashboardLayout from "@layouts/DashboardLayout";
-import { getSession } from "@libs/auth/authServerHelpers";
 
 export default function Dashboard({
     totalIPs,
@@ -72,7 +73,9 @@ export default function Dashboard({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context.req, context.res);
+    const token = getCookie("token", { req: context.req, res: context.res });
+
+    const session = await getSession(token.toString());
 
     const countIPs = await prisma.iPProfile.count({
         where: {

@@ -1,6 +1,5 @@
 import geoip from "geoip-lite";
 import { isPrivate, isV4Format } from "ip";
-import { NextApiRequestWithUser } from "types/http";
 
 import { prisma } from "@abuse-sleuth/prisma";
 

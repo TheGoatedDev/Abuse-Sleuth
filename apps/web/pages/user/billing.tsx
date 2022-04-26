@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
 import Stripe from "stripe";
 
+import { getSession } from "@abuse-sleuth/auth";
 import { prisma } from "@abuse-sleuth/prisma";
 import {
     Box,
@@ -16,7 +18,6 @@ import {
 
 import DashboardLayout from "@layouts/DashboardLayout";
 import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
-import { getSession } from "@libs/auth/authServerHelpers";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 import getStripeClient from "@libs/stripe/stripeClient";
 
@@ -116,9 +117,9 @@ export default function UserBilling({
 
 // TODO: Make this an API Endpoint
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    console.time("OOF");
-    const session = await getSession(context.req, context.res);
-    console.timeEnd("OOF");
+    const token = getCookie("token", { req: context.req, res: context.res });
+
+    const session = await getSession(token.toString());
 
     if (!session) {
         return {

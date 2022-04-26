@@ -23,6 +23,8 @@
         "axios": "^0.26.1",
         "dayjs": "^1.11.1",
         "dotenv": "^16.0.0",
-        "stytch": "^3.13.0"
+        "stytch": "^3.13.0",
+        "@abuse-sleuth/prisma": "*",
+        "@abuse-sleuth/auth": "*"
     }
 }

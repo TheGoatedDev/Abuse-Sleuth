@@ -22,6 +22,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
+// Adds all required Font-Awesome Icons to library
 export const initializeFontAwesome = () => {
     library.add(
         faSun,

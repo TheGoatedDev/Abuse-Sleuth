@@ -1,6 +1,5 @@
 import { Schema, ValidationError } from "joi";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { GenericHTTPResponse } from "types/http";
 
 export const requireValidation = ({
     querySchema,
@@ -16,6 +15,7 @@ export const requireValidation = ({
     ) => {
         const errors: ValidationError[] = [];
 
+        // Check if Query Schema is present and run checks
         if (querySchema) {
             const queryValidation = querySchema.validate(req.query);
             if (queryValidation.error) {
@@ -23,6 +23,7 @@ export const requireValidation = ({
             }
         }
 
+        // Check if Body Schema is present and run checks
         if (bodySchema) {
             const bodyValidation = bodySchema.validate(req.body);
             if (bodyValidation.error) {
@@ -30,6 +31,7 @@ export const requireValidation = ({
             }
         }
 
+        // Parse all errors to be readable to the frontend
         if (errors.length > 0) {
             const details = errors
                 .map((error) =>

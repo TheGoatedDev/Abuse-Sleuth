@@ -5,8 +5,8 @@ import Stripe from "stripe";
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 import EnvConfig from "@libs/configs/env";
+import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
 
 export const config = {
     api: {
@@ -17,12 +17,16 @@ export const config = {
 const handler = getHandler();
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+    // Gets the Stripes Webhook Signature from the headers
     const sig = req.headers["stripe-signature"]!;
 
+    // Gets a Stripe Admin instance
     const stripe = getStripeAdmin();
 
+    // Declares a Stripe Event
     let event: Stripe.Event;
 
+    // Constructs the Webhook Event and validates the signature.
     try {
         event = stripe.webhooks.constructEvent(
             await buffer(req),
@@ -40,6 +44,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
     //console.log("Stripe Webhook Hander", event.type);
 
+    // Handle Event
     switch (event.type) {
         case "customer.subscription.created":
         case "customer.subscription.updated":

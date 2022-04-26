@@ -1,5 +1,3 @@
-import { NextApiRequestWithUser } from "types/http";
-
 import { prisma } from "@abuse-sleuth/prisma";
 
 import getHandler from "@libs/api/handler";

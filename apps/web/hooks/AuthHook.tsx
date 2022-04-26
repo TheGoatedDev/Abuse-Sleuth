@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { useSWRConfig } from "swr";
-import { StytchUser } from "types/user";
 
 import { User } from "@abuse-sleuth/prisma";
 
@@ -15,17 +14,23 @@ export const useAuth = (
     user: User | null;
     logout: () => void;
 } => {
+    // Get values from Auth Context
     const { loading, user } = useContext(AuthContext);
 
     const router = useRouter();
     const { mutate } = useSWRConfig();
 
+    // Logout Method
     const logout = async () => {
+        // Send a request to Logout
         await fetch(ROUTES.api.auth.logout);
-        await mutate(ROUTES.api.user.getCurrentUserInfo);
+        // Refresh SWR
+        await mutate("getCurrentUser");
+        // Redirect to Login
         router.push(ROUTES.auth.login);
     };
 
+    // Redirects if required
     useEffect(() => {
         //console.log(loading, user, shouldAuth);
         if (!loading) {

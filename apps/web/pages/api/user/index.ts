@@ -1,5 +1,3 @@
-import { NextApiRequestWithUser } from "types/http";
-
 import getHandler from "@libs/api/handler";
 import requireAuth from "@libs/api/middleware/requireAuth";
 
