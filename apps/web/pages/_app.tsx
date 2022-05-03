@@ -32,7 +32,30 @@ export default function App(props: AppProps) {
                 <CustomMantineProvider
                     withGlobalStyles
                     withNormalizeCSS
-                    theme={{ colorScheme: "dark" }}>
+                    theme={{
+                        colorScheme: "dark",
+                        colors: {
+                            dark: [
+                                "#FFF",
+                                "#E8E8ED",
+                                "#C6C5D3",
+                                "#AFAEC2",
+                                "#8D8BA7",
+                                "#6C698C",
+                                "#3F3D51",
+                                "#363546",
+                                "#24232F",
+                                "#121217",
+                            ],
+                            primary: [
+                                "#CDB0FC",
+                                "#B589FB",
+                                "#9C62F9",
+                                "#833AF8",
+                                "#6A13F6",
+                            ],
+                        },
+                    }}>
                     <Component {...pageProps} />
                 </CustomMantineProvider>
             </AuthProvider>

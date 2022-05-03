@@ -73,32 +73,44 @@ export default function Dashboard({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const token = getCookie("token", { req: context.req, res: context.res });
+    try {
+        const token = getCookie("token", {
+            req: context.req,
+            res: context.res,
+        });
 
-    const session = await getSession(token.toString());
+        const session = await getSession(token.toString());
 
-    const countIPs = await prisma.iPProfile.count({
-        where: {
-            updatedAt: {
-                gte: dayjs().subtract(30, "day").toDate(),
-            },
-        },
-    });
-    const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
-        where: {
-            report: {
-                userId: session.id,
+        const countIPs = await prisma.iPProfile.count({
+            where: {
                 updatedAt: {
                     gte: dayjs().subtract(30, "day").toDate(),
                 },
             },
-        },
-    });
+        });
+        const countIPLinksByUser = await prisma.iPProfileOnScanReport.count({
+            where: {
+                report: {
+                    userId: session.id,
+                    updatedAt: {
+                        gte: dayjs().subtract(30, "day").toDate(),
+                    },
+                },
+            },
+        });
 
-    return {
-        props: {
-            totalIPs: countIPs,
-            totalScans: countIPLinksByUser,
-        },
-    };
+        return {
+            props: {
+                totalIPs: countIPs,
+                totalScans: countIPLinksByUser,
+            },
+        };
+    } catch (error) {
+        return {
+            props: {
+                totalIPs: 0,
+                totalScans: 0,
+            },
+        };
+    }
 };

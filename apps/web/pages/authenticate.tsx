@@ -2,23 +2,10 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSWRConfig } from "swr";
 
-import {
-    AlertBox,
-    Button,
-    Center,
-    Divider,
-    Group,
-    Loader,
-    Paper,
-    Text,
-    TextInput,
-    Title,
-} from "@abuse-sleuth/ui";
+import { Center, Loader, Paper, Text, Title } from "@abuse-sleuth/ui";
 
 import DefaultLayout from "@layouts/DefaultLayout";
 import { ROUTES } from "@libs/configs/routes";
-
-import { joiResolver, useForm } from "@mantine/form";
 
 const Authenticate = () => {
     const router = useRouter();
@@ -41,7 +28,7 @@ const Authenticate = () => {
                 } else {
                     console.error(data.error); // TODO: Make this a UI alert
                 }
-                mutate(ROUTES.api.user.getCurrentUserInfo);
+                mutate("getCurrentUser");
             }
         })();
     }, [router, mutate]);

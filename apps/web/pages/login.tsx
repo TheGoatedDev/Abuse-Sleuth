@@ -13,13 +13,15 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
+import StyledHeader from "@components/nav/StyledHeader";
 import DefaultLayout from "@layouts/DefaultLayout";
+import StyledLayout from "@layouts/StyledLayout";
 import EnvConfig from "@libs/configs/env";
-
 
 const Login = () => {
     return (
-        <DefaultLayout>
+        <StyledLayout>
+            <StyledHeader />
             <Center
                 sx={(theme) => ({
                     height: "calc(100vh - 64px)",
@@ -30,7 +32,11 @@ const Login = () => {
                     shadow={"md"}
                     sx={(theme) => ({ width: "400px" })}>
                     <Center my="md">
-                        <img src={"/logo.svg"} alt={"Logo"} width={"15%"} />
+                        <img
+                            src={"/logo.svg"}
+                            alt={"Abuse Sleuth Logo"}
+                            width={"20%"}
+                        />
                     </Center>
                     <Title align="center" order={2}>
                         Login to your account
@@ -77,7 +83,7 @@ const Login = () => {
                     </Group>
                 </Paper>
             </Center>
-        </DefaultLayout>
+        </StyledLayout>
     );
 };
 

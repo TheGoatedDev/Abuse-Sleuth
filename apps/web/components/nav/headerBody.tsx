@@ -30,7 +30,9 @@ export const HeaderBody: React.FC<IComponentProps> = ({ isDrawer }) => {
             sx={(theme) => ({
                 alignItems: "center",
             })}>
-            <NavLink href={"/pricing"}>Pricing</NavLink>
+            <NavLink color={"#FFF"} href={"/pricing"}>
+                Pricing
+            </NavLink>
             {!auth.user ? (
                 <Link href={"/login"} passHref>
                     <Button radius={"md"} variant="filled" component="a">

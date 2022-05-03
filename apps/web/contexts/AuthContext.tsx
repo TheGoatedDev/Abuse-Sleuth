@@ -55,7 +55,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             if (data.ok) {
                 setUser(data.data);
             } else {
-                setUser(undefined);
+                setUser(null);
             }
         }
 

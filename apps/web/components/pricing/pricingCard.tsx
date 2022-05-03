@@ -11,6 +11,7 @@ import {
     Space,
     Text,
     Title,
+    useMantineTheme,
 } from "@abuse-sleuth/ui";
 
 interface PropsType {
@@ -28,7 +29,13 @@ const PriceCard: React.FC<PropsType> = (props) => {
 
     return (
         <div style={{ width: "350px" }}>
-            <Card shadow="sm" p="xl" withBorder>
+            <Card
+                shadow="sm"
+                p="xl"
+                sx={(theme) => ({
+                    backgroundColor: theme.colors.dark[6],
+                    height: "380px",
+                })}>
                 <Title align="center">{props.name}</Title>
                 <Group position="center">
                     <Title order={3} align="center">
