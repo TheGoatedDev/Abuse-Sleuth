@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "source": "src/index.tsx",
+    "source": "src/index.ts",
     "license": "MIT",
     "files": [
         "dist/**"
@@ -24,7 +24,6 @@
         "dayjs": "^1.11.1",
         "dotenv": "^16.0.0",
         "stytch": "^3.13.0",
-        "@abuse-sleuth/prisma": "*",
-        "@abuse-sleuth/auth": "*"
+        "@abuse-sleuth/prisma": "*"
     }
 }

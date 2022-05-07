@@ -6,8 +6,8 @@
         "dev": "concurrently -n Stripe,Next \"npm:stripe:listen-webhook\" \"npm:dev:next\"",
         "dev:next": "next dev -p 3000",
         "clean": "rm -rf .turbo && rm -rf node_modules && run-s db-down",
-        "build": "cross-env NODE_ENV=production next build",
-        "start": "cross-env NODE_ENV=production next start -p 3000",
+        "build": "next build",
+        "start": "next start -p 3000",
         "lint": "next lint",
         "test": "run-s e2e:headless",
         "cypress": "cypress open",
@@ -48,7 +48,8 @@
         "react-dom": "^17.0.2",
         "react-ssr-prepass": "^1.5.0",
         "stripe": "^8.205.0",
-        "swr": "^1.2.2"
+        "swr": "^1.2.2",
+        "next-transpile-modules": "9.0.0"
     },
     "devDependencies": {
         "@abuse-sleuth/config": "*",
@@ -60,7 +61,6 @@
         "cross-env": "^7.0.3",
         "cypress": "^9.5.3",
         "eslint": "7.32.0",
-        "next-transpile-modules": "9.0.0",
         "start-server-and-test": "^1.14.0",
         "typescript": "^4.5.3"
     }

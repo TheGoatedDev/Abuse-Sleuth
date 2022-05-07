@@ -1,5 +1,6 @@
-import { StytchClient } from "@abuse-sleuth/auth";
 import { prisma, User } from "@abuse-sleuth/prisma";
+
+import { StytchClient } from "./StytchClient";
 
 // TODO: Do Correct Type for params
 export const getSession = async (token: string): Promise<User | null> => {

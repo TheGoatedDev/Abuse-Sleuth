@@ -1,6 +1,6 @@
 import { AppShell } from "@abuse-sleuth/ui";
 
-import Header from "@components/nav/header";
+import Header from "@components/nav/Header";
 
 const DefaultLayout: React.FC = (props) => {
     return (

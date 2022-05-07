@@ -1,0 +1,52 @@
+FROM node:alpine AS base
+RUN apk update
+RUN apk upgrade
+RUN yarn global add turbo
+WORKDIR /webapp
+ENV YARN_CACHE_FOLDER=.yarn-cache
+
+
+
+
+FROM base AS turboPruner
+COPY . .
+RUN turbo prune --scope=@abuse-sleuth/web --docker
+
+
+FROM base AS pkgInstaller
+COPY --from=turboPruner /webapp/out/json .
+COPY --from=turboPruner /webapp/out/yarn.lock .
+RUN yarn install
+
+
+FROM base AS appBuilder
+ENV NODE_ENV=production
+ARG STYTCH_PROJECT_ID
+ARG STYTCH_SECRET
+ARG NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN
+ARG NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+ARG STRIPE_WEBHOOK_SIGNING_SECRET
+ARG ABUSE_IP_DB_KEY
+ARG DATABASE_URL
+
+ENV STYTCH_PROJECT_ID=${STYTCH_PROJECT_ID}
+ENV STYTCH_SECRET=${STYTCH_SECRET}
+ENV NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN=${NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN}
+ENV NEXT_PUBLIC_STRIPE_PUBLIC_KEY=${NEXT_PUBLIC_STRIPE_PUBLIC_KEY}
+ENV STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+ENV STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
+ENV ABUSE_IP_DB_KEY=${ABUSE_IP_DB_KEY}
+ENV DATABASE_URL=${DATABASE_URL}
+COPY --from=pkgInstaller /webapp/ .
+COPY --from=turboPruner /webapp/out/full/ .
+RUN turbo run build --scope=@abuse-sleuth/web --include-dependencies --no-deps
+RUN yarn install --production --ignore-scripts --prefer-offline
+RUN yarn cache clean
+
+
+# Runtime
+FROM base 
+ENV NODE_ENV=production
+COPY --from=appBuilder /webapp/ .
+WORKDIR /webapp/apps/web
+CMD ["yarn", "start"]
