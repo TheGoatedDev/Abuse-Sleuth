@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { Group, Title } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/nav/StyledHeader";
-import PriceCard from "@components/pricing/pricingCard";
+import PriceCard from "@components/pricing/PricingCard";
 import DefaultLayout from "@layouts/DefaultLayout";
 import StyledLayout from "@layouts/StyledLayout";
 import { getStripeAdmin } from "@libs/stripe/stripeAdmin";

@@ -15,7 +15,7 @@ import {
     useMantineTheme,
 } from "@abuse-sleuth/ui";
 
-import { HeaderBody } from "@components/nav/headerBody";
+import { HeaderBody } from "@components/nav/HeaderBody";
 
 export const MyHeader: React.FC = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

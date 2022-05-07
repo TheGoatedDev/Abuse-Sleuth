@@ -6,7 +6,7 @@ import { Text, MantineColor } from "@mantine/core";
 
 export type INavLinkProps = {
     href: string;
-    color: string;
+    color?: string;
 };
 
 export const NavLink: React.FC<INavLinkProps> = ({

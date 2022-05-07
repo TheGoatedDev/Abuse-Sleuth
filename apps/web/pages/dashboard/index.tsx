@@ -73,6 +73,7 @@ export default function Dashboard({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    // TODO: Migrate to an endpoint
     try {
         const token = getCookie("token", {
             req: context.req,

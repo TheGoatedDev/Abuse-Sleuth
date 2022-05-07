@@ -17,7 +17,6 @@ type IComponentProps = {
     createdAt: Date;
     scanStatuses: {
         abuseIPDB?: ScanStatus;
-        whois?: ScanStatus;
     };
 };
 

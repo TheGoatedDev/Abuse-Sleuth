@@ -9,16 +9,10 @@ const StyledHeader: React.FC = (props) => {
 
     return (
         <Group position="right" spacing="xl" px="md" mt="sm">
-            <NavLink color={"#FFFFFF"} href="/">
-                Home
-            </NavLink>
-            <NavLink color={"#FFFFFF"} href="/pricing">
-                Pricing
-            </NavLink>
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/pricing">Pricing</NavLink>
             <Space h="xl" />
-            <NavLink
-                color={"#FFFFFF"}
-                href={auth.user ? "/dashboard" : "/login"}>
+            <NavLink href={auth.user ? "/dashboard" : "/login"}>
                 {auth.user ? "Dashboard" : "Login / Signup"}
             </NavLink>
         </Group>

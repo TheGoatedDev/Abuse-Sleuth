@@ -86,7 +86,6 @@ export default function ReportView() {
                             createdAt={ipProfile.createdAt}
                             scanStatuses={{
                                 abuseIPDB: getRandomEnumValue(ScanStatus),
-                                whois: getRandomEnumValue(ScanStatus),
                             }}
                         />
                     );
