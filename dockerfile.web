@@ -23,13 +23,12 @@ ARG STYTCH_PROJECT_ID
 ARG STYTCH_SECRET
 ARG STRIPE_SECRET_KEY
 ARG DATABASE_URL
-
+COPY --from=pkgInstaller /webapp/ .
+COPY --from=turboPruner /webapp/out/full/ .
 ENV STYTCH_PROJECT_ID=${STYTCH_PROJECT_ID}
 ENV STYTCH_SECRET=${STYTCH_SECRET}
 ENV STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
 ENV DATABASE_URL=${DATABASE_URL}
-COPY --from=pkgInstaller /webapp/ .
-COPY --from=turboPruner /webapp/out/full/ .
 RUN turbo run build --scope=@abuse-sleuth/web --include-dependencies --no-deps
 RUN yarn install --production --ignore-scripts --prefer-offline
 RUN yarn cache clean
