@@ -4,11 +4,11 @@ import Stripe from "stripe";
 
 import { Group, Title } from "@abuse-sleuth/ui";
 
+import DefaultLayout from "@components/layouts/DefaultLayout";
+import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/nav/StyledHeader";
 import PriceCard from "@components/pricing/PricingCard";
-import DefaultLayout from "@layouts/DefaultLayout";
-import StyledLayout from "@layouts/StyledLayout";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
 
 const Pricing: NextPage<{
     products: Stripe.Product[];

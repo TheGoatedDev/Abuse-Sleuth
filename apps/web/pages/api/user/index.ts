@@ -1,7 +1,8 @@
-import getHandler from "@libs/api/handler";
-import requireAuth from "@libs/api/middleware/requireAuth";
+import createHandler from "@libs/api/handler";
 
-const handler = getHandler();
+import requireAuth from "@utils/middleware/requireAuth";
+
+const handler = createHandler();
 
 handler.use(requireAuth);
 

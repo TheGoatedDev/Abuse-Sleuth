@@ -5,10 +5,10 @@
         "baseUrl": ".",
         "paths": {
             "@hooks/*": ["./hooks/*"],
-            "@contexts/*": ["./contexts/*"],
+            "@utils/*": ["utils/*"],
+            "@services/*": ["services/*"],
             "@libs/*": ["./libs/*"],
-            "@components/*": ["./components/*"],
-            "@layouts/*": ["./layouts/*"]
+            "@components/*": ["./components/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

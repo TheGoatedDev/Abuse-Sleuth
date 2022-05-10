@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { AppShell, Box, Button, Group, NavLink, Space } from "@abuse-sleuth/ui";
 
-import { useAuth } from "../../hooks/AuthHook";
+import { useAuth } from "../../hooks/useAuth";
 
 const StyledHeader: React.FC = (props) => {
     const auth = useAuth();

@@ -100,7 +100,7 @@ model AbuseIPDBScan {
 
     pending Boolean @default(true)
 
-    data String?
+    abuseScore Int?
 
     // Relations
     ipProfileId String    @unique
@@ -111,7 +111,7 @@ model AbuseIPDBScan {
     updatedAt DateTime @updatedAt
 
 
-    @@map("abuseIPDBScan")
+    @@map("abuseIPDBScans")
 }
 
 model IPProfileOnScanReport {

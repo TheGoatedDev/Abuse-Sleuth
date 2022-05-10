@@ -1,6 +1,6 @@
 import { prisma } from "@abuse-sleuth/prisma";
 
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
 
 export const createUser = async (stytchUserID: string, email: string) => {
     const stripeAdmin = getStripeAdmin();

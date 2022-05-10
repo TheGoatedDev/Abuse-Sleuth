@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -17,13 +18,12 @@ import {
     CountryFlagText,
 } from "@abuse-sleuth/ui";
 
+import DashboardLayout from "@components/layouts/DashboardLayout";
 import {
     ReportIPProfileItem,
     ScanStatus,
 } from "@components/tables/reportInfoViewer/reportIPProfileItem";
-import { useAuth } from "@hooks/AuthHook";
-import DashboardLayout from "@layouts/DashboardLayout";
-import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
+import { useAuth } from "@hooks/useAuth";
 
 // TODO: Migrate to another file
 function mode(arr) {

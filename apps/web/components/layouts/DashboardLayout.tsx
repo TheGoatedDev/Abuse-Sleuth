@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "hooks/AuthHook";
 import router from "next/router";
 
 import {
@@ -17,6 +16,8 @@ import {
     Skeleton,
     Loader,
 } from "@abuse-sleuth/ui";
+
+import { useAuth } from "@hooks/useAuth";
 
 const DashboardLayout: React.FC = ({ children }) => {
     const auth = useAuth();

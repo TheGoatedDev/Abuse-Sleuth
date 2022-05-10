@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
 import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
@@ -16,10 +17,9 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@layouts/DashboardLayout";
-import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
-import getStripeClient from "@libs/stripe/stripeClient";
+import DashboardLayout from "@components/layouts/DashboardLayout";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
+import getStripeClient from "@services/stripe/stripeClient";
 
 export default function UserBilling({
     subscription,

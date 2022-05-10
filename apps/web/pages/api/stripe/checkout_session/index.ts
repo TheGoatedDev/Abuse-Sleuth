@@ -1,12 +1,13 @@
+import createHandler from "@libs/api/handler";
+
 import { prisma } from "@abuse-sleuth/prisma";
 
-import getHandler from "@libs/api/handler";
-import requireAuth from "@libs/api/middleware/requireAuth";
-import requireValidation from "@libs/api/middleware/requireValidation";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
-import { stripeCheckoutSchema } from "@libs/validationSchemas/stripeCheckoutSchema";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
+import requireAuth from "@utils/middleware/requireAuth";
+import requireValidation from "@utils/middleware/requireValidation";
+import { stripeCheckoutSchema } from "@utils/validationSchemas/stripeCheckoutSchema";
 
-const handler = getHandler();
+const handler = createHandler();
 
 handler.use(requireAuth);
 handler.use(requireValidation({ bodySchema: stripeCheckoutSchema }));

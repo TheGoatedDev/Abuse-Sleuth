@@ -4,8 +4,8 @@ import { useSWRConfig } from "swr";
 
 import { User } from "@abuse-sleuth/prisma";
 
-import { AuthContext } from "@contexts/AuthContext";
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
+import { AuthContext } from "@utils/contexts/AuthContext";
 
 export const useAuth = (
     shouldAuth: boolean = false

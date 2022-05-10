@@ -14,9 +14,9 @@ import {
     Text,
 } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@layouts/DashboardLayout";
-import { ROUTES } from "@libs/configs/routes";
-import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
+import DashboardLayout from "@components/layouts/DashboardLayout";
+import { ROUTES } from "@utils/configs/routes";
+import { scanSingleIPSchema } from "@utils/validationSchemas/scanSingleIPSchema";
 
 import { useForm, joiResolver } from "@mantine/form";
 

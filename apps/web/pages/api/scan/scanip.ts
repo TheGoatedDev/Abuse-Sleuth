@@ -1,18 +1,18 @@
+import createHandler from "@libs/api/handler";
 import geoip from "geoip-lite";
 import { isPrivate, isV4Format, isV6Format } from "ip";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
-import getHandler from "@libs/api/handler";
-import requireAuth from "@libs/api/middleware/requireAuth";
-import requireValidation from "@libs/api/middleware/requireValidation";
-import { scanSingleIPSchema } from "@libs/validationSchemas/scanSingleIPSchema";
+import requireAuth from "@utils/middleware/requireAuth";
+import requireValidation from "@utils/middleware/requireValidation";
+import { scanSingleIPSchema } from "@utils/validationSchemas/scanSingleIPSchema";
 
 type IRequestBody = {
     ipAddress: string;
 };
 
-const handler = getHandler();
+const handler = createHandler();
 
 handler.use(requireAuth);
 handler.use(requireValidation({ bodySchema: scanSingleIPSchema }));

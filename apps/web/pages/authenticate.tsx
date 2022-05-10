@@ -4,8 +4,8 @@ import { useSWRConfig } from "swr";
 
 import { Center, Loader, Paper, Text, Title } from "@abuse-sleuth/ui";
 
-import DefaultLayout from "@layouts/DefaultLayout";
-import { ROUTES } from "@libs/configs/routes";
+import DefaultLayout from "@components/layouts/DefaultLayout";
+import { ROUTES } from "@utils/configs/routes";
 
 const Authenticate = () => {
     const router = useRouter();

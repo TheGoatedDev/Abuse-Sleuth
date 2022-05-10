@@ -1,7 +1,7 @@
 import { Title } from "@abuse-sleuth/ui";
 
-import { useAuth } from "@hooks/AuthHook";
-import DashboardLayout from "@layouts/DashboardLayout";
+import DashboardLayout from "@components/layouts/DashboardLayout";
+import { useAuth } from "@hooks/useAuth";
 
 export default function UserBilling() {
     const auth = useAuth(true);

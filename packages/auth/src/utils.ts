@@ -2,7 +2,6 @@ import { prisma, User } from "@abuse-sleuth/prisma";
 
 import { StytchClient } from "./StytchClient";
 
-// TODO: Do Correct Type for params
 export const getSession = async (token: string): Promise<User | null> => {
     try {
         const authRes = await StytchClient.sessions.authenticateJwt(

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
 
 export const sendLogToAPI = async (ipAddresses: string[]) => {
     const response = await axios.post(ROUTES.api.scans.scanLogs, {

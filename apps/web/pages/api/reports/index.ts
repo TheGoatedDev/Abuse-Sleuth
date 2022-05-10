@@ -1,9 +1,10 @@
+import createHandler from "@libs/api/handler";
+
 import { prisma } from "@abuse-sleuth/prisma";
 
-import getHandler from "@libs/api/handler";
-import requireAuth from "@libs/api/middleware/requireAuth";
+import requireAuth from "@utils/middleware/requireAuth";
 
-const handler = getHandler();
+const handler = createHandler();
 
 handler.use(requireAuth);
 

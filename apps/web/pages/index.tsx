@@ -11,8 +11,8 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
+import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/nav/StyledHeader";
-import StyledLayout from "@layouts/StyledLayout";
 
 export default function Home() {
     return (

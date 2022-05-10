@@ -1,10 +1,9 @@
+import createHandler from "@libs/api/handler";
 import { removeCookies } from "cookies-next";
 
-import getHandler from "@libs/api/handler";
-import EnvConfig from "@libs/configs/env";
+import EnvConfig from "@utils/configs/env";
 
-
-const handler = getHandler();
+const handler = createHandler();
 
 handler.all(async (req, res) => {
     removeCookies("token", {

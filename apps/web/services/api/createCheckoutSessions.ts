@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
 
 export const createCheckoutSessionFromAPI = async (priceID: string) => {
     const response = await axios.post(ROUTES.api.stripe.createCheckoutSession, {

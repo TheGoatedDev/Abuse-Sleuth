@@ -20,11 +20,11 @@ const onNoMatch = (req: NextApiRequest, res: NextApiResponse<any>) => {
     });
 };
 
-export const getHandler = () => {
+export const createHandler = () => {
     return nc<NextApiRequest, NextApiResponse<GenericHTTPResponse>>({
         onError,
         onNoMatch,
     });
 };
 
-export default getHandler;
+export default createHandler;

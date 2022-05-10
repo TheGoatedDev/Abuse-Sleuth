@@ -2,12 +2,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { Suspense } from "react";
 
 import { CustomMantineProvider, Loader } from "@abuse-sleuth/ui";
 
-import { AuthProvider } from "@contexts/AuthContext";
-import initializeFontAwesome from "@libs/bootstrap/fontawesome";
+import initializeFontAwesome from "@utils/bootstrap/fontawesome";
+import { AuthProvider } from "@utils/contexts/AuthContext";
 
 initializeFontAwesome();
 dayjs.extend(relativeTime);

@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAuth } from "hooks/AuthHook";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -12,6 +11,8 @@ import {
     Menu,
     NavLink,
 } from "@abuse-sleuth/ui";
+
+import { useAuth } from "@hooks/useAuth";
 
 type IComponentProps = {
     isDrawer?: boolean;

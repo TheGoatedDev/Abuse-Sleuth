@@ -1,12 +1,12 @@
+import createHandler from "@libs/api/handler";
 import { buffer } from "micro";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
-import getHandler from "@libs/api/handler";
-import EnvConfig from "@libs/configs/env";
-import { getStripeAdmin } from "@libs/stripe/stripeAdmin";
+import { getStripeAdmin } from "@services/stripe/stripeAdmin";
+import EnvConfig from "@utils/configs/env";
 
 export const config = {
     api: {
@@ -14,7 +14,7 @@ export const config = {
     },
 };
 
-const handler = getHandler();
+const handler = createHandler();
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     // Gets the Stripes Webhook Signature from the headers

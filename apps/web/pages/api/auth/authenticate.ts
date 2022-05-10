@@ -1,15 +1,15 @@
+import createHandler from "@libs/api/handler";
 import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
 
 import { StytchClient } from "@abuse-sleuth/auth";
 
-import getHandler from "@libs/api/handler";
-import requireValidation from "@libs/api/middleware/requireValidation";
-import EnvConfig from "@libs/configs/env";
-import { createUser } from "@libs/database/user/createUser";
-import { oauthAuthenticateSchema } from "@libs/validationSchemas/oauthAuthenticateSchema";
+import { createUser } from "@services/database/user/createUser";
+import EnvConfig from "@utils/configs/env";
+import requireValidation from "@utils/middleware/requireValidation";
+import { oauthAuthenticateSchema } from "@utils/validationSchemas/oauthAuthenticateSchema";
 
-const handler = getHandler();
+const handler = createHandler();
 
 handler.use(requireValidation({ bodySchema: oauthAuthenticateSchema }));
 

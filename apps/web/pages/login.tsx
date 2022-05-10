@@ -13,10 +13,10 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
+import DefaultLayout from "@components/layouts/DefaultLayout";
+import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/nav/StyledHeader";
-import DefaultLayout from "@layouts/DefaultLayout";
-import StyledLayout from "@layouts/StyledLayout";
-import EnvConfig from "@libs/configs/env";
+import EnvConfig from "@utils/configs/env";
 
 const Login = () => {
     return (

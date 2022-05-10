@@ -4,9 +4,8 @@ import { Center, Paper, Title, Text, Divider } from "@abuse-sleuth/ui";
 
 import ScanLogFile from "@components/forms/ScanLogFile";
 import ScanLogText from "@components/forms/ScanLogText";
-import { useAuth } from "@hooks/AuthHook";
-import DashboardLayout from "@layouts/DashboardLayout";
-
+import DashboardLayout from "@components/layouts/DashboardLayout";
+import { useAuth } from "@hooks/useAuth";
 
 const ScanLog: NextPage = () => {
     const auth = useAuth(true);

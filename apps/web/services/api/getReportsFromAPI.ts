@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
 
 export const getReportsFromAPI = async () => {
     const response = await axios.get(ROUTES.api.reports.getReports);

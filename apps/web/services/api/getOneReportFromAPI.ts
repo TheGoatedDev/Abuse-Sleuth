@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
 
 export const getOneReportFromAPI = async (reportID: string) => {
     const response = await axios.get(ROUTES.api.reports.getSingleReport, {

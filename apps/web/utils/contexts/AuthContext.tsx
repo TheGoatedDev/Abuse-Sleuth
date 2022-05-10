@@ -3,7 +3,7 @@ import useSWR, { Fetcher } from "swr";
 
 import { User } from "@abuse-sleuth/prisma";
 
-import { ROUTES } from "@libs/configs/routes";
+import { ROUTES } from "@utils/configs/routes";
 
 export type IAuthContext = {
     loading: boolean;

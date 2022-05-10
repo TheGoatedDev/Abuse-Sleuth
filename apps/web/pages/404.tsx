@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Anchor, Box, Container, Group, Loader, Title } from "@abuse-sleuth/ui";
 
-import DefaultLayout from "@layouts/DefaultLayout";
+import DefaultLayout from "@components/layouts/DefaultLayout";
 
 export default function Home() {
     return (
