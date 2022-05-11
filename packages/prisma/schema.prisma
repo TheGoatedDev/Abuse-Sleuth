@@ -79,8 +79,7 @@ model IPProfileDetails {
     id String @id @default(cuid())
 
     // Details
-    countryCode String?
-
+    countryCode    String?
     privateAddress Boolean
 
 

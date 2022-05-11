@@ -7,7 +7,6 @@
             "@hooks/*": ["./hooks/*"],
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
-            "@libs/*": ["./libs/*"],
             "@components/*": ["./components/*"]
         }
     },
