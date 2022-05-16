@@ -11,7 +11,7 @@ import {
     AlertBox,
 } from "@abuse-sleuth/ui";
 
-import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
+import sendLogToAPI from "@services/api/sendLogToAPI";
 
 import { Dropzone } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";

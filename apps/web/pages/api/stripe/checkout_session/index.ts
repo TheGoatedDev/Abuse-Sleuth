@@ -1,8 +1,7 @@
-import createHandler from "@libs/api/handler";
-
 import { prisma } from "@abuse-sleuth/prisma";
 
 import { getStripeAdmin } from "@services/stripe/stripeAdmin";
+import createHandler from "@utils/helpers/createHandler";
 import requireAuth from "@utils/middleware/requireAuth";
 import requireValidation from "@utils/middleware/requireValidation";
 import { stripeCheckoutSchema } from "@utils/validationSchemas/stripeCheckoutSchema";

@@ -1,5 +1,0 @@
-{
-    "extends": "@abuse-sleuth/tsconfig/base.json",
-    "include": ["."],
-    "exclude": ["dist", "build", "node_modules"]
-}

@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import getOneReportFromAPI from "@libs/api/helper/getOneReportFromAPI";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -24,6 +23,7 @@ import {
     ScanStatus,
 } from "@components/tables/reportInfoViewer/reportIPProfileItem";
 import { useAuth } from "@hooks/useAuth";
+import getOneReportFromAPI from "@services/api/getOneReportFromAPI";
 
 // TODO: Migrate to another file
 function mode(arr) {

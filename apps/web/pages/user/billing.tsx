@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import createCheckoutSessionFromAPI from "@libs/api/helper/createCheckoutSessions";
 import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import { GetServerSideProps } from "next";
@@ -18,6 +17,7 @@ import {
 } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@components/layouts/DashboardLayout";
+import createCheckoutSessionFromAPI from "@services/api/createCheckoutSessions";
 import { getStripeAdmin } from "@services/stripe/stripeAdmin";
 import getStripeClient from "@services/stripe/stripeClient";
 

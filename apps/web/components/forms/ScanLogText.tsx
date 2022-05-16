@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import sendLogToAPI from "@libs/api/helper/sendLogToAPI";
 import { useState } from "react";
 
 import { AlertBox } from "@abuse-sleuth/ui";
 import { Alert, Textarea, Button, Text } from "@abuse-sleuth/ui";
 
+import sendLogToAPI from "@services/api/sendLogToAPI";
 import { scanLogSchema } from "@utils/validationSchemas/scanLogSchema";
 
 import { joiResolver, useForm } from "@mantine/form";

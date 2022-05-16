@@ -9,7 +9,7 @@
         "dev": "turbo run dev --scope=\"@abuse-sleuth/web\" --include-dependencies",
         "dev-docs": "turbo run dev --scope=\"@abuse-sleuth/docs\" --include-dependencies",
         "deploy": "turbo run deploy",
-        "clean": "turbo run clean",
+        "clean": "turbo run clean && rm -rf ./node_modules",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "prepare": "husky install",

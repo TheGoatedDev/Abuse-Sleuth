@@ -1,5 +1,4 @@
-import createHandler from "@libs/api/handler";
-
+import createHandler from "@utils/helpers/createHandler";
 import requireAuth from "@utils/middleware/requireAuth";
 
 const handler = createHandler();

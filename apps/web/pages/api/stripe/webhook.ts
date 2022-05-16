@@ -1,4 +1,3 @@
-import createHandler from "@libs/api/handler";
 import { buffer } from "micro";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
@@ -7,6 +6,7 @@ import { prisma } from "@abuse-sleuth/prisma";
 
 import { getStripeAdmin } from "@services/stripe/stripeAdmin";
 import EnvConfig from "@utils/configs/env";
+import createHandler from "@utils/helpers/createHandler";
 
 export const config = {
     api: {

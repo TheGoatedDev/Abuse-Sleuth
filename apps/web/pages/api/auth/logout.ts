@@ -1,7 +1,7 @@
-import createHandler from "@libs/api/handler";
 import { removeCookies } from "cookies-next";
 
 import EnvConfig from "@utils/configs/env";
+import createHandler from "@utils/helpers/createHandler";
 
 const handler = createHandler();
 

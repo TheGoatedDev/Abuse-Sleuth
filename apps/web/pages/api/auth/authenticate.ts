@@ -1,4 +1,3 @@
-import createHandler from "@libs/api/handler";
 import { setCookies } from "cookies-next";
 import dayjs from "dayjs";
 
@@ -6,6 +5,7 @@ import { StytchClient } from "@abuse-sleuth/auth";
 
 import { createUser } from "@services/database/user/createUser";
 import EnvConfig from "@utils/configs/env";
+import createHandler from "@utils/helpers/createHandler";
 import requireValidation from "@utils/middleware/requireValidation";
 import { oauthAuthenticateSchema } from "@utils/validationSchemas/oauthAuthenticateSchema";
 

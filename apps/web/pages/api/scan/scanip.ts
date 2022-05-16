@@ -1,9 +1,9 @@
-import createHandler from "@libs/api/handler";
 import geoip from "geoip-lite";
 import { isPrivate, isV4Format, isV6Format } from "ip";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
+import createHandler from "@utils/helpers/createHandler";
 import requireAuth from "@utils/middleware/requireAuth";
 import requireValidation from "@utils/middleware/requireValidation";
 import { scanSingleIPSchema } from "@utils/validationSchemas/scanSingleIPSchema";

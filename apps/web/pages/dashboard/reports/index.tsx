@@ -1,4 +1,3 @@
-import getReportsFromAPI from "@libs/api/helper/getReportsFromAPI";
 import React, { useEffect, useState } from "react";
 
 import { Center, Container, Loader, Table, Title } from "@abuse-sleuth/ui";
@@ -6,6 +5,7 @@ import { Center, Container, Loader, Table, Title } from "@abuse-sleuth/ui";
 import DashboardLayout from "@components/layouts/DashboardLayout";
 import { ReportItem } from "@components/tables/reportListViewer/reportItem";
 import { useAuth } from "@hooks/useAuth";
+import getReportsFromAPI from "@services/api/getReportsFromAPI";
 
 export default function ReportViewer() {
     const auth = useAuth(true);

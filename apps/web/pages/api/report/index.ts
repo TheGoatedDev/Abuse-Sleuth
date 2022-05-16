@@ -1,10 +1,11 @@
-import createHandler from "@libs/api/handler";
-
 import { prisma } from "@abuse-sleuth/prisma";
 
+import createHandler from "@utils/helpers/createHandler";
 import requireAuth from "@utils/middleware/requireAuth";
 import requireValidation from "@utils/middleware/requireValidation";
 import { reportQuerySchema } from "@utils/validationSchemas/reportQuerySchema";
+
+import removeReportIfExpired from "../../../services/database/reports/removeReportIfExpired";
 
 const handler = createHandler();
 
@@ -15,6 +16,13 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
     const user = req.user;
 
     const reportID: string = req.query.reportID as string;
+
+    if (await removeReportIfExpired(reportID)) {
+        return res.status(400).send({
+            ok: false,
+            error: "Report not found",
+        });
+    }
 
     // Get the Raw Report with all links
     const rawReport = await prisma.scanReport.findFirst({
@@ -42,7 +50,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
     if (!rawReport) {
         return res.status(400).send({
             ok: false,
-            error: "Report either not found or you don't have access to it.",
+            error: "Report not found",
         });
     }
 
