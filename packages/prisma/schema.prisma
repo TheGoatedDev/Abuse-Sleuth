@@ -59,12 +59,14 @@ model UserBillingInfo {
 model IPProfile {
     id String @id @default(cuid())
 
-    ipAddress String @unique
-    version   String
+    // Details
+    ipAddress      String  @unique
+    version        String
+    countryCode    String?
+    privateAddress Boolean @default(false)
 
     // Relations
-    reports          IPProfileOnScanReport[]
-    ipProfileDetails IPProfileDetails?
+    reports IPProfileOnScanReport[]
 
     abuseIPDBScan AbuseIPDBScan?
 
@@ -73,25 +75,6 @@ model IPProfile {
     updatedAt DateTime @updatedAt
 
     @@map("ipProfiles")
-}
-
-model IPProfileDetails {
-    id String @id @default(cuid())
-
-    // Details
-    countryCode    String?
-    privateAddress Boolean
-
-
-    // Relations
-    ipProfileId String    @unique
-    ipProfile   IPProfile @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
-
-    // Time
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("ipProfileDetails")
 }
 
 model AbuseIPDBScan {
@@ -139,4 +122,5 @@ model ScanReport {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@map("scanReports")
 }

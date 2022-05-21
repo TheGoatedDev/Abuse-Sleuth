@@ -3,24 +3,19 @@ import { prisma, ScanReport } from "@abuse-sleuth/prisma";
 import removeReportIfExpired from "./removeReportIfExpired";
 
 export const removeAllExpiredReportsByUser = async (userID: string) => {
-    const checkExpired = await prisma.scanReport.findMany({
-        select: {
-            id: true,
-        },
+    const checkExpired = await prisma.scanReport.deleteMany({
         where: {
             user: {
                 id: userID,
             },
+            expiresAt: {
+                lte: new Date(),
+            },
         },
     });
+    console.log(checkExpired.count);
 
-    let removed = 0;
-    for (const report of checkExpired) {
-        await removeReportIfExpired(report.id);
-        removed++;
-    }
-
-    return removed;
+    return checkExpired.count;
 };
 
 export default removeAllExpiredReportsByUser;

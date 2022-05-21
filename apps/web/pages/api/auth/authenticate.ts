@@ -35,6 +35,7 @@ handler.post(async (req, res) => {
             res,
             path: "/",
             httpOnly: true,
+            sameSite: "strict",
             secure: EnvConfig.isProduction,
             expires: dayjs().add(7, "day").toDate(),
         });

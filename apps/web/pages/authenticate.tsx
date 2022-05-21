@@ -7,6 +7,8 @@ import { Center, Loader, Paper, Text, Title } from "@abuse-sleuth/ui";
 import DefaultLayout from "@components/layouts/DefaultLayout";
 import { ROUTES } from "@utils/configs/routes";
 
+import { useLocalStorageValue } from "@mantine/hooks";
+
 const Authenticate = () => {
     const router = useRouter();
     const { mutate } = useSWRConfig();

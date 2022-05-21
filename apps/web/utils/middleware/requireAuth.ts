@@ -10,7 +10,7 @@ export const requireAuth = async (
 ) => {
     try {
         // Getting the Token from Cookies
-        const token = getCookie("token", { req, res });
+        const token = getCookie("token", { req });
 
         // Checking Stytch for Token and returns User
         const user = await getSession(token.toString());
@@ -21,7 +21,7 @@ export const requireAuth = async (
         next();
     } catch (error) {
         // Error if Above fails
-        return res.status(400).send({
+        return res.status(401).send({
             ok: false,
             error: error,
         });

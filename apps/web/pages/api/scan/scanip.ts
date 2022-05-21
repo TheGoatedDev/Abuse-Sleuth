@@ -36,12 +36,8 @@ handler.post(async (req, res) => {
             data: {
                 ipAddress,
                 version: version,
-                ipProfileDetails: {
-                    create: {
-                        countryCode: geo?.country ?? "Unknown",
-                        privateAddress: isPrivateAddress,
-                    },
-                },
+                countryCode: geo?.country ?? "Unknown",
+                privateAddress: isPrivateAddress,
             },
         });
     }

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import EnvConfig from "@utils/configs/env";
 import { ROUTES } from "@utils/configs/routes";
 
 export const sendLogToAPI = async (ipAddresses: string[]) => {

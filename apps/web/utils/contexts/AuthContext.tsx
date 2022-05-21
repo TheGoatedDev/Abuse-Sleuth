@@ -10,7 +10,7 @@ export type IAuthContext = {
     user: User | null;
 };
 
-export const AuthContextDefaultValues: IAuthContext = {
+const AuthContextDefaultValues: IAuthContext = {
     loading: true,
     user: null,
 };
@@ -18,9 +18,6 @@ export const AuthContextDefaultValues: IAuthContext = {
 export const AuthContext = createContext<IAuthContext>(
     AuthContextDefaultValues
 );
-
-const getCurrentUserFetcher: Fetcher<GenericHTTPResponse<User>> = () =>
-    fetch(ROUTES.api.user.getCurrentUserInfo).then((res) => res.json());
 
 export const AuthProvider: React.FC = ({ children }) => {
     // Grab Getter and Setting for loading and user from AuthContext
@@ -32,6 +29,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     );
 
     // SWR for verifing cookie and getting user data.
+    const getCurrentUserFetcher: Fetcher<GenericHTTPResponse<User>> = () =>
+        fetch(ROUTES.api.user.getCurrentUserInfo).then((res) => res.json());
+
     const { data, error } = useSWR<GenericHTTPResponse<User>>(
         "getCurrentUser",
         getCurrentUserFetcher,
@@ -60,9 +60,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
 
         // Set Loading to false
-        if (error || data) {
-            setLoading(false);
-        }
+        setLoading(false);
     }, [data, error]);
 
     return (

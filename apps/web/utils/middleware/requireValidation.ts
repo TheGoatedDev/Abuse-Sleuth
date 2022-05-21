@@ -1,12 +1,12 @@
-import { Schema, ValidationError } from "joi";
+import { ObjectSchema, Schema, ValidationError } from "joi";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 export const requireValidation = ({
     querySchema,
     bodySchema,
 }: {
-    querySchema?;
-    bodySchema?;
+    querySchema?: ObjectSchema;
+    bodySchema?: ObjectSchema;
 }) => {
     return async (
         req: NextApiRequest,

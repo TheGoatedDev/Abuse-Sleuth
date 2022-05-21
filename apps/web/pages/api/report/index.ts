@@ -1,11 +1,10 @@
 import { prisma } from "@abuse-sleuth/prisma";
 
+import removeReportIfExpired from "@services/database/reports/removeReportIfExpired";
 import createHandler from "@utils/helpers/createHandler";
 import requireAuth from "@utils/middleware/requireAuth";
 import requireValidation from "@utils/middleware/requireValidation";
 import { reportQuerySchema } from "@utils/validationSchemas/reportQuerySchema";
-
-import removeReportIfExpired from "../../../services/database/reports/removeReportIfExpired";
 
 const handler = createHandler();
 
@@ -36,11 +35,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
         include: {
             ipProfiles: {
                 include: {
-                    ipProfile: {
-                        include: {
-                            ipProfileDetails: true,
-                        },
-                    },
+                    ipProfile: true,
                 },
             },
         },
@@ -57,14 +52,7 @@ handler.get(async (req: NextApiRequestWithUser, res) => {
     // Parse Reports
     const report = {
         id: rawReport.id,
-        ipProfiles: rawReport.ipProfiles.map((ipProfile) => {
-            return {
-                ...ipProfile.ipProfile,
-                countryCode: ipProfile.ipProfile.ipProfileDetails.countryCode,
-                privateAddress:
-                    ipProfile.ipProfile.ipProfileDetails.privateAddress,
-            };
-        }),
+        ipProfiles: rawReport.ipProfiles.map((v) => v.ipProfile),
         expiresAt: rawReport.expiresAt,
         createdAt: rawReport.createdAt,
         updatedAt: rawReport.updatedAt,

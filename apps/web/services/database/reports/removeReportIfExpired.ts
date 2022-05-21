@@ -1,27 +1,16 @@
 import { prisma, ScanReport } from "@abuse-sleuth/prisma";
 
 export const removeReportIfExpired = async (reportID: string) => {
-    let report = await prisma.scanReport.findUnique({
-        select: {
-            expiresAt: true,
-        },
+    let report = await prisma.scanReport.deleteMany({
         where: {
             id: reportID,
+            expiresAt: {
+                lte: new Date(),
+            },
         },
     });
 
-    if (report) {
-        if (report.expiresAt < new Date()) {
-            await prisma.scanReport.delete({
-                where: {
-                    id: reportID,
-                },
-            });
-            return true;
-        }
-    }
-
-    return false;
+    return report.count === 0 ? false : true;
 };
 
 export default removeReportIfExpired;

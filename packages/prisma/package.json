@@ -11,6 +11,7 @@
         "clean": "rm -rf .turbo && rm -rf node_modules",
         "deploy": "run-s build db:deploy",
         "build": "npm run db:generate",
+        "db:push": "prisma db push",
         "db:generate": "prisma generate",
         "db:migrate": "prisma migrate dev",
         "db:deploy": "prisma migrate deploy",
