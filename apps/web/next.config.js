@@ -23,6 +23,15 @@ const moduleExports = withTM({
         locales: ["en"],
         defaultLocale: "en",
     },
+    async rewrites() {
+        return  {
+            fallback: [
+            {
+                source: '/api/:path*',
+                destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+            },
+        ]}
+      },
 });
 
 const sentryWebpackPluginOptions = {

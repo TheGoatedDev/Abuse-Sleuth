@@ -1,7 +1,7 @@
 export const EnvConfig = {
     isProduction: process.env.NODE_ENV === "production",
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    apiURL: process.env.NEXT_PUBLIC_API_URL,
+    apiURL: process.env.NEXT_PUBLIC_BASE_URL,
     stytch: {
         projectId: process.env.STYTCH_PROJECT_ID || null,
         secret: process.env.STYTCH_SECRET || null,

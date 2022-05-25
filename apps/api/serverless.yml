@@ -1,0 +1,21 @@
+service: api
+frameworkVersion: "3"
+
+provider:
+    name: aws
+    runtime: nodejs16.x
+    region: eu-west-2
+
+plugins:
+    - serverless-offline
+    - serverless-plugin-typescript
+
+custom:
+    serverless-offline:
+        httpPort: 3001
+
+functions:
+    api:
+        handler: src/handler.handler
+        events:
+            - httpApi: "*"
