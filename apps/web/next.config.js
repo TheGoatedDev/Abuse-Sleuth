@@ -1,7 +1,15 @@
 const { withSentryConfig } = require("@sentry/nextjs");
 const withTM = require("next-transpile-modules")(["@abuse-sleuth/ui"]);
+const dotENV = require("dotenv");
+const path = require("path");
+
+const ENVPATH = path.resolve(__dirname, "../../" ,".env");
+const env = dotENV.config({ path: ENVPATH });
+
+console.log(env, ENVPATH)
 
 const moduleExports = withTM({
+    env: env.parsed || {},
     reactStrictMode: true,
     sentry: {
         widenClientFileUpload: true,
