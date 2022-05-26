@@ -2,8 +2,9 @@
     "extends": "@abuse-sleuth/tsconfig/base.json",
     "include": ["./src"],
     "exclude": [".build", "node_modules"],
+
     "compilerOptions": {
         "isolatedModules": false,
-        "rootDir": "./src"
+        "baseUrl": "./src"
     }
 }

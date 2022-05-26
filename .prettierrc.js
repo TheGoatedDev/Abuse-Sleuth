@@ -9,7 +9,7 @@ module.exports = {
     arrowParens: "always",
     importOrder: [
         "^@(abuse-sleuth)/(.*)$",
-        "^@(services|components|layouts|hooks|utils)/(.*)$",
+        "^@(services|components|layouts|hooks|utils|routes)/(.*)$",
         "^@(mantine)/(.*)$",
         "^[./]",
     ],

@@ -14,7 +14,7 @@ export const ROUTES = {
     api: {
         // Everything Related to Authentication
         auth: {
-            authenticate: EnvConfig.apiURL + "/api/auth/authenticate",
+            authenticate: EnvConfig.apiURL + "/api/v1/auths/",
             logout: EnvConfig.apiURL + "/api/auth/logout",
         },
         // Everything Related to User
