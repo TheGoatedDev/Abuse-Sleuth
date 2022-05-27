@@ -6,8 +6,6 @@ const path = require("path");
 const ENVPATH = path.resolve(__dirname, "../../" ,".env");
 const env = dotENV.config({ path: ENVPATH });
 
-console.log(env, ENVPATH)
-
 const moduleExports = withTM({
     env: env.parsed || {},
     reactStrictMode: true,

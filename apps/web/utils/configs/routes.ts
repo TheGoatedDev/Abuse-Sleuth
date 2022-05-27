@@ -15,11 +15,11 @@ export const ROUTES = {
         // Everything Related to Authentication
         auth: {
             authenticate: EnvConfig.apiURL + "/api/v1/auths/",
-            logout: EnvConfig.apiURL + "/api/auth/logout",
+            logout: EnvConfig.apiURL + "/api/v1/auths/logout",
         },
         // Everything Related to User
         user: {
-            getCurrentUserInfo: EnvConfig.apiURL + "/api/user",
+            getCurrentUserInfo: EnvConfig.apiURL + "/api/v1/users/self",
             updateCurrentUserInfo: EnvConfig.apiURL + "/api/user",
         },
         // Everything Related to Stripe
