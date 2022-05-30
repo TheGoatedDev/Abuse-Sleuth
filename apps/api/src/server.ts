@@ -29,6 +29,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 export default app;
 
+//TODO: Make Port a ENV Variable
 app.listen(3001, () => {
     console.log("Server is listening on port 3001");
 });

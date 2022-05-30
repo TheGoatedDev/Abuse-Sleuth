@@ -20,7 +20,6 @@ export const ROUTES = {
         // Everything Related to User
         user: {
             getCurrentUserInfo: EnvConfig.apiURL + "/api/v1/users/self",
-            updateCurrentUserInfo: EnvConfig.apiURL + "/api/user",
         },
         // Everything Related to Stripe
         stripe: {
