@@ -28,7 +28,7 @@ const main = async () => {
     // Setup Application
     const app = new digitalocean.App("app", {
         spec: {
-            name: "Abuse Sleuth",
+            name: "abuse-sleuth",
 
             region: REGION,
 
@@ -36,20 +36,39 @@ const main = async () => {
 
                 // Next JS Service
                 {
-                    name: "NextJS",
+                    name: "nextjs",
                     httpPort: 8080,
                     instanceSizeSlug: "basic-xxs",
                     github: {
-
-                    }
+                        repo: "Abys5/Abuse-Sleuth",
+                        branch: "v2",
+                        deployOnPush: true,
+                    },
+                    routes: [
+                        {
+                            path: "/"
+                        }
+                    ],
+                    buildCommand: "npx turbo run build --scope=\"@abuse-sleuth/web\" --include-dependencies",
+                    runCommand: "yarn workspace @abuse-sleuth/web start"
                 },
 
                 // Express API Service
-                {
-                    name: "NextJS",
-                    httpPort: 8080,
-                    instanceSizeSlug: "basic-xxs",
-                },
+                // {
+                //     name: "express",
+                //     httpPort: 8080,
+                //     instanceSizeSlug: "basic-xxs",
+                //     github: {
+                //         repo: "Abys5/Abuse-Sleuth",
+                //         branch: "v2",
+                //         deployOnPush: true,
+                //     },
+                //     routes: [
+                //         {
+                //             path: "/api"
+                //         }
+                //     ]
+                // },
             ]
 
         }
