@@ -1,29 +1,77 @@
-<p align="center">
-    <img src="apps/web/public/logo.png" height="100px" />
-    <h2 align="center">What is Abuse Sleuth?</h2>
-</p>
+# Turborepo starter
 
-Abuse Sleuth is a free-to-use data analyse platform for IP Address related information. This platform's intended use is to gather data from multiple data sources and be able to aggregate it, so that it can determine is the IP Address is currently being used for malicous intent or if it is still being used for malicious intent. Network Admins, System Admins and Blue Team Security Experts will be able to use this tool to be able to block or blacklist IP Addresses that have been hitting there firewall or IPS (Intrusion Prevent System).
+This is an official Yarn v1 starter turborepo.
 
-## What can the tool do?
+## What's inside?
 
--   [x] Collect Singular IP Address
--   [x] Collect Multiple IP Addresses from Logs
--   [x] Create Report Based on Scanned Logs
--   [x] View Reports
--   [x] View Informative Data about Reports
--   [ ] View Individual IP Address Profiles
--   [ ] Export CSV of expected Malicous IP Addresses
+This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
 
-## Who made this tool and why?
+### Apps and Packages
 
-The Creator of Abuse Sleuth (Myself, Abyss) is a Cyber Security Apprentice working within the Cyber Security industry. I have made lots of undocumented projects over the years and have been developing my Software Engineering skill to make progressively more advanced tooling with in the Cyber Security sector. I made this tool as the company I am employed for has a slow and time wasting task of looking through 24 hours worth of IPS logs and picking 10 IP Addresses that were deemed malicous, via research and usages of public tools, to be blocked, I saw this as an area that need improving, so I developed IP Sentinel V1 which was a roughly 150 line Python Script that was about to take our usual 70 IPs per week to 300-700+ IPs per week, this was a amazing leap forward in automating a workflow that was too intensive, but while using this there were feature in the software that were desired to be added and a simple python script was not going to cut it, so here I am now developing Abuse Sleuth (IP Sentinel V2).
+- `docs`: a [Next.js](https://nextjs.org) app
+- `web`: another [Next.js](https://nextjs.org) app
+- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-## Contributing
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-Please make sure to update tests as appropriate.
+### Utilities
 
-## License
+This turborepo has some additional tools already setup for you:
 
-[GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
+
+## Setup
+
+This repository is used in the `npx create-turbo` command, and selected when choosing which package manager you wish to use with your monorepo (Yarn).
+
+### Build
+
+To build all apps and packages, run the following command:
+
+```
+cd my-turborepo
+yarn run build
+```
+
+### Develop
+
+To develop all apps and packages, run the following command:
+
+```
+cd my-turborepo
+yarn run dev
+```
+
+### Remote Caching
+
+Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+
+By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+
+```
+cd my-turborepo
+npx turbo login
+```
+
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
+
+```
+npx turbo link
+```
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Pipelines](https://turborepo.org/docs/core-concepts/pipelines)
+- [Caching](https://turborepo.org/docs/core-concepts/caching)
+- [Remote Caching (Beta)](https://turborepo.org/docs/core-concepts/remote-caching)
+- [Scoped Tasks](https://turborepo.org/docs/core-concepts/scopes)
+- [Configuration Options](https://turborepo.org/docs/reference/configuration)
+- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)

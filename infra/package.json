@@ -1,0 +1,15 @@
+{
+    "name": "@abuse-sleuth/infra",
+    "version": "0.0.0",
+    "devDependencies": {
+        "@types/node": "^14"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.0.0",
+        "@pulumi/digitalocean": "^4.0.0"
+    },
+    "scripts": {
+        "up": "pulumi up",
+        "down": "pulumi down"
+    }
+}
