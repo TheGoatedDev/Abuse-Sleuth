@@ -1,42 +1,49 @@
 {
-  "name": "turborepo-basic-shared",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^2.5.1",
-    "turbo": "latest"
-  },
-  "turbo": {
-    "pipeline": {
-      "build": {
-        "dependsOn": [
-          "^build"
+    "name": "abuse-sleuth-monorepo",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "turbo run start --scope=\"@abuse-sleuth/web\"",
+        "build": "turbo run build --scope=\"@abuse-sleuth/web\" --include-dependencies",
+        "build:docker": "turbo run build:docker",
+        "dev": "turbo run dev --include-dependencies",
+        "dev-docs": "turbo run dev --scope=\"@abuse-sleuth/docs\" --include-dependencies",
+        "deploy": "turbo run deploy",
+        "clean": "turbo run clean && rm -rf ./node_modules",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "prepare": "husky install",
+        "turbo": "turbo",
+        "docs": "yarn workspace @abuse-sleuth/docs",
+        "web": "yarn workspace @abuse-sleuth/web",
+        "api": "yarn workspace @abuse-sleuth/api"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.3.4",
+        "prettier": "^2.5.1",
+        "turbo": "^1.2.8"
+    },
+    "lint-staged": {
+        "apps/**/*.{js,ts,jsx,tsx}": [
+            "prettier --write",
+            "eslint --fix"
         ],
-        "outputs": [
-          "dist/**",
-          ".next/**"
+        "*.json": [
+            "prettier --write"
+        ],
+        "packages/prisma/schema.prisma": [
+            "prisma format"
         ]
-      },
-      "lint": {
-        "outputs": []
-      },
-      "dev": {
-        "cache": false
-      }
-    }
-  },
-  "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
-  }
+    },
+    "workspaces": [
+        "packages/*",
+        "apps/*"
+    ],
+    "engines": {
+        "npm": ">=7.0.0",
+        "node": ">=14.0.0"
+    },
+    "packageManager": "yarn@1.22.15"
 }

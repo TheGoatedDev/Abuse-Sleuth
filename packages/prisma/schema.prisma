@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+    DEVELOPER
+    ADMIN
+    USER
+}
+
+model User {
+    id String @id @default(cuid())
+
+    stytchUserID String @unique
+    email        String @unique
+
+    userRole UserRole @default(USER)
+
+    // Relations
+    scanReports     ScanReport[]
+    userBillingInfo UserBillingInfo?
+
+    // Time
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("users")
+}
+
+model UserBillingInfo {
+    id String @id @default(cuid())
+
+    // User Info
+    userId           String @unique
+    stripeCustomerId String @unique
+
+    // Subscription Info
+    plan String @default("Free")
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    // Time
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+
+    @@map("userBillingInfos")
+}
+
+model IPProfile {
+    id String @id @default(cuid())
+
+    // Details
+    ipAddress      String  @unique
+    version        String
+    countryCode    String?
+    privateAddress Boolean @default(false)
+
+    // Relations
+    reports IPProfileOnScanReport[]
+
+    abuseIPDBScan AbuseIPDBScan?
+
+    // Time
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("ipProfiles")
+}
+
+model AbuseIPDBScan {
+    id String @id @default(cuid())
+
+    pending Boolean @default(true)
+
+    abuseScore Int?
+
+    // Relations
+    ipProfileId String    @unique
+    ipProfile   IPProfile @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
+
+    // Time
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+
+    @@map("abuseIPDBScans")
+}
+
+model IPProfileOnScanReport {
+    ipProfileId String
+    reportId    String
+
+    ipProfile IPProfile  @relation(fields: [ipProfileId], references: [id], onDelete: Cascade)
+    report    ScanReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+
+    @@id([ipProfileId, reportId])
+}
+
+model ScanReport {
+    id String @id @default(cuid())
+
+    // Owner User Info
+    userId String
+
+    // Relations
+    ipProfiles IPProfileOnScanReport[]
+    user       User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    // Time
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("scanReports")
+}

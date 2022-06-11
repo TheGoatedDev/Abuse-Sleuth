@@ -1,5 +1,15 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+    "extends": "@abuse-sleuth/tsconfig/nextjs.json",
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "baseUrl": ".",
+        "paths": {
+            "@hooks/*": ["./hooks/*"],
+            "@utils/*": ["utils/*"],
+            "@services/*": ["services/*"],
+            "@components/*": ["./components/*"]
+        }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
 }
