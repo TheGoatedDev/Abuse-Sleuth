@@ -1,4 +1,5 @@
 module.exports = {
+    requirePragma: true,
     bracketSpacing: true,
     bracketSameLine: true,
     singleQuote: false,
@@ -17,4 +18,13 @@ module.exports = {
     tabWidth: 4,
     useTabs: false,
     plugins: [require("@trivago/prettier-plugin-sort-imports")],
+
+    overrides: [
+        {
+            files: [ "**/*.yml" ],
+            options: {
+                tabWidth: 2,
+            }
+        }
+    ]
 };
