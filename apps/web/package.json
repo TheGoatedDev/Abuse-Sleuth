@@ -3,10 +3,17 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "--------- Production ---------": "",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "--------- Development ---------": "",
+        "dev": "next dev",
+        "--------- Linting ---------": "",
+        "lint": "next lint",
+        "--------- Testing ---------": "",
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run",
+        "test:e2e": "npm run build && run-p start cypress:run"
     },
     "dependencies": {
         "next": "12.0.8",
@@ -15,13 +22,15 @@
         "ui": "*"
     },
     "devDependencies": {
-        "eslint": "7.32.0",
-        "eslint-config-custom": "*",
-        "next-transpile-modules": "9.0.0",
-        "tsconfig": "*",
         "@types/node": "^17.0.12",
         "@types/react": "17.0.37",
+        "cypress": "^10.1.0",
+        "eslint": "7.32.0",
+        "eslint-config-custom": "*",
+        "eslint-plugin-cypress": "^2.12.1",
+        "next-transpile-modules": "9.0.0",
+        "npm-run-all": "^4.1.5",
+        "tsconfig": "*",
         "typescript": "^4.5.3"
     }
 }
-

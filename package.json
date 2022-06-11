@@ -11,6 +11,8 @@
     "--------- Turbo ---------": "",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "--------- Apps ---------": "",
+    "web": "yarn workspace @abuse-sleuth/web",
     "--------- Format and Lint ---------": "",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
