@@ -1,13 +1,12 @@
-import { Button, Group, Title, Text, useMantineTheme } from "@abuse-sleuth/ui";
+import { Button, Group, Title, Text, useMantineTheme, MediaQuery, SimpleGrid } from "@abuse-sleuth/ui";
 import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/navigation/StyledHeader";
 import { useMediaQuery } from "@mantine/hooks";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 export default function Home() {
-    const router = useRouter();
+    const theme = useMantineTheme()
+    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`)
 
     return (
         <StyledLayout>
@@ -18,7 +17,7 @@ export default function Home() {
                 sx={(theme) => ({
                     height: "100vh",
                 })}>
-                <Group position="apart" grow mt={"xl"} px="xl">
+                <SimpleGrid cols={isMobile ? 1 : 2}>
                     <Group direction="column" spacing={0} p="xl">
                         <Title order={2}>Welcome to</Title>
                         <Title
@@ -61,14 +60,16 @@ export default function Home() {
                             </Button>
                         </Link>
                     </Group>
-                    <Group position="center">
+
+                    {!isMobile && <Group position="center">
                         <img
                             src="/logo.svg"
                             width={"350px"}
                             alt="Abuse Sleuth Logo"
                         />
-                    </Group>
-                </Group>
+                    </Group>}
+
+                </SimpleGrid>
             </Group>
         </StyledLayout>
     );
