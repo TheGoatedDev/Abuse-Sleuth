@@ -1,17 +1,16 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "jest"
-  ],
-  "compilerOptions": {
-    "types": [
-      "cypress"
-    ],
-  }
+    "extends": "@abuse-sleuth/tsconfig/nextjs.json",
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules", "jest"],
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "baseUrl": ".",
+        "paths": {
+            "@hooks/*": ["./hooks/*"],
+            "@utils/*": ["utils/*"],
+            "@services/*": ["services/*"],
+            "@components/*": ["./components/*"]
+        },
+        "types": ["cypress", "jest"]
+    }
 }

@@ -1,19 +1,37 @@
 {
-  "name": "ui",
-  "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
-  "license": "MIT",
-  "scripts": {
-    "lint": "eslint *.ts*"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "*",
-    "react": "^17.0.2",
-    "tsconfig": "*",
-    "typescript": "^4.5.2"
-  }
+    "name": "@abuse-sleuth/ui",
+    "version": "0.0.0",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "sideEffects": false,
+	"private": true,
+    "files": [
+        "dist/**"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "clean": "rimraf node_modules .turbo",
+        "--------- Production ---------": "",
+        "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
+        "--------- Development ---------": "",
+        "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+        "--------- Linting ---------": "",
+        "lint": "eslint ./src/**/*.ts*"
+    },
+    "devDependencies": {
+        "@abuse-sleuth/tsconfig": "*",
+        "@types/react": "17.0.2",
+        "@types/react-dom": "17.0.2",
+        "eslint": "^7.32.0",
+        "eslint-config-custom": "*",
+        "rimraf": "^3.0.2",
+        "tsup": "^6.1.2",
+        "typescript": "^4.5.2"
+    },
+    "dependencies": {
+        "next": "^12.1.6",
+        "@mantine/core": "^4.2.9",
+        "@mantine/hooks": "^4.2.9",
+        "@mantine/next": "^4.2.9"
+    }
 }
