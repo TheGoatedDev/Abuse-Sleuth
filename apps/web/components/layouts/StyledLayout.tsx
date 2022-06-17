@@ -1,8 +1,9 @@
 import React from "react";
+import { FCC } from "types/types";
 
 import { Box } from "@abuse-sleuth/ui";
 
-const StyledLayout: React.FC = (props) => {
+const StyledLayout: FCC = (props) => {
     const foreground = "#000";
     const opacity = "0.30";
 

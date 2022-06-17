@@ -1,3 +1,5 @@
+import { ModalsProvider } from "@mantine/modals";
+import { NotificationsProvider } from "@mantine/notifications";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
@@ -23,7 +25,11 @@ export default function App(props: AppProps) {
                     /** Put your mantine theme override here */
                     colorScheme: "dark",
                 }}>
-                <Component {...pageProps} />
+                <NotificationsProvider>
+                    <ModalsProvider>
+                        <Component {...pageProps} />
+                    </ModalsProvider>
+                </NotificationsProvider>
             </MantineProvider>
         </>
     );

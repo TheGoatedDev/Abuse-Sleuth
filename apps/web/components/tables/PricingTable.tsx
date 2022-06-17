@@ -102,7 +102,13 @@ const PricingTable: React.FC<{ plans: Plan[] }> = (props) => {
         };
     });
 
-    return <DataTable<PlanInternal> columns={columns} data={plans} />;
+    return (
+        <DataTable<PlanInternal>
+            tableProps={{ p: "md" }}
+            columns={columns}
+            data={plans}
+        />
+    );
 };
 
 export default PricingTable;

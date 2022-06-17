@@ -31,6 +31,7 @@ export default function Pricing() {
                 })}>
                 <Paper
                     shadow={"lg"}
+                    px={"xs"}
                     sx={(theme) => ({
                         backgroundColor:
                             theme.colorScheme === "dark"

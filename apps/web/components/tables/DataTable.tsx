@@ -5,18 +5,20 @@ import {
 } from "react-icons/fa";
 import { Column, useSortBy, useTable } from "react-table";
 
-import { Box, Group, Table } from "@abuse-sleuth/ui";
+import { Box, Group, Table, TableProps } from "@abuse-sleuth/ui";
 
 interface Param<T extends object> {
     data: T[];
     columns: Column<T>[];
     enableSorting?: boolean;
+    tableProps?: TableProps;
 }
 
 const DataTable = <A extends object>({
     data,
     columns,
     enableSorting = false,
+    tableProps,
 }: Param<A>) => {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable(
@@ -28,7 +30,7 @@ const DataTable = <A extends object>({
         );
 
     return (
-        <Table {...getTableProps()} highlightOnHover>
+        <Table {...getTableProps()} {...tableProps} highlightOnHover>
             <thead>
                 {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
@@ -39,8 +41,8 @@ const DataTable = <A extends object>({
                                         ? column.getSortByToggleProps()
                                         : undefined
                                 )}>
-                                <Group spacing={"xs"} align="center">
-                                    <span>{column.render("Header")}</span>
+                                <Group position="center">
+                                    <Box>{column.render("Header")}</Box>
                                     {enableSorting && (
                                         <Box pt={3}>
                                             {column.isSorted ? (
@@ -67,7 +69,9 @@ const DataTable = <A extends object>({
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell) => (
                                 <td {...cell.getCellProps()}>
-                                    {cell.render("Cell")}
+                                    <Box style={{ textAlign: "center" }}>
+                                        {cell.render("Cell")}
+                                    </Box>
                                 </td>
                             ))}
                         </tr>

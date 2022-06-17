@@ -27,11 +27,11 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/NavLink.tsx
+// src/navigation/NavLink.tsx
+var import_core = require("@mantine/core");
 var import_link = __toESM(require("next/link"));
 var import_router = require("next/router");
 var import_react = __toESM(require("react"));
-var import_core = require("@mantine/core");
 var NavLink = ({
   href,
   color = "#FFF",
@@ -58,6 +58,7 @@ var NavLink = ({
 
 // src/index.tsx
 __reExport(src_exports, require("@mantine/core"), module.exports);
+__reExport(src_exports, require("@mantine/hooks"), module.exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   NavLink

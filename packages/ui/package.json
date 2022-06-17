@@ -4,7 +4,7 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "sideEffects": false,
-	"private": true,
+    "private": true,
     "files": [
         "dist/**"
     ],
@@ -22,16 +22,18 @@
         "@abuse-sleuth/tsconfig": "*",
         "@types/react": "17.0.2",
         "@types/react-dom": "17.0.2",
-        "eslint": "^7.32.0",
         "eslint-config-custom": "*",
         "rimraf": "^3.0.2",
         "tsup": "^6.1.2",
         "typescript": "^4.5.2"
     },
     "dependencies": {
-        "next": "^12.1.6",
         "@mantine/core": "^4.2.9",
+        "@mantine/form": "^4.2.9",
         "@mantine/hooks": "^4.2.9",
-        "@mantine/next": "^4.2.9"
+        "@mantine/modals": "^4.2.9",
+        "@mantine/next": "^4.2.9",
+        "@mantine/notifications": "^4.2.9",
+        "next": "^12.1.6"
     }
 }
