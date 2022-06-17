@@ -1,6 +1,7 @@
-import React from 'react';
-export * from '@mantine/core';
-export * from '@mantine/hooks';
+import React from "react";
+
+export * from "@mantine/core";
+export * from "@mantine/hooks";
 
 declare type INavLinkProps = {
     href: string;
