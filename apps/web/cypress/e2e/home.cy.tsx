@@ -1,8 +1,7 @@
 describe("Home Page", () => {
     it("Opens", () => {
-        cy.visit("/")
-    })
-})
+        cy.visit("/");
+    });
+});
 
-
-export {}
+export {};

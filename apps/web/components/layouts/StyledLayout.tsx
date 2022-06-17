@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Box } from "@abuse-sleuth/ui";
 
 const StyledLayout: React.FC = (props) => {

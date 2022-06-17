@@ -1,8 +1,7 @@
+import { Text } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-
-import { Text } from "@mantine/core";
 
 export type INavLinkProps = {
     href: string;
