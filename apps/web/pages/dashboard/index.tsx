@@ -3,8 +3,11 @@ import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 import { Group, SimpleGrid, Space, Stack, Text, Title } from "@abuse-sleuth/ui";
 
 import DashboardLayout from "@components/layouts/DashboardLayout";
+import RecentUpdates from "@components/sections/RecentUpdates";
 import StatsCard from "@components/statistics/StatsCard";
-import DashboardUpdatesTable from "@components/tables/DashboardUpdatesTable";
+import DashboardUpdatesTable, {
+    Severity,
+} from "@components/tables/DashboardUpdatesTable";
 
 export default function Home() {
     return (
@@ -31,34 +34,10 @@ export default function Home() {
                 position={"apart"}
                 align="flex-start"
                 noWrap>
-                <Stack
-                    style={{
-                        flexGrow: 1,
-                    }}>
-                    <Title order={3}>Recent Updates</Title>
-                    <DashboardUpdatesTable
-                        updates={[
-                            {
-                                severity: "CRIT",
-                                message:
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor. Etiam risus lorem, rhoncus ut justo non, mattis consectetur lacus. Praesent magna urna, pulvinar in diam tempor, pharetra luctus purus.",
-                            },
-                            {
-                                severity: "WARN",
-                                message:
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor. Etiam risus lorem, rhoncus ut justo non, mattis consectetur lacus. Praesent magna urna, pulvinar in diam tempor, pharetra luctus purus.",
-                            },
-                            {
-                                severity: "INFO",
-                                message:
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor. Etiam risus lorem, rhoncus ut justo non, mattis consectetur lacus. Praesent magna urna, pulvinar in diam tempor, pharetra luctus purus.",
-                            },
-                        ]}
-                    />
-                </Stack>
+                <RecentUpdates />
                 <Stack
                     sx={(theme) => ({
-                        minWidth: "300px",
+                        minWidth: "32.1%",
                         [theme.fn.smallerThan("sm")]: {
                             minWidth: "100%",
                         },

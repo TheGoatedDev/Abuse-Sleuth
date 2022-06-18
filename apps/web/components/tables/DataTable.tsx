@@ -43,7 +43,7 @@ const DataTable = <A extends object>({
                                 )}>
                                 <Group position="center">
                                     <Box>{column.render("Header")}</Box>
-                                    {enableSorting && (
+                                    {enableSorting && column.canSort && (
                                         <Box pt={3}>
                                             {column.isSorted ? (
                                                 column.isSortedDesc ? (
