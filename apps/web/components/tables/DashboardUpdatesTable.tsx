@@ -23,7 +23,6 @@ const DashboardUpdatesTable: React.FC<{ updates: Updates[] }> = (props) => {
         {
             Header: "Severity",
             accessor: "severity",
-            maxWidth: 50,
         },
         {
             Header: "Message",
