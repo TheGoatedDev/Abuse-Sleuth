@@ -9,7 +9,10 @@ import DashboardUpdatesTable, {
 
 const RecentUpdates: React.FC = (props) => {
     return (
-        <Stack>
+        <Stack
+            sx={(theme) => ({
+                flexGrow: 1,
+            })}>
             <Group position="apart" align={"flex-start"}>
                 <Title order={3}>Recent Updates</Title>
                 <Button
@@ -28,17 +31,17 @@ const RecentUpdates: React.FC = (props) => {
             <DashboardUpdatesTable
                 updates={[
                     {
+                        severity: Severity.INFO,
+                        message:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
+                    },
+                    {
                         severity: Severity.CRIT,
                         message:
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
                     },
                     {
                         severity: Severity.WARN,
-                        message:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
-                    },
-                    {
-                        severity: Severity.INFO,
                         message:
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
                     },

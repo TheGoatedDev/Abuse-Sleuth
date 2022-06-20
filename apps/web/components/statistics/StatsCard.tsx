@@ -16,7 +16,7 @@ interface Stat {
 
 const StatsCard: React.FC<Stat> = (props) => {
     return (
-        <Paper withBorder radius="md" p="xs" key={props.label}>
+        <Paper withBorder radius="md" p="xs" shadow={"md"} key={props.label}>
             <Group>
                 <RingProgress
                     size={80}

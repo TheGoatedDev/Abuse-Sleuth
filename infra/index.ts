@@ -1,152 +1,105 @@
-import * as digitalocean from "@pulumi/digitalocean";
+import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
+
+// import {generate} from 'generate-password';
+
+// const getSecurePassword = () => {
+//     return generate({
+//         length: 32,
+//         numbers: true,
+//         exclude: '@/"'
+//     })
+// }
 
 const config = new pulumi.Config();
 const stack = pulumi.getStack();
 
 // Config for Global
-const region: digitalocean.Region =
-    config.get("region") ?? digitalocean.Region.LON1;
+const region: aws.Region = config.require("aws-region");
 const NODE_ENV = stack === "prod" ? "production" : "development";
 
-// Config for Database
-const databaseInstance: digitalocean.DatabaseSlug =
-    config.get("database:instance") ?? digitalocean.DatabaseSlug.DB_1VPCU1GB;
-const databaseInstanceCount = config.getNumber("database:instanceCount") ?? 1;
+// Config for RDS
+const instanceCount = config.getNumber("rds-instanceCount") ?? 1;
+const MultiAZ = ["a", "b", "c"].map((value) => region + value);
+const dbPass = config.requireSecret("rds-password");
+const dbPublic = config.getBoolean("rds-public") ?? false;
 
-// Config for Frontend (NextJs)
-const frontendInstanceSlug = config.get("frontend:instance") ?? "basic-xxs";
-const frontendInstanceCount = config.getNumber("frontend:instanceCount") ?? 1;
+// Setup Networking
+const vpc = new aws.ec2.Vpc("networking-vpc", {
+    cidrBlock: "10.0.0.0/16",
+});
 
-// Config for backend (Express)
-const backendInstanceSlug = config.get("backend:instance") ?? "basic-xxs";
-const backendInstanceCount = config.getNumber("backend:instanceCount") ?? 1;
+let vpcSubnetGroups: aws.ec2.Subnet[] = [];
+
+MultiAZ.forEach((element, i) => {
+    vpcSubnetGroups.push(
+        new aws.ec2.Subnet("networking-subnet-" + element, {
+            vpcId: vpc.id,
+            cidrBlock: `10.0.${1 + i}.0/24`,
+            availabilityZone: element,
+        })
+    );
+});
+
+const securityGroup = new aws.ec2.SecurityGroup("networking-sg", {
+    vpcId: vpc.id,
+    egress: [],
+    ingress: [],
+});
+
+const dbSubnetGroup = new aws.rds.SubnetGroup("database-subnet-group", {
+    name: "abuse-sleuth-db-subnet-group",
+    subnetIds: vpcSubnetGroups.map((t) => t.id),
+});
+
+// Setup Database User
+//new aws.iam.User()
 
 // Setup Database
-const dbCluster = new digitalocean.DatabaseCluster("cluster", {
-    name: "abuse-sleuth-db",
+const dbCluster = new aws.rds.Cluster("database-cluster", {
+    clusterIdentifier: "abuse-sleuth-db",
+    availabilityZones: MultiAZ,
 
-    // Postgres 14
-    engine: "pg",
-    version: "14",
+    databaseName: "abuse_sleuth",
 
-    // London
-    region: region,
-
-    //Cluster Machines
-    size: databaseInstance,
-    nodeCount: databaseInstanceCount,
-});
-
-const db = new digitalocean.DatabaseDb("db", {
-    name: "abuse-sleuth",
-    clusterId: dbCluster.id,
-});
-
-// Setup Application
-const app = new digitalocean.App("app", {
-    spec: {
-        name: "abuse-sleuth",
-
-        region: region,
-
-        domainNames: [
-            {
-                name: "abusesleuth.com",
-                type: "PRIMARY",
-                zone: "abusesleuth.com",
-            },
-        ],
-
-        databases: [
-            {
-                name: "db",
-                clusterName: dbCluster.name,
-                production: NODE_ENV === "production",
-                engine: dbCluster.engine.apply((engine) =>
-                    engine.toUpperCase()
-                ),
-            },
-        ],
-
-        services: [
-            // Next JS Service
-            {
-                name: "nextjs",
-                httpPort: 8080,
-                instanceSizeSlug: frontendInstanceSlug,
-                instanceCount: frontendInstanceCount,
-                github: {
-                    repo: "Abys5/Abuse-Sleuth",
-                    branch: "v2",
-                    deployOnPush: true,
-                },
-                routes: [
-                    {
-                        path: "/",
-                    },
-                ],
-                buildCommand:
-                    'npx turbo run build --scope="@abuse-sleuth/web" --include-dependencies',
-                runCommand: "yarn workspace @abuse-sleuth/web start",
-            },
-
-            // Express API Service
-            // {
-            //     name: "express",
-            //     httpPort: 8080,
-            //     instanceSizeSlug: "basic-xxs",
-            //     github: {
-            //         repo: "Abys5/Abuse-Sleuth",
-            //         branch: "v2",
-            //         deployOnPush: true,
-            //     },
-            //     routes: [
-            //         {
-            //             path: "/api"
-            //         }
-            //     ]
-            // },
-        ],
+    // Database Engine Config
+    engine: "aurora-postgresql",
+    engineMode: "provisioned",
+    engineVersion: "14.3",
+    storageEncrypted: true,
+    serverlessv2ScalingConfiguration: {
+        maxCapacity: 16,
+        minCapacity: 1,
     },
+
+    // Creds Config
+    masterUsername: "AS_postgres",
+    masterPassword: dbPass,
+    iamDatabaseAuthenticationEnabled: true,
+
+    vpcSecurityGroupIds: [securityGroup.id],
+    dbSubnetGroupName: dbSubnetGroup.id,
+
+    skipFinalSnapshot: true,
 });
 
-// Setup Database Firewall to App
-const firewall = new digitalocean.DatabaseFirewall("database-firewall", {
-    clusterId: dbCluster.id,
-    rules: [
-        {
-            type: "app",
-            value: app.id,
-        },
-    ],
-});
+let clusterInstances: aws.rds.ClusterInstance[] = [];
 
-// Setup Project
-// const project = new digitalocean.Project("abuse-sleuth-project", {
-//     name: "Abuse Sleuth",
-//     environment: NODE_ENV,
-//     description: "A SaaS IP and Domain Aggregration and Analysis for Security",
-//     resources: [dbCluster.clusterUrn],
-// });
+for (let i = 1; i <= instanceCount; i++) {
+    clusterInstances.push(
+        new aws.rds.ClusterInstance("database-instance-" + i, {
+            clusterIdentifier: dbCluster.id,
+            identifier: "instance" + "-" + i,
 
-export const appLiveUrl = app.liveUrl;
+            instanceClass: "db.serverless",
+            engine: dbCluster.engine.apply(
+                (value) => value as aws.rds.EngineType
+            ),
+            engineVersion: dbCluster.engineVersion,
+            publiclyAccessible: dbPublic,
+        })
+    );
+}
 
-// // Setup Project
-// try {
-//     const project = await digitalocean.getProject({
-//         name: "Abuse Sleuth",
-//     });
-
-//     console.log(app.urn.get(), dbCluster.clusterUrn.get());
-
-//     new digitalocean.ProjectResources("project-resources", {
-//         project: project.id,
-//         resources: [app.urn, dbCluster.clusterUrn],
-//     });
-// } catch (error) {
-//     new digitalocean.Project("abuse-sleuth-project", {
-//         name: "Abuse Sleuth",
-//         resources: [app.urn, dbCluster.clusterUrn],
-//     });
-// }
+export const dbConnectionURI = dbCluster.endpoint;
+export const dbClusterPassword = dbPass;
