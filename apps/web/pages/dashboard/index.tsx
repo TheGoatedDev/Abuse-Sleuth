@@ -1,12 +1,10 @@
 import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 
 import {
-    Box,
     Group,
     Paper,
     SimpleGrid,
     Skeleton,
-    Space,
     Stack,
     Text,
     Title,
@@ -15,9 +13,6 @@ import {
 import DashboardLayout from "@components/layouts/DashboardLayout";
 import RecentUpdates from "@components/sections/RecentUpdates";
 import StatsCard from "@components/statistics/StatsCard";
-import DashboardUpdatesTable, {
-    Severity,
-} from "@components/tables/DashboardUpdatesTable";
 
 export default function Home() {
     return (
