@@ -47,7 +47,7 @@
     },
     "dependencies": {},
     "lint-staged": {
-        "*": "prettier --ignore-unknown --write && detect-secrets-launcher *"
+        "*": "prettier --ignore-unknown --write"
     },
     "packageManager": "yarn@1.22.18"
 }
