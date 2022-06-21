@@ -81,7 +81,6 @@ export default function Home() {
                     sx={(theme) => ({
                         flexGrow: 1,
                     })}>
-                    <Title order={3}>News</Title>
                     <SimpleGrid
                         cols={2}
                         breakpoints={[{ maxWidth: "sm", cols: 1 }]}
