@@ -45,5 +45,8 @@
         "node": ">=14.0.0"
     },
     "dependencies": {},
+    "lint-staged": {
+        "*": "prettier --ignore-unknown --write"
+    },
     "packageManager": "yarn@1.22.18"
 }
