@@ -1,0 +1,44 @@
+{
+    "name": "@abuse-sleuth/prisma",
+    "version": "0.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": "./dist/index.js",
+        "./zod": "./dist/zod/index.js"
+    },
+    "scripts": {
+        "clean": "rimraf .turbo node_modules",
+        "--------- Production ---------": "",
+        "deploy": "run-s db:build db:deploy",
+        "build": "run-s db:generate",
+        "db:deploy": "prisma migrate deploy",
+        "--------- Development ---------": "",
+        "dev": "run-s db:generate && tsup index.ts zod/index.ts --watch --dts",
+        "db:studio": "prisma studio",
+        "db:migrate": "prisma migrate dev",
+        "db:seed": "prisma db seed",
+        "--------- Build ---------": "",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push",
+        "--------- Docker ---------": "",
+        "db:up": "docker-compose up -d",
+        "db:down": "docker-compose down --volumes --remove-orphans"
+    },
+    "devDependencies": {
+        "@abuse-sleuth/tsconfig": "*",
+        "npm-run-all": "^4.1.5",
+        "prisma": "^3.12.0",
+        "rimraf": "^3.0.2",
+        "ts-node": "^10.5.0",
+        "tsup": "^5.12.1",
+        "zod": "^3.17.3",
+        "zod-prisma": "^0.5.4"
+    },
+    "prisma": {
+        "seed": "ts-node seed.ts"
+    },
+    "dependencies": {
+        "@prisma/client": "^3.12.0"
+    }
+}
