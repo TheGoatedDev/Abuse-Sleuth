@@ -1,8 +1,8 @@
 {
-    "name": "@abuse-sleuth/ui",
+    "name": "@abuse-sleuth/trpc",
     "version": "0.0.0",
-    "main": "./src/index.tsx",
-    "types": "./src/index.tsx",
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
     "sideEffects": false,
     "private": true,
     "files": [
@@ -18,20 +18,13 @@
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
-        "@types/react": "17.0.2",
-        "@types/react-dom": "17.0.2",
         "eslint-config-custom": "*",
         "rimraf": "^3.0.2",
-        "tsup": "^6.1.2",
         "typescript": "^4.5.2"
     },
     "dependencies": {
-        "@mantine/core": "^4.2.9",
-        "@mantine/form": "^4.2.9",
-        "@mantine/hooks": "^4.2.9",
-        "@mantine/modals": "^4.2.9",
-        "@mantine/next": "^4.2.9",
-        "@mantine/notifications": "^4.2.9",
-        "next": "^12.1.6"
+        "@trpc/server": "^9.25.3",
+        "superjson": "^1.9.1",
+        "zod": "^3.17.3"
     }
 }

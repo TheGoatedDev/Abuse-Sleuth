@@ -1,11 +1,11 @@
 {
     "name": "@abuse-sleuth/prisma",
     "version": "0.0.0",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "index.ts",
+    "types": "index.ts",
     "exports": {
-        ".": "./dist/index.js",
-        "./zod": "./dist/zod/index.js"
+        ".": "./index.ts",
+        "./zod": "./zod/index.ts"
     },
     "scripts": {
         "clean": "rimraf .turbo node_modules",
@@ -14,7 +14,7 @@
         "build": "run-s db:generate",
         "db:deploy": "prisma migrate deploy",
         "--------- Development ---------": "",
-        "dev": "run-s db:generate && tsup index.ts zod/index.ts --watch --dts",
+        "dev": "run-s db:generate",
         "db:studio": "prisma studio",
         "db:migrate": "prisma migrate dev",
         "db:seed": "prisma db seed",

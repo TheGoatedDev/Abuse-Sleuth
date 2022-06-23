@@ -16,8 +16,11 @@
         "test:unit:coverage": "jest --coverage"
     },
     "dependencies": {
+        "@abuse-sleuth/trpc": "*",
         "@fastify/compress": "^6.1.0",
+        "@fastify/cors": "^8.0.0",
         "@fastify/helmet": "^9.1.0",
+        "@trpc/server": "^9.25.3",
         "fastify": "^4.1.0"
     },
     "devDependencies": {

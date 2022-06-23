@@ -20,18 +20,25 @@
         "test:unit:coverage": "jest --coverage"
     },
     "dependencies": {
+        "@abuse-sleuth/prisma": "*",
+        "@abuse-sleuth/trpc": "*",
         "@abuse-sleuth/ui": "*",
         "@mantine/form": "^4.2.9",
         "@mantine/hooks": "^4.2.9",
         "@mantine/modals": "^4.2.9",
         "@mantine/next": "^4.2.9",
         "@mantine/notifications": "^4.2.9",
+        "@trpc/client": "^9.25.3",
+        "@trpc/next": "^9.25.3",
+        "@trpc/react": "^9.25.3",
         "next": "^12.1.6",
         "preact": "^10.8.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.4.0",
-        "react-table": "^7.8.0"
+        "react-query": "^3.39.1",
+        "react-table": "^7.8.0",
+        "superjson": "^1.9.1"
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
