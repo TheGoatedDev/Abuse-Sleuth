@@ -17,6 +17,7 @@
         "api": "yarn workspace @abuse-sleuth/api",
         "--------- Packages ---------": "",
         "ui": "yarn workspace @abuse-sleuth/ui",
+        "prisma": "yarn workspace @abuse-sleuth/prisma",
         "--------- Format and Lint ---------": "",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
