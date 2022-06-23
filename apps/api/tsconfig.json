@@ -1,0 +1,11 @@
+{
+    "extends": "@abuse-sleuth/tsconfig/base.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "jest"],
+    "compilerOptions": {
+        "downlevelIteration": true,
+        "baseUrl": "./src",
+        "paths": {},
+        "types": ["cypress", "jest"]
+    }
+}

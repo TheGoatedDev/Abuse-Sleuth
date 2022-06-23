@@ -60,7 +60,7 @@ const DashboardNavbar: React.FC = () => {
                         <FaHome size={24} />
                     </NavbarButton>
 
-                    <NavbarButton href="/scan" tooltip="Scanning">
+                    <NavbarButton href="/dashboard/scan" tooltip="Scanning">
                         <FaSearch size={24} />
                     </NavbarButton>
 

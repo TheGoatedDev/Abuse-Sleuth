@@ -50,6 +50,21 @@ const RecentUpdates: React.FC = (props) => {
                         message:
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
                     },
+                    {
+                        severity: Severity.INFO,
+                        message:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
+                    },
+                    {
+                        severity: Severity.INFO,
+                        message:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
+                    },
+                    {
+                        severity: Severity.INFO,
+                        message:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus molestie commodo quam vel auctor.",
+                    },
                 ]}
             />
         </Stack>

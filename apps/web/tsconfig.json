@@ -1,15 +1,20 @@
 {
     "extends": "@abuse-sleuth/tsconfig/nextjs.json",
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        "next-env.d.ts",
+        "react-table-config.d.ts",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
     "exclude": ["node_modules", "jest"],
     "compilerOptions": {
         "downlevelIteration": true,
-        "baseUrl": ".",
+        "baseUrl": "./src",
         "paths": {
-            "@hooks/*": ["./hooks/*"],
+            "@hooks/*": ["hooks/*"],
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
-            "@components/*": ["./components/*"]
+            "@components/*": ["components/*"]
         },
         "types": ["cypress", "jest"]
     }

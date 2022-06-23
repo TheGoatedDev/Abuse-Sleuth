@@ -1,11 +1,14 @@
 import React from "react";
 import { FCC } from "types/types";
 
-import { Box } from "@abuse-sleuth/ui";
+import { Box, useMantineTheme } from "@abuse-sleuth/ui";
 
 const StyledLayout: FCC = (props) => {
+    const theme = useMantineTheme();
+
     const foreground = "#000";
     const opacity = "0.30";
+    const color = theme.colors.violet[6];
 
     return (
         <Box
@@ -21,7 +24,7 @@ const StyledLayout: FCC = (props) => {
                     top: "0",
                     right: "0",
                     clipPath: "polygon(0 0, 100% 0, 100% 100%, 60% 100%)",
-                    backgroundColor: theme.colors.violet[6],
+                    backgroundColor: color,
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='${foreground.replace(
                         "#",
                         "%23"
