@@ -2,6 +2,7 @@ import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 
 import {
     Group,
+    Loader,
     Paper,
     SimpleGrid,
     Skeleton,
@@ -13,15 +14,18 @@ import {
 import DashboardLayout from "@components/layouts/DashboardLayout";
 import RecentUpdates from "@components/sections/RecentUpdates";
 import StatsCard from "@components/statistics/StatsCard";
+import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {
+    const query = trpc.useQuery(["users:me"]);
+
     return (
         <DashboardLayout>
             <Stack
                 sx={(theme) => ({
                     height: "100%",
                 })}>
-                <Title>Hello {"USER_NAME_HERE"}</Title>
+                <Title>Hello {query.data?.username ?? <Loader />}</Title>
                 <Text color={"dimmed"}>Welcome Back!</Text>
 
                 <SimpleGrid

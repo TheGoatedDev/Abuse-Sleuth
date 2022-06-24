@@ -1,6 +1,8 @@
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
+import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
+import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { withTRPC } from "@trpc/next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -39,28 +41,46 @@ function App(props: AppProps) {
     );
 }
 
+function getURL() {
+    const url = process.env.API_URL
+        ? `https://${process.env.API_URL}/trpc`
+        : "http://localhost:3001/trpc";
+    return url;
+}
+
+function getEndingLink() {
+    if (typeof window === "undefined") {
+        return httpBatchLink({
+            url: getURL(),
+        });
+    }
+    const client = createWSClient({
+        url: getURL().replace(RegExp("^(http|https)"), "ws"),
+    });
+    return wsLink<AppRouter>({
+        client,
+    });
+}
+
 export default withTRPC<AppRouter>({
     config({ ctx }) {
         /**
          * If you want to use SSR, you need to use the server's full URL
          * @link https://trpc.io/docs/ssr
          */
-        const url = process.env.API_URL
-            ? `https://${process.env.API_URL}/trpc`
-            : "http://localhost:3001/trpc";
 
         return {
-            // links: [
-            //     loggerLink({
-            //         enabled: (opts) =>
-            //             process.env.NODE_ENV !== "production" ||
-            //             (opts.direction === "down" &&
-            //                 opts.result instanceof Error),
-            //     }),
-            //     httpBat,
-            // ],
+            links: [
+                loggerLink({
+                    enabled: (opts) =>
+                        process.env.NODE_ENV !== "production" ||
+                        (opts.direction === "down" &&
+                            opts.result instanceof Error),
+                }),
+                getEndingLink(),
+            ],
             transformer: superjson,
-            url,
+            url: getURL(),
             /**
              * @link https://react-query.tanstack.com/reference/QueryClient
              */

@@ -736,6 +736,14 @@
     fastify-plugin "^3.0.0"
     helmet "^5.0.1"
 
+"@fastify/websocket@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fastify/websocket/-/websocket-6.0.1.tgz#fbbcf49878b2bde54e13ba1087900fb3fff51548"
+  integrity sha512-RdrPMpD/gjm7ocqFZN2TVHRAjDNG483dvH7cbMXJPTvIei2xz/sqa5TwtqGPrupU91GZjlUYQqUjQb/cQHA7kw==
+  dependencies:
+    fastify-plugin "^3.0.0"
+    ws "^8.0.0"
+
 "@grpc/grpc-js@~1.3.8":
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.3.8.tgz#0d7dce9de7aeb20702a28f0704e61b0bf34061c1"
@@ -1751,6 +1759,13 @@
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.2.tgz#6286b4c7228d58ab7866d19716f3696e03a09397"
   integrity sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==
+
+"@types/ws@^8.5.3":
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.5.3.tgz#7d25a1ffbecd3c4f2d35068d0b283c037003274d"
+  integrity sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==
+  dependencies:
+    "@types/node" "*"
 
 "@types/yargs-parser@*":
   version "21.0.0"
@@ -8257,7 +8272,7 @@ write-file-atomic@^4.0.1:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.7"
 
-ws@^8.2.3:
+ws@^8.0.0, ws@^8.2.3, ws@^8.8.0:
   version "8.8.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.8.0.tgz#8e71c75e2f6348dbf8d78005107297056cb77769"
   integrity sha512-JDAgSYQ1ksuwqfChJusw1LSJ8BizJ2e/vVu5Lxjq3YvNJNlROv1ui4i+c/kUUrPheBvQl4c5UbERhTwKa6QBJQ==
