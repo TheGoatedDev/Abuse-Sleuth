@@ -1,7 +1,10 @@
 import * as trpc from "@trpc/server";
 import { Context } from "context";
-import superjson from "superjson";
+
+export type RouterMeta = {
+    requireAuth?: boolean;
+};
 
 export const createRouter = () => {
-    return trpc.router<Context>();
+    return trpc.router<Context, RouterMeta>();
 };
