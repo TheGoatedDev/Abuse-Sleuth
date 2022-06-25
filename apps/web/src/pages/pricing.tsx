@@ -1,6 +1,5 @@
-import { Group, Paper } from "@abuse-sleuth/ui";
+import { Group, Paper, StyledLayout } from "@abuse-sleuth/ui";
 
-import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/navigation/StyledHeader";
 import PricingTable from "@components/tables/PricingTable";
 

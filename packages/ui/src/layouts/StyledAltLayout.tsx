@@ -1,9 +1,9 @@
+import { useMantineTheme, Box } from "@mantine/core";
 import React from "react";
-import { FCC } from "types/types";
 
-import { Box, useMantineTheme } from "@abuse-sleuth/ui";
+import { FCC } from "../types/types";
 
-const StyledAltLayout: FCC = (props) => {
+export const StyledAltLayout: FCC = (props) => {
     const theme = useMantineTheme();
 
     const foreground = "#000";
@@ -35,5 +35,3 @@ const StyledAltLayout: FCC = (props) => {
         </Box>
     );
 };
-
-export default StyledAltLayout;

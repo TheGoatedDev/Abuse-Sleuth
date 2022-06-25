@@ -1,6 +1,7 @@
 import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 
 import {
+    DashboardLayout,
     Group,
     Loader,
     Paper,
@@ -11,7 +12,7 @@ import {
     Title,
 } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@components/layouts/DashboardLayout";
+import DashboardNavbar from "@components/navigation/DashboardNavbar";
 import RecentUpdates from "@components/sections/RecentUpdates";
 import StatsCard from "@components/statistics/StatsCard";
 import { trpc } from "@utils/trpc/reactQueryHooks";
@@ -20,7 +21,7 @@ export default function Home() {
     const query = trpc.useQuery(["users:me"]);
 
     return (
-        <DashboardLayout>
+        <DashboardLayout navbar={<DashboardNavbar />}>
             <Stack
                 sx={(theme) => ({
                     height: "100%",

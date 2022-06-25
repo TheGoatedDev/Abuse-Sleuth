@@ -20,10 +20,9 @@ import {
     Divider,
     Checkbox,
     Anchor,
+    StyledLayout,
 } from "@abuse-sleuth/ui";
 
-import StyledAltLayout from "@components/layouts/StyledAltLayout";
-import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/navigation/StyledHeader";
 
 export default function Pricing() {

@@ -9,9 +9,9 @@ import {
     useMantineTheme,
     MediaQuery,
     SimpleGrid,
+    StyledLayout,
 } from "@abuse-sleuth/ui";
 
-import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/navigation/StyledHeader";
 
 export default function Home() {
