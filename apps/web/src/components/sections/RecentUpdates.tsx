@@ -1,11 +1,14 @@
 import { showNotification } from "@mantine/notifications";
 import { FiRefreshCw } from "react-icons/fi";
 
-import { Button, Group, Stack, Title } from "@abuse-sleuth/ui";
-
-import DashboardUpdatesTable, {
+import {
+    Button,
+    DashboardUpdatesTable,
+    Group,
     Severity,
-} from "@components/tables/DashboardUpdatesTable";
+    Stack,
+    Title,
+} from "@abuse-sleuth/ui";
 
 const RecentUpdates: React.FC = (props) => {
     return (

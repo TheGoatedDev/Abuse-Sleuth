@@ -1,11 +1,4 @@
-import {
-    Paper,
-    Group,
-    RingProgress,
-    Center,
-    DefaultMantineColor,
-    Text,
-} from "@abuse-sleuth/ui";
+import { Center, Group, Paper, RingProgress, Text } from "@mantine/core";
 
 interface Stat {
     label: string;
@@ -14,7 +7,7 @@ interface Stat {
     centerIcon?: JSX.Element;
 }
 
-const StatsCard: React.FC<Stat> = (props) => {
+export const StatsCard: React.FC<Stat> = (props) => {
     const progress = (props.stats / (props.statsMax ?? 100)) * 100;
 
     return (

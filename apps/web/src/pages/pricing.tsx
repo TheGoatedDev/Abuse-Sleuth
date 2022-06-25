@@ -1,7 +1,6 @@
-import { Group, Paper, StyledLayout } from "@abuse-sleuth/ui";
+import { Group, Paper, PricingTable, StyledLayout } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
-import PricingTable from "@components/tables/PricingTable";
 
 export default function Pricing() {
     return (

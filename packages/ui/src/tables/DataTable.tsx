@@ -14,7 +14,7 @@ interface Param<T extends object> {
     tableProps?: TableProps;
 }
 
-const DataTable = <A extends object>({
+export const DataTable = <A extends object>({
     data,
     columns,
     enableSorting = false,

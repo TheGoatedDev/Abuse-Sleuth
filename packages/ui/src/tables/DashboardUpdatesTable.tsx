@@ -1,8 +1,7 @@
+import { Badge, Text } from "@mantine/core";
 import React from "react";
 import { FaCheckSquare } from "react-icons/fa";
 import { Column } from "react-table";
-
-import { Badge, Box, Button, Text } from "@abuse-sleuth/ui";
 
 import DataTable from "./DataTable";
 
@@ -28,7 +27,9 @@ interface UpdatesInternal {
     message: JSX.Element;
 }
 
-const DashboardUpdatesTable: React.FC<{ updates: Updates[] }> = (props) => {
+export const DashboardUpdatesTable: React.FC<{ updates: Updates[] }> = (
+    props
+) => {
     const columns: Column<UpdatesInternal>[] = [
         {
             Header: "Severity",
@@ -83,5 +84,3 @@ const DashboardUpdatesTable: React.FC<{ updates: Updates[] }> = (props) => {
         />
     );
 };
-
-export default DashboardUpdatesTable;

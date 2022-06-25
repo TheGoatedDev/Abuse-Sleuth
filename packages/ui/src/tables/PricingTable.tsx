@@ -1,8 +1,7 @@
+import { Button } from "@mantine/core";
 import React from "react";
 import { FaCheckSquare } from "react-icons/fa";
 import { Column } from "react-table";
-
-import { Button } from "@abuse-sleuth/ui";
 
 import DataTable from "./DataTable";
 
@@ -36,7 +35,7 @@ interface PlanInternal {
     actions: any;
 }
 
-const PricingTable: React.FC<{ plans: Plan[] }> = (props) => {
+export const PricingTable: React.FC<{ plans: Plan[] }> = (props) => {
     const columns: Column<PlanInternal>[] = [
         {
             Header: "Plan",
@@ -110,5 +109,3 @@ const PricingTable: React.FC<{ plans: Plan[] }> = (props) => {
         />
     );
 };
-
-export default PricingTable;

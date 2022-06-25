@@ -8,13 +8,13 @@ import {
     SimpleGrid,
     Skeleton,
     Stack,
+    StatsCard,
     Text,
     Title,
 } from "@abuse-sleuth/ui";
 
 import DashboardNavbar from "@components/navigation/DashboardNavbar";
 import RecentUpdates from "@components/sections/RecentUpdates";
-import StatsCard from "@components/statistics/StatsCard";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {

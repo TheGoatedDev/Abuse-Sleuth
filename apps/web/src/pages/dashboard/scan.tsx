@@ -1,10 +1,10 @@
-import { Text, Title } from "@abuse-sleuth/ui";
+import { DashboardLayout, Text, Title } from "@abuse-sleuth/ui";
 
-import DashboardLayout from "@components/layouts/DashboardLayout";
+import DashboardNavbar from "@components/navigation/DashboardNavbar";
 
 export default function DashboardScan() {
     return (
-        <DashboardLayout>
+        <DashboardLayout navbar={<DashboardNavbar />}>
             <Title>Scanning</Title>
         </DashboardLayout>
     );
