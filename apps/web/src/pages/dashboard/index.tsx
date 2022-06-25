@@ -25,7 +25,20 @@ export default function Home() {
                 sx={(theme) => ({
                     height: "100%",
                 })}>
-                <Title>Hello {query.data?.username ?? <Loader />}</Title>
+                <Group spacing={"xs"}>
+                    <Title>Hello </Title>
+
+                    {query.isLoading ? (
+                        <Loader />
+                    ) : (
+                        <Title
+                            sx={(theme) => ({
+                                color: theme.colors.violet[6],
+                            })}>
+                            {query.data?.username}
+                        </Title>
+                    )}
+                </Group>
                 <Text color={"dimmed"}>Welcome Back!</Text>
 
                 <SimpleGrid

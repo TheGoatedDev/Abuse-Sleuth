@@ -1,25 +1,10 @@
-import { useMediaQuery } from "@mantine/hooks";
-import Link from "next/link";
-
-import {
-    Button,
-    Group,
-    Title,
-    Text,
-    useMantineTheme,
-    MediaQuery,
-    SimpleGrid,
-    Paper,
-} from "@abuse-sleuth/ui";
+import { Group, Paper } from "@abuse-sleuth/ui";
 
 import StyledLayout from "@components/layouts/StyledLayout";
 import StyledHeader from "@components/navigation/StyledHeader";
 import PricingTable from "@components/tables/PricingTable";
 
 export default function Pricing() {
-    const theme = useMantineTheme();
-    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
-
     return (
         <StyledLayout>
             <StyledHeader />
