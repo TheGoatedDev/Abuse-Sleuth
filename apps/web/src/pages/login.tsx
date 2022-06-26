@@ -24,6 +24,7 @@ import {
 } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
+import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Pricing() {
     const form = useForm({
@@ -43,6 +44,9 @@ export default function Pricing() {
             })
         ),
     });
+
+    // TODO: MOVE REGISTRATION TO REGISTRATION PAGE
+    const mutation = trpc.useMutation(["users:register"]);
 
     return (
         <StyledLayout>
@@ -78,12 +82,17 @@ export default function Pricing() {
                             <Text color={"dimmed"}>
                                 Sign in to your Account below.
                             </Text>
+                            <Text>{mutation.data?.username ?? ""}</Text>
                         </Stack>
 
                         <form
-                            onSubmit={form.onSubmit((values) =>
-                                console.log(values)
-                            )}>
+                            onSubmit={form.onSubmit((values) => {
+                                console.log(values);
+                                mutation.mutate({
+                                    email: values.email,
+                                    password: values.password,
+                                });
+                            })}>
                             <TextInput
                                 required
                                 label="Email"

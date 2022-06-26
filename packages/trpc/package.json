@@ -16,6 +16,7 @@
         "lint": "eslint ./src/**/*.ts*"
     },
     "devDependencies": {
+        "@abuse-sleuth/auth": "*",
         "@abuse-sleuth/tsconfig": "*",
         "eslint-config-custom": "*",
         "rimraf": "^3.0.2",

@@ -24,6 +24,7 @@
         "typescript": "^4.5.2"
     },
     "dependencies": {
-        "amazon-cognito-identity-js": "^5.2.9"
+        "amazon-cognito-identity-js": "^5.2.9",
+        "dotenv": "^16.0.1"
     }
 }
