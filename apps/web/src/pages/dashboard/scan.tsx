@@ -1,4 +1,4 @@
-import { DashboardLayout, Text, Title } from "@abuse-sleuth/ui";
+import { DashboardLayout, Title } from "@abuse-sleuth/ui";
 
 import DashboardNavbar from "@components/navigation/DashboardNavbar";
 

@@ -19,6 +19,7 @@
         "ui": "yarn workspace @abuse-sleuth/ui",
         "prisma": "yarn workspace @abuse-sleuth/prisma",
         "trpc": "yarn workspace @abuse-sleuth/trpc",
+        "auth": "yarn workspace @abuse-sleuth/auth",
         "--------- Format and Lint ---------": "",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
