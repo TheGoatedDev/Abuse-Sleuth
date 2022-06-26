@@ -1,5 +1,10 @@
+import dotENV from "dotenv";
 import { AddressInfo } from "net";
+import path from "path";
 import { fastifyApp } from "server";
+
+const ENVPATH = path.resolve(__dirname, "../../../", ".env");
+const env = dotENV.config({ path: ENVPATH });
 
 const start = async () => {
     try {
