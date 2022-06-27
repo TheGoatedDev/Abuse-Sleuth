@@ -26,7 +26,7 @@ import {
 import StyledHeader from "@components/navigation/StyledHeader";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
-export default function Pricing() {
+export default function Login() {
     const form = useForm({
         initialValues: {
             email: "",
