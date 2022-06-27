@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { registerUser } from "@abuse-sleuth/auth";
+import { loginUser, registerUser } from "@abuse-sleuth/auth";
 
 import { createRouter } from "@utils/createRouter";
 
@@ -23,6 +23,20 @@ const userRouter = router
         async resolve({ input }) {
             return {
                 username: `Abyss${Math.round(Math.random() * 1000)}`,
+            };
+        },
+    })
+    .mutation("login", {
+        input: z.object({
+            email: z.string().email(),
+            password: z.string().min(8),
+        }),
+        async resolve({ input, ctx }) {
+            const userSession = await loginUser(input.email, input.password);
+            return {
+                idToken: userSession.getIdToken().getJwtToken(),
+                accessToken: userSession.getAccessToken().getJwtToken(),
+                refreshToken: userSession.getRefreshToken().getToken(),
             };
         },
     })

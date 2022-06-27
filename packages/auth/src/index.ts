@@ -1,6 +1,9 @@
 import {
+    AuthenticationDetails,
+    CognitoUser,
     CognitoUserAttribute,
     CognitoUserPool,
+    CognitoUserSession,
     ICognitoUserPoolData,
 } from "amazon-cognito-identity-js";
 import dotENV from "dotenv";
@@ -32,6 +35,32 @@ export const registerUser = async (
                 throw err;
             }
             return success(result?.user.getUsername() ?? "");
+        });
+    });
+};
+
+export const loginUser = async (
+    email: string,
+    password: string
+): Promise<CognitoUserSession> => {
+    return new Promise((success, reject) => {
+        const authDetails = new AuthenticationDetails({
+            Username: email,
+            Password: password,
+        });
+
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: userPool,
+        });
+
+        cognitoUser.authenticateUser(authDetails, {
+            onSuccess: (results) => {
+                return success(results);
+            },
+            onFailure: (err) => {
+                return reject(err);
+            },
         });
     });
 };

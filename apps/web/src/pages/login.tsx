@@ -46,7 +46,7 @@ export default function Login() {
     });
 
     // TODO: MOVE REGISTRATION TO REGISTRATION PAGE
-    const mutation = trpc.useMutation(["users:register"]);
+    const mutation = trpc.useMutation(["users:login"]);
 
     return (
         <StyledLayout>
@@ -82,7 +82,7 @@ export default function Login() {
                             <Text color={"dimmed"}>
                                 Sign in to your Account below.
                             </Text>
-                            <Text>{mutation.data?.username ?? ""}</Text>
+                            <Text>{mutation.data?.accessToken ?? ""}</Text>
                         </Stack>
 
                         <form
