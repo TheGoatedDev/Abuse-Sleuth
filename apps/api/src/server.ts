@@ -1,5 +1,4 @@
 import compress from "@fastify/compress";
-import cookies from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import ws from "@fastify/websocket";
@@ -27,7 +26,6 @@ const fastifyApp = Fastify({
 // Register Global Plugins
 fastifyApp.register(helmet);
 fastifyApp.register(compress);
-fastifyApp.register(cookies);
 
 fastifyApp.register(fastifyCors, {
     origin: (origin, cb) => {
@@ -53,6 +51,10 @@ fastifyApp.register(fastifyTRPCPlugin, {
     prefix: "/trpc",
     useWSS: true,
     trpcOptions: { router: appRouter, createContext },
+});
+
+fastifyApp.get("/", (req, res) => {
+    res;
 });
 
 export { fastifyApp };

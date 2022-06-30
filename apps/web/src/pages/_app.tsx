@@ -42,8 +42,8 @@ function App(props: AppProps) {
 }
 
 function getURL() {
-    const url = process.env.API_URL
-        ? `https://${process.env.API_URL}/trpc`
+    const url = process.env.NODE_ENV === "production"
+        ? `https://${process.env.NEXT_PUBLIC_API_URL}/trpc`
         : "http://localhost:3001/trpc";
     return url;
 }

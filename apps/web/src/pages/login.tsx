@@ -25,6 +25,7 @@ import {
 
 import StyledHeader from "@components/navigation/StyledHeader";
 import { trpc } from "@utils/trpc/reactQueryHooks";
+import { useEffect } from "react";
 
 export default function Login() {
     const form = useForm({
@@ -47,6 +48,13 @@ export default function Login() {
 
     // TODO: MOVE REGISTRATION TO REGISTRATION PAGE
     const mutation = trpc.useMutation(["users:login"]);
+
+    useEffect(() => {
+        if (!mutation.isLoading && mutation.isSuccess) {
+            localStorage.setItem("abuse_sleuth_access_token", mutation.data.accessToken)
+            localStorage.setItem("abuse_sleuth_refresh_token", mutation.data.refreshToken)
+        }
+    }, [mutation])
 
     return (
         <StyledLayout>
@@ -82,7 +90,6 @@ export default function Login() {
                             <Text color={"dimmed"}>
                                 Sign in to your Account below.
                             </Text>
-                            <Text>{mutation.data?.accessToken ?? ""}</Text>
                         </Stack>
 
                         <form

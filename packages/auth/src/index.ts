@@ -13,8 +13,8 @@ const ENVPATH = path.resolve(__dirname, "../../../", ".env");
 const env = dotENV.config({ path: ENVPATH });
 
 const poolData: ICognitoUserPoolData = {
-    UserPoolId: process.env["API_USER_POOL_ID"] ?? "",
-    ClientId: process.env["API_USER_POOL_CLIENT_ID"] ?? "",
+    UserPoolId: process.env["AUTH_USER_POOL_ID"] ?? "",
+    ClientId: process.env["AUTH_USER_POOL_CLIENT_ID"] ?? "",
 };
 
 const userPool = new CognitoUserPool(poolData);
