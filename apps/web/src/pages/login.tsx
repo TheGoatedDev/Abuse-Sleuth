@@ -1,6 +1,7 @@
 import { useForm, zodResolver } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
 import Link from "next/link";
+import { useEffect } from "react";
 import { FaGoogle, FaMicrosoft, FaPray } from "react-icons/fa";
 import { z } from "zod";
 
@@ -24,8 +25,11 @@ import {
 } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
+import {
+    removeLocalStorage,
+    setLocalStorage,
+} from "@utils/helpers/localStorage";
 import { trpc } from "@utils/trpc/reactQueryHooks";
-import { useEffect } from "react";
 
 export default function Login() {
     const form = useForm({
@@ -50,11 +54,16 @@ export default function Login() {
     const mutation = trpc.useMutation(["users:login"]);
 
     useEffect(() => {
-        if (!mutation.isLoading && mutation.isSuccess) {
-            localStorage.setItem("abuse_sleuth_access_token", mutation.data.accessToken)
-            localStorage.setItem("abuse_sleuth_refresh_token", mutation.data.refreshToken)
+        if (!mutation.isLoading) {
+            if (mutation.isSuccess) {
+                setLocalStorage("access_token", mutation.data.accessToken);
+                setLocalStorage("refresh_token", mutation.data.refreshToken);
+            } else {
+                removeLocalStorage("access_token");
+                removeLocalStorage("refresh_token");
+            }
         }
-    }, [mutation])
+    }, [mutation]);
 
     return (
         <StyledLayout>
