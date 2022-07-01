@@ -18,6 +18,7 @@
     "devDependencies": {
         "@abuse-sleuth/auth": "*",
         "@abuse-sleuth/tsconfig": "*",
+        "@types/cookie": "^0.5.1",
         "eslint-config-custom": "*",
         "rimraf": "^3.0.2",
         "tsconfig-paths": "^4.0.0",
@@ -26,6 +27,7 @@
     },
     "dependencies": {
         "@trpc/server": "^9.25.3",
+        "cookie": "^0.5.0",
         "superjson": "^1.9.1",
         "zod": "^3.17.3"
     }

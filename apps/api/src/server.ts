@@ -10,16 +10,16 @@ import { appRouter, createContext } from "@abuse-sleuth/trpc";
 const fastifyApp = Fastify({
     maxParamLength: 5000,
     logger: {
-        transport:
-            process.env.NODE_ENV !== "production"
-                ? {
-                      target: "pino-pretty",
-                      options: {
-                          translateTime: "HH:MM:ss Z",
-                          ignore: "pid,hostname",
-                      },
-                  }
-                : undefined,
+        transport: undefined,
+        // process.env.NODE_ENV !== "production"
+        //     ? {
+        //           target: "pino-pretty",
+        //           options: {
+        //               translateTime: "HH:MM:ss Z",
+        //               ignore: "pid,hostname",
+        //           },
+        //       }
+        //     : undefined,
     },
 });
 
@@ -46,15 +46,11 @@ fastifyApp.register(fastifyCors, {
     },
 });
 
-fastifyApp.register(ws);
+//fastifyApp.register(ws);
 fastifyApp.register(fastifyTRPCPlugin, {
     prefix: "/trpc",
-    useWSS: true,
+    //useWSS: true,
     trpcOptions: { router: appRouter, createContext },
-});
-
-fastifyApp.get("/", (req, res) => {
-    res;
 });
 
 export { fastifyApp };

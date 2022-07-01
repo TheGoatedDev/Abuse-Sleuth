@@ -1,5 +1,6 @@
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
+import { createTRPCClient } from "@trpc/client";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
@@ -10,6 +11,8 @@ import superjson from "superjson";
 
 import { AppRouter } from "@abuse-sleuth/trpc";
 import { MantineProvider } from "@abuse-sleuth/ui";
+
+import { getLocalStorage } from "@utils/helpers/localStorage";
 
 function App(props: AppProps) {
     const { Component, pageProps } = props;
@@ -42,18 +45,18 @@ function App(props: AppProps) {
 }
 
 function getURL() {
-    const url = process.env.NODE_ENV === "production"
-        ? `https://${process.env.NEXT_PUBLIC_API_URL}/trpc`
-        : "http://localhost:3001/trpc";
+    const url =
+        process.env.NODE_ENV === "production"
+            ? `https://${process.env.NEXT_PUBLIC_API_URL}/trpc`
+            : "http://localhost:3001/trpc";
     return url;
 }
 
 function getEndingLink() {
-    if (typeof window === "undefined") {
-        return httpBatchLink({
-            url: getURL(),
-        });
-    }
+    return httpBatchLink({
+        url: getURL(),
+    });
+
     const client = createWSClient({
         url: getURL().replace(RegExp("^(http|https)"), "ws"),
     });
@@ -81,6 +84,17 @@ export default withTRPC<AppRouter>({
             ],
             transformer: superjson,
             url: getURL(),
+            fetch: async (requestUrl, test) => {
+                return fetch(requestUrl, {
+                    ...test,
+                    headers: {
+                        authorization: `Bearer: ${getLocalStorage(
+                            "access_token"
+                        )}`,
+                    },
+                });
+            },
+
             /**
              * @link https://react-query.tanstack.com/reference/QueryClient
              */

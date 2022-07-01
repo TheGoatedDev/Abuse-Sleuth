@@ -50,7 +50,6 @@ export default function Login() {
         ),
     });
 
-    // TODO: MOVE REGISTRATION TO REGISTRATION PAGE
     const mutation = trpc.useMutation(["users:login"]);
 
     useEffect(() => {

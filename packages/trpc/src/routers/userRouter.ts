@@ -1,6 +1,7 @@
+import cookie from "cookie";
 import { z } from "zod";
 
-import { loginUser, registerUser } from "@abuse-sleuth/auth";
+import { awsCognitoAuth } from "@abuse-sleuth/auth";
 
 import { createRouter } from "@utils/createRouter";
 
@@ -20,9 +21,14 @@ const userRouter = router
         },
     })
     .query("me", {
-        async resolve({ input }) {
+        async resolve({ input, ctx }) {
+            const authed = await awsCognitoAuth.verifyToken(
+                ctx.accessToken ?? ""
+            );
             return {
-                username: `Abyss${Math.round(Math.random() * 1000)}`,
+                username: authed
+                    ? `Abyss${Math.round(Math.random() * 1000)}`
+                    : "NO AUTHINO",
             };
         },
     })
@@ -32,11 +38,24 @@ const userRouter = router
             password: z.string().min(8),
         }),
         async resolve({ input, ctx }) {
-            const userSession = await loginUser(input.email, input.password);
+            const results = await awsCognitoAuth.loginUser(
+                input.email,
+                input.password
+            );
+            // ctx.res.header(
+            //     "Set-Cookie",
+            //     cookie.serialize("accessToken", results.accessToken, {
+            //         secure: process.env["NODE_ENV"] === "production",
+            //     })
+            // );
+            // ctx.res.header(
+            //     "Set-Cookie",
+            //     cookie.serialize("refreshToken", results.refreshToken, {
+            //         secure: process.env["NODE_ENV"] === "production",
+            //     })
+            // );
             return {
-                idToken: userSession.getIdToken().getJwtToken(),
-                accessToken: userSession.getAccessToken().getJwtToken(),
-                refreshToken: userSession.getRefreshToken().getToken(),
+                ...results,
             };
         },
     })
@@ -46,9 +65,12 @@ const userRouter = router
             password: z.string().min(8),
         }),
         async resolve({ input }) {
-            const username = await registerUser(input.email, input.password);
+            const message = await awsCognitoAuth.registerUser(
+                input.email,
+                input.password
+            );
             return {
-                username: username,
+                message,
             };
         },
     });

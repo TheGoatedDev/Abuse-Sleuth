@@ -17,6 +17,8 @@
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/jwk-to-pem": "^2.0.1",
         "eslint-config-custom": "*",
         "rimraf": "^3.0.2",
         "tsconfig-paths": "^4.0.0",
@@ -25,6 +27,8 @@
     },
     "dependencies": {
         "amazon-cognito-identity-js": "^5.2.9",
-        "dotenv": "^16.0.1"
+        "dotenv": "^16.0.1",
+        "jsonwebtoken": "^8.5.1",
+        "jwk-to-pem": "^2.0.5"
     }
 }
