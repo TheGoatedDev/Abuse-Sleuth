@@ -26,55 +26,49 @@ import {
 } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
-import {
-    removeLocalStorage,
-    setLocalStorage,
-} from "@utils/helpers/localStorage";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
-export default function Login() {
+export default function Register() {
     const router = useRouter();
 
     const form = useForm({
         initialValues: {
-            email: "",
-            password: "",
-            keepLoggedIn: false,
+            email: (router.query["email"] as string) || "Try Again",
+            code: "",
         },
 
         schema: zodResolver(
             z.object({
                 email: z.string().email({ message: "Invalid Email" }),
-                password: z.string().min(8, {
-                    message: "Password must be atleast 8 characters",
-                }),
-                keepLoggedIn: z.boolean().default(false),
+                code: z.string(),
             })
         ),
     });
 
-    const mutation = trpc.useMutation(["users:login"]);
+    const mutation = trpc.useMutation(["users:confirm"]);
 
     useEffect(() => {
         if (!mutation.isLoading) {
             if (mutation.isSuccess) {
-                setLocalStorage("access_token", mutation.data.accessToken);
-                setLocalStorage("refresh_token", mutation.data.refreshToken);
                 showNotification({
-                    title: "Login Successful",
-                    message: "Redirecting to Dashboard",
-                    color: "green",
+                    title: "Confirmation Successful",
+                    message: "Redirecting to Login",
                     autoClose: 2000,
                     onClose: () => {
-                        router.push("/dashboard");
+                        router.push("/login");
                     },
                 });
             } else {
-                removeLocalStorage("access_token");
-                removeLocalStorage("refresh_token");
+                if (mutation.isError) {
+                    showNotification({
+                        title: "Issue Occured",
+                        message: mutation.error?.message,
+                        color: "red",
+                    });
+                }
             }
         }
-    }, [mutation]);
+    }, [mutation.isLoading, mutation.isError, mutation.isSuccess]);
 
     return (
         <StyledLayout>
@@ -100,7 +94,7 @@ export default function Login() {
                     })}>
                     <Stack>
                         <Stack spacing={0}>
-                            <Title order={2}>Welcome back to</Title>
+                            <Title order={2}>Welcome to</Title>
                             <Title
                                 sx={(theme) => ({
                                     color: theme.colors.violet[6],
@@ -108,7 +102,7 @@ export default function Login() {
                                 Abuse Sleuth
                             </Title>
                             <Text color={"dimmed"}>
-                                Sign in to your Account below.
+                                Confirm your Account below.
                             </Text>
                         </Stack>
 
@@ -117,7 +111,7 @@ export default function Login() {
                                 console.log(values);
                                 mutation.mutate({
                                     email: values.email,
-                                    password: values.password,
+                                    code: values.code,
                                 });
                             })}>
                             <TextInput
@@ -126,20 +120,11 @@ export default function Login() {
                                 placeholder="Enter your Email"
                                 {...form.getInputProps("email")}
                             />
-
-                            <PasswordInput
+                            <TextInput
                                 required
-                                label="Password"
-                                placeholder="Enter your Password"
-                                {...form.getInputProps("password")}
-                            />
-
-                            <Checkbox
-                                label="Keep me logged in"
-                                color={"violet"}
-                                mt="lg"
-                                size="md"
-                                {...form.getInputProps("keepLoggedIn")}
+                                label="Code"
+                                placeholder="Enter your Confirmation Code"
+                                {...form.getInputProps("code")}
                             />
 
                             <Group position="center" mt="lg">
@@ -148,31 +133,10 @@ export default function Login() {
                                     color={"violet"}
                                     fullWidth
                                     type="submit">
-                                    Login
+                                    Confirm
                                 </Button>
                             </Group>
                         </form>
-                        <Divider label="OR" labelPosition="center" />
-                        <Group position="center" grow>
-                            <Button
-                                color={"violet"}
-                                rightIcon={<FaGoogle size={"24px"} />}>
-                                Sign in with
-                            </Button>
-                            <Button
-                                color={"violet"}
-                                rightIcon={<FaMicrosoft size={"24px"} />}>
-                                Sign in with
-                            </Button>
-                        </Group>
-                        <Group position="center">
-                            <Text color={"dimmed"}>
-                                Don&apos;t have an account?
-                            </Text>
-                            <Link href={"/register"} passHref>
-                                <Anchor color={"violet"}>Sign up</Anchor>
-                            </Link>
-                        </Group>
                     </Stack>
                 </Paper>
             </Group>

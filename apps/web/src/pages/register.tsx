@@ -32,49 +32,49 @@ import {
 } from "@utils/helpers/localStorage";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
-export default function Login() {
+export default function Register() {
     const router = useRouter();
 
     const form = useForm({
         initialValues: {
             email: "",
             password: "",
-            keepLoggedIn: false,
+            confirmPassword: "",
         },
 
         schema: zodResolver(
-            z.object({
-                email: z.string().email({ message: "Invalid Email" }),
-                password: z.string().min(8, {
-                    message: "Password must be atleast 8 characters",
-                }),
-                keepLoggedIn: z.boolean().default(false),
-            })
+            z
+                .object({
+                    email: z.string().email({ message: "Invalid Email" }),
+                    password: z.string().min(8, {
+                        message: "Password must be atleast 8 characters",
+                    }),
+                    confirmPassword: z.string(),
+                })
+                .refine((data) => data.confirmPassword === data.password, {
+                    path: ["confirmPassword"],
+                    message: "Passwords don't match",
+                })
         ),
     });
 
-    const mutation = trpc.useMutation(["users:login"]);
+    const mutation = trpc.useMutation(["users:register"]);
 
     useEffect(() => {
         if (!mutation.isLoading) {
             if (mutation.isSuccess) {
-                setLocalStorage("access_token", mutation.data.accessToken);
-                setLocalStorage("refresh_token", mutation.data.refreshToken);
-                showNotification({
-                    title: "Login Successful",
-                    message: "Redirecting to Dashboard",
-                    color: "green",
-                    autoClose: 2000,
-                    onClose: () => {
-                        router.push("/dashboard");
-                    },
-                });
+                router.push(`/confirm?email=${form.values.email}`);
             } else {
-                removeLocalStorage("access_token");
-                removeLocalStorage("refresh_token");
+                if (mutation.isError) {
+                    showNotification({
+                        title: "Issue Occured",
+                        message: mutation.error?.message,
+                        color: "red",
+                    });
+                }
             }
         }
-    }, [mutation]);
+    }, [mutation.isLoading, mutation.isError, mutation.isSuccess]);
 
     return (
         <StyledLayout>
@@ -100,7 +100,7 @@ export default function Login() {
                     })}>
                     <Stack>
                         <Stack spacing={0}>
-                            <Title order={2}>Welcome back to</Title>
+                            <Title order={2}>Welcome to</Title>
                             <Title
                                 sx={(theme) => ({
                                     color: theme.colors.violet[6],
@@ -108,7 +108,7 @@ export default function Login() {
                                 Abuse Sleuth
                             </Title>
                             <Text color={"dimmed"}>
-                                Sign in to your Account below.
+                                Create your Account below.
                             </Text>
                         </Stack>
 
@@ -134,12 +134,11 @@ export default function Login() {
                                 {...form.getInputProps("password")}
                             />
 
-                            <Checkbox
-                                label="Keep me logged in"
-                                color={"violet"}
-                                mt="lg"
-                                size="md"
-                                {...form.getInputProps("keepLoggedIn")}
+                            <PasswordInput
+                                required
+                                label="Confirm Password"
+                                placeholder="Confirm your Password"
+                                {...form.getInputProps("confirmPassword")}
                             />
 
                             <Group position="center" mt="lg">
@@ -148,7 +147,7 @@ export default function Login() {
                                     color={"violet"}
                                     fullWidth
                                     type="submit">
-                                    Login
+                                    Register
                                 </Button>
                             </Group>
                         </form>

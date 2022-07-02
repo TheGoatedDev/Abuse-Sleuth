@@ -1,4 +1,3 @@
-import cookie from "cookie";
 import { z } from "zod";
 
 import { awsCognitoAuth } from "@abuse-sleuth/auth";
@@ -71,6 +70,21 @@ const userRouter = router
             );
             return {
                 message,
+            };
+        },
+    })
+    .mutation("confirm", {
+        input: z.object({
+            email: z.string().email(),
+            code: z.string(),
+        }),
+        async resolve({ input }) {
+            const correct = await awsCognitoAuth.confirmRegistration(
+                input.code,
+                input.email
+            );
+            return {
+                isConfirmed: correct,
             };
         },
     });

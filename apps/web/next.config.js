@@ -1,6 +1,7 @@
 const withTM = require("next-transpile-modules")([
     "@abuse-sleuth/ui",
     "@abuse-sleuth/prisma",
+    "@abuse-sleuth/trpc"
 ]);
 const path = require("path");
 const dotENV = require("dotenv");

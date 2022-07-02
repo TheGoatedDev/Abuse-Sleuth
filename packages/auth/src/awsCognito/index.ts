@@ -22,10 +22,7 @@ const poolData: ICognitoUserPoolData = {
 
 const userPool = new CognitoUserPool(poolData);
 
-export const registerUser = async (
-    email: string,
-    password: string
-): Promise<string> => {
+const registerUser = async (email: string, password: string): Promise<void> => {
     return new Promise((success, reject) => {
         const attributeList = [];
         attributeList.push(
@@ -37,12 +34,12 @@ export const registerUser = async (
                 return reject(err);
                 throw err;
             }
-            return success(result?.user.getUsername() ?? "");
+            return success();
         });
     });
 };
 
-export const loginUser = async (
+const loginUser = async (
     email: string,
     password: string
 ): Promise<AuthTokens> => {
@@ -67,6 +64,26 @@ export const loginUser = async (
             onFailure: (err) => {
                 return reject(err);
             },
+        });
+    });
+};
+
+const confirmRegistration = async (
+    code: string,
+    email: string
+): Promise<boolean> => {
+    return new Promise((success, reject) => {
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: userPool,
+        });
+
+        cognitoUser.confirmRegistration(code, false, (err, result) => {
+            if (err) {
+                return reject(err);
+            } else {
+                return success(true);
+            }
         });
     });
 };
@@ -118,6 +135,7 @@ const verifyToken = async (accessToken: string): Promise<boolean> => {
 };
 
 export const awsCognitoAuth: AuthProvider = {
+    confirmRegistration,
     registerUser,
     loginUser,
     verifyToken,
