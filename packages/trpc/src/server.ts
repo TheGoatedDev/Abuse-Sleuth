@@ -11,7 +11,19 @@ import { appRouter } from "./routers";
 
 const fastifyApp = Fastify({
     maxParamLength: 50000,
-    logger: true,
+    logger: {
+        transport:
+            process.env.NODE_ENV !== "production"
+                ? {
+                      target: "pino-pretty",
+                      options: {
+                          translateTime: "HH:MM:ss Z",
+                          ignore: "pid,hostname,time",
+                          colorize: true,
+                      },
+                  }
+                : undefined,
+    },
 });
 
 // Register Global Plugins
@@ -25,7 +37,6 @@ fastifyApp.register(cookies, {
 fastifyApp.register(fastifyCors, {
     credentials: true,
     origin: (origin, cb) => {
-        fastifyApp.log.warn(origin);
         if (process.env.NODE_ENV === "production") {
             // TODO: Make this better for production
             const url = new URL(origin);

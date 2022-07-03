@@ -47,6 +47,7 @@ const userRouter = router
                 input.password
             );
             ctx.res.setCookie("accessToken", results.accessToken);
+            ctx.res.setCookie("refreshToken", results.refreshToken);
             return {
                 ...results,
             };

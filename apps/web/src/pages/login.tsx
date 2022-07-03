@@ -22,10 +22,6 @@ import {
 } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
-import {
-    removeLocalStorage,
-    setLocalStorage,
-} from "@utils/helpers/localStorage";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Login() {
@@ -35,7 +31,6 @@ export default function Login() {
         initialValues: {
             email: "",
             password: "",
-            keepLoggedIn: false,
         },
 
         schema: zodResolver(
@@ -44,7 +39,6 @@ export default function Login() {
                 password: z.string().min(8, {
                     message: "Password must be atleast 8 characters",
                 }),
-                keepLoggedIn: z.boolean().default(false),
             })
         ),
     });
@@ -54,8 +48,6 @@ export default function Login() {
     useEffect(() => {
         if (!mutation.isLoading) {
             if (mutation.isSuccess) {
-                setLocalStorage("access_token", mutation.data.accessToken);
-                setLocalStorage("refresh_token", mutation.data.refreshToken);
                 showNotification({
                     title: "Login Successful",
                     message: "Redirecting to Dashboard",
@@ -66,11 +58,21 @@ export default function Login() {
                     },
                 });
             } else {
-                removeLocalStorage("access_token");
-                removeLocalStorage("refresh_token");
+                showNotification({
+                    title: "Issue Occurred",
+                    message: mutation.error?.message,
+                    color: "red",
+                });
             }
         }
-    }, [mutation]);
+    }, [
+        mutation.isLoading,
+        mutation.isError,
+        mutation.isSuccess,
+        mutation.data,
+        mutation.error,
+        router,
+    ]);
 
     return (
         <StyledLayout>
@@ -128,14 +130,6 @@ export default function Login() {
                                 label="Password"
                                 placeholder="Enter your Password"
                                 {...form.getInputProps("password")}
-                            />
-
-                            <Checkbox
-                                label="Keep me logged in"
-                                color={"violet"}
-                                mt="lg"
-                                size="md"
-                                {...form.getInputProps("keepLoggedIn")}
                             />
 
                             <Group position="center" mt="lg">

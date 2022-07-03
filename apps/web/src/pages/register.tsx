@@ -74,7 +74,14 @@ export default function Register() {
                 }
             }
         }
-    }, [mutation.isLoading, mutation.isError, mutation.isSuccess]);
+    }, [
+        mutation.isLoading,
+        mutation.isError,
+        mutation.isSuccess,
+        form.values.email,
+        mutation.error,
+        router,
+    ]);
 
     return (
         <StyledLayout>
