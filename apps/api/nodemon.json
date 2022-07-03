@@ -1,0 +1,6 @@
+{
+    "watch": ["./src/**/*.ts", "../../packages/**/*.ts"],
+    "execMap": {
+        "ts": "ts-node -r tsconfig-paths/register"
+    }
+}

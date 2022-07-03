@@ -46,6 +46,7 @@ const userRouter = router
                 input.email,
                 input.password
             );
+            ctx.res.setCookie("accessToken", results.accessToken);
             return {
                 ...results,
             };

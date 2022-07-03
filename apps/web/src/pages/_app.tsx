@@ -87,11 +87,7 @@ export default withTRPC<AppRouter>({
             fetch: async (requestUrl, test) => {
                 return fetch(requestUrl, {
                     ...test,
-                    headers: {
-                        authorization: `Bearer: ${getLocalStorage(
-                            "access_token"
-                        )}`,
-                    },
+                    credentials: "include",
                 });
             },
 

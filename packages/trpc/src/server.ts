@@ -1,33 +1,29 @@
 import compress from "@fastify/compress";
+import cookies from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import ws from "@fastify/websocket";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
 
-import { appRouter, createContext } from "@abuse-sleuth/trpc";
+import { createContext } from "./context";
+import { appRouter } from "./routers";
 
 const fastifyApp = Fastify({
-    maxParamLength: 5000,
-    logger: {
-        transport: undefined,
-        // process.env.NODE_ENV !== "production"
-        //     ? {
-        //           target: "pino-pretty",
-        //           options: {
-        //               translateTime: "HH:MM:ss Z",
-        //               ignore: "pid,hostname",
-        //           },
-        //       }
-        //     : undefined,
-    },
+    maxParamLength: 50000,
+    logger: true,
 });
 
 // Register Global Plugins
 fastifyApp.register(helmet);
-fastifyApp.register(compress);
+fastifyApp.register(cookies, {
+    secret: "CHANGE_ME",
+});
+
+//fastifyApp.register(compress);
 
 fastifyApp.register(fastifyCors, {
+    credentials: true,
     origin: (origin, cb) => {
         fastifyApp.log.warn(origin);
         if (process.env.NODE_ENV === "production") {
