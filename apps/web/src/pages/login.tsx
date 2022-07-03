@@ -155,11 +155,13 @@ export default function Login() {
                         <Divider label="OR" labelPosition="center" />
                         <Group position="center" grow>
                             <Button
+                                disabled
                                 color={"violet"}
                                 rightIcon={<FaGoogle size={"24px"} />}>
                                 Sign in with
                             </Button>
                             <Button
+                                disabled
                                 color={"violet"}
                                 rightIcon={<FaMicrosoft size={"24px"} />}>
                                 Sign in with

@@ -154,11 +154,13 @@ export default function Register() {
                         <Divider label="OR" labelPosition="center" />
                         <Group position="center" grow>
                             <Button
+                                disabled
                                 color={"violet"}
                                 rightIcon={<FaGoogle size={"24px"} />}>
                                 Sign in with
                             </Button>
                             <Button
+                                disabled
                                 color={"violet"}
                                 rightIcon={<FaMicrosoft size={"24px"} />}>
                                 Sign in with
@@ -166,10 +168,10 @@ export default function Register() {
                         </Group>
                         <Group position="center">
                             <Text color={"dimmed"}>
-                                Don&apos;t have an account?
+                                Already have an account?
                             </Text>
-                            <Link href={"/register"} passHref>
-                                <Anchor color={"violet"}>Sign up</Anchor>
+                            <Link href={"/login"} passHref>
+                                <Anchor color={"violet"}>Login</Anchor>
                             </Link>
                         </Group>
                     </Stack>

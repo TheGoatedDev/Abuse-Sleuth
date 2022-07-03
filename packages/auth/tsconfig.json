@@ -3,11 +3,6 @@
     "include": ["./src/**/*"],
     "exclude": ["dist", "build", "node_modules"],
     "compilerOptions": {
-        "baseUrl": "./src",
-        "paths": {
-            "@routers/*": ["hooks/*"],
-            "@utils/*": ["utils/*"]
-        },
         "types": ["cypress", "jest"]
     }
 }

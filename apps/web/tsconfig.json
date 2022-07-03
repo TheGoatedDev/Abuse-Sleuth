@@ -11,6 +11,7 @@
         "downlevelIteration": true,
         "baseUrl": "./src",
         "paths": {
+            "@contexts/*": ["contexts/*"],
             "@hooks/*": ["hooks/*"],
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],

@@ -3,12 +3,8 @@
     "version": "0.0.0",
     "main": "index.ts",
     "types": "index.ts",
-    "exports": {
-        ".": "./index.ts",
-        "./zod": "./zod/index.ts"
-    },
     "scripts": {
-        "clean": "rimraf .turbo node_modules",
+        "clean": "rimraf .turbo node_modules dist",
         "--------- Production ---------": "",
         "deploy": "run-s db:build db:deploy",
         "build": "run-s db:generate",
@@ -23,7 +19,10 @@
         "db:push": "prisma db push",
         "--------- Docker ---------": "",
         "db:up": "docker-compose up -d",
-        "db:down": "docker-compose down --volumes --remove-orphans"
+        "db:down": "docker-compose down --volumes --remove-orphans",
+        "--------- TSUP ---------": "",
+        "tsup:build": "tsup index.ts --dts",
+        "tsup:dev": "tsup index.ts --watch --dts"
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
@@ -31,7 +30,7 @@
         "prisma": "^3.12.0",
         "rimraf": "^3.0.2",
         "ts-node": "^10.5.0",
-        "tsup": "^5.12.1",
+        "tsup": "^6.1.3",
         "zod": "^3.17.3",
         "zod-prisma": "^0.5.4"
     },

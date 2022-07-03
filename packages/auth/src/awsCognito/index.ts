@@ -1,16 +1,18 @@
-import { AuthProvider, AuthTokens } from "AuthProvider";
 import {
     AuthenticationDetails,
     CognitoUser,
     CognitoUserAttribute,
     CognitoUserPool,
-    CognitoUserSession,
     ICognitoUserPoolData,
 } from "amazon-cognito-identity-js";
 import dotENV from "dotenv";
 import jwt from "jsonwebtoken";
 import jwtToPem from "jwk-to-pem";
 import path from "path";
+
+import { prisma, User } from "@abuse-sleuth/prisma";
+
+import { AuthTokens, AuthProvider } from "../AuthProvider";
 
 const ENVPATH = path.resolve(__dirname, "../../../", ".env");
 const env = dotENV.config({ path: ENVPATH });
@@ -22,6 +24,25 @@ const poolData: ICognitoUserPoolData = {
 
 const userPool = new CognitoUserPool(poolData);
 
+const getUserByID = (id: string): Promise<User> => {
+    return new Promise(async (success, reject) => {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    idpID: id,
+                },
+            });
+            if (user === null) {
+                return reject("User doesn't exist!");
+            } else {
+                return success(user);
+            }
+        } catch (error) {
+            return reject(error);
+        }
+    });
+};
+
 const registerUser = async (email: string, password: string): Promise<void> => {
     return new Promise((success, reject) => {
         const attributeList = [];
@@ -29,13 +50,24 @@ const registerUser = async (email: string, password: string): Promise<void> => {
             new CognitoUserAttribute({ Name: "email", Value: email })
         );
 
-        userPool.signUp(email, password, attributeList, [], (err, result) => {
-            if (err) {
-                return reject(err);
-                throw err;
+        userPool.signUp(
+            email,
+            password,
+            attributeList,
+            [],
+            async (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                await prisma.user.create({
+                    data: {
+                        idpID: result?.userSub ?? "",
+                        email,
+                    },
+                });
+                return success();
             }
-            return success();
-        });
+        );
     });
 };
 
@@ -68,10 +100,7 @@ const loginUser = async (
     });
 };
 
-const confirmRegistration = async (
-    code: string,
-    email: string
-): Promise<boolean> => {
+const confirmRegistration = (code: string, email: string): Promise<boolean> => {
     return new Promise((success, reject) => {
         const cognitoUser = new CognitoUser({
             Username: email,
@@ -99,24 +128,20 @@ const verifyToken = async (accessToken: string): Promise<boolean> => {
     let pems: any = {};
     for (let i = 0; i <= json["keys"].length - 1; i++) {
         const key = json["keys"][i];
-        console.log(`Key #${i}: ` + key.kid);
+        //console.log(`Key #${i}: ` + key.kid);
         const keyID = key.kid ?? "-";
         const mod = key.n;
         const expo = key.e;
         const type = key.kty;
         const jwk = { kty: type, n: mod, e: expo };
-        console.log(`JWK #${i}: ` + jwk);
+        //console.log(`JWK #${i}: ` + jwk);
         pems[keyID] = jwtToPem(jwk);
     }
-
-    console.log("OOF");
 
     const decoded = jwt.decode(accessToken, { complete: true });
     if (!decoded) {
         return false;
     }
-
-    console.log(decoded);
 
     const kid = decoded.header.kid ?? "";
     const pem = pems[kid];
@@ -135,6 +160,7 @@ const verifyToken = async (accessToken: string): Promise<boolean> => {
 };
 
 export const awsCognitoAuth: AuthProvider = {
+    getUserByID,
     confirmRegistration,
     registerUser,
     loginUser,

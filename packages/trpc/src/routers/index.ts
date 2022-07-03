@@ -2,8 +2,7 @@ import * as trpc from "@trpc/server";
 import { inferProcedureInput, inferProcedureOutput } from "@trpc/server";
 import superjson from "superjson";
 
-import { createRouter } from "@utils/createRouter";
-
+import { createRouter } from "../utils/createRouter";
 import userRouter from "./userRouter";
 
 const router = createRouter();

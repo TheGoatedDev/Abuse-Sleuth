@@ -1,4 +1,8 @@
+import { User } from "@abuse-sleuth/prisma";
+
 type EmailPasswordFunc<T> = (email: string, password: string) => T;
+type EmailFunc<T> = (email: string) => T;
+type IDFunc<T> = (id: string) => T;
 type AccessTokenFunc<T> = (accessToken: string) => T;
 type RefreshTokenFunc<T> = (refreshToken: string) => T;
 type CodeFunc<T> = (code: string, email: string) => T;
@@ -9,6 +13,8 @@ export type AuthTokens = {
 };
 
 export interface AuthProvider {
+    //getUserByEmail: EmailFunc<Promise<User>>;
+    getUserByID: IDFunc<Promise<User>>;
     registerUser: EmailPasswordFunc<Promise<void>>; // Registers the user and returns if successful
     loginUser: EmailPasswordFunc<Promise<AuthTokens>>; // Login the user and return Auth Tokens
     confirmRegistration: CodeFunc<Promise<Boolean>>;

@@ -36,7 +36,7 @@ export default function Home() {
                             sx={(theme) => ({
                                 color: theme.colors.violet[6],
                             })}>
-                            {query.data?.username}
+                            {query.data?.email}
                         </Title>
                     )}
                 </Group>

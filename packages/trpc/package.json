@@ -1,17 +1,17 @@
 {
     "name": "@abuse-sleuth/trpc",
     "version": "0.0.0",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
     "sideEffects": false,
     "private": true,
     "license": "MIT",
     "scripts": {
         "clean": "rimraf node_modules .turbo dist",
         "--------- Production ---------": "",
-        "build": "tsup src/index.ts --dts",
+
         "--------- Development ---------": "",
-        "dev": "tsup src/index.ts --watch --dts",
+
         "--------- Linting ---------": "",
         "lint": "eslint ./src/**/*.ts*"
     },
@@ -28,6 +28,7 @@
     "dependencies": {
         "@trpc/server": "^9.25.3",
         "cookie": "^0.5.0",
+        "jsonwebtoken": "^8.5.1",
         "superjson": "^1.9.1",
         "zod": "^3.17.3"
     }

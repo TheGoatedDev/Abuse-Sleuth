@@ -1,6 +1,7 @@
 import * as trpc from "@trpc/server";
 import { TRPCError } from "@trpc/server";
-import { Context } from "context";
+
+import { Context } from "../context";
 
 export type RouterMeta = {
     requireAuth?: boolean;

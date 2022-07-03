@@ -10,7 +10,7 @@
     "scripts": {
         "--------- Turbo ---------": "",
         "build": "turbo run build",
-        "dev": "turbo run dev --include-dependencies",
+        "dev": "turbo run dev --include-dependencies --parallel",
         "clean": "turbo run clean && rimraf node_modules .turbo",
         "--------- Apps ---------": "",
         "web": "yarn workspace @abuse-sleuth/web",
