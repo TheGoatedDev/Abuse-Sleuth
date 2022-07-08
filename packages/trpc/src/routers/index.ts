@@ -3,6 +3,7 @@ import { inferProcedureInput, inferProcedureOutput } from "@trpc/server";
 import superjson from "superjson";
 
 import { createRouter } from "../utils/createRouter";
+import authRouter from "./authRouter";
 import userRouter from "./userRouter";
 
 const router = createRouter();
@@ -14,7 +15,8 @@ const appRouter = router
             return "I'm Working";
         },
     })
-    .merge("users:", userRouter);
+    .merge("user:", userRouter)
+    .merge("auth:", authRouter);
 
 export { appRouter };
 export type AppRouter = typeof appRouter;

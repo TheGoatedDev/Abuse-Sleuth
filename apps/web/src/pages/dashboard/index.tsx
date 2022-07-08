@@ -18,7 +18,7 @@ import RecentUpdates from "@components/sections/RecentUpdates";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {
-    const query = trpc.useQuery(["users:me"]);
+    const query = trpc.useQuery(["user:me"]);
 
     return (
         <DashboardLayout navbar={<DashboardNavbar />}>

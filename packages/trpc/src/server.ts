@@ -2,14 +2,13 @@ import compress from "@fastify/compress";
 import cookies from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import helmet from "@fastify/helmet";
-import ws from "@fastify/websocket";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
 
 import { createContext } from "./context";
 import { appRouter } from "./routers";
 
-const fastifyApp = Fastify({
+const fastifyApplication = Fastify({
     maxParamLength: 50000,
     logger: {
         transport:
@@ -27,14 +26,13 @@ const fastifyApp = Fastify({
 });
 
 // Register Global Plugins
-fastifyApp.register(helmet);
-fastifyApp.register(cookies, {
+fastifyApplication.register(helmet);
+fastifyApplication.register(cookies, {
     secret: "CHANGE_ME",
 });
+fastifyApplication.register(compress);
 
-//fastifyApp.register(compress);
-
-fastifyApp.register(fastifyCors, {
+fastifyApplication.register(fastifyCors, {
     credentials: true,
     origin: (origin, cb) => {
         if (process.env.NODE_ENV === "production") {
@@ -54,10 +52,10 @@ fastifyApp.register(fastifyCors, {
 });
 
 //fastifyApp.register(ws);
-fastifyApp.register(fastifyTRPCPlugin, {
+fastifyApplication.register(fastifyTRPCPlugin, {
     prefix: "/trpc",
     //useWSS: true,
     trpcOptions: { router: appRouter, createContext },
 });
 
-export { fastifyApp };
+export { fastifyApplication as fastifyApp };

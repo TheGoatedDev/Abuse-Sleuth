@@ -1,5 +1,5 @@
 {
-    "extends": "@abuse-sleuth/tsconfig/base.json",
+    "extends": "@abuse-sleuth/tsconfig/react-library.json",
     "include": ["./src/**/*"],
     "exclude": ["dist", "build", "node_modules"],
     "compilerOptions": {

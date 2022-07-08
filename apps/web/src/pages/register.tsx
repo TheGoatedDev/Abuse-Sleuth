@@ -26,10 +26,6 @@ import {
 } from "@abuse-sleuth/ui";
 
 import StyledHeader from "@components/navigation/StyledHeader";
-import {
-    removeLocalStorage,
-    setLocalStorage,
-} from "@utils/helpers/localStorage";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Register() {
@@ -58,20 +54,20 @@ export default function Register() {
         ),
     });
 
-    const mutation = trpc.useMutation(["users:register"]);
+    const mutation = trpc.useMutation(["auth:register"]);
 
     useEffect(() => {
         if (!mutation.isLoading) {
             if (mutation.isSuccess) {
                 router.push(`/confirm?email=${form.values.email}`);
-            } else {
-                if (mutation.isError) {
-                    showNotification({
-                        title: "Issue Occured",
-                        message: mutation.error?.message,
-                        color: "red",
-                    });
-                }
+            }
+
+            if (mutation.isError) {
+                showNotification({
+                    title: "Issue Occurred",
+                    message: mutation.error?.message,
+                    color: "red",
+                });
             }
         }
     }, [

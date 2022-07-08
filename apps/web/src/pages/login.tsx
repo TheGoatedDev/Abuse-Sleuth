@@ -43,7 +43,7 @@ export default function Login() {
         ),
     });
 
-    const mutation = trpc.useMutation(["users:login"]);
+    const mutation = trpc.useMutation(["auth:login"]);
 
     useEffect(() => {
         if (!mutation.isLoading) {
@@ -57,7 +57,9 @@ export default function Login() {
                         router.push("/dashboard");
                     },
                 });
-            } else {
+            }
+
+            if (mutation.isError) {
                 showNotification({
                     title: "Issue Occurred",
                     message: mutation.error?.message,
