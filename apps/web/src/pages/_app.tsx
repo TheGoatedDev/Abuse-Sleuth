@@ -1,3 +1,4 @@
+import { AuthProvider } from "@contexts/authContext";
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 import { createTRPCClient } from "@trpc/client";
@@ -27,19 +28,21 @@ function App(props: AppProps) {
                 />
             </Head>
 
-            <MantineProvider
-                withGlobalStyles
-                withNormalizeCSS
-                theme={{
-                    /** Put your mantine theme override here */
-                    colorScheme: "dark",
-                }}>
-                <NotificationsProvider>
-                    <ModalsProvider>
-                        <Component {...pageProps} />
-                    </ModalsProvider>
-                </NotificationsProvider>
-            </MantineProvider>
+            <AuthProvider>
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{
+                        /** Put your mantine theme override here */
+                        colorScheme: "dark",
+                    }}>
+                    <NotificationsProvider>
+                        <ModalsProvider>
+                            <Component {...pageProps} />
+                        </ModalsProvider>
+                    </NotificationsProvider>
+                </MantineProvider>
+            </AuthProvider>
         </>
     );
 }

@@ -17,8 +17,17 @@ const authRouter = router
                 input.email,
                 input.password
             );
-            ctx.response.setCookie("accessToken", results.accessToken);
-            ctx.response.setCookie("refreshToken", results.refreshToken);
+            // TODO: Set the Secure Flag on Production
+            ctx.response.setCookie("accessToken", results.accessToken, {
+                path: "/",
+                sameSite: "strict",
+                httpOnly: true,
+            });
+            ctx.response.setCookie("refreshToken", results.refreshToken, {
+                path: "/",
+                sameSite: "strict",
+                httpOnly: true,
+            });
             return {
                 ...results,
             };

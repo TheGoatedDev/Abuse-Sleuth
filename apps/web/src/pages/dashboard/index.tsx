@@ -1,3 +1,4 @@
+import { useAuth } from "@contexts/authContext";
 import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 
 import {
@@ -18,7 +19,7 @@ import RecentUpdates from "@components/sections/RecentUpdates";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {
-    const query = trpc.useQuery(["user:me"]);
+    const auth = useAuth();
 
     return (
         <DashboardLayout navbar={<DashboardNavbar />}>
@@ -29,14 +30,14 @@ export default function Home() {
                 <Group spacing={"xs"}>
                     <Title>Hello </Title>
 
-                    {query.isLoading ? (
+                    {auth.isLoading ? (
                         <Loader />
                     ) : (
                         <Title
                             sx={(theme) => ({
                                 color: theme.colors.violet[6],
                             })}>
-                            {query.data?.email}
+                            {auth.user?.email}
                         </Title>
                     )}
                 </Group>
