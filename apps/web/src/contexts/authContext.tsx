@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { User } from "@abuse-sleuth/prisma";
@@ -18,20 +19,30 @@ const defaultState: IAuthContext = {
 const authContext = createContext<IAuthContext>(defaultState);
 
 export const AuthProvider: FCC = ({ children }) => {
-    const [user, setUser] = useState<User | undefined>(defaultState.user);
-    const [isLoading, setIsLoading] = useState<boolean>(defaultState.isLoading);
+    const [authenticationState, setAuthenticationState] =
+        useState<IAuthContext>(defaultState);
 
     const query = trpc.useQuery(["user:me"]);
 
+    // Verify User Login Status
     useEffect(() => {
-        if (query.isSuccess) {
-            setUser(query.data);
+        if (!authenticationState.isLoading) {
+            if (query.data) {
+                setAuthenticationState({
+                    ...authenticationState,
+                    user: query.data,
+                });
+            }
+        } else {
+            setAuthenticationState({
+                ...authenticationState,
+                isLoading: query.isLoading,
+            });
         }
-        setIsLoading(query.isLoading);
-    }, [query.data, query.isLoading, query.isSuccess]);
+    }, [authenticationState, query.data, query.isLoading, query.isSuccess]);
 
     return (
-        <authContext.Provider value={{ user, isLoading }}>
+        <authContext.Provider value={authenticationState}>
             {children}
         </authContext.Provider>
     );

@@ -16,7 +16,6 @@ import {
 
 import DashboardNavbar from "@components/navigation/DashboardNavbar";
 import RecentUpdates from "@components/sections/RecentUpdates";
-import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {
     const auth = useAuth();
