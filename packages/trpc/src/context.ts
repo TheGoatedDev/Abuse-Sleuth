@@ -38,7 +38,7 @@ export async function createContext({
                 accessToken,
                 refreshToken
             );
-            request.log.debug(`Got Tokens: ${JSON.stringify(tokens, null, 4)}`);
+            request.log.debug(`Got Tokens`);
 
             // Set Cookies from Refreshed Sessions
             response.setCookie("accessToken", tokens.accessToken, {

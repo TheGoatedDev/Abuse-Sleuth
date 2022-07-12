@@ -1,3 +1,4 @@
+import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -27,10 +28,17 @@ export const AuthProvider: FCC = ({ children }) => {
     // Verify User Login Status
     useEffect(() => {
         if (!authenticationState.isLoading) {
-            if (query.data) {
-                setAuthenticationState({
-                    ...authenticationState,
-                    user: query.data,
+            if (query.isSuccess) {
+                if (query.data) {
+                    setAuthenticationState({
+                        ...authenticationState,
+                        user: query.data,
+                    });
+                }
+            } else if (query.isError) {
+                showNotification({
+                    color: "red",
+                    message: query.error.message,
                 });
             }
         } else {
