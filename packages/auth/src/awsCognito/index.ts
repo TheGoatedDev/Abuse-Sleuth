@@ -1,5 +1,6 @@
 import {
     AuthenticationDetails,
+    CognitoRefreshToken,
     CognitoUser,
     CognitoUserAttribute,
     CognitoUserPool,
@@ -159,10 +160,42 @@ const verifyToken = async (accessToken: string): Promise<boolean> => {
     return false;
 };
 
+const renewTokens = (
+    accessToken: string,
+    refreshToken: string
+): Promise<AuthTokens> => {
+    return new Promise((resolve, reject) => {
+        const RefreshToken = new CognitoRefreshToken({
+            RefreshToken: refreshToken,
+        });
+
+        const payload = jwt.decode(accessToken as string);
+        const id = (payload as jwt.JwtPayload)["username"] as string;
+
+        const cognitoUser = new CognitoUser({
+            Username: id,
+            Pool: userPool,
+        });
+
+        cognitoUser.refreshSession(RefreshToken, (err, session) => {
+            if (err) {
+                return reject(err);
+            } else {
+                //console.debug(JSON.stringify(session, null, 4));
+                return resolve({
+                    accessToken: session.accessToken.jwtToken,
+                    refreshToken: session.refreshToken.token,
+                });
+            }
+        });
+    });
+};
+
 export const awsCognitoAuth: AuthProvider = {
     getUserByID,
     confirmRegistration,
     registerUser,
     loginUser,
     verifyToken,
+    renewTokens,
 };
