@@ -2,6 +2,7 @@ import { useAuth } from "@contexts/authContext";
 import { FaArrowDown, FaArrowUp, FaMinus } from "react-icons/fa";
 
 import {
+    Anchor,
     DashboardLayout,
     Group,
     Loader,
@@ -16,9 +17,12 @@ import {
 
 import DashboardNavbar from "@components/navigation/DashboardNavbar";
 import RecentUpdates from "@components/sections/RecentUpdates";
+import { trpc } from "@utils/trpc/reactQueryHooks";
 
 export default function Home() {
     const auth = useAuth();
+
+    const rssHackerNews = trpc.useQuery(["rss:hackernews"]);
 
     return (
         <DashboardLayout navbar={<DashboardNavbar />}>
@@ -134,16 +138,64 @@ export default function Home() {
                                 <Group position="apart">
                                     <Title order={4}>Hacker News</Title>
                                     <Text color="dimmed" size="xs">
-                                        Updated: 18/06/22
+                                        Updated:{" "}
+                                        {rssHackerNews.data ? (
+                                            new Date(
+                                                rssHackerNews.data?.items[0]
+                                                    .pubDate as string
+                                            ).toLocaleString()
+                                        ) : (
+                                            <Skeleton width={"64px"} />
+                                        )}
                                     </Text>
                                 </Group>
-                                <Skeleton
-                                    sx={(theme) => ({
-                                        display: "flex",
-                                        flexGrow: 1,
-                                        minHeight: "50px",
-                                    })}
-                                />
+                                {rssHackerNews.isFetched &&
+                                rssHackerNews.isSuccess ? (
+                                    <Stack>
+                                        {rssHackerNews.data.items.map(
+                                            (item, index) =>
+                                                index < 3 ? (
+                                                    <Paper
+                                                        key={index}
+                                                        withBorder
+                                                        p="sm">
+                                                        <Text weight={"bolder"}>
+                                                            {item.title}
+                                                        </Text>
+                                                        <Text size={"xs"}>
+                                                            {item.content}
+                                                        </Text>
+                                                        <Group position="apart">
+                                                            <Anchor
+                                                                target="_blank"
+                                                                size={"xs"}
+                                                                href={
+                                                                    item.link
+                                                                }>
+                                                                See more
+                                                            </Anchor>
+                                                            <Text
+                                                                size={"xs"}
+                                                                color="dimmed">
+                                                                Published:{" "}
+                                                                {new Date(
+                                                                    item.pubDate as string
+                                                                ).toLocaleString()}
+                                                            </Text>
+                                                        </Group>
+                                                    </Paper>
+                                                ) : null
+                                        )}
+                                    </Stack>
+                                ) : (
+                                    <Skeleton
+                                        sx={(theme) => ({
+                                            display: "flex",
+                                            flexGrow: 1,
+                                            minHeight: "50px",
+                                        })}
+                                    />
+                                )}
                             </Stack>
                         </Paper>
                     </SimpleGrid>

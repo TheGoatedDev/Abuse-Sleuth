@@ -4,6 +4,7 @@ import superjson from "superjson";
 
 import { createRouter } from "../utils/createRouter";
 import authRouter from "./authRouter";
+import rssRouter from "./rssRouter";
 import userRouter from "./userRouter";
 
 const router = createRouter();
@@ -16,7 +17,8 @@ const appRouter = router
         },
     })
     .merge("user:", userRouter)
-    .merge("auth:", authRouter);
+    .merge("auth:", authRouter)
+    .merge("rss:", rssRouter);
 
 export { appRouter };
 export type AppRouter = typeof appRouter;

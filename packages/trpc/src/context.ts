@@ -5,6 +5,12 @@ import jwt from "jsonwebtoken";
 import { awsCognitoAuth } from "@abuse-sleuth/auth";
 import { prisma, User } from "@abuse-sleuth/prisma";
 
+const getUserFromAccessToken = async (accessToken: string): Promise<User> => {
+    const payload = jwt.decode(accessToken as string);
+    const id = (payload as jwt.JwtPayload)["username"] as string;
+    return await awsCognitoAuth.getUserByID(id);
+};
+
 export async function createContext({
     req: request,
     res: response,
@@ -19,12 +25,10 @@ export async function createContext({
             accessToken ?? ""
         );
 
-        if (!isValidToken) {
+        if (isValidToken) {
             // If Access Token is Valid
             request.log.debug("Authenticating with Access Token");
-            const payload = jwt.decode(accessToken as string);
-            const id = (payload as jwt.JwtPayload)["username"] as string;
-            user = await awsCognitoAuth.getUserByID(id);
+            user = await getUserFromAccessToken(accessToken ?? "");
         } else {
             throw new Error("Not Valid Token");
         }
@@ -38,7 +42,7 @@ export async function createContext({
                 accessToken,
                 refreshToken
             );
-            request.log.debug(`Got Tokens`);
+            request.log.debug(`Got New Tokens`);
 
             // Set Cookies from Refreshed Sessions
             response.setCookie("accessToken", tokens.accessToken, {
@@ -54,9 +58,7 @@ export async function createContext({
             request.log.debug(`Authentication Cookies Refreshed`);
 
             request.log.debug("Reauthenticating with New Access Token");
-            const payload = jwt.decode(tokens.accessToken as string);
-            const id = (payload as jwt.JwtPayload)["username"] as string;
-            user = await awsCognitoAuth.getUserByID(id);
+            user = await getUserFromAccessToken(tokens.accessToken);
         } else {
             request.log.debug("No Access or Refresh Token, Clearing Cookies");
             response.clearCookie("accessToken", {

@@ -38,6 +38,7 @@ export const AuthProvider: FCC = ({ children }) => {
             } else if (query.isError) {
                 showNotification({
                     color: "red",
+                    title: "Auth Context",
                     message: query.error.message,
                 });
             }
@@ -47,7 +48,14 @@ export const AuthProvider: FCC = ({ children }) => {
                 isLoading: query.isLoading,
             });
         }
-    }, [authenticationState, query.data, query.isLoading, query.isSuccess]);
+    }, [
+        authenticationState,
+        query.data,
+        query.error,
+        query.isError,
+        query.isLoading,
+        query.isSuccess,
+    ]);
 
     return (
         <authContext.Provider value={authenticationState}>
