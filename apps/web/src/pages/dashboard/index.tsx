@@ -22,7 +22,10 @@ import { trpc } from "@utils/trpc/reactQueryHooks";
 export default function Home() {
     const auth = useAuth();
 
-    const rssHackerNews = trpc.useQuery(["rss:hackernews"]);
+    const rssHackerNews = trpc.useQuery([
+        "rss:hackernews",
+        { amount: 5, page: 0 },
+    ]);
 
     return (
         <DashboardLayout navbar={<DashboardNavbar />}>
@@ -136,13 +139,14 @@ export default function Home() {
                                     height: "100%",
                                 })}>
                                 <Group position="apart">
-                                    <Title order={4}>Hacker News</Title>
+                                    <Title order={4}>
+                                        Hacker News RSS Feed
+                                    </Title>
                                     <Text color="dimmed" size="xs">
                                         Updated:{" "}
                                         {rssHackerNews.data ? (
                                             new Date(
-                                                rssHackerNews.data?.items[0]
-                                                    .pubDate as string
+                                                rssHackerNews.dataUpdatedAt
                                             ).toLocaleString()
                                         ) : (
                                             <Skeleton width={"64px"} />
@@ -152,39 +156,36 @@ export default function Home() {
                                 {rssHackerNews.isFetched &&
                                 rssHackerNews.isSuccess ? (
                                     <Stack>
-                                        {rssHackerNews.data.items.map(
-                                            (item, index) =>
-                                                index < 3 ? (
-                                                    <Paper
-                                                        key={index}
-                                                        withBorder
-                                                        p="sm">
-                                                        <Text weight={"bolder"}>
-                                                            {item.title}
+                                        {rssHackerNews.data.map(
+                                            (item, index) => (
+                                                <Paper
+                                                    key={index}
+                                                    withBorder
+                                                    p="sm">
+                                                    <Text weight={"bolder"}>
+                                                        {item.title}
+                                                    </Text>
+                                                    <Text size={"xs"}>
+                                                        {item.content}
+                                                    </Text>
+                                                    <Group position="apart">
+                                                        <Anchor
+                                                            target="_blank"
+                                                            size={"xs"}
+                                                            href={item.link}>
+                                                            See more
+                                                        </Anchor>
+                                                        <Text
+                                                            size={"xs"}
+                                                            color="dimmed">
+                                                            Published:{" "}
+                                                            {new Date(
+                                                                item.pubDate as string
+                                                            ).toLocaleString()}
                                                         </Text>
-                                                        <Text size={"xs"}>
-                                                            {item.content}
-                                                        </Text>
-                                                        <Group position="apart">
-                                                            <Anchor
-                                                                target="_blank"
-                                                                size={"xs"}
-                                                                href={
-                                                                    item.link
-                                                                }>
-                                                                See more
-                                                            </Anchor>
-                                                            <Text
-                                                                size={"xs"}
-                                                                color="dimmed">
-                                                                Published:{" "}
-                                                                {new Date(
-                                                                    item.pubDate as string
-                                                                ).toLocaleString()}
-                                                            </Text>
-                                                        </Group>
-                                                    </Paper>
-                                                ) : null
+                                                    </Group>
+                                                </Paper>
+                                            )
                                         )}
                                     </Stack>
                                 ) : (
