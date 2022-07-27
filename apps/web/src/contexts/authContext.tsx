@@ -27,12 +27,12 @@ export const AuthProvider: FCC = ({ children }) => {
 
     // Verify User Login Status
     useEffect(() => {
-            setAuthenticationState(
-                {
-                    user: query.isSuccess ? (query.data || undefined) : undefined,
-                    isLoading: query.isLoading
-                }
-            )
+        setAuthenticationState(
+            {
+                user: query.isSuccess ? (query.data || undefined) : undefined,
+                isLoading: query.isLoading
+            }
+        )
     }, [query.isLoading]);
 
     return (
