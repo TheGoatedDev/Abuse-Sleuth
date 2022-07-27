@@ -45,7 +45,7 @@ export default function Register() {
         ),
     });
 
-    const mutation = trpc.useMutation(["users:confirm"]);
+    const mutation = trpc.useMutation(["auth:confirm"]);
 
     useEffect(() => {
         if (!mutation.isLoading) {

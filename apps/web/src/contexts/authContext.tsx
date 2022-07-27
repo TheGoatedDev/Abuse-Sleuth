@@ -27,35 +27,13 @@ export const AuthProvider: FCC = ({ children }) => {
 
     // Verify User Login Status
     useEffect(() => {
-        if (!authenticationState.isLoading) {
-            if (query.isSuccess) {
-                if (query.data) {
-                    setAuthenticationState({
-                        ...authenticationState,
-                        user: query.data,
-                    });
+            setAuthenticationState(
+                {
+                    user: query.isSuccess ? (query.data || undefined) : undefined,
+                    isLoading: query.isLoading
                 }
-            } else if (query.isError) {
-                showNotification({
-                    color: "red",
-                    title: "Auth Context",
-                    message: query.error.message,
-                });
-            }
-        } else {
-            setAuthenticationState({
-                ...authenticationState,
-                isLoading: query.isLoading,
-            });
-        }
-    }, [
-        authenticationState,
-        query.data,
-        query.error,
-        query.isError,
-        query.isLoading,
-        query.isSuccess,
-    ]);
+            )
+    }, [query.isLoading]);
 
     return (
         <authContext.Provider value={authenticationState}>
