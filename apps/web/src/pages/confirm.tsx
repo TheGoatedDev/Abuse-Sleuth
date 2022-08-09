@@ -28,7 +28,7 @@ import {
 import StyledHeader from "@components/navigation/StyledHeader";
 import { trpc } from "@utils/trpc/reactQueryHooks";
 
-export default function Register() {
+export default function Confirm() {
     const router = useRouter();
 
     const form = useForm({

@@ -1,5 +1,0 @@
-config:
-    AbuseSleuthV2:aws-region: eu-west-2
-    AbuseSleuthV2:rds-password:
-        secure: AAABAOHHYEZ9mbJa+NtjCUs0uA/oKV50WRQ5ftlhjhD/PrEPsEYyt7VlM/c=
-
