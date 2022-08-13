@@ -3,13 +3,13 @@ services:
     postgres:
         image: postgres:alpine
         ports:
-            - "5430:5432"
+            - "5432:5432"
         restart: always
         volumes:
             - db_data:/var/lib/postgresql/data
         environment:
-            POSTGRES_DB: "abuse-sleuth"
-            POSTGRES_PASSWORD: ""
+            POSTGRES_DB: "abusesleuth"
+            POSTGRES_PASSWORD: "password"
             POSTGRES_HOST_AUTH_METHOD: trust
         healthcheck:
             test: ["CMD-SHELL", "pg_isready"]
