@@ -4,6 +4,7 @@ config:
   abuse-sleuth:rds-password:
     secure: AAABAPjMkZHrd4Rv2NweXch3OGWBcHYQMm0J9Ltxt/hvXmGHUtl4k58bZf8=
   abuse-sleuth:rds-public: "false"
-  abuse-sleuth:rds-username: dbRoot
-  aws:profile: default
+  abuse-sleuth:rds-username:
+    secure: AAABAPNuswEFemsmSqAHobmfp6MspZb+uZzpFIbN2NW72K+sCunbLwUZNIDvdRs=
+  aws:profile: dev_account
   aws:region: eu-west-2

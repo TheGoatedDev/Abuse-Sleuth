@@ -42,14 +42,13 @@ export const createRDS = async (vpc: Vpc) => {
         engineVersion: "14.3",
         storageEncrypted: true,
         serverlessv2ScalingConfiguration: {
-            maxCapacity: 16,
+            maxCapacity: 4,
             minCapacity: 1,
         },
 
         // Creds Config
         masterUsername: config.rds.masterUsername,
         masterPassword: config.rds.masterPassword,
-        iamDatabaseAuthenticationEnabled: true,
 
         vpcSecurityGroupIds: [dbSecurityGroup.id],
         dbSubnetGroupName: dbSubnetGroup.id,

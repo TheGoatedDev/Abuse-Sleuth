@@ -4,19 +4,20 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
+        "prisma": "dotenv -e ../../.env -- prisma",
         "clean": "rimraf .turbo node_modules dist",
         "--------- Production ---------": "",
         "deploy": "run-s db:build db:deploy",
         "build": "run-s db:generate",
-        "db:deploy": "prisma migrate deploy",
+        "db:deploy": "yarn prisma migrate deploy",
         "--------- Development ---------": "",
         "dev": "run-s db:generate",
-        "db:studio": "prisma studio",
-        "db:migrate": "prisma migrate dev",
-        "db:seed": "prisma db seed",
+        "db:studio": "yarn prisma studio",
+        "db:migrate": "yarn prisma migrate dev",
+        "db:seed": "yarn prisma db seed",
         "--------- Build ---------": "",
-        "db:generate": "prisma generate",
-        "db:push": "prisma db push",
+        "db:generate": "yarn prisma generate",
+        "db:push": "yarn prisma db push",
         "--------- Docker ---------": "",
         "db:up": "docker-compose up -d",
         "db:down": "docker-compose down --volumes --remove-orphans",
@@ -39,6 +40,7 @@
         "seed": "ts-node seed.ts"
     },
     "dependencies": {
-        "@prisma/client": "^3.12.0"
+        "@prisma/client": "^3.12.0",
+        "dotenv-cli": "^6.0.0"
     }
 }

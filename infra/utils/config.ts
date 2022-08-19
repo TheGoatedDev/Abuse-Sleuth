@@ -20,6 +20,6 @@ export const rds = {
     isPublic: config.requireBoolean("rds-public"),
     databaseName: config.require("rds-databaseName"),
     // Auth
-    masterUsername: config.require("rds-username"),
+    masterUsername: config.requireSecret("rds-username"),
     masterPassword: config.requireSecret("rds-password")
 }

@@ -9,11 +9,10 @@ const main = async () => {
 
     const { cluster: databaseCluster, instances: databaseInstances, subnetGroup: databaseSubnetGroup, securityGroup: databaseSecurityGroup } = await createRDS(vpc)
 
-
     return {
-        databaseClusterEndpoint: databaseCluster.endpoint
+        databaseClusterConnectionString: pulumi.interpolate`postgresql://${pulumi.unsecret(databaseCluster.masterUsername)}:${pulumi.unsecret(databaseCluster.masterPassword)}@${databaseCluster.endpoint.apply(t => t as string)}:${databaseCluster.port}/${databaseCluster.databaseName}`,
     }
 }
 
 
-main()
+module.exports = main()
