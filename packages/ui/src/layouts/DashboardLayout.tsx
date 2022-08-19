@@ -1,28 +1,18 @@
-import React from "react";
+import { AppShell } from "@mantine/core";
 
-import { AppShell, Box } from "@mantine/core";
+import { FCC } from "../types/types";
 
-export type IDashboardLayoutProps = {
-    navbar: React.ReactElement;
-};
+interface IDashboardLayoutProps {
+    navbar: JSX.Element;
+}
 
-export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({
+export const DashboardLayout: FCC<IDashboardLayoutProps> = ({
     children,
     navbar,
 }) => {
     return (
-        <AppShell
-            sx={(theme) => ({
-                height: "100vh",
-            })}
-            padding={0}
-            navbar={navbar}>
-            <Box
-                sx={(theme) => ({
-                    marginLeft: "250px",
-                })}>
-                {children}
-            </Box>
+        <AppShell fixed navbar={navbar}>
+            {children}
         </AppShell>
     );
 };

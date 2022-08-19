@@ -1,4 +1,6 @@
 module.exports = {
+    plugins: [require("@trivago/prettier-plugin-sort-imports")],
+
     bracketSpacing: true,
     bracketSameLine: true,
     singleQuote: false,
@@ -7,14 +9,21 @@ module.exports = {
     semi: true,
     printWidth: 80,
     arrowParens: "always",
+    tabWidth: 4,
+
     importOrder: [
         "^@(abuse-sleuth)/(.*)$",
         "^@(services|components|layouts|hooks|utils|routes)/(.*)$",
-        "^@(mantine)/(.*)$",
         "^[./]",
     ],
     importOrderSeparation: true,
-    tabWidth: 4,
-    useTabs: false,
-    plugins: [require("@trivago/prettier-plugin-sort-imports")],
+
+    overrides: [
+        {
+            files: ["**/*.yml"],
+            options: {
+                tabWidth: 2,
+            },
+        },
+    ],
 };

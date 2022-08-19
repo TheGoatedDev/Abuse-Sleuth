@@ -1,15 +1,11 @@
 {
     "extends": "@abuse-sleuth/tsconfig/base.json",
-    "include": ["./src"],
-    "exclude": [".build", "node_modules"],
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules", "jest"],
     "compilerOptions": {
-        "isolatedModules": false,
-        "rootDir": "./src",
-        "baseUrl": "./src",
-        "paths": {
-            "@routes/*": ["routes/*"],
-            "@utils/*": ["utils/*"],
-            "@services/*": ["services/*"]
-        }
+        "downlevelIteration": true,
+        "baseUrl": "src",
+        "paths": {},
+        "types": ["cypress", "jest"]
     }
 }

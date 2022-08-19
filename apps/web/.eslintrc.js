@@ -1,1 +1,10 @@
-module.exports = require("@abuse-sleuth/config/eslint-preset");
+module.exports = {
+  root: true,
+  extends: ["custom"],
+  rules: {
+    "@next/next/no-img-element": 'off'
+  },
+  plugins: [
+    "cypress"
+  ]
+};

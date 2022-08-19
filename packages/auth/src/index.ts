@@ -1,2 +1,1 @@
-export * from "./StytchClient";
-export * from "./utils";
+export * from "./awsCognito";

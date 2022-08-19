@@ -1,49 +1,60 @@
 {
-    "name": "abuse-sleuth-monorepo",
+    "name": "abuse-sleuth",
     "version": "0.0.0",
     "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*",
+        "infra"
+    ],
     "scripts": {
-        "start": "turbo run start --scope=\"@abuse-sleuth/web\"",
-        "build": "turbo run build --scope=\"@abuse-sleuth/web\" --include-dependencies",
-        "build:docker": "turbo run build:docker",
-        "dev": "turbo run dev --include-dependencies",
-        "dev-docs": "turbo run dev --scope=\"@abuse-sleuth/docs\" --include-dependencies",
-        "deploy": "turbo run deploy",
-        "clean": "turbo run clean && rm -rf ./node_modules",
+        "--------- Turbo ---------": "",
+        "build": "turbo run build",
+        "dev": "turbo run dev --include-dependencies --parallel",
+        "clean": "turbo run clean && rimraf node_modules .turbo",
+        "--------- Apps ---------": "",
+        "web": "yarn workspace @abuse-sleuth/web",
+        "api": "yarn workspace @abuse-sleuth/api",
+        "--------- Packages ---------": "",
+        "ui": "yarn workspace @abuse-sleuth/ui",
+        "prisma": "yarn workspace @abuse-sleuth/prisma",
+        "trpc": "yarn workspace @abuse-sleuth/trpc",
+        "auth": "yarn workspace @abuse-sleuth/auth",
+        "--------- Format and Lint ---------": "",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "prepare": "husky install",
-        "turbo": "turbo",
-        "docs": "yarn workspace @abuse-sleuth/docs",
-        "web": "yarn workspace @abuse-sleuth/web",
-        "api": "yarn workspace @abuse-sleuth/api"
+        "--------- Testing ---------": "",
+        "test": "run-s test:unit test:e2e",
+        "test:unit": "turbo run test:unit",
+        "test:e2e": "turbo run test:e2e",
+        "--------- Infrastructure ---------": "",
+        "infra": "yarn workspace @abuse-sleuth/infra",
+        "infra:up": "yarn infra up",
+        "infra:down": "yarn infra down",
+        "--------- NPM Setups ---------": "",
+        "prepare": "husky install"
     },
     "devDependencies": {
+        "@commitlint/cli": "^17.0.2",
+        "@commitlint/config-conventional": "^17.0.2",
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-        "husky": "^7.0.4",
-        "lint-staged": "^12.3.4",
-        "prettier": "^2.5.1",
-        "turbo": "^1.2.8"
+        "autocannon": "^7.9.0",
+        "detect-secrets": "^1.0.6",
+        "eslint-config-custom": "latest",
+        "husky": "^8.0.0",
+        "lint-staged": "^13.0.2",
+        "npm-run-all": "^4.1.5",
+        "prettier": "latest",
+        "rimraf": "^3.0.2",
+        "turbo": "latest"
     },
-    "lint-staged": {
-        "apps/**/*.{js,ts,jsx,tsx}": [
-            "prettier --write",
-            "eslint --fix"
-        ],
-        "*.json": [
-            "prettier --write"
-        ],
-        "packages/prisma/schema.prisma": [
-            "prisma format"
-        ]
-    },
-    "workspaces": [
-        "packages/*",
-        "apps/*"
-    ],
     "engines": {
         "npm": ">=7.0.0",
         "node": ">=14.0.0"
     },
-    "packageManager": "yarn@1.22.15"
+    "dependencies": {},
+    "lint-staged": {
+        "*": "prettier --ignore-unknown --write"
+    },
+    "packageManager": "yarn@1.22.18"
 }
