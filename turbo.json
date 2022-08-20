@@ -1,23 +1,23 @@
 {
     "pipeline": {
         "clean": {
-            "cache": false
+            "outputs": []
         },
         "test:e2e": {
-            "cache": false
+            "outputs": []
         },
         "test:unit": {
-            "cache": false
+            "outputs": []
         },
         "build": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**", ".next/**"]
         },
         "lint": {
-            "cache": false
+            "outputs": []
         },
         "lint:fix": {
-            "cache": false
+            "outputs": []
         },
         "dev": {
             "cache": false

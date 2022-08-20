@@ -1,34 +1,31 @@
-import { useMediaQuery } from "@mantine/hooks";
+import type { NextPage } from "next";
 import Link from "next/link";
 
+import { StyledLayout } from "@abuse-sleuth/ui";
 import {
     Button,
     Group,
-    Title,
-    Text,
-    useMantineTheme,
-    MediaQuery,
     SimpleGrid,
-    StyledLayout,
-} from "@abuse-sleuth/ui";
+    Title,
+    useMantineTheme,
+    useMediaQuery,
+    Text,
+    Stack,
+} from "@abuse-sleuth/ui/mantine";
 
-import StyledHeader from "@components/navigation/StyledHeader";
-
-export default function Home() {
+const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
 
     return (
         <StyledLayout>
-            <StyledHeader />
-
             <Group
                 position="center"
                 sx={(theme) => ({
                     height: "100vh",
                 })}>
                 <SimpleGrid cols={isMobile ? 1 : 2}>
-                    <Group direction="column" spacing={0} p="xl">
+                    <Stack justify={"center"} spacing={0} p="xl">
                         <Title order={2}>Welcome to</Title>
                         <Title
                             sx={(theme) => ({
@@ -37,7 +34,7 @@ export default function Home() {
                             Abuse Sleuth
                         </Title>
                         <Title order={3}>
-                            IP Analysis and Aggregration SaaS
+                            Domain/IP Analysis and Aggregration SaaS
                         </Title>
                         <Text>
                             Take one centralised application, several analytical
@@ -67,7 +64,7 @@ export default function Home() {
                                 Join Now!
                             </Button>
                         </Link>
-                    </Group>
+                    </Stack>
 
                     {!isMobile && (
                         <Group position="center">
@@ -82,4 +79,6 @@ export default function Home() {
             </Group>
         </StyledLayout>
     );
-}
+};
+
+export default Home;

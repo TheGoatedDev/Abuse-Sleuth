@@ -1,5 +1,8 @@
 {
-  "extends": "@abuse-sleuth/tsconfig/react-library.json",
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"]
+    "extends": "@abuse-sleuth/tsconfig/ui-lib.tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "."
+    },
+    "include": ["**/*.tsx", "**/*.ts"],
+    "exclude": ["node_modules"]
 }
