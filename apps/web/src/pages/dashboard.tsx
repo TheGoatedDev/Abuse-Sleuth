@@ -1,23 +1,14 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
 import Link from "next/link";
 
-import { StyledLayout } from "@abuse-sleuth/ui";
 import {
-    Button,
-    Group,
-    SimpleGrid,
-    Title,
-    useMantineTheme,
-    useMediaQuery,
-    Text,
-    Stack,
-} from "@abuse-sleuth/ui/mantine";
+    useUser,
+    withPageAuthRequired,
+} from "@abuse-sleuth/authentication/nextjs";
+import { StyledLayout } from "@abuse-sleuth/ui";
+import { Button, Group } from "@abuse-sleuth/ui/mantine";
 
-const Home: NextPage = () => {
-    const theme = useMantineTheme();
-    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
-
+const Dashboard: NextPage = () => {
     const { user, isLoading } = useUser();
 
     return (
@@ -58,4 +49,4 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+export default withPageAuthRequired(Dashboard);

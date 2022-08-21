@@ -14,6 +14,8 @@ import {
     Stack,
 } from "@abuse-sleuth/ui/mantine";
 
+import StyledHeader from "@components/navigation/StyledHeader";
+
 const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
@@ -22,6 +24,7 @@ const Home: NextPage = () => {
 
     return (
         <StyledLayout>
+            <StyledHeader />
             <Group
                 position="center"
                 sx={(theme) => ({

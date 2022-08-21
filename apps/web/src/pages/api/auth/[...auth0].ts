@@ -1,12 +1,12 @@
-import { handleAuth, handleCallback, handleLogin } from "@abuse-sleuth/authentication/nextjs";
+import auth0 from "@abuse-sleuth/authentication/nextjs";
 import { prisma } from "@abuse-sleuth/prisma";
 
 
 
-export default handleAuth({
+export default auth0.handleAuth({
     async login(req, res) {
         try {
-            await handleLogin(req, res);
+            await auth0.handleLogin(req, res);
           } catch (error: any) {
             res.status(error.status || 400).end(error.message);
           }
@@ -14,7 +14,7 @@ export default handleAuth({
     async callback(req, res, options) {
         try {
             
-            await handleCallback(req, res, {
+            await auth0.handleCallback(req, res, {
                 afterCallback: async (req, res, session, state) => {
                     const user = await prisma.user.findUnique({
                         where: {
