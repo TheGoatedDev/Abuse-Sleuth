@@ -1,0 +1,32 @@
+{
+    "name": "@abuse-sleuth/prisma",
+    "version": "0.0.0",
+    "main": "./index.ts",
+    "scripts": {
+        "clean": "rimraf .turbo node_modules dist",
+        "--------- Production ---------": "",
+        "deploy": "run-s db:build db:deploy",
+        "build": "run-s db:generate",
+        "db:deploy": "prisma migrate deploy",
+        "--------- Development ---------": "",
+        "dev": "run-s db:generate",
+        "db:studio": "prisma studio",
+        "db:migrate": "prisma migrate dev",
+        "db:seed": "prisma db seed",
+        "--------- Build ---------": "",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push",
+        "--------- Docker ---------": "",
+        "db:up": "docker-compose up -d",
+        "db:down": "docker-compose down --volumes --remove-orphans"
+    },
+    "devDependencies": {
+        "@abuse-sleuth/tsconfig": "*",
+        "eslint": "^7.32.0",
+        "eslint-config-custom": "*",
+        "prisma": "^4.2.1"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.2.1"
+    }
+}

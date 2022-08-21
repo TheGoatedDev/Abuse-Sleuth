@@ -20,6 +20,9 @@
         "prisma": "yarn workspace @abuse-sleuth/prisma",
         "trpc": "yarn workspace @abuse-sleuth/trpc",
         "auth": "yarn workspace @abuse-sleuth/authentication",
+        "--------- Scripts ---------": "",
+        "env:unlink": "node scripts/env/unlink.js",
+        "env:create": "node scripts/env/create.js",
         "--------- Format and Lint ---------": "",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -32,15 +35,13 @@
         "infra:up": "yarn infra up",
         "infra:down": "yarn infra down",
         "--------- NPM Setups ---------": "",
-        "prepare": "husky install"
+        "prepare": ""
     },
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-        "detect-secrets": "^1.0.6",
-        "husky": "^8.0.0",
-        "lint-staged": "^13.0.2",
+        "envfile": "^6.17.0",
         "npm-run-all": "^4.1.5",
-        "prettier": "latest",
+        "prettier": "^2.7.1",
         "rimraf": "^3.0.2",
         "turbo": "latest"
     },
@@ -49,8 +50,5 @@
         "node": ">=16.0.0"
     },
     "dependencies": {},
-    "lint-staged": {
-        "*": "prettier --ignore-unknown --write"
-    },
     "packageManager": "yarn@1.22.18"
 }

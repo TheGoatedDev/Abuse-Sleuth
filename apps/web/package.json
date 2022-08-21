@@ -3,12 +3,19 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "--------- Production ---------": "",
         "build": "next build",
         "start": "next start",
+        "--------- Development ---------": "",
+        "clean": "rimraf node_modules .turbo .next",
+        "dev": "next dev",
+        "--------- Linting ---------": "",
         "lint": "next lint"
     },
     "dependencies": {
+        "@abuse-sleuth/authentication": "*",
+        "@abuse-sleuth/ui": "*",
+        "@abuse-sleuth/prisma": "*",
         "@mantine/next": "^5.2.0",
         "next": "12.2.5",
         "react": "18.2.0",
@@ -16,7 +23,6 @@
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
-        "@abuse-sleuth/ui": "*",
         "@types/node": "18.7.8",
         "@types/react": "18.0.17",
         "@types/react-dom": "18.0.6",

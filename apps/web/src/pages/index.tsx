@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
 import Link from "next/link";
 
@@ -16,6 +17,8 @@ import {
 const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
+
+    const { user, isLoading } = useUser();
 
     return (
         <StyledLayout>
@@ -50,20 +53,39 @@ const Home: NextPage = () => {
                             Scan, Block and Repeat!
                         </Text>
 
-                        <Link passHref href={"/login"}>
-                            <Button
-                                component="a"
-                                sx={(theme) => ({
-                                    width: "150px",
-                                    backgroundColor: theme.colors.violet[6],
-                                    ":hover": {
-                                        backgroundColor: theme.colors.violet[7],
-                                    },
-                                })}
-                                mt="md">
-                                Join Now!
-                            </Button>
-                        </Link>
+                        {!user && !isLoading ? (
+                            <Link passHref href={"/api/auth/login"}>
+                                <Button
+                                    component="a"
+                                    sx={(theme) => ({
+                                        width: "150px",
+                                        backgroundColor: theme.colors.violet[6],
+                                        ":hover": {
+                                            backgroundColor:
+                                                theme.colors.violet[7],
+                                        },
+                                    })}
+                                    mt="md">
+                                    Join Now!
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Link passHref href={"/dashboard"}>
+                                <Button
+                                    component="a"
+                                    sx={(theme) => ({
+                                        width: "150px",
+                                        backgroundColor: theme.colors.violet[6],
+                                        ":hover": {
+                                            backgroundColor:
+                                                theme.colors.violet[7],
+                                        },
+                                    })}
+                                    mt="md">
+                                    View Dashboard
+                                </Button>
+                            </Link>
+                        )}
                     </Stack>
 
                     {!isMobile && (

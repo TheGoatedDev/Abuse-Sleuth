@@ -1,0 +1,19 @@
+{
+    "name": "@abuse-sleuth/authentication",
+    "version": "0.0.0",
+    "exports": {
+        "./nextjs": "./nextjs/index.ts"
+    },
+    "scripts": {
+        "clean": "rimraf node_modules .turbo"
+    },
+    "devDependencies": {
+        "@abuse-sleuth/tsconfig": "*",
+        "eslint": "^7.32.0",
+        "eslint-config-custom": "*",
+        "next": "12.2.5"
+    },
+    "dependencies": {
+        "@auth0/nextjs-auth0": "^1.9.1"
+    }
+}
