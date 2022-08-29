@@ -1,7 +1,7 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
 import Link from "next/link";
 
+//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { StyledLayout } from "@abuse-sleuth/ui";
 import {
     Button,
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
 
-    const { user, isLoading } = useUser();
+    //const { data, status } = useSession();
 
     return (
         <StyledLayout>
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
                             Scan, Block and Repeat!
                         </Text>
 
-                        {!user && !isLoading ? (
+                        {true ? (
                             <Link passHref href={"/api/auth/login"}>
                                 <Button
                                     component="a"

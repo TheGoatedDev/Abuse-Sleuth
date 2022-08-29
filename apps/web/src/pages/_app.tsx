@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import { UserProvider } from "@abuse-sleuth/authentication/nextjs";
+import { SessionProvider } from "@abuse-sleuth/authentication/nextjs/client";
 import { MantineProvider } from "@abuse-sleuth/ui/mantine";
 
 export default function App(props: AppProps) {
@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
                 />
             </Head>
 
-            <UserProvider>
+            <SessionProvider session={pageProps.session}>
                 <MantineProvider
                     withGlobalStyles
                     withNormalizeCSS
@@ -27,7 +27,7 @@ export default function App(props: AppProps) {
                     }}>
                     <Component {...pageProps} />
                 </MantineProvider>
-            </UserProvider>
+            </SessionProvider>
         </>
     );
 }

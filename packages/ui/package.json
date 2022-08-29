@@ -1,7 +1,11 @@
 {
     "name": "@abuse-sleuth/ui",
     "version": "0.0.0",
-    "main": "./index.tsx",
+    "exports": {
+        ".": "./index.tsx",
+        "./mantine": "./mantine.tsx",
+        "./icons": "./icons.tsx"
+    },
     "scripts": {
         "clean": "rimraf node_modules .turbo"
     },
@@ -21,6 +25,7 @@
         "@mantine/form": "^5.2.0",
         "@mantine/hooks": "^5.2.0",
         "@mantine/modals": "^5.2.0",
-        "@mantine/notifications": "^5.2.0"
+        "@mantine/notifications": "^5.2.0",
+        "@tabler/icons": "^1.91.0"
     }
 }

@@ -2,7 +2,9 @@
     "name": "@abuse-sleuth/authentication",
     "version": "0.0.0",
     "exports": {
-        "./nextjs": "./nextjs/index.ts"
+        ".": "./index.ts",
+        "./nextjs": "./nextjs",
+        "./nextjs/client": "./nextjs/client"
     },
     "scripts": {
         "clean": "rimraf node_modules .turbo"
@@ -11,9 +13,12 @@
         "@abuse-sleuth/tsconfig": "*",
         "eslint": "^7.32.0",
         "eslint-config-custom": "*",
-        "next": "12.2.5"
+        "next": "12.2.5",
+        "v8": "^0.1.0"
     },
     "dependencies": {
-        "@auth0/nextjs-auth0": "^1.9.1"
+        "@abuse-sleuth/prisma": "*",
+        "@next-auth/prisma-adapter": "^1.0.4",
+        "next-auth": "^4.10.3"
     }
 }

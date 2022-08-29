@@ -12,6 +12,7 @@
         "dev": "run-s db:generate",
         "db:studio": "prisma studio",
         "db:migrate": "prisma migrate dev",
+        "db:reset": "prisma migrate reset",
         "db:seed": "prisma db seed",
         "--------- Build ---------": "",
         "db:generate": "prisma generate",

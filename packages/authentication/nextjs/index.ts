@@ -1,11 +1,23 @@
-import { initAuth0 } from "@auth0/nextjs-auth0";
+import NextAuth, { NextAuthOptions } from "next-auth"
+import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import { prisma } from "@abuse-sleuth/prisma"
 
-export default initAuth0({
-    secret: process.env.AUTH0_SECRET,
-    baseURL: process.env.AUTH0_BASE_URL,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-})
+export const nextAuthOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
+    providers: [
+        GoogleProvider({
+            clientId: process.env.NEXTAUTH_GOOGLE_ID ?? "",
+            clientSecret: process.env.NEXTAUTH_GOOGLE_SECRET ?? "",
+            authorization: {
+                params: {
+                  prompt: "consent",
+                  access_type: "offline",
+                  response_type: "code"
+                }
+              }
+        })
+    ]
+}
 
-export { UserProvider, useUser, withPageAuthRequired } from "@auth0/nextjs-auth0"
+export const NextAuthApiHandler = NextAuth;
