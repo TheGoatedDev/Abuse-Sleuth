@@ -1,105 +1,54 @@
+import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
+import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import {
+    DashboardNavbarButton,
+    DashboardNavbarTeamButton,
+} from "@abuse-sleuth/ui";
 import {
     IconDashboard,
     IconFileDescription,
     IconFilePlus,
-    IconSearch,
     IconUser,
+    IconUsers,
 } from "@abuse-sleuth/ui/icons";
-import {
-    ActionIcon,
-    Center,
-    Group,
-    Navbar,
-    Stack,
-    ThemeIcon,
-    Tooltip,
-    UnstyledButton,
-    Text,
-    MantineColor,
-    Divider,
-    NavLink,
-} from "@abuse-sleuth/ui/mantine";
-
-const NavbarButton: React.FC<{
-    href: string;
-    color: MantineColor;
-    label: string;
-    icon: JSX.Element;
-}> = (props) => {
-    const router = useRouter();
-    const isActive = router.pathname === props.href;
-
-    return (
-        <Link href={props.href} passHref>
-            <UnstyledButton
-                mt={4}
-                component="a"
-                sx={(theme) => ({
-                    display: "block",
-                    width: "100%",
-                    padding: theme.spacing.xs,
-                    borderRadius: theme.radius.sm,
-                    backgroundColor: isActive
-                        ? theme.colorScheme === "dark"
-                            ? theme.colors.dark[6]
-                            : theme.colors.gray[0]
-                        : "transparent",
-                    color:
-                        theme.colorScheme === "dark"
-                            ? theme.colors.dark[0]
-                            : theme.black,
-
-                    "&:hover": {
-                        backgroundColor:
-                            theme.colorScheme === "dark"
-                                ? theme.colors.dark[6]
-                                : theme.colors.gray[0],
-                    },
-                })}>
-                <Group>
-                    <ThemeIcon size={"lg"} color={props.color} variant="light">
-                        {props.icon}
-                    </ThemeIcon>
-                    <Text size="sm">{props.label}</Text>
-                </Group>
-            </UnstyledButton>
-        </Link>
-    );
-};
+import { Center, Navbar } from "@abuse-sleuth/ui/mantine";
 
 const DashboardNavbar: React.FC = () => {
+    const { data: session } = useSession();
+
     return (
-        <Navbar width={{ base: 200 }} p="sm">
+        <Navbar width={{ base: 250 }}>
             <Navbar.Section mt="xs">
                 <Center>
                     <Link href={"/"}>
-                        <img
+                        <Image
                             src="/logo.svg"
+                            layout="fixed"
                             width={"45px"}
+                            height={"60px"}
                             alt="Abuse Sleuth Logo"
                         />
                     </Link>
                 </Center>
             </Navbar.Section>
-            <Navbar.Section grow mt="md">
-                <NavbarButton
+            <Navbar.Section grow px={"xs"} mt="xs">
+                <DashboardNavbarButton
                     href="/dashboard"
                     label="Home"
                     color={"blue"}
                     icon={<IconDashboard />}
                 />
 
-                <NavbarButton
+                <DashboardNavbarButton
                     href="/report/new"
                     label="New Report"
                     color={"green"}
                     icon={<IconFilePlus />}
                 />
 
-                <NavbarButton
+                <DashboardNavbarButton
                     href="/report/view"
                     label="View Reports"
                     color={"violet"}
@@ -107,15 +56,14 @@ const DashboardNavbar: React.FC = () => {
                 />
             </Navbar.Section>
 
-            <Navbar.Section mb="xs">
-                <Stack align={"center"} justify="center">
-                    <NavbarButton
-                        href="/account"
-                        label="View Account"
-                        color={"blue"}
-                        icon={<IconUser />}
-                    />
-                </Stack>
+            <Navbar.Section px={"xs"} mb={"xs"}>
+                <DashboardNavbarTeamButton />
+                <DashboardNavbarButton
+                    href="/account"
+                    label={session?.user?.name ?? ""}
+                    color={"blue"}
+                    icon={<IconUser />}
+                />
             </Navbar.Section>
         </Navbar>
     );
