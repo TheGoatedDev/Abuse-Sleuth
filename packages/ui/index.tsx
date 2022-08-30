@@ -1,3 +1,3 @@
 export * from "./layouts";
-export * from "./navigation/NavLink";
+export * from "./navigation";
 export * from "./types/index";
