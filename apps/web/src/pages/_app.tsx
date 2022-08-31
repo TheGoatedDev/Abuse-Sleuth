@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 
 import { SessionProvider } from "@abuse-sleuth/authentication/nextjs/client";
-import { MantineProvider } from "@abuse-sleuth/ui/mantine";
+import { GlobalStyling, MantineProvider } from "@abuse-sleuth/ui/shared";
 
 export default function App(props: AppProps) {
     const { Component, pageProps } = props;
@@ -15,16 +15,11 @@ export default function App(props: AppProps) {
                     name="viewport"
                     content="minimum-scale=1, initial-scale=1, width=device-width"
                 />
+                <GlobalStyling />
             </Head>
 
             <SessionProvider session={pageProps.session}>
-                <MantineProvider
-                    withGlobalStyles
-                    withNormalizeCSS
-                    theme={{
-                        /** Put your mantine theme override here */
-                        colorScheme: "dark",
-                    }}>
+                <MantineProvider>
                     <Component {...pageProps} />
                 </MantineProvider>
             </SessionProvider>

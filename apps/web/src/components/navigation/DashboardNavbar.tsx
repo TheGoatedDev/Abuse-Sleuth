@@ -6,6 +6,7 @@ import {
     DashboardNavbarButton,
     DashboardNavbarTeamButton,
 } from "@abuse-sleuth/ui";
+import { Center, Navbar } from "@abuse-sleuth/ui/components";
 import {
     IconDashboard,
     IconFileDescription,
@@ -13,7 +14,6 @@ import {
     IconUser,
     IconUsers,
 } from "@abuse-sleuth/ui/icons";
-import { Center, Navbar } from "@abuse-sleuth/ui/mantine";
 
 const DashboardNavbar: React.FC = () => {
     const { data: session } = useSession();

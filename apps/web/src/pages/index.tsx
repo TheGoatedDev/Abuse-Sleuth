@@ -7,12 +7,11 @@ import {
     Button,
     Group,
     SimpleGrid,
-    Title,
-    useMantineTheme,
-    useMediaQuery,
-    Text,
     Stack,
-} from "@abuse-sleuth/ui/mantine";
+    Text,
+    Title,
+} from "@abuse-sleuth/ui/components";
+import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
 import StyledHeader from "@components/navigation/StyledHeader";
 

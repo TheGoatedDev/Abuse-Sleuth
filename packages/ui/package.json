@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "exports": {
         ".": "./index.tsx",
-        "./mantine": "./mantine.tsx",
+        "./components": "./components",
+        "./hooks": "./hooks",
+        "./shared": "./shared",
         "./icons": "./icons.tsx"
     },
     "scripts": {

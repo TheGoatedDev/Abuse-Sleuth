@@ -1,6 +1,6 @@
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { NavLink } from "@abuse-sleuth/ui";
-import { Group, Space } from "@abuse-sleuth/ui/mantine";
+import { Group, Space } from "@abuse-sleuth/ui/components";
 
 const StyledHeader: React.FC = (props) => {
     const { status } = useSession();
