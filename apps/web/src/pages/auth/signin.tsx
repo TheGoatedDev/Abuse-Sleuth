@@ -1,10 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import {
-    ClientSafeProvider,
-    getProviders,
-    getSession,
-    signIn,
-} from "next-auth/react";
+import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 
 import {
@@ -12,20 +7,17 @@ import {
     unstable_getServerSession,
 } from "@abuse-sleuth/authentication/nextjs";
 import { StyledLayout } from "@abuse-sleuth/ui";
-import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 import {
     Group,
     Paper,
     Stack,
     Title,
-    TextInput,
-    PasswordInput,
     Button,
-    Divider,
     Anchor,
     Text,
     MantineColor,
-} from "@abuse-sleuth/ui/mantine";
+} from "@abuse-sleuth/ui/components";
+import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 
 import StyledHeader from "@components/navigation/StyledHeader";
 
