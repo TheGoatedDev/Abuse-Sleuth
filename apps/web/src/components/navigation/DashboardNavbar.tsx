@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import { signOut, useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import {
     DashboardNavbarButton,
+    DashboardNavbarLink,
     DashboardNavbarTeamButton,
 } from "@abuse-sleuth/ui";
-import { Center, Navbar } from "@abuse-sleuth/ui/components";
+import { Button, Center, Group, Navbar } from "@abuse-sleuth/ui/components";
 import {
     IconDashboard,
     IconFileDescription,
     IconFilePlus,
+    IconLogout,
     IconUser,
     IconUsers,
 } from "@abuse-sleuth/ui/icons";
@@ -34,21 +36,21 @@ const DashboardNavbar: React.FC = () => {
                 </Center>
             </Navbar.Section>
             <Navbar.Section grow px={"xs"} mt="xs">
-                <DashboardNavbarButton
+                <DashboardNavbarLink
                     href="/dashboard"
                     label="Home"
                     color={"blue"}
                     icon={<IconDashboard />}
                 />
 
-                <DashboardNavbarButton
+                <DashboardNavbarLink
                     href="/report/new"
                     label="New Report"
                     color={"green"}
                     icon={<IconFilePlus />}
                 />
 
-                <DashboardNavbarButton
+                <DashboardNavbarLink
                     href="/report/view"
                     label="View Reports"
                     color={"violet"}
@@ -58,12 +60,22 @@ const DashboardNavbar: React.FC = () => {
 
             <Navbar.Section px={"xs"} mb={"xs"}>
                 <DashboardNavbarTeamButton />
-                <DashboardNavbarButton
-                    href="/account"
-                    label={session?.user?.name ?? ""}
-                    color={"blue"}
-                    icon={<IconUser />}
-                />
+                <Group position="apart">
+                    <DashboardNavbarLink
+                        href="/account"
+                        label={session?.user?.name ?? ""}
+                        color={"blue"}
+                        icon={<IconUser />}
+                    />
+                    <DashboardNavbarButton
+                        onClick={() => {
+                            signOut()
+                        }}
+                        label={""}
+                        color={"red"}
+                        icon={<IconLogout />}
+                    />
+                </Group>
             </Navbar.Section>
         </Navbar>
     );

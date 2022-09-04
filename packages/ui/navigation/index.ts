@@ -1,3 +1,4 @@
 export * from "./NavLink";
-export * from "./DashboardNavbarButton"
+export * from "./DashboardNavbarLink"
 export * from "./DashboardNavbarTeamButton"
+export * from "./DashboardNavbarButton"

@@ -22,6 +22,7 @@ import {
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 
 import StyledHeader from "@components/navigation/StyledHeader";
+import { useRouter } from "next/router";
 
 const NameIconConversion: Record<
     string,
@@ -43,6 +44,8 @@ const NameIconConversion: Record<
 const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
     providers,
 }) => {
+    const {callbackUrl} = useRouter().query
+
     return (
         <StyledLayout>
             <StyledHeader />
@@ -87,7 +90,10 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
                                         key={provider.name}
                                         variant={"light"}
                                         color={settings.color}
-                                        onClick={() => signIn(provider.id)}
+                                        onClick={() => signIn(provider.id, {
+                                            callbackUrl: callbackUrl as string | undefined,
+                                            redirect: true
+                                        })}
                                         leftIcon={settings.icon}>
                                         Sign in with {provider.name}
                                     </Button>
