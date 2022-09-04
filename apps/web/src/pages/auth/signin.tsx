@@ -14,9 +14,11 @@ import {
     Title,
     Button,
     Anchor,
-    Text,
-    MantineColor,
+    Text
 } from "@abuse-sleuth/ui/components";
+import {
+    MantineColor
+} from "@abuse-sleuth/ui/types"
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 
 import StyledHeader from "@components/navigation/StyledHeader";

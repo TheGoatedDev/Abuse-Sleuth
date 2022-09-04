@@ -6,7 +6,8 @@
         "./components": "./components",
         "./hooks": "./hooks",
         "./shared": "./shared",
-        "./icons": "./icons.tsx"
+        "./icons": "./icons.tsx",
+        "./types": "./types"
     },
     "scripts": {
         "clean": "rimraf node_modules .turbo"
