@@ -5,17 +5,24 @@ import {
     ThemeIcon,
     UnstyledButton,
 } from "@mantine/core";
-import { IconArrowRight, IconUsers } from "@tabler/icons";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export const DashboardNavbarTeamButton: React.FC<{}> = (props) => {
+export const DashboardNavbarButton: React.FC<{
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+    color: MantineColor;
+    label: string;
+    icon: JSX.Element;
+}> = (props) => {
     return (
         <UnstyledButton
+            onClick={props.onClick}
+            component="a"
             sx={(theme) => ({
                 display: "block",
-                width: "100%",
+                //width: "100%",
                 padding: theme.spacing.xs,
                 borderRadius: theme.radius.sm,
-
                 color:
                     theme.colorScheme === "dark"
                         ? theme.colors.dark[0]
@@ -28,14 +35,11 @@ export const DashboardNavbarTeamButton: React.FC<{}> = (props) => {
                             : theme.colors.gray[0],
                 },
             })}>
-            <Group position="apart">
-                <Group>
-                    <ThemeIcon size={"lg"} color={"cyan"} variant="light">
-                        <IconUsers />
-                    </ThemeIcon>
-                    <Text size="sm">TEAM NAME</Text>
-                </Group>
-                <IconArrowRight />
+            <Group>
+                <ThemeIcon size={"lg"} color={props.color} variant="light">
+                    {props.icon}
+                </ThemeIcon>
+                {props.label ? <Text size="sm">{props.label}</Text> : null}
             </Group>
         </UnstyledButton>
     );

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 
 //import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
-import { StyledLayout } from "@abuse-sleuth/ui";
+import { StyledLayout } from "@abuse-sleuth/ui/layouts";
 import {
     Button,
     Group,
@@ -10,7 +10,7 @@ import {
     Stack,
     Text,
     Title,
-} from "@abuse-sleuth/ui/components";
+} from "@abuse-sleuth/ui/components/atoms";
 import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
 import StyledHeader from "@components/navigation/StyledHeader";

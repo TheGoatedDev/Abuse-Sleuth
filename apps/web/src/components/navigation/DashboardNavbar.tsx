@@ -1,20 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { signOut, useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import {
+    signOut,
+    useSession,
+} from "@abuse-sleuth/authentication/nextjs/client";
 import {
     DashboardNavbarButton,
     DashboardNavbarLink,
     DashboardNavbarTeamButton,
-} from "@abuse-sleuth/ui";
-import { Button, Center, Group, Navbar } from "@abuse-sleuth/ui/components";
+} from "@abuse-sleuth/ui/components/compounds";
+import { Center, Navbar, Stack } from "@abuse-sleuth/ui/components/atoms";
 import {
     IconDashboard,
     IconFileDescription,
     IconFilePlus,
     IconLogout,
     IconUser,
-    IconUsers,
 } from "@abuse-sleuth/ui/icons";
 
 const DashboardNavbar: React.FC = () => {
@@ -36,31 +38,34 @@ const DashboardNavbar: React.FC = () => {
                 </Center>
             </Navbar.Section>
             <Navbar.Section grow px={"xs"} mt="xs">
-                <DashboardNavbarLink
-                    href="/dashboard"
-                    label="Home"
-                    color={"blue"}
-                    icon={<IconDashboard />}
-                />
+                <Stack spacing={4}>
+                    <DashboardNavbarLink
+                        href="/dashboard"
+                        label="Home"
+                        color={"blue"}
+                        icon={<IconDashboard />}
+                    />
 
-                <DashboardNavbarLink
-                    href="/report/new"
-                    label="New Report"
-                    color={"green"}
-                    icon={<IconFilePlus />}
-                />
+                    <DashboardNavbarLink
+                        href="/report/new"
+                        label="New Report"
+                        color={"green"}
+                        icon={<IconFilePlus />}
+                    />
 
-                <DashboardNavbarLink
-                    href="/report/view"
-                    label="View Reports"
-                    color={"violet"}
-                    icon={<IconFileDescription />}
-                />
+                    <DashboardNavbarLink
+                        href="/report/view"
+                        label="View Reports"
+                        color={"violet"}
+                        icon={<IconFileDescription />}
+                    />
+                </Stack>
             </Navbar.Section>
 
             <Navbar.Section px={"xs"} mb={"xs"}>
-                <DashboardNavbarTeamButton />
-                <Group position="apart">
+                <Stack spacing={4}>
+                    <DashboardNavbarTeamButton />
+
                     <DashboardNavbarLink
                         href="/account"
                         label={session?.user?.name ?? ""}
@@ -69,13 +74,13 @@ const DashboardNavbar: React.FC = () => {
                     />
                     <DashboardNavbarButton
                         onClick={() => {
-                            signOut()
+                            signOut();
                         }}
-                        label={""}
+                        label={"Logout"}
                         color={"red"}
                         icon={<IconLogout />}
                     />
-                </Group>
+                </Stack>
             </Navbar.Section>
         </Navbar>
     );

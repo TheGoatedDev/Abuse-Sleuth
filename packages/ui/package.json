@@ -2,8 +2,10 @@
     "name": "@abuse-sleuth/ui",
     "version": "0.0.0",
     "exports": {
-        ".": "./index.tsx",
-        "./components": "./components",
+        "./components/atoms": "./components/atoms",
+        "./components/molecules": "./components/molecules",
+        "./components/compounds": "./components/compounds",
+        "./layouts": "./layouts",
         "./hooks": "./hooks",
         "./shared": "./shared",
         "./icons": "./icons.tsx",
