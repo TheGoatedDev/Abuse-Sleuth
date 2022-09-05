@@ -1,7 +1,8 @@
 import { useMantineTheme, Box } from "@mantine/core";
-import { FCC } from "types";
 
-export const StyledLayout: FCC = (props) => {
+import { FCC } from "@abuse-sleuth/ui/types";
+
+export const Layout: FCC = (props) => {
     const theme = useMantineTheme();
 
     const foreground = "#000";

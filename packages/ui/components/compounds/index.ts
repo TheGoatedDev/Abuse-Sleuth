@@ -1,3 +1,3 @@
-export * from "./navigation/DashboardNavbarLink"
-export * from "./navigation/DashboardNavbarTeamButton"
-export * from "./navigation/DashboardNavbarButton"
+export * from "./dashboard/navigation/DashboardNavLink";
+export * from "./dashboard/navigation/DashboardNavTeamButton";
+export * from "./dashboard/navigation/DashboardNavButton";

@@ -17,17 +17,23 @@ import {
     IconUsers,
 } from "@tabler/icons";
 import Link from "next/link";
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 
+import { Session } from "@abuse-sleuth/authentication";
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { Team } from "@abuse-sleuth/prisma";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 
-const Button: React.FC<{ teamData: Team[] | null; activeTeamId?: string }> = (
-    props
-) => {
+const TeamButton = forwardRef<
+    HTMLButtonElement,
+    {
+        teamData: Team[] | undefined;
+        activeTeamId?: string;
+    }
+>(function Button({ teamData, activeTeamId, ...other }, ref) {
     return (
         <UnstyledButton
+            ref={ref}
             sx={(theme) => ({
                 display: "block",
                 width: "100%",
@@ -45,17 +51,17 @@ const Button: React.FC<{ teamData: Team[] | null; activeTeamId?: string }> = (
                             ? theme.colors.dark[6]
                             : theme.colors.gray[0],
                 },
-            })}>
+            })}
+            {...other}>
             <Group position="apart">
                 <Group>
                     <ThemeIcon size={"lg"} color={"cyan"} variant="light">
                         <IconUsers />
                     </ThemeIcon>
                     <Text size="sm">
-                        {props.teamData
-                            ? props.teamData.find(
-                                  (x) => x.id == props.activeTeamId
-                              )?.teamName
+                        {teamData
+                            ? teamData.find((x) => x.id == activeTeamId)
+                                  ?.teamName
                             : "Loading"}
                     </Text>
                 </Group>
@@ -63,29 +69,40 @@ const Button: React.FC<{ teamData: Team[] | null; activeTeamId?: string }> = (
             </Group>
         </UnstyledButton>
     );
+});
+
+type DashboardNavTeamButtonProps = {
+    teams: Team[];
+    session: Session | null;
+    setActiveTeam: (teamId: string) => void;
 };
 
-export const DashboardNavbarTeamButton: React.FC = (props) => {
-    const { data: session } = useSession();
-    const teamGetSelf = trpcClient.teams.getSelf.useQuery();
-    const userSetActiveTeam = trpcClient.users.setActiveTeam.useMutation();
-
+export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
+    props
+) => {
     return (
-        <Menu position="right" width={200}>
+        <Menu position="right" width={200} withArrow>
             <Menu.Target>
-                <Button
-                    data={teamGetSelf.data ?? null}
-                    activeTeamId={session?.user?.activeTeamId ?? undefined}
+                <TeamButton
+                    teamData={props.teams}
+                    activeTeamId={
+                        props.session?.user?.activeTeamId ?? undefined
+                    }
                 />
             </Menu.Target>
 
             <Menu.Dropdown>
                 <Menu.Label>Teams</Menu.Label>
-                {teamGetSelf.data
-                    ? teamGetSelf.data.map((team, i) => (
+                {props.teams
+                    ? props.teams.map((team, i) => (
                           <Menu.Item
                               onClick={() => {
-                                  userSetActiveTeam.mutate({ teamId: team.id });
+                                  if (
+                                      team.id !==
+                                      props.session?.user?.activeTeamId
+                                  ) {
+                                      props.setActiveTeam(team.id);
+                                  }
                               }}
                               key={i}
                               rightSection={

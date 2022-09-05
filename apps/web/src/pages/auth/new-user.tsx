@@ -15,10 +15,10 @@ import {
     Text,
 } from "@abuse-sleuth/ui/components/atoms";
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
-import { StyledLayout } from "@abuse-sleuth/ui/layouts";
 import { MantineColor } from "@abuse-sleuth/ui/types";
 
-import StyledHeader from "@components/navigation/StyledHeader";
+import Navbar from "@components/core/main/Navbar";
+import { Layout } from "@components/core/main/layout";
 
 const NewUser: NextPage = () => {
     const { data: session } = useSession();
@@ -31,8 +31,8 @@ const NewUser: NextPage = () => {
     }, []);
 
     return (
-        <StyledLayout>
-            <StyledHeader />
+        <Layout>
+            <Navbar />
 
             <Group
                 position="center"
@@ -76,7 +76,7 @@ const NewUser: NextPage = () => {
                     </Stack>
                 </Paper>
             </Group>
-        </StyledLayout>
+        </Layout>
     );
 };
 

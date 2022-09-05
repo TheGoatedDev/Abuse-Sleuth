@@ -1,7 +1,8 @@
 import { Text } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FCC } from "types";
+
+import { FCC } from "../../../types";
 
 export type INavLinkProps = {
     href: string;

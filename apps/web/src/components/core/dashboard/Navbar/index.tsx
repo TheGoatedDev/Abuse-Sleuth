@@ -6,11 +6,15 @@ import {
     useSession,
 } from "@abuse-sleuth/authentication/nextjs/client";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
-import { Center, Navbar, Stack } from "@abuse-sleuth/ui/components/atoms";
 import {
-    DashboardNavbarButton,
-    DashboardNavbarLink,
-    DashboardNavbarTeamButton,
+    Center,
+    Navbar as MantineNavbar,
+    Stack,
+} from "@abuse-sleuth/ui/components/atoms";
+import {
+    DashboardNavButton,
+    DashboardNavLink,
+    DashboardNavTeamButton,
 } from "@abuse-sleuth/ui/components/compounds";
 import { useLocalStorage } from "@abuse-sleuth/ui/hooks";
 import {
@@ -21,17 +25,16 @@ import {
     IconUser,
 } from "@abuse-sleuth/ui/icons";
 
-const DashboardNavbar: React.FC = () => {
+const Navbar: React.FC = () => {
     const { data: session } = useSession();
-    const [currentTeamID, setCurrentTeamID] = useLocalStorage({
-        key: "currentTeamID",
-    });
 
-    const teamGetSelf = trpcClient.teams.getSelf.useQuery();
+    const teamGetSelfQuery = trpcClient.teams.getSelf.useQuery();
+    const userSetActiveTeamMutation =
+        trpcClient.users.setActiveTeam.useMutation();
 
     return (
-        <Navbar width={{ base: 250 }}>
-            <Navbar.Section mt="xs">
+        <MantineNavbar width={{ base: 250 }}>
+            <MantineNavbar.Section mt="xs">
                 <Center>
                     <Link href={"/"}>
                         <Image
@@ -43,55 +46,60 @@ const DashboardNavbar: React.FC = () => {
                         />
                     </Link>
                 </Center>
-            </Navbar.Section>
-            <Navbar.Section grow px={"xs"} mt="xs">
+            </MantineNavbar.Section>
+            <MantineNavbar.Section grow px={"xs"} mt="xs">
                 <Stack spacing={4}>
-                    <DashboardNavbarLink
+                    <DashboardNavLink
                         href="/dashboard"
                         label="Home"
                         color={"blue"}
                         icon={<IconDashboard />}
                     />
 
-                    <DashboardNavbarLink
+                    <DashboardNavLink
                         href="/report/new"
                         label="New Report"
                         color={"green"}
                         icon={<IconFilePlus />}
                     />
 
-                    <DashboardNavbarLink
+                    <DashboardNavLink
                         href="/report/view"
                         label="View Reports"
                         color={"violet"}
                         icon={<IconFileDescription />}
                     />
                 </Stack>
-            </Navbar.Section>
+            </MantineNavbar.Section>
 
-            <Navbar.Section px={"xs"} mb={"xs"}>
+            <MantineNavbar.Section px={"xs"} mb={"xs"}>
                 <Stack spacing={4}>
-                    <DashboardNavbarTeamButton />
+                    <DashboardNavTeamButton
+                        teams={teamGetSelfQuery.data ?? []}
+                        session={session}
+                        setActiveTeam={(teamId) => {
+                            userSetActiveTeamMutation.mutate({ teamId });
+                        }}
+                    />
 
-                    <DashboardNavbarLink
+                    <DashboardNavLink
                         href="/account"
                         label={session?.user?.name ?? ""}
                         color={"blue"}
                         icon={<IconUser />}
                     />
-                    <DashboardNavbarButton
+                    <DashboardNavButton
                         onClick={() => {
                             signOut();
-                            setCurrentTeamID("");
                         }}
                         label={"Logout"}
                         color={"red"}
                         icon={<IconLogout />}
                     />
                 </Stack>
-            </Navbar.Section>
-        </Navbar>
+            </MantineNavbar.Section>
+        </MantineNavbar>
     );
 };
 
-export default DashboardNavbar;
+export default Navbar;

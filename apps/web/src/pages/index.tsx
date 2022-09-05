@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 
-//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
-import { StyledLayout } from "@abuse-sleuth/ui/layouts";
 import {
     Button,
     Group,
@@ -13,7 +11,9 @@ import {
 } from "@abuse-sleuth/ui/components/atoms";
 import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
-import StyledHeader from "@components/navigation/StyledHeader";
+//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import Navbar from "@components/core/main/Navbar";
+import { Layout } from "@components/core/main/layout";
 
 const Home: NextPage = () => {
     const theme = useMantineTheme();
@@ -22,8 +22,8 @@ const Home: NextPage = () => {
     //const { data, status } = useSession();
 
     return (
-        <StyledLayout>
-            <StyledHeader />
+        <Layout>
+            <Navbar />
             <Group
                 position="center"
                 sx={(theme) => ({
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
                     )}
                 </SimpleGrid>
             </Group>
-        </StyledLayout>
+        </Layout>
     );
 };
 

@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,10 +14,10 @@ import {
     Text,
 } from "@abuse-sleuth/ui/components/atoms";
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
-import { StyledLayout } from "@abuse-sleuth/ui/layouts";
 import { MantineColor } from "@abuse-sleuth/ui/types";
 
-import StyledHeader from "@components/navigation/StyledHeader";
+import Navbar from "@components/core/main/Navbar";
+import { Layout } from "@components/core/main/layout";
 
 const NameIconConversion: Record<
     string,
@@ -42,8 +42,8 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
     const { callbackUrl } = useRouter().query;
 
     return (
-        <StyledLayout>
-            <StyledHeader />
+        <Layout>
+            <Navbar />
 
             <Group
                 position="center"
@@ -110,15 +110,20 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
                     </Stack>
                 </Paper>
             </Group>
-        </StyledLayout>
+        </Layout>
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const providers = await getProviders();
-    return {
-        props: { providers },
-    };
-};
+export const getServerSideProps: GetServerSideProps = requireNoAuth(
+    async (context) => {
+        const providers = await getProviders();
+
+        return {
+            props: {
+                providers,
+            },
+        };
+    }
+);
 
 export default SignIn;

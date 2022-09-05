@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export const DashboardNavbarButton: React.FC<{
+export const DashboardNavButton: React.FC<{
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
     color?: MantineColor;
     label: string;

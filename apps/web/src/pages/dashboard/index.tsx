@@ -2,14 +2,18 @@ import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
-import { DashboardLayout } from "@abuse-sleuth/ui/layouts";
+import { Title } from "@abuse-sleuth/ui/components/atoms";
 
-import DashboardNavbar from "@components/navigation/DashboardNavbar";
+import { Layout } from "@components/core/dashboard/layout";
 
 const Dashboard: NextPage = () => {
-    return <DashboardLayout navbar={<DashboardNavbar />}></DashboardLayout>;
+    return (
+        <Layout>
+            <Title>OOF</Title>
+        </Layout>
+    );
 };
 
-export const getServerSideProps: GetServerSideProps = requireAuth;
+export const getServerSideProps: GetServerSideProps = requireAuth();
 
 export default Dashboard;
