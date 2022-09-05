@@ -1,13 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-import {
-    nextAuthOptions,
-    unstable_getServerSession,
-} from "@abuse-sleuth/authentication/nextjs";
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
-import { StyledLayout } from "@abuse-sleuth/ui";
 import {
     Group,
     Paper,
@@ -16,14 +13,23 @@ import {
     Button,
     Anchor,
     Text,
-} from "@abuse-sleuth/ui/components";
+} from "@abuse-sleuth/ui/components/atoms";
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
+import { StyledLayout } from "@abuse-sleuth/ui/layouts";
 import { MantineColor } from "@abuse-sleuth/ui/types";
 
 import StyledHeader from "@components/navigation/StyledHeader";
 
 const NewUser: NextPage = () => {
     const { data: session } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        setTimeout(() => {
+            router.push("/dashboard");
+        }, 2000);
+    }, []);
+
     return (
         <StyledLayout>
             <StyledHeader />

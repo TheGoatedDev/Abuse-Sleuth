@@ -1,5 +1,4 @@
-import { NextAuthApiHandler, nextAuthOptions } from "@abuse-sleuth/authentication/nextjs";
+import { nextAuthOptions } from "@abuse-sleuth/authentication";
+import { NextAuthApiHandler } from "@abuse-sleuth/authentication/nextjs";
 
-
-
-export default NextAuthApiHandler(nextAuthOptions)
+export default NextAuthApiHandler(nextAuthOptions);

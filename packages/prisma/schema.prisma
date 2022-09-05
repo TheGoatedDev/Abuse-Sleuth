@@ -5,6 +5,16 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider              = "zod-prisma"
+    output                = "./validator"
+    relationModel         = true
+    modelCase             = "PascalCase"
+    modelSuffix           = "Model"
+    useDecimalJs          = true
+    prismaJsonNullability = true
+}
+
 datasource db {
     provider          = "postgresql"
     url               = env("DATABASE_URL")
@@ -42,12 +52,16 @@ model User {
     id String @id @default(cuid())
 
     name          String?
-    email         String?      @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    teams         UserOnTeam[] // All Teams that user are apart of.
+
+    teams UserOnTeam[] // All Teams that user are apart of.
+
+    activeTeamId String?
+    activeTeam   Team?   @relation(fields: [activeTeamId], references: [id])
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -73,6 +87,7 @@ model Team {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    User      User[]
 }
 
 model UserOnTeam {

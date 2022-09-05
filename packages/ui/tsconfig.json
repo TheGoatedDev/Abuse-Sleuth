@@ -1,8 +1,5 @@
 {
     "extends": "@abuse-sleuth/tsconfig/ui-lib.tsconfig.json",
-    "compilerOptions": {
-        "baseUrl": "."
-    },
     "include": ["**/*.tsx", "**/*.ts"],
     "exclude": ["node_modules"]
 }

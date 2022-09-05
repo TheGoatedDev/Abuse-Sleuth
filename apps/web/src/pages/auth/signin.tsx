@@ -1,12 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-import {
-    nextAuthOptions,
-    unstable_getServerSession,
-} from "@abuse-sleuth/authentication/nextjs";
-import { StyledLayout } from "@abuse-sleuth/ui";
+import { requireNoAuth } from "@abuse-sleuth/authentication/nextjs";
 import {
     Group,
     Paper,
@@ -14,15 +11,13 @@ import {
     Title,
     Button,
     Anchor,
-    Text
-} from "@abuse-sleuth/ui/components";
-import {
-    MantineColor
-} from "@abuse-sleuth/ui/types"
+    Text,
+} from "@abuse-sleuth/ui/components/atoms";
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
+import { StyledLayout } from "@abuse-sleuth/ui/layouts";
+import { MantineColor } from "@abuse-sleuth/ui/types";
 
 import StyledHeader from "@components/navigation/StyledHeader";
-import { useRouter } from "next/router";
 
 const NameIconConversion: Record<
     string,
@@ -44,7 +39,7 @@ const NameIconConversion: Record<
 const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
     providers,
 }) => {
-    const {callbackUrl} = useRouter().query
+    const { callbackUrl } = useRouter().query;
 
     return (
         <StyledLayout>
@@ -90,10 +85,14 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
                                         key={provider.name}
                                         variant={"light"}
                                         color={settings.color}
-                                        onClick={() => signIn(provider.id, {
-                                            callbackUrl: callbackUrl as string | undefined,
-                                            redirect: true
-                                        })}
+                                        onClick={() =>
+                                            signIn(provider.id, {
+                                                callbackUrl: callbackUrl as
+                                                    | string
+                                                    | undefined,
+                                                redirect: true,
+                                            })
+                                        }
                                         leftIcon={settings.icon}>
                                         Sign in with {provider.name}
                                     </Button>
@@ -116,20 +115,6 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await unstable_getServerSession(
-        context.req,
-        context.res,
-        nextAuthOptions
-    );
-    if (session) {
-        return {
-            redirect: {
-                destination: "/dashboard",
-            },
-            props: {},
-        };
-    }
-
     const providers = await getProviders();
     return {
         props: { providers },

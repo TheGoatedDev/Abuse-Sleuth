@@ -5,12 +5,14 @@ import {
     signOut,
     useSession,
 } from "@abuse-sleuth/authentication/nextjs/client";
+import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
+import { Center, Navbar, Stack } from "@abuse-sleuth/ui/components/atoms";
 import {
     DashboardNavbarButton,
     DashboardNavbarLink,
     DashboardNavbarTeamButton,
 } from "@abuse-sleuth/ui/components/compounds";
-import { Center, Navbar, Stack } from "@abuse-sleuth/ui/components/atoms";
+import { useLocalStorage } from "@abuse-sleuth/ui/hooks";
 import {
     IconDashboard,
     IconFileDescription,
@@ -21,6 +23,11 @@ import {
 
 const DashboardNavbar: React.FC = () => {
     const { data: session } = useSession();
+    const [currentTeamID, setCurrentTeamID] = useLocalStorage({
+        key: "currentTeamID",
+    });
+
+    const teamGetSelf = trpcClient.teams.getSelf.useQuery();
 
     return (
         <Navbar width={{ base: 250 }}>
@@ -75,6 +82,7 @@ const DashboardNavbar: React.FC = () => {
                     <DashboardNavbarButton
                         onClick={() => {
                             signOut();
+                            setCurrentTeamID("");
                         }}
                         label={"Logout"}
                         color={"red"}

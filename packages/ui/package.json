@@ -24,6 +24,9 @@
         "typescript": "^4.7.4"
     },
     "dependencies": {
+        "@abuse-sleuth/auth": "*",
+        "@abuse-sleuth/prisma": "*",
+        "@abuse-sleuth/trpc": "*",
         "@emotion/react": "^11.10.0",
         "@emotion/server": "^11.10.0",
         "@mantine/core": "^5.2.0",

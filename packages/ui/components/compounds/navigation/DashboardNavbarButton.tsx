@@ -10,9 +10,9 @@ import { useRouter } from "next/router";
 
 export const DashboardNavbarButton: React.FC<{
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-    color: MantineColor;
+    color?: MantineColor;
     label: string;
-    icon: JSX.Element;
+    icon?: JSX.Element;
 }> = (props) => {
     return (
         <UnstyledButton
@@ -36,9 +36,15 @@ export const DashboardNavbarButton: React.FC<{
                 },
             })}>
             <Group>
-                <ThemeIcon size={"lg"} color={props.color} variant="light">
-                    {props.icon}
-                </ThemeIcon>
+                {props.icon && (
+                    <ThemeIcon
+                        size={"lg"}
+                        color={props.color ?? "blue"}
+                        variant="light">
+                        {props.icon}
+                    </ThemeIcon>
+                )}
+
                 {props.label ? <Text size="sm">{props.label}</Text> : null}
             </Group>
         </UnstyledButton>
