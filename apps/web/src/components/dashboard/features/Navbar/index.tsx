@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { NextLink } from "@mantine/next";
 import Link from "next/link";
 
 import {
@@ -10,12 +10,18 @@ import {
     Center,
     Navbar as MantineNavbar,
     Stack,
+    Image,
+    Menu,
+    Divider,
+    Group,
 } from "@abuse-sleuth/ui/components/atoms";
 import {
+    DashboardNavAccount,
     DashboardNavButton,
     DashboardNavLink,
     DashboardNavTeamButton,
 } from "@abuse-sleuth/ui/components/compounds";
+import { ThemeSwitcher } from "@abuse-sleuth/ui/components/molecules/";
 import { useLocalStorage } from "@abuse-sleuth/ui/hooks";
 import {
     IconDashboard,
@@ -25,13 +31,10 @@ import {
     IconUser,
 } from "@abuse-sleuth/ui/icons";
 
+import { NavAccount } from "./NavAccount";
+import { NavTeamSelector } from "./NavTeamSelector";
+
 const Navbar: React.FC = () => {
-    const { data: session } = useSession();
-
-    const teamGetSelfQuery = trpcClient.teams.getSelf.useQuery();
-    const userSetActiveTeamMutation =
-        trpcClient.users.setActiveTeam.useMutation();
-
     return (
         <MantineNavbar width={{ base: 250 }}>
             <MantineNavbar.Section mt="xs">
@@ -39,7 +42,6 @@ const Navbar: React.FC = () => {
                     <Link href={"/"}>
                         <Image
                             src="/logo.svg"
-                            layout="fixed"
                             width={"45px"}
                             height={"60px"}
                             alt="Abuse Sleuth Logo"
@@ -57,45 +59,25 @@ const Navbar: React.FC = () => {
                     />
 
                     <DashboardNavLink
-                        href="/report/new"
+                        href="/reports/new"
                         label="New Report"
                         color={"green"}
                         icon={<IconFilePlus />}
                     />
 
                     <DashboardNavLink
-                        href="/report/view"
+                        href="/reports/view"
                         label="View Reports"
                         color={"violet"}
                         icon={<IconFileDescription />}
                     />
                 </Stack>
             </MantineNavbar.Section>
-
+            <Divider my="sm" />
             <MantineNavbar.Section px={"xs"} mb={"xs"}>
                 <Stack spacing={4}>
-                    <DashboardNavTeamButton
-                        teams={teamGetSelfQuery.data ?? []}
-                        session={session}
-                        setActiveTeam={(teamId) => {
-                            userSetActiveTeamMutation.mutate({ teamId });
-                        }}
-                    />
-
-                    <DashboardNavLink
-                        href="/account"
-                        label={session?.user?.name ?? ""}
-                        color={"blue"}
-                        icon={<IconUser />}
-                    />
-                    <DashboardNavButton
-                        onClick={() => {
-                            signOut();
-                        }}
-                        label={"Logout"}
-                        color={"red"}
-                        icon={<IconLogout />}
-                    />
+                    <NavTeamSelector />
+                    <NavAccount />
                 </Stack>
             </MantineNavbar.Section>
         </MantineNavbar>

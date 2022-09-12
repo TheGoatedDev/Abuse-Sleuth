@@ -35,3 +35,21 @@ export const Layout: FCC = (props) => {
         </Box>
     );
 };
+
+export const AltLayout: FCC = (props) => {
+    const theme = useMantineTheme();
+
+    const foreground = "#000";
+    const opacity = "0.30";
+    const color = theme.colors.violet[6];
+
+    return (
+        <Box
+            sx={(theme) => ({
+                height: "100vh",
+                width: "100vw",
+            })}>
+            {props.children}
+        </Box>
+    );
+};

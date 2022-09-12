@@ -6,6 +6,7 @@ import {
     UnstyledButton,
     Menu,
     ActionIcon,
+    Stack,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import {
@@ -72,7 +73,7 @@ const TeamButton = forwardRef<
 });
 
 type DashboardNavTeamButtonProps = {
-    teams: Team[];
+    teamsWithPlan: { team: Team; planName: string }[];
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
 };
@@ -81,10 +82,10 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
     props
 ) => {
     return (
-        <Menu position="right" width={200} withArrow>
+        <Menu position="right-end" width={200}>
             <Menu.Target>
                 <TeamButton
-                    teamData={props.teams}
+                    teamData={props.teamsWithPlan.map((x) => x.team)}
                     activeTeamId={
                         props.session?.user?.activeTeamId ?? undefined
                     }
@@ -93,35 +94,46 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
 
             <Menu.Dropdown>
                 <Menu.Label>Teams</Menu.Label>
-                {props.teams
-                    ? props.teams.map((team, i) => (
+                {props.teamsWithPlan
+                    ? props.teamsWithPlan.map((teamWithPlan, i) => (
                           <Menu.Item
                               onClick={() => {
                                   if (
-                                      team.id !==
+                                      teamWithPlan.team.id !==
                                       props.session?.user?.activeTeamId
                                   ) {
-                                      props.setActiveTeam(team.id);
+                                      props.setActiveTeam(teamWithPlan.team.id);
                                   }
                               }}
                               key={i}
                               rightSection={
-                                  <Link href={`/team/${team.id}`} passHref>
-                                      <ActionIcon component="a">
+                                  <Link
+                                      href={`/teams/${teamWithPlan.team.id}`}
+                                      passHref>
+                                      <ActionIcon component="a" color={"dark"}>
                                           <IconDots size={"20px"} />
                                       </ActionIcon>
                                   </Link>
                               }>
                               <Group>
-                                  {team.locked && <IconLock size={"18px"} />}
-                                  <Text lineClamp={1}>{team.teamName}</Text>
+                                  {teamWithPlan.team.locked && (
+                                      <IconLock size={"18px"} />
+                                  )}
+                                  <Stack spacing={0}>
+                                      <Text lineClamp={1}>
+                                          {teamWithPlan.team.teamName}
+                                      </Text>
+                                      <Text size="xs" color={"dimmed"}>
+                                          Plan: {teamWithPlan.planName}
+                                      </Text>
+                                  </Stack>
                               </Group>
                           </Menu.Item>
                       ))
                     : "Loading"}
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
-                <Link href={"/team/create"} passHref>
+                <Link href={"/teams/create"} passHref>
                     <Menu.Item component="a" icon={<IconPlus />}>
                         Create Team
                     </Menu.Item>

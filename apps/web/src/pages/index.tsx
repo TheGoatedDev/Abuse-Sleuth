@@ -12,8 +12,8 @@ import {
 import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
 //import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
-import Navbar from "@components/core/main/Navbar";
-import { Layout } from "@components/core/main/layout";
+import Navbar from "@components/main/features/Navbar";
+import { Layout } from "@components/main/layouts";
 
 const Home: NextPage = () => {
     const theme = useMantineTheme();

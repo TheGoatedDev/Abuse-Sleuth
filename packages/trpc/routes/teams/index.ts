@@ -6,24 +6,44 @@ import { prisma } from "@abuse-sleuth/prisma";
 import { trpc } from "../../initTRPC";
 
 export const teamsRouter = trpc.router({
-    getSelf: trpc.procedure.query((context) => {
-        if (!context.ctx.session) {
+    getSelfAllTeam: trpc.procedure.query(async (opts) => {
+        if (!opts.ctx.session) {
             throw new TRPCError({
                 message: "No User Session Found",
                 code: "UNAUTHORIZED",
             });
         }
 
-        return prisma.team.findMany({
+        return await prisma.team.findMany({
             where: {
                 users: {
                     some: {
                         user: {
-                            id: context.ctx.session.user?.id,
+                            id: opts.ctx.session.user?.id,
                         },
                     },
                 },
             },
         });
+    }),
+
+    getSelfActiveTeam: trpc.procedure.query(async (opts) => {
+        if (!opts.ctx.session) {
+            throw new TRPCError({
+                message: "No User Session Found",
+                code: "UNAUTHORIZED",
+            });
+        }
+
+        const userWithActiveTeam = await prisma.user.findUnique({
+            where: {
+                id: opts.ctx.session.user?.id,
+            },
+            include: {
+                activeTeam: true,
+            },
+        });
+
+        return userWithActiveTeam?.activeTeam;
     }),
 });

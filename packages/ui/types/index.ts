@@ -1,6 +1,8 @@
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
 // Custom Type for a React functional component with props AND CHILDREN
-export type FCC<P = {}> = FC<P & { children: JSX.Element | JSX.Element[] }>;
+export type FCC<P = {}> = FC<
+    P & { children?: JSX.Element | JSX.Element[] | string }
+>;
 
-export { MantineColor } from "@mantine/core"
+export type { MantineColor, ColorScheme } from "@mantine/core";

@@ -17,8 +17,8 @@ import {
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 import { MantineColor } from "@abuse-sleuth/ui/types";
 
-import Navbar from "@components/core/main/Navbar";
-import { Layout } from "@components/core/main/layout";
+import Navbar from "@components/main/features/Navbar";
+import { Layout } from "@components/main/layouts";
 
 const NewUser: NextPage = () => {
     const { data: session } = useSession();
