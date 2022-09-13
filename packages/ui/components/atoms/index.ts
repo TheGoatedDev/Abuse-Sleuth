@@ -16,3 +16,4 @@ export * from "./List";
 export * from "./Grid";
 export * from "./Menu";
 export * from "./ActionIcon";
+export * from "./Skeleton";

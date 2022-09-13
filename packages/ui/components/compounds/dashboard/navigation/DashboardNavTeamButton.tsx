@@ -11,6 +11,7 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 import {
     IconArrowRight,
+    IconChevronRight,
     IconDots,
     IconEdit,
     IconLock,
@@ -66,7 +67,7 @@ const TeamButton = forwardRef<
                             : "Loading"}
                     </Text>
                 </Group>
-                <IconArrowRight />
+                <IconChevronRight size={18} stroke={2} />
             </Group>
         </UnstyledButton>
     );

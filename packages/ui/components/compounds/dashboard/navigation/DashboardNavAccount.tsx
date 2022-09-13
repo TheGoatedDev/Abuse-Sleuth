@@ -69,7 +69,7 @@ export function DashboardNavAccount({
                             </Stack>
                         </Group>
 
-                        {icon || <IconChevronRight size={14} stroke={1.5} />}
+                        {icon || <IconChevronRight size={18} stroke={2} />}
                     </Group>
                 </UnstyledButton>
             </Menu.Target>
