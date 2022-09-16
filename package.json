@@ -19,6 +19,7 @@
         "ui": "yarn workspace @abuse-sleuth/ui",
         "prisma": "yarn workspace @abuse-sleuth/prisma",
         "trpc": "yarn workspace @abuse-sleuth/trpc",
+        "stripe": "yarn workspace @abuse-sleuth/stripe",
         "auth": "yarn workspace @abuse-sleuth/authentication",
         "--------- Scripts ---------": "",
         "env:unlink": "node scripts/env/unlink.js",

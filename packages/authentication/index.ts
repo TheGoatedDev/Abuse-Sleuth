@@ -4,6 +4,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "@abuse-sleuth/prisma";
+import stripe, { Stripe } from "@abuse-sleuth/stripe";
 
 export const nextAuthOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -48,31 +49,68 @@ export const nextAuthOptions: NextAuthOptions = {
     },
     events: {
         createUser: async ({ user }) => {
-            const team = await prisma.team.create({
-                data: {
-                    teamName: "Personal",
-                    locked: true,
-                    users: {
-                        create: {
-                            role: "OWNER",
-                            user: {
-                                connect: {
-                                    id: user.id as string,
+            try {
+                const stripeCustomer = await stripe.customers.create({
+                    metadata: {
+                        databaseUserId: user.id,
+                    },
+                });
+
+                const stripeProducts = await stripe.products.list({
+                    active: true,
+                    expand: ["data.default_price"],
+                });
+
+                const sortedProducts = stripeProducts.data.sort((a, b) => {
+                    const aPrice = a.default_price as Stripe.Price;
+                    const bPrice = b.default_price as Stripe.Price;
+
+                    return (
+                        (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0)
+                    );
+                });
+
+                const stripeSub = await stripe.subscriptions.create({
+                    customer: stripeCustomer.id,
+                    items: [
+                        {
+                            price: (
+                                sortedProducts[0].default_price as Stripe.Price
+                            ).id,
+                        },
+                    ],
+                });
+
+                const team = await prisma.team.create({
+                    data: {
+                        teamName: "Personal",
+                        locked: true,
+                        stripeSubId: stripeSub.id,
+                        users: {
+                            create: {
+                                role: "OWNER",
+                                user: {
+                                    connect: {
+                                        id: user.id as string,
+                                    },
                                 },
                             },
                         },
                     },
-                },
-            });
+                });
 
-            await prisma.user.update({
-                data: {
-                    activeTeamId: team.id,
-                },
-                where: {
-                    email: user.email as string,
-                },
-            });
+                await prisma.user.update({
+                    data: {
+                        activeTeamId: team.id,
+                        stripeCustomerId: stripeCustomer.id,
+                    },
+                    where: {
+                        email: user.email as string,
+                    },
+                });
+            } catch (error) {
+                throw new Error(error);
+            }
         },
     },
 };

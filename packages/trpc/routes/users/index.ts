@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { prisma } from "@abuse-sleuth/prisma";
+import stripe from "@abuse-sleuth/stripe";
 
 import { trpc } from "../../initTRPC";
 
@@ -19,6 +20,27 @@ export const usersRouter = trpc.router({
                 id: opts.ctx.session.user?.id,
             },
         });
+    }),
+
+    getBillingPortal: trpc.procedure.query(async (opts) => {
+        if (!opts.ctx.session) {
+            throw new TRPCError({
+                message: "No User Session Found",
+                code: "UNAUTHORIZED",
+            });
+        }
+
+        const user = await prisma.user.findFirst({
+            where: {
+                id: opts.ctx.session.user?.id,
+            },
+        });
+
+        const session = await stripe.billingPortal.sessions.create({
+            customer: user?.stripeCustomerId ?? "",
+        });
+
+        return session.url;
     }),
 
     setActiveTeam: trpc.procedure

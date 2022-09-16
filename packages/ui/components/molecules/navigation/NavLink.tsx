@@ -9,11 +9,7 @@ export type INavLinkProps = {
     color?: string;
 };
 
-export const NavLink: FCC<INavLinkProps> = ({
-    href,
-    color = "#FFF",
-    children,
-}) => {
+export const NavLink: FCC<INavLinkProps> = ({ href, color, children }) => {
     const router = useRouter();
     const isActive = router.pathname === href;
 
@@ -22,11 +18,22 @@ export const NavLink: FCC<INavLinkProps> = ({
             <Text
                 weight={"bold"}
                 sx={(theme) => ({
-                    color: color,
+                    color: color
+                        ? color
+                        : theme.colorScheme === "dark"
+                        ? theme.colors.dark[0]
+                        : theme.black,
                     textDecoration: isActive ? "underline" : "none",
                     transition: "color 0.2s ease-in-out",
                     "&:hover": {
-                        color: theme.fn.darken(color, 0.1),
+                        color: theme.fn.darken(
+                            color
+                                ? color
+                                : theme.colorScheme === "dark"
+                                ? theme.colors.dark[0]
+                                : theme.black,
+                            0.1
+                        ),
                     },
                 })}
                 component="a">

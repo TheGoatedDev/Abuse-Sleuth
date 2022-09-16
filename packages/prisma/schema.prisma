@@ -51,6 +51,8 @@ model Session {
 model User {
     id String @id @default(cuid())
 
+    stripeCustomerId String?
+
     name          String?
     email         String?   @unique
     emailVerified DateTime?
@@ -79,8 +81,9 @@ model Team {
     id String @id @default(cuid())
 
     // Fields
-    teamName String
-    locked   Boolean @default(false)
+    stripeSubId String?
+    teamName    String
+    locked      Boolean @default(false)
 
     // Relationships
     users UserOnTeam[]

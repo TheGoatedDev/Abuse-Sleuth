@@ -35,7 +35,6 @@ const useStyles = createStyles((theme) => ({
 interface UserButtonProps extends UnstyledButtonProps {
     image: string;
     name: string;
-    email: string;
     icon?: React.ReactNode;
     menuContents: React.ReactNode;
     menuPosition?: FloatingPosition;
@@ -44,7 +43,6 @@ interface UserButtonProps extends UnstyledButtonProps {
 export function DashboardNavAccount({
     image,
     name,
-    email,
     icon,
     menuContents,
     menuPosition,
@@ -60,13 +58,7 @@ export function DashboardNavAccount({
                         <Group>
                             <Avatar src={image} size={32} radius="sm" />
 
-                            <Stack spacing={0}>
-                                <Text size="sm">{name}</Text>
-
-                                <Text color="dimmed" size="xs" lineClamp={1}>
-                                    {email}
-                                </Text>
-                            </Stack>
+                            <Text size="sm">{name}</Text>
                         </Group>
 
                         {icon || <IconChevronRight size={18} stroke={2} />}

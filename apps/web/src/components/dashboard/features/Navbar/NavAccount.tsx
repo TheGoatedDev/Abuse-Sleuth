@@ -5,18 +5,19 @@ import {
     signOut,
     useSession,
 } from "@abuse-sleuth/authentication/nextjs/client";
+import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { Menu } from "@abuse-sleuth/ui/components/atoms";
 import { DashboardNavAccount } from "@abuse-sleuth/ui/components/compounds";
-import { IconUser, IconLogout } from "@abuse-sleuth/ui/icons";
+import { IconUser, IconLogout, IconCash } from "@abuse-sleuth/ui/icons";
 import { FCC } from "@abuse-sleuth/ui/types";
 
 export const NavAccount: React.FC = () => {
     const { data: session } = useSession();
+    const getBillingPortalQuery = trpcClient.users.getBillingPortal.useQuery();
 
     return (
         <DashboardNavAccount
             name={session?.user?.name ?? ""}
-            email={session?.user?.email ?? ""}
             image={session?.user?.image ?? ""}
             menuPosition="right-end"
             menuContents={
@@ -26,6 +27,12 @@ export const NavAccount: React.FC = () => {
                         href="/account"
                         icon={<IconUser size={"18px"} />}>
                         View Account
+                    </Menu.Item>
+                    <Menu.Item
+                        component="a"
+                        href={getBillingPortalQuery.data ?? "#"}
+                        icon={<IconCash size={"18px"} />}>
+                        View Billing
                     </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item

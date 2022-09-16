@@ -3,6 +3,7 @@ import { CompleteUserOnTeam, RelatedUserOnTeamModel, CompleteUser, RelatedUserMo
 
 export const TeamModel = z.object({
   id: z.string(),
+  stripeSubId: z.string().nullish(),
   teamName: z.string(),
   locked: z.boolean(),
   createdAt: z.date(),

@@ -3,7 +3,13 @@ import Link from "next/link";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
-import { Group, Skeleton, Title } from "@abuse-sleuth/ui/components/atoms";
+import {
+    Group,
+    SimpleGrid,
+    Skeleton,
+    Title,
+} from "@abuse-sleuth/ui/components/atoms";
+import { StatsCard } from "@abuse-sleuth/ui/components/compounds";
 
 import { Layout } from "@components/dashboard/layouts";
 
@@ -13,7 +19,7 @@ const Dashboard: NextPage = () => {
 
     return (
         <Layout>
-            <Group>
+            <Group mb="md">
                 <Title>
                     Dashboard for{" "}
                     {!getSelfActiveTeamQuery.isLoading &&
@@ -24,6 +30,26 @@ const Dashboard: NextPage = () => {
                     <Skeleton width={"20%"} height={"32px"} />
                 )}
             </Group>
+            <SimpleGrid cols={3}>
+                <StatsCard
+                    label={"Scan Count"}
+                    progress={{ current: 1000, max: 10000 }}
+                    color={"indigo"}
+                    icon={"unchanged"}
+                />
+                <StatsCard
+                    label={"Reports Done"}
+                    progress={50}
+                    color={"violet"}
+                    icon={"up"}
+                />
+                <StatsCard
+                    label={"Report Count"}
+                    progress={{ current: 10, max: 30 }}
+                    color={"grape"}
+                    icon={"unchanged"}
+                />
+            </SimpleGrid>
         </Layout>
     );
 };
