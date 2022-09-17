@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
