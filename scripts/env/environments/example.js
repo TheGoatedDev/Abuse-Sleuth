@@ -14,7 +14,10 @@ const envVars = {
             "NEXTAUTH_GOOGLE_SECRET": "",
 
             "NEXTAUTH_GITHUB_ID": "",
-            "NEXTAUTH_GITHUB_SECRET": ""
+            "NEXTAUTH_GITHUB_SECRET": "",
+
+            // Stripe
+            "STRIPE_SECRET": ""
 
 
         }
