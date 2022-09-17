@@ -109,7 +109,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                               key={i}
                               rightSection={
                                   <Link
-                                      href={`/teams/${teamWithPlan.team.id}`}
+                                      href={`/team/view/${teamWithPlan.team.id}`}
                                       passHref>
                                       <ActionIcon component="a" color={"dark"}>
                                           <IconDots size={"20px"} />
@@ -134,7 +134,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                     : "Loading"}
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
-                <Link href={"/teams/create"} passHref>
+                <Link href={"/team/create"} passHref>
                     <Menu.Item component="a" icon={<IconPlus />}>
                         Create Team
                     </Menu.Item>
