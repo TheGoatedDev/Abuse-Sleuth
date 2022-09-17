@@ -19,7 +19,8 @@
 				"EditorConfig.EditorConfig",
 				"mikestead.dotenv",
 				"esbenp.prettier-vscode",
-				"christian-kohler.npm-intellisense"
+				"christian-kohler.npm-intellisense",
+                "Prisma.prisma"
 			]
 		}
 	},
