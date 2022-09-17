@@ -32,7 +32,6 @@ const PricingCard: React.FC<{
                         {props.product.name}
                     </Text>
                     <Title align="center" order={1}>
-                        {/* TODO: Make it Display Correctly */}
                         {((props.price.unit_amount ?? 0) / 100).toLocaleString(
                             "en-GB",
                             {
