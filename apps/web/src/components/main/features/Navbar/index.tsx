@@ -18,16 +18,19 @@ const StyledHeader: React.FC = (props) => {
                 />
             </Link>
             <Group position="right" spacing="xl">
-                <NavLink href="/pricing">Pricing</NavLink>
-                <Space h="xl" />
-                <NavLink
-                    href={
-                        status == "authenticated"
-                            ? "/dashboard"
-                            : "/api/auth/signin/google"
-                    }>
-                    {status == "authenticated" ? "Dashboard" : "Login / Signup"}
+                <NavLink href="/pricing" color="#FFF">
+                    Pricing
                 </NavLink>
+                <Space h="xl" />
+                {status === "authenticated" ? (
+                    <NavLink href="/dashboard" color="#FFF">
+                        Dashboard
+                    </NavLink>
+                ) : (
+                    <NavLink href="/auth/signin" color="#FFF">
+                        Login / Signup
+                    </NavLink>
+                )}
             </Group>
         </Group>
     );
