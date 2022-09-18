@@ -32,6 +32,7 @@
         "@mantine/modals": "^5.2.0",
         "@mantine/next": "^5.3.0",
         "@mantine/notifications": "^5.2.0",
-        "@tabler/icons": "^1.91.0"
+        "@tabler/icons": "^1.91.0",
+        "zod": "^3.19.1"
     }
 }

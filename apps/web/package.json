@@ -15,12 +15,13 @@
     "dependencies": {
         "@abuse-sleuth/authentication": "*",
         "@abuse-sleuth/prisma": "*",
+        "@abuse-sleuth/stripe": "*",
         "@abuse-sleuth/trpc": "*",
         "@abuse-sleuth/ui": "*",
-        "@abuse-sleuth/stripe": "*",
         "next": "^12.3.0",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "zod": "^3.19.1"
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",

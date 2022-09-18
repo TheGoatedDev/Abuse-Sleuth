@@ -1,11 +1,10 @@
-// TODO: Create Route Helpers to assist in changing routes/path globally
 export const routes = {
     home: "/",
     pricing: "/pricing",
 
     auth: {
-        newUser: "/auth/new-user",
-        login: "/auth/sign-in",
+        newUser: "/auth/newuser",
+        login: "/auth/signin",
     },
     account: {
         viewCurrentAccount: "/account",

@@ -32,6 +32,7 @@
         "zod-prisma": "^0.5.4"
     },
     "dependencies": {
-        "@prisma/client": "^4.2.1"
+        "@prisma/client": "^4.2.1",
+        "@abuse-sleuth/stripe": "*"
     }
 }

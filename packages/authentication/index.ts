@@ -30,7 +30,7 @@ export const nextAuthOptions: NextAuthOptions = {
         signOut: "/auth/signout",
         error: "/auth/error",
         verifyRequest: "/auth/verify-request",
-        newUser: "/auth/new-user",
+        newUser: "/auth/newuser",
     },
     callbacks: {
         session: async (context) => {
@@ -42,7 +42,7 @@ export const nextAuthOptions: NextAuthOptions = {
                 where: { email: context.user.email },
             });
 
-            context.session.user = dbUser;
+            context.session.user.context.session.user = dbUser;
 
             return context.session;
         },

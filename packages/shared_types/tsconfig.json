@@ -3,6 +3,6 @@
     "compilerOptions": {
         "baseUrl": "."
     },
-    "include": ["**/*.ts", "../shared_types/next-auth.d.ts"],
+    "include": ["**/*.ts"],
     "exclude": ["node_modules"]
 }
