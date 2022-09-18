@@ -51,6 +51,7 @@ export const nextAuthOptions: NextAuthOptions = {
         createUser: async ({ user }) => {
             try {
                 const stripeCustomer = await stripe.customers.create({
+                    email: user.email as string,
                     metadata: {
                         databaseUserId: user.id,
                     },
