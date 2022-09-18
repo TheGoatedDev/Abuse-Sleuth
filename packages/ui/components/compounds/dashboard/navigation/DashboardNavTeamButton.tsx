@@ -110,7 +110,9 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                               key={i}
                               rightSection={
                                   <Link
-                                      href={props.hrefGenerator(teamWithPlan.team.id)}
+                                      href={props.hrefGenerator(
+                                          teamWithPlan.team.id
+                                      )}
                                       passHref>
                                       <ActionIcon component="a" color={"dark"}>
                                           <IconDots size={"20px"} />

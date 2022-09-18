@@ -1,12 +1,7 @@
-import { AppShell } from "@mantine/core";
-import { NextLink } from "@mantine/next";
-
-import {
-    signOut,
-    useSession,
-} from "@abuse-sleuth/authentication/nextjs/client";
+import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { DashboardNavTeamButton } from "@abuse-sleuth/ui/components/compounds";
+
 import routes from "@utils/routes";
 
 export const NavTeamSelector: React.FC = () => {

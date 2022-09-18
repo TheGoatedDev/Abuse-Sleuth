@@ -5,13 +5,13 @@ export const routes = {
 
     auth: {
         newUser: "/auth/new-user",
-        login: "/auth/sign-in"
+        login: "/auth/sign-in",
     },
     account: {
-        viewCurrentAccount: "/account"
+        viewCurrentAccount: "/account",
     },
     dashboard: {
-        home: "/"
+        home: "/",
     },
     team: {
         viewAllTeams: "/team/",
@@ -21,8 +21,7 @@ export const routes = {
     report: {
         viewAllReports: "/report/",
         createNewReport: "/report/create",
-    }
-
+    },
 };
 
 export default routes;

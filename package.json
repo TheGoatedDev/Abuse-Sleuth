@@ -43,6 +43,7 @@
         "envfile": "^6.17.0",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.7.1",
+        "prettier-plugin-organize-imports": "^3.1.1",
         "rimraf": "^3.0.2",
         "turbo": "latest"
     },

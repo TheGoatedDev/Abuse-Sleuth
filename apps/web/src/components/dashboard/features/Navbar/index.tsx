@@ -31,9 +31,10 @@ import {
     IconUser,
 } from "@abuse-sleuth/ui/icons";
 
+import routes from "@utils/routes";
+
 import { NavAccount } from "./NavAccount";
 import { NavTeamSelector } from "./NavTeamSelector";
-import routes from "@utils/routes";
 
 const Navbar: React.FC = () => {
     return (

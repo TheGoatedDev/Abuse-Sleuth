@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { Group, Space, Text, Image } from "@abuse-sleuth/ui/components/atoms";
 import { NavLink } from "@abuse-sleuth/ui/components/molecules";
+
 import routes from "@utils/routes";
 
 const StyledHeader: React.FC = (props) => {
