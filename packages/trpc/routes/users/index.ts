@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { prisma } from "@abuse-sleuth/prisma";
+import { prisma, Team } from "@abuse-sleuth/prisma";
 import stripe from "@abuse-sleuth/stripe";
 
 import { trpc } from "../../initTRPC";
@@ -63,6 +63,9 @@ export const usersRouter = trpc.router({
                     userId: opts.ctx.session.user?.id,
                     teamId: opts.input.teamId,
                 },
+                include: {
+                    team: true,
+                },
             });
 
             if (!userOnTeam) {
@@ -81,6 +84,6 @@ export const usersRouter = trpc.router({
                 },
             });
 
-            return true;
+            return userOnTeam.team as Team;
         }),
 });

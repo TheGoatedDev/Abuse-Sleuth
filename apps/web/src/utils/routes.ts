@@ -11,7 +11,7 @@ export const routes = {
         viewCurrentAccount: "/account",
     },
     dashboard: {
-        home: "/",
+        home: "/dashboard/",
     },
     team: {
         viewAllTeams: "/team/",

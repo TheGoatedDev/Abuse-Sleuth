@@ -24,10 +24,9 @@ import { Team } from "@abuse-sleuth/prisma";
 const TeamButton = forwardRef<
     HTMLButtonElement,
     {
-        teamData: Team[] | undefined;
-        activeTeamId?: string;
+        teamData?: Team;
     }
->(function Button({ teamData, activeTeamId, ...other }, ref) {
+>(function Button({ teamData, ...other }, ref) {
     return (
         <UnstyledButton
             ref={ref}
@@ -55,12 +54,7 @@ const TeamButton = forwardRef<
                     <ThemeIcon size={"lg"} color={"cyan"} variant="light">
                         <IconUsers />
                     </ThemeIcon>
-                    <Text size="sm">
-                        {teamData
-                            ? teamData.find((x) => x.id == activeTeamId)
-                                  ?.teamName
-                            : "Loading"}
-                    </Text>
+                    <Text size="sm">{teamData ? teamData.teamName : ""}</Text>
                 </Group>
                 <IconChevronRight size={18} stroke={2} />
             </Group>
@@ -75,6 +69,7 @@ type DashboardNavTeamButtonProps = {
     teamViewAllhref: string;
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
+    activeTeam?: Team;
 };
 
 // TODO: Simplify This (Move the hrefs away from here)
@@ -85,12 +80,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
     return (
         <Menu position="right-end" width={200}>
             <Menu.Target>
-                <TeamButton
-                    teamData={props.teamsWithPlan.map((x) => x.team)}
-                    activeTeamId={
-                        props.session?.user?.activeTeamId ?? undefined
-                    }
-                />
+                <TeamButton teamData={props.activeTeam} />
             </Menu.Target>
 
             <Menu.Dropdown>
@@ -99,12 +89,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                     ? props.teamsWithPlan.map((teamWithPlan, i) => (
                           <Menu.Item
                               onClick={() => {
-                                  if (
-                                      teamWithPlan.team.id !==
-                                      props.session?.user?.activeTeamId
-                                  ) {
-                                      props.setActiveTeam(teamWithPlan.team.id);
-                                  }
+                                  props.setActiveTeam(teamWithPlan.team.id);
                               }}
                               key={i}
                               rightSection={

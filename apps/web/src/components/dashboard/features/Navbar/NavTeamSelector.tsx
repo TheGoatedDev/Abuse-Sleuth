@@ -26,6 +26,12 @@ export const NavTeamSelector: React.FC = () => {
             setActiveTeam={(teamId) => {
                 userSetActiveTeamMutation.mutate({ teamId });
             }}
+            activeTeam={
+                userSetActiveTeamMutation.data ??
+                getSelfAllTeamQuery.data?.find(
+                    (x) => x.id === session?.user?.activeTeamId
+                )
+            }
         />
     );
 };

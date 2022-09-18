@@ -37,7 +37,7 @@ export const trpcClient = setupTRPC<AppRouter>({
             queryClientConfig: {
                 defaultOptions: {
                     queries: {
-                        refetchOnMount: false,
+                        refetchInterval: 5000,
                     },
                 },
             },
