@@ -10,6 +10,8 @@ import { useForm } from "@abuse-sleuth/ui/hooks";
 import { Layout } from "@components/dashboard/layouts";
 import routes from "@utils/routes";
 
+// TODO: Make the Form Pretty
+
 const TeamCreate: NextPage = () => {
     const createNewTeamMutation = trpcClient.teams.createNewTeam.useMutation();
 

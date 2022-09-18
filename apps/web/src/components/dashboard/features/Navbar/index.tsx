@@ -1,34 +1,17 @@
-import { NextLink } from "@mantine/next";
 import Link from "next/link";
 
 import {
-    signOut,
-    useSession,
-} from "@abuse-sleuth/authentication/nextjs/client";
-import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
-import {
     Center,
+    Divider,
+    Image,
     Navbar as MantineNavbar,
     Stack,
-    Image,
-    Menu,
-    Divider,
-    Group,
 } from "@abuse-sleuth/ui/components/atoms";
-import {
-    DashboardNavAccount,
-    DashboardNavButton,
-    DashboardNavLink,
-    DashboardNavTeamButton,
-} from "@abuse-sleuth/ui/components/compounds";
-import { ThemeSwitcher } from "@abuse-sleuth/ui/components/molecules/";
-import { useLocalStorage } from "@abuse-sleuth/ui/hooks";
+import { DashboardNavLink } from "@abuse-sleuth/ui/components/compounds";
 import {
     IconDashboard,
     IconFileDescription,
     IconFilePlus,
-    IconLogout,
-    IconUser,
 } from "@abuse-sleuth/ui/icons";
 
 import routes from "@utils/routes";
@@ -38,7 +21,7 @@ import { NavTeamSelector } from "./NavTeamSelector";
 
 const Navbar: React.FC = () => {
     return (
-        <MantineNavbar width={{ base: 250 }}>
+        <MantineNavbar width={{ base: 300 }}>
             <MantineNavbar.Section mt="xs">
                 <Center>
                     <Link href={routes.home}>
