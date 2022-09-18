@@ -20,6 +20,8 @@ export const NavTeamSelector: React.FC = () => {
                 })) ?? []
             }
             hrefGenerator={(id) => routes.team.viewSingleTeam(id)}
+            teamCreatehref={routes.team.createNewTeam}
+            teamViewAllhref={routes.team.viewAllTeams}
             session={session}
             setActiveTeam={(teamId) => {
                 userSetActiveTeamMutation.mutate({ teamId });

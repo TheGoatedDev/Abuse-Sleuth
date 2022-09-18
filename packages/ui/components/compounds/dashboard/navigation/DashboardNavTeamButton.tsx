@@ -1,30 +1,25 @@
 import {
+    ActionIcon,
     Group,
-    MantineColor,
+    Menu,
+    Stack,
     Text,
     ThemeIcon,
     UnstyledButton,
-    Menu,
-    ActionIcon,
-    Stack,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import {
-    IconArrowRight,
     IconChevronRight,
     IconDots,
-    IconEdit,
+    IconList,
     IconLock,
     IconPlus,
     IconUsers,
 } from "@tabler/icons";
 import Link from "next/link";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 
 import { Session } from "@abuse-sleuth/authentication";
-import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import { Team } from "@abuse-sleuth/prisma";
-import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 
 const TeamButton = forwardRef<
     HTMLButtonElement,
@@ -76,9 +71,13 @@ const TeamButton = forwardRef<
 type DashboardNavTeamButtonProps = {
     teamsWithPlan: { team: Team; planName: string }[];
     hrefGenerator: (id: string) => string;
+    teamCreatehref: string;
+    teamViewAllhref: string;
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
 };
+
+// TODO: Simplify This (Move the hrefs away from here)
 
 export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
     props
@@ -137,7 +136,12 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                     : "Loading"}
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
-                <Link href={"/team/create"} passHref>
+                <Link href={props.teamViewAllhref} passHref>
+                    <Menu.Item component="a" icon={<IconList />}>
+                        View All Teams
+                    </Menu.Item>
+                </Link>
+                <Link href={props.teamCreatehref} passHref>
                     <Menu.Item component="a" icon={<IconPlus />}>
                         Create Team
                     </Menu.Item>

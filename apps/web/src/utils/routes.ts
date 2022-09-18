@@ -15,7 +15,7 @@ export const routes = {
     },
     team: {
         viewAllTeams: "/team/",
-        viewSingleTeam: (teamId: string) => `/teams/view/${teamId}`,
+        viewSingleTeam: (teamId: string) => `/team/view/${teamId}`,
         createNewTeam: "/team/create",
     },
     report: {

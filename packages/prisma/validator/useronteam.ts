@@ -1,24 +1,18 @@
-import { TeamMemberRole } from "@prisma/client";
-import * as z from "zod";
-
-import {
-    CompleteUser,
-    RelatedUserModel,
-    CompleteTeam,
-    RelatedTeamModel,
-} from "./index";
+import * as z from "zod"
+import { TeamMemberRole } from "@prisma/client"
+import { CompleteUser, RelatedUserModel, CompleteTeam, RelatedTeamModel } from "./index"
 
 export const UserOnTeamModel = z.object({
-    role: z.nativeEnum(TeamMemberRole),
-    userId: z.string(),
-    teamId: z.string(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-});
+  role: z.nativeEnum(TeamMemberRole),
+  userId: z.string(),
+  teamId: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
 
 export interface CompleteUserOnTeam extends z.infer<typeof UserOnTeamModel> {
-    user: CompleteUser;
-    team?: CompleteTeam | null;
+  user: CompleteUser
+  team?: CompleteTeam | null
 }
 
 /**
@@ -26,10 +20,7 @@ export interface CompleteUserOnTeam extends z.infer<typeof UserOnTeamModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserOnTeamModel: z.ZodSchema<CompleteUserOnTeam> = z.lazy(
-    () =>
-        UserOnTeamModel.extend({
-            user: RelatedUserModel,
-            team: RelatedTeamModel.nullish(),
-        })
-);
+export const RelatedUserOnTeamModel: z.ZodSchema<CompleteUserOnTeam> = z.lazy(() => UserOnTeamModel.extend({
+  user: RelatedUserModel,
+  team: RelatedTeamModel.nullish(),
+}))
