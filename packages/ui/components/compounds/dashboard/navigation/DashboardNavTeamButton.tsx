@@ -75,6 +75,7 @@ const TeamButton = forwardRef<
 
 type DashboardNavTeamButtonProps = {
     teamsWithPlan: { team: Team; planName: string }[];
+    hrefGenerator: (id: string) => string;
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
 };
@@ -109,7 +110,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                               key={i}
                               rightSection={
                                   <Link
-                                      href={`/team/view/${teamWithPlan.team.id}`}
+                                      href={props.hrefGenerator(teamWithPlan.team.id)}
                                       passHref>
                                       <ActionIcon component="a" color={"dark"}>
                                           <IconDots size={"20px"} />

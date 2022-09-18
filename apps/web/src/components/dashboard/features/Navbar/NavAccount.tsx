@@ -10,6 +10,7 @@ import { Menu } from "@abuse-sleuth/ui/components/atoms";
 import { DashboardNavAccount } from "@abuse-sleuth/ui/components/compounds";
 import { IconUser, IconLogout, IconCash } from "@abuse-sleuth/ui/icons";
 import { FCC } from "@abuse-sleuth/ui/types";
+import routes from "@utils/routes";
 
 export const NavAccount: React.FC = () => {
     const { data: session } = useSession();
@@ -24,7 +25,7 @@ export const NavAccount: React.FC = () => {
                 <>
                     <Menu.Item
                         component={NextLink}
-                        href="/account"
+                        href={routes.account.viewCurrentAccount}
                         icon={<IconUser size={"18px"} />}>
                         View Account
                     </Menu.Item>

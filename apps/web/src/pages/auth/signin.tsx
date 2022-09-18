@@ -99,14 +99,6 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
                                 );
                             })}
                         </Stack>
-                        <Group position="center">
-                            <Text color={"dimmed"}>
-                                Don&apos;t have an account?
-                            </Text>
-                            <Link href={"/register"} passHref>
-                                <Anchor color={"violet"}>Sign up</Anchor>
-                            </Link>
-                        </Group>
                     </Stack>
                 </Paper>
             </Group>

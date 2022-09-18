@@ -19,6 +19,7 @@ import { MantineColor } from "@abuse-sleuth/ui/types";
 
 import Navbar from "@components/main/features/Navbar";
 import { Layout } from "@components/main/layouts";
+import routes from "@utils/routes";
 
 const NewUser: NextPage = () => {
     const { data: session } = useSession();
@@ -67,7 +68,7 @@ const NewUser: NextPage = () => {
                         </Stack>
 
                         <Group position="center">
-                            <Link href={"/dashboard"} passHref>
+                            <Link href={routes.dashboard.home} passHref>
                                 <Anchor color={"violet"}>
                                     Click here for your Dashboard
                                 </Anchor>

@@ -33,13 +33,14 @@ import {
 
 import { NavAccount } from "./NavAccount";
 import { NavTeamSelector } from "./NavTeamSelector";
+import routes from "@utils/routes";
 
 const Navbar: React.FC = () => {
     return (
         <MantineNavbar width={{ base: 250 }}>
             <MantineNavbar.Section mt="xs">
                 <Center>
-                    <Link href={"/"}>
+                    <Link href={routes.home}>
                         <Image
                             src="/logo.svg"
                             width={"45px"}
@@ -52,21 +53,21 @@ const Navbar: React.FC = () => {
             <MantineNavbar.Section grow px={"xs"} mt="xs">
                 <Stack spacing={4}>
                     <DashboardNavLink
-                        href="/dashboard"
+                        href={routes.dashboard.home}
                         label="Home"
                         color={"blue"}
                         icon={<IconDashboard />}
                     />
 
                     <DashboardNavLink
-                        href="/reports/new"
+                        href={routes.report.createNewReport}
                         label="New Report"
                         color={"green"}
                         icon={<IconFilePlus />}
                     />
 
                     <DashboardNavLink
-                        href="/reports/view"
+                        href={routes.report.viewAllReports}
                         label="View Reports"
                         color={"violet"}
                         icon={<IconFileDescription />}

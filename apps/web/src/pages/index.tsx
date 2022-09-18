@@ -14,6 +14,7 @@ import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 //import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import Navbar from "@components/main/features/Navbar";
 import { Layout } from "@components/main/layouts";
+import routes from "@utils/routes";
 
 const Home: NextPage = () => {
     const theme = useMantineTheme();
@@ -56,7 +57,7 @@ const Home: NextPage = () => {
                         </Text>
 
                         {true ? (
-                            <Link passHref href={"/api/auth/login"}>
+                            <Link passHref href={routes.auth.login}>
                                 <Button
                                     component="a"
                                     sx={(theme) => ({
@@ -72,7 +73,7 @@ const Home: NextPage = () => {
                                 </Button>
                             </Link>
                         ) : (
-                            <Link passHref href={"/dashboard"}>
+                            <Link passHref href={routes.dashboard.home}>
                                 <Button
                                     component="a"
                                     sx={(theme) => ({
