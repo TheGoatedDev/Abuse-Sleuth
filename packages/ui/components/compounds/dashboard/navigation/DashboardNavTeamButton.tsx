@@ -78,7 +78,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
     props
 ) => {
     return (
-        <Menu position="right-end" width={200}>
+        <Menu position="right-end" width={250}>
             <Menu.Target>
                 <TeamButton teamData={props.activeTeam} />
             </Menu.Target>
