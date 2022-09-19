@@ -109,7 +109,7 @@ export const nextAuthOptions: NextAuthOptions = {
                         email: user.email as string,
                     },
                 });
-            } catch (error) {
+            } catch (error: any) {
                 throw new Error(error);
             }
         },
