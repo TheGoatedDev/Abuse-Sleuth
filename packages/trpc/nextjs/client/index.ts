@@ -1,5 +1,5 @@
 import { httpBatchLink, loggerLink } from "@trpc/client";
-import { setupTRPC } from "@trpc/next";
+import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 
 import { AppRouter } from "../../routes";
@@ -16,7 +16,7 @@ const getBaseUrl = () => {
     return `http://localhost:${process.env.PORT ?? 3000}`;
 };
 
-export const trpcClient = setupTRPC<AppRouter>({
+export const trpcClient = createTRPCNext<AppRouter>({
     config({}) {
         const url = `${getBaseUrl()}/api/trpc`;
         return {
