@@ -8,6 +8,8 @@ export const NavTeamSelector: React.FC = () => {
     const { data: session } = useSession();
 
     const getSelfAllTeamQuery = trpcClient.teams.getSelfAllTeam.useQuery();
+    const getSelfActiveTeamQuery =
+        trpcClient.teams.getSelfActiveTeam.useQuery();
     const userSetActiveTeamMutation =
         trpcClient.users.setActiveTeam.useMutation();
 
@@ -23,8 +25,10 @@ export const NavTeamSelector: React.FC = () => {
             teamCreatehref={routes.team.createNewTeam}
             teamViewAllhref={routes.team.viewAllTeams}
             session={session}
-            setActiveTeam={(teamId) => {
-                userSetActiveTeamMutation.mutate({ teamId });
+            setActiveTeam={async (teamId) => {
+                await userSetActiveTeamMutation.mutate({ teamId });
+                getSelfAllTeamQuery.refetch();
+                getSelfActiveTeamQuery.refetch();
             }}
             activeTeam={
                 userSetActiveTeamMutation.data ??
