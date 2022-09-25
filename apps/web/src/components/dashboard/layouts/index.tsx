@@ -6,7 +6,7 @@ import Navbar from "../features/Navbar";
 
 export const Layout: FCC = ({ children }) => {
     return (
-        <AppShell fixed navbar={<Navbar />}>
+        <AppShell fixed navbar={<Navbar />} padding="xl">
             {children}
         </AppShell>
     );

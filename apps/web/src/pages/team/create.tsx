@@ -41,9 +41,7 @@ const TeamCreate: NextPage = () => {
 
     useEffect(() => {
         if (createNewTeamMutation.data) {
-            router.push(
-                routes.team.viewSingleTeam(createNewTeamMutation.data.id)
-            );
+            router.push(routes.team.viewTeam(createNewTeamMutation.data.id));
         }
     });
 

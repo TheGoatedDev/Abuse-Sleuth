@@ -28,6 +28,34 @@ export const teamsRouter = trpc.router({
         });
     }),
 
+    getSelfTeam: trpc.procedure
+        .input(
+            z.object({
+                teamId: z.string(),
+            })
+        )
+        .query(async (opts) => {
+            if (!opts.ctx.session) {
+                throw new TRPCError({
+                    message: "No User Session Found",
+                    code: "UNAUTHORIZED",
+                });
+            }
+
+            return await prisma.team.findFirst({
+                where: {
+                    id: opts.input.teamId,
+                    users: {
+                        some: {
+                            user: {
+                                id: opts.ctx.session.user?.id,
+                            },
+                        },
+                    },
+                },
+            });
+        }),
+
     getSelfActiveTeam: trpc.procedure.query(async (opts) => {
         if (!opts.ctx.session) {
             throw new TRPCError({

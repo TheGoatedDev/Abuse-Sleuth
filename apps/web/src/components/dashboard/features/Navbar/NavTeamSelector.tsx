@@ -14,9 +14,9 @@ export const NavTeamSelector: React.FC = () => {
             teams={teams.allTeams.sort(
                 (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
             )}
-            hrefGenerator={(id) => routes.team.viewSingleTeam(id)}
-            teamCreatehref={routes.team.createNewTeam}
-            teamViewAllhref={routes.team.viewAllTeams}
+            hrefGenerator={(id) => routes.team.viewTeam(id)}
+            teamCreatehref={routes.team.createTeam}
+            teamViewAllhref={routes.team.viewTeams}
             session={session}
             setActiveTeam={teams.setActiveTeam}
             activeTeam={teams.activeTeam}

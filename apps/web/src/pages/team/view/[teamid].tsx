@@ -1,17 +1,45 @@
 import type { GetServerSideProps, NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
-import { Title } from "@abuse-sleuth/ui/components/atoms";
+import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
+import {
+    Button,
+    Group,
+    Skeleton,
+    Title,
+} from "@abuse-sleuth/ui/components/atoms";
+import { IconEdit } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
+import routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
+    const getSelfTeamQuery = trpcClient.teams.getSelfTeam.useQuery({
+        teamId: router.query.teamid as string,
+    });
 
     return (
         <Layout>
-            <Title>Team: {router.query.teamid}</Title>
+            <Group position="apart">
+                <Title>
+                    {getSelfTeamQuery.data?.teamName ?? <Skeleton width={45} />}
+                </Title>
+                <Link
+                    passHref
+                    href={routes.team.editTeam(
+                        getSelfTeamQuery.data?.id ?? ""
+                    )}>
+                    <Button
+                        component="a"
+                        color="violet"
+                        rightIcon={<IconEdit />}>
+                        Edit Team
+                    </Button>
+                </Link>
+            </Group>
         </Layout>
     );
 };
