@@ -2,13 +2,30 @@ import { useTeams } from "@contexts/TeamsContext";
 import type { GetServerSideProps, NextPage } from "next";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
-import { Group, SimpleGrid, Title } from "@abuse-sleuth/ui/components/atoms";
+import {
+    Group,
+    Loader,
+    SimpleGrid,
+    Title
+} from "@abuse-sleuth/ui/components/atoms";
 import { StatsCard } from "@abuse-sleuth/ui/components/compounds";
 
 import { Layout } from "@components/dashboard/layouts";
 
 const Dashboard: NextPage = () => {
     const teams = useTeams();
+
+    if (teams.isLoading) {
+        return (
+            <Layout>
+                <Group position="center" sx={() => ({
+                    height: "100vh"
+                })}>
+                    <Loader size={"xl"} color="violet" />
+                </Group>
+            </Layout>
+        );
+    }
 
     return (
         <Layout>

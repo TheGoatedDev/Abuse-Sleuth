@@ -8,6 +8,7 @@ export * from "./Grid";
 export * from "./Group";
 export * from "./Image";
 export * from "./List";
+export * from "./Loader";
 export * from "./Menu";
 export * from "./Navbar";
 export * from "./Paper";
@@ -18,3 +19,4 @@ export * from "./Stack";
 export * from "./Text";
 export * from "./TextInput";
 export * from "./Title";
+

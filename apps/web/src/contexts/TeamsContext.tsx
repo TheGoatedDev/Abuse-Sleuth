@@ -9,12 +9,14 @@ interface ITeamsContext {
     allTeams: Team[];
     activeTeam: Team | undefined;
     setActiveTeam: (teamId: string) => void;
+    isLoading: boolean;
 }
 
 const TeamsContext = createContext<ITeamsContext>({
     allTeams: [],
     setActiveTeam: () => {},
     activeTeam: undefined,
+    isLoading: true,
 });
 
 export const TeamsProvider: FCC = ({ children }) => {
@@ -35,11 +37,16 @@ export const TeamsProvider: FCC = ({ children }) => {
 
     const [teams, setTeams] = useState<Team[]>([]);
     const [activeTeam, setActiveTeamState] = useState<Team>();
+    const [isLoading, setIsLoading] = useState<boolean>(getSelfActiveTeamQuery.isLoading || getSelfAllTeamQuery.isLoading);
 
     const setActiveTeam = async (teamId: string) => {
         await userSetActiveTeamMutation.mutateAsync({ teamId });
         await getSelfActiveTeamQuery.refetch();
     };
+
+    useEffect(() => {
+        setIsLoading(getSelfAllTeamQuery.isLoading || getSelfActiveTeamQuery.isLoading)
+    }, [[getSelfAllTeamQuery.isLoading, getSelfActiveTeamQuery.isLoading]])
 
     useEffect(() => {
         setTeams(getSelfAllTeamQuery.data ?? []);
@@ -52,6 +59,7 @@ export const TeamsProvider: FCC = ({ children }) => {
                 allTeams: teams ?? [],
                 setActiveTeam: setActiveTeam,
                 activeTeam: activeTeam,
+                isLoading: isLoading
             }}>
             {children}
         </TeamsContext.Provider>
