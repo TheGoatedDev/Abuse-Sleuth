@@ -1,4 +1,3 @@
-import { AppShell } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 
 import {
@@ -8,8 +7,7 @@ import {
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { Menu } from "@abuse-sleuth/ui/components/atoms";
 import { DashboardNavAccount } from "@abuse-sleuth/ui/components/compounds";
-import { IconUser, IconLogout, IconCash } from "@abuse-sleuth/ui/icons";
-import { FCC } from "@abuse-sleuth/ui/types";
+import { IconCash, IconLogout, IconUser } from "@abuse-sleuth/ui/icons";
 
 import routes from "@utils/routes";
 
@@ -26,7 +24,7 @@ export const NavAccount: React.FC = () => {
                 <>
                     <Menu.Item
                         component={NextLink}
-                        href={routes.account.viewCurrentAccount}
+                        href={routes.account.viewAccount}
                         icon={<IconUser size={"18px"} />}>
                         View Account
                     </Menu.Item>

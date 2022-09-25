@@ -44,14 +44,14 @@ const Navbar: React.FC = () => {
                     />
 
                     <DashboardNavLink
-                        href={routes.report.createNewReport}
+                        href={routes.report.createReport}
                         label="New Report"
                         color={"green"}
                         icon={<IconFilePlus />}
                     />
 
                     <DashboardNavLink
-                        href={routes.report.viewAllReports}
+                        href={routes.report.viewReports}
                         label="View Reports"
                         color={"violet"}
                         icon={<IconFileDescription />}

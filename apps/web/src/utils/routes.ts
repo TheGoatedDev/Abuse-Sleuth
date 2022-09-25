@@ -7,7 +7,7 @@ export const routes = {
         login: "/auth/signin",
     },
     account: {
-        viewCurrentAccount: "/account",
+        viewAccount: "/account",
     },
     dashboard: {
         home: "/dashboard/",
@@ -19,8 +19,8 @@ export const routes = {
         editTeam: (teamId: string) => `/team/edit/${teamId}`,
     },
     report: {
-        viewAllReports: "/report/",
-        createNewReport: "/report/create",
+        viewReports: "/report/",
+        createReport: "/report/create",
     },
 };
 
