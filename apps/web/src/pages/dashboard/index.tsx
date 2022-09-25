@@ -20,19 +20,25 @@ const Dashboard: NextPage = () => {
             <SimpleGrid cols={3}>
                 <StatsCard
                     label={"Scan Count"}
-                    progress={{ current: 1000, max: 10000 }}
+                    progress={{
+                        current: Math.floor(Math.random() * 10000),
+                        max: 10000,
+                    }}
                     color={"indigo"}
                     icon={"unchanged"}
                 />
                 <StatsCard
                     label={"Reports Done"}
-                    progress={50}
+                    progress={Math.floor(Math.random() * 100)}
                     color={"violet"}
                     icon={"up"}
                 />
                 <StatsCard
                     label={"Report Count"}
-                    progress={{ current: 10, max: 30 }}
+                    progress={{
+                        current: Math.floor(Math.random() * 30),
+                        max: 30,
+                    }}
                     color={"grape"}
                     icon={"unchanged"}
                 />

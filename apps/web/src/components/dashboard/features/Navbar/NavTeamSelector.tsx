@@ -11,12 +11,9 @@ export const NavTeamSelector: React.FC = () => {
 
     return (
         <DashboardNavTeamButton
-            teamsWithPlan={teams.allTeams
-                .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-                .map((x) => ({
-                    team: x,
-                    planName: "Free",
-                }))}
+            teams={teams.allTeams.sort(
+                (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+            )}
             hrefGenerator={(id) => routes.team.viewSingleTeam(id)}
             teamCreatehref={routes.team.createNewTeam}
             teamViewAllhref={routes.team.viewAllTeams}

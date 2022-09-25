@@ -2,7 +2,6 @@ import {
     ActionIcon,
     Group,
     Menu,
-    Stack,
     Text,
     ThemeIcon,
     UnstyledButton,
@@ -63,7 +62,7 @@ const TeamButton = forwardRef<
 });
 
 type DashboardNavTeamButtonProps = {
-    teamsWithPlan: { team: Team; planName: string }[];
+    teams: Team[];
     hrefGenerator: (id: string) => string;
     teamCreatehref: string;
     teamViewAllhref: string;
@@ -85,18 +84,16 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
 
             <Menu.Dropdown>
                 <Menu.Label>Teams</Menu.Label>
-                {props.teamsWithPlan
-                    ? props.teamsWithPlan.map((teamWithPlan, i) => (
+                {props.teams
+                    ? props.teams.map((team, i) => (
                           <Menu.Item
                               onClick={() => {
-                                  props.setActiveTeam(teamWithPlan.team.id);
+                                  props.setActiveTeam(team.id);
                               }}
                               key={i}
                               rightSection={
                                   <Link
-                                      href={props.hrefGenerator(
-                                          teamWithPlan.team.id
-                                      )}
+                                      href={props.hrefGenerator(team.id)}
                                       passHref>
                                       <ActionIcon component="a" color={"dark"}>
                                           <IconDots size={"20px"} />
@@ -104,17 +101,9 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                                   </Link>
                               }>
                               <Group>
-                                  {teamWithPlan.team.locked && (
-                                      <IconLock size={"18px"} />
-                                  )}
-                                  <Stack spacing={0}>
-                                      <Text lineClamp={1}>
-                                          {teamWithPlan.team.teamName}
-                                      </Text>
-                                      <Text size="xs" color={"dimmed"}>
-                                          Plan: {teamWithPlan.planName}
-                                      </Text>
-                                  </Stack>
+                                  {team.locked && <IconLock size={"18px"} />}
+
+                                  <Text lineClamp={1}>{team.teamName}</Text>
                               </Group>
                           </Menu.Item>
                       ))
