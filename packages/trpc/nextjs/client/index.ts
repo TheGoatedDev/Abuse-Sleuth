@@ -34,13 +34,6 @@ export const trpcClient = createTRPCNext<AppRouter>({
                     url,
                 }),
             ],
-            queryClientConfig: {
-                defaultOptions: {
-                    queries: {
-                        refetchInterval: 5000,
-                    },
-                },
-            },
         };
     },
 });

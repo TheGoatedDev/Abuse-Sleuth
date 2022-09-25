@@ -1,33 +1,21 @@
+import { useTeams } from "@contexts/TeamsContext";
 import type { GetServerSideProps, NextPage } from "next";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
-import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
-import {
-    Group,
-    SimpleGrid,
-    Skeleton,
-    Title,
-} from "@abuse-sleuth/ui/components/atoms";
+import { Group, SimpleGrid, Title } from "@abuse-sleuth/ui/components/atoms";
 import { StatsCard } from "@abuse-sleuth/ui/components/compounds";
 
 import { Layout } from "@components/dashboard/layouts";
 
 const Dashboard: NextPage = () => {
-    const getSelfActiveTeamQuery =
-        trpcClient.teams.getSelfActiveTeam.useQuery();
+    const teams = useTeams();
 
     return (
         <Layout>
             <Group mb="md">
                 <Title>
-                    Dashboard for{" "}
-                    {!getSelfActiveTeamQuery.isLoading &&
-                        getSelfActiveTeamQuery.isSuccess &&
-                        getSelfActiveTeamQuery.data?.teamName}
+                    Dashboard for {teams.activeTeam?.teamName ?? "Loading"}
                 </Title>
-                {getSelfActiveTeamQuery.isLoading && (
-                    <Skeleton width={"20%"} height={"32px"} />
-                )}
             </Group>
             <SimpleGrid cols={3}>
                 <StatsCard

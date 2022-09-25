@@ -1,6 +1,6 @@
+import { TeamsProvider } from "@contexts/TeamsContext";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useState } from "react";
 
 import { Session } from "@abuse-sleuth/authentication";
 import { SessionProvider } from "@abuse-sleuth/authentication/nextjs/client";
@@ -22,11 +22,13 @@ function App(props: AppProps<{ session?: Session }>) {
             </Head>
 
             <SessionProvider session={pageProps.session}>
-                <MantineProvider>
-                    <GlobalStyling />
-                    <Component {...pageProps} />
-                    <ThemeSwitcher />
-                </MantineProvider>
+                <TeamsProvider>
+                    <MantineProvider>
+                        <GlobalStyling />
+                        <Component {...pageProps} />
+                        <ThemeSwitcher />
+                    </MantineProvider>
+                </TeamsProvider>
             </SessionProvider>
         </>
     );
