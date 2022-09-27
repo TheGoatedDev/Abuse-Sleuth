@@ -5,7 +5,7 @@ export const UserModel = z.object({
   id: z.string(),
   stripeCustomerId: z.string().nullish(),
   name: z.string().nullish(),
-  email: z.string().nullish(),
+  email: z.string(),
   emailVerified: z.date().nullish(),
   image: z.string().nullish(),
   activeTeamId: z.string().nullish(),

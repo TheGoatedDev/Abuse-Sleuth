@@ -1,76 +1,78 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { prisma } from "@abuse-sleuth/prisma";
+import { Prisma, prisma } from "@abuse-sleuth/prisma";
 import stripe, { Stripe } from "@abuse-sleuth/stripe";
 
 import { trpc } from "../../initTRPC";
+import { requiredTeamRole } from "../../middlewares/requiredTeamRole";
+import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 
 export const teamsRouter = trpc.router({
-    getSelfAllTeam: trpc.procedure.query(async (opts) => {
-        if (!opts.ctx.session) {
-            throw new TRPCError({
-                message: "No User Session Found",
-                code: "UNAUTHORIZED",
-            });
-        }
-
+    getSelfAllTeam: requireLoggedInProcedure.query(async (opts) => {
         const teams = await prisma.team.findMany({
             where: {
                 users: {
                     some: {
                         user: {
-                            id: opts.ctx.session.user?.id,
+                            id: opts.ctx.session?.user?.id,
                         },
                     },
                 },
             },
         });
 
-        return teams
+        return teams;
     }),
 
-    getSelfTeam: trpc.procedure
+    getTeam: requireLoggedInProcedure
+        .use(requiredTeamRole(["USER", "MANAGER", "OWNER"]))
         .input(
             z.object({
                 teamId: z.string(),
             })
         )
         .query(async (opts) => {
-            if (!opts.ctx.session) {
-                throw new TRPCError({
-                    message: "No User Session Found",
-                    code: "UNAUTHORIZED",
-                });
-            }
-
             const team = await prisma.team.findFirstOrThrow({
                 where: {
                     id: opts.input.teamId,
                     users: {
                         some: {
                             user: {
-                                id: opts.ctx.session.user?.id,
+                                id: opts.ctx.session?.user?.id,
                             },
                         },
                     },
                 },
             });
 
-            return team
+            return team;
         }),
 
-    getSelfActiveTeam: trpc.procedure.query(async (opts) => {
-        if (!opts.ctx.session) {
-            throw new TRPCError({
-                message: "No User Session Found",
-                code: "UNAUTHORIZED",
+    getTeamMembers: requireLoggedInProcedure
+        .use(requiredTeamRole(["USER", "MANAGER", "OWNER"]))
+        .input(
+            z.object({
+                teamId: z.string(),
+            })
+        )
+        .query(async (opts) => {
+            const teamMembers = await prisma.userOnTeam.findMany({
+                where: {
+                    teamId: opts.input.teamId,
+                },
+                include: {
+                    user: true,
+                },
             });
-        }
 
+            return teamMembers;
+        }),
+
+    getSelfActiveTeam: requireLoggedInProcedure.query(async (opts) => {
         const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
             where: {
-                id: opts.ctx.session.user?.id,
+                id: opts.ctx.session?.user?.id,
             },
             include: {
                 activeTeam: true,
@@ -80,20 +82,13 @@ export const teamsRouter = trpc.router({
         return userWithActiveTeam?.activeTeam;
     }),
 
-    createNewTeam: trpc.procedure
+    createNewTeam: requireLoggedInProcedure
         .input(
             z.object({
                 teamName: z.string(),
             })
         )
         .mutation(async (opts) => {
-            if (!opts.ctx.session || !opts.ctx.session.user) {
-                throw new TRPCError({
-                    message: "No User Session Found",
-                    code: "UNAUTHORIZED",
-                });
-            }
-
             const stripeProducts = await stripe.products.list({
                 active: true,
                 expand: ["data.default_price"],
@@ -107,7 +102,7 @@ export const teamsRouter = trpc.router({
             });
 
             const stripeSub = await stripe.subscriptions.create({
-                customer: opts.ctx.session.user.stripeCustomerId as string,
+                customer: opts.ctx.session?.user?.stripeCustomerId as string,
                 items: [
                     {
                         price: (sortedProducts[0].default_price as Stripe.Price)
@@ -125,7 +120,7 @@ export const teamsRouter = trpc.router({
                             role: "OWNER",
                             user: {
                                 connect: {
-                                    id: opts.ctx.session.user.id as string,
+                                    id: opts.ctx.session?.user?.id as string,
                                 },
                             },
                         },
@@ -134,5 +129,68 @@ export const teamsRouter = trpc.router({
             });
 
             return team;
+        }),
+
+    addUserToTeam: requireLoggedInProcedure
+        .use(requiredTeamRole(["MANAGER", "OWNER"]))
+        .input(
+            z.object({
+                teamId: z.string(),
+                userEmail: z.string().email(),
+            })
+        )
+        .mutation(async (opts) => {
+            // Check if User Exists
+            const user = await prisma.user.findUnique({
+                where: {
+                    email: opts.input.userEmail,
+                },
+            });
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "User Email doesn't exist",
+                });
+            }
+
+            try {
+                const userOnTeam = await prisma.userOnTeam.create({
+                    data: {
+                        role: "USER",
+                        user: {
+                            connect: {
+                                email: opts.input.userEmail,
+                            },
+                        },
+                        team: {
+                            connect: {
+                                id: opts.input.teamId,
+                            },
+                        },
+                    },
+                });
+
+                return userOnTeam;
+            } catch (error) {
+                if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                    if (error.code === "P2002") {
+                        throw new TRPCError({
+                            code: "BAD_REQUEST",
+                            message: "This User is Already apart of this Team",
+                        });
+                    }
+
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: error.message,
+                    });
+                }
+
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Ummmmm IDK What Happened here...",
+                });
+            }
         }),
 });

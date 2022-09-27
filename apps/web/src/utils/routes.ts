@@ -13,10 +13,11 @@ export const routes = {
         home: "/dashboard/",
     },
     team: {
-        viewTeams: "/team/",
-        viewTeam: (teamId: string) => `/team/view/${teamId}`,
-        createTeam: "/team/create",
-        editTeam: (teamId: string) => `/team/edit/${teamId}`,
+        viewAll: "/team/",
+        view: (teamId: string) => `/team/${teamId}/view`,
+        create: "/team/create",
+        edit: (teamId: string) => `/team/${teamId}/edit`,
+        addMember: (teamId: string) => `/team/${teamId}/addmember`,
     },
     report: {
         viewReports: "/report/",

@@ -54,7 +54,7 @@ model User {
     stripeCustomerId String?
 
     name          String?
-    email         String?   @unique
+    email         String    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]

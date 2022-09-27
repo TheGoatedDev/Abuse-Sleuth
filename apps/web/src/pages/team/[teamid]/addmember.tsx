@@ -1,15 +1,16 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { z } from "zod";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
     Button,
+    Divider,
     Group,
     Paper,
     Stack,
+    Text,
     TextInput,
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
@@ -17,61 +18,65 @@ import { useForm } from "@abuse-sleuth/ui/hooks";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
 
 import { Layout } from "@components/dashboard/layouts";
-import routes from "@utils/routes";
 
 // TODO: Make this a Model, a entire page is not needed.
 
-const TeamCreate: NextPage = () => {
-    const createNewTeamMutation = trpcClient.teams.createNewTeam.useMutation();
-
+const TeamAddMember: NextPage = () => {
     const router = useRouter();
+
+    const teamId = router.query.teamid as string;
+
+    const addUserToTeamMutation = trpcClient.teams.addUserToTeam.useMutation();
 
     const form = useForm({
         initialValues: {
-            teamName: "",
+            teamId: teamId,
+            userEmail: "",
         },
         validate: zodResolver(
             z.object({
-                teamName: z
-                    .string()
-                    .min(3, "Team Name must be at least 3 letters"),
+                userEmail: z.string().email(),
             })
         ),
     });
 
-    useEffect(() => {
-        if (createNewTeamMutation.data) {
-            router.push(routes.team.view(createNewTeamMutation.data.id));
-        }
-    });
-
     return (
         <Layout>
-            <Title>Create new Team</Title>
-            <Group>
+            <Group position="apart">
+                <Title>Add Member</Title>
+            </Group>
+            <Divider my="md" />
+            <Stack>
                 <Paper shadow={"md"} withBorder p="md">
                     <form
                         onSubmit={form.onSubmit((values) => {
-                            createNewTeamMutation.mutate({
-                                teamName: values.teamName,
+                            addUserToTeamMutation.mutate({
+                                teamId: values.teamId,
+                                userEmail: values.userEmail,
                             });
                         })}>
                         <Stack>
+                            {addUserToTeamMutation.isError && (
+                                <Text color={"red"}>
+                                    {addUserToTeamMutation.error.message}
+                                </Text>
+                            )}
                             <TextInput
-                                label="Team Name"
-                                {...form.getInputProps("teamName")}
+                                label="Email"
+                                {...form.getInputProps("userEmail")}
                             />
                             <Button type="submit">Submit</Button>
+                            {addUserToTeamMutation.isSuccess && (
+                                <Text color={"green"}>It WORKED</Text>
+                            )}
                         </Stack>
                     </form>
-                    <pre></pre>
                 </Paper>
-            </Group>
-            <pre>{JSON.stringify(createNewTeamMutation.data, null, 4)}</pre>
+            </Stack>
         </Layout>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = requireAuth();
 
-export default TeamCreate;
+export default TeamAddMember;

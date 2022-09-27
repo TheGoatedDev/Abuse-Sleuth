@@ -5,62 +5,36 @@ import { prisma, Team } from "@abuse-sleuth/prisma";
 import stripe from "@abuse-sleuth/stripe";
 
 import { trpc } from "../../initTRPC";
+import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 
 export const usersRouter = trpc.router({
-    getSelf: trpc.procedure.query((opts) => {
-        if (!opts.ctx.session) {
-            throw new TRPCError({
-                message: "No User Session Found",
-                code: "UNAUTHORIZED",
-            });
-        }
-
-        return prisma.user.findFirst({
+    getSelf: requireLoggedInProcedure.query((opts) => {
+        return prisma.user.findFirstOrThrow({
             where: {
-                id: opts.ctx.session.user?.id,
+                id: opts.ctx.session.user.id,
             },
         });
     }),
 
-    getBillingPortal: trpc.procedure.query(async (opts) => {
-        if (!opts.ctx.session) {
-            throw new TRPCError({
-                message: "No User Session Found",
-                code: "UNAUTHORIZED",
-            });
-        }
-
-        const user = await prisma.user.findFirst({
-            where: {
-                id: opts.ctx.session.user?.id,
-            },
-        });
-
+    getBillingPortal: requireLoggedInProcedure.query(async (opts) => {
         const session = await stripe.billingPortal.sessions.create({
-            customer: user?.stripeCustomerId ?? "",
+            customer: opts.ctx.session.user.stripeCustomerId ?? "",
         });
 
         return session.url;
     }),
 
-    setActiveTeam: trpc.procedure
+    setActiveTeam: requireLoggedInProcedure
         .input(
             z.object({
                 teamId: z.string(),
             })
         )
         .mutation(async (opts) => {
-            if (!opts.ctx.session) {
-                throw new TRPCError({
-                    message: "No User Session Found",
-                    code: "UNAUTHORIZED",
-                });
-            }
-
             // Check if User is apart of team
-            const userOnTeam = await prisma.userOnTeam.findFirst({
+            const userOnTeam = await prisma.userOnTeam.findFirstOrThrow({
                 where: {
-                    userId: opts.ctx.session.user?.id,
+                    userId: opts.ctx.session.user.id,
                     teamId: opts.input.teamId,
                 },
                 include: {
@@ -80,7 +54,7 @@ export const usersRouter = trpc.router({
                     activeTeamId: opts.input.teamId,
                 },
                 where: {
-                    id: opts.ctx.session.user?.id,
+                    id: opts.ctx.session.user.id,
                 },
             });
 

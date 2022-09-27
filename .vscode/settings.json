@@ -5,7 +5,7 @@
         "source.organizeImports": true,
         "source.sortMembers": true
     },
-    "[typescriptreact.typescript,javascript]": {
+    "[typescriptreact,typescript,javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
 }
