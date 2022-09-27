@@ -1,14 +1,6 @@
 {
-    "extends": "@abuse-sleuth/tsconfig/nextjs.json",
-    "include": [
-        "next-env.d.ts",
-        "react-table-config.d.ts",
-        "src/**/*.ts",
-        "src/**/*.tsx"
-    ],
-    "exclude": ["node_modules", "jest"],
+    "extends": "@abuse-sleuth/tsconfig/nextjs.tsconfig.json",
     "compilerOptions": {
-        "downlevelIteration": true,
         "baseUrl": "./src",
         "paths": {
             "@contexts/*": ["contexts/*"],
@@ -16,7 +8,8 @@
             "@utils/*": ["utils/*"],
             "@services/*": ["services/*"],
             "@components/*": ["components/*"]
-        },
-        "types": ["cypress", "jest"]
-    }
+        }
+    },
+    "include": ["../../packages/shared_types/next-auth.d.ts", "next-env.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules"]
 }

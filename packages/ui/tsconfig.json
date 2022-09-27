@@ -1,5 +1,5 @@
 {
-  "extends": "@abuse-sleuth/tsconfig/react-library.json",
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"]
+    "extends": "@abuse-sleuth/tsconfig/ui-lib.tsconfig.json",
+    "include": ["**/*.tsx", "**/*.ts", "../../shared_types/next-auth.d.ts"],
+    "exclude": ["node_modules"]
 }

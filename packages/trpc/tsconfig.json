@@ -1,12 +1,8 @@
 {
-    "extends": "@abuse-sleuth/tsconfig/base.json",
-    "include": ["./src/**/*"],
-    "exclude": ["dist", "build", "node_modules"],
+    "extends": "@abuse-sleuth/tsconfig/base.tsconfig.json",
     "compilerOptions": {
-        "types": ["cypress", "jest"]
+
     },
-    "ts-node": {
-        // Do not forget to `npm i -D tsconfig-paths`
-        "require": ["tsconfig-paths/register"]
-      }
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
 }

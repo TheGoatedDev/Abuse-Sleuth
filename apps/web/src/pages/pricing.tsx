@@ -1,80 +1,123 @@
-import { Group, Paper, PricingTable, StyledLayout } from "@abuse-sleuth/ui";
+import type { GetStaticProps, NextPage } from "next";
 
-import StyledHeader from "@components/navigation/StyledHeader";
+import stripe, { Stripe } from "@abuse-sleuth/stripe";
+import {
+    Button,
+    Group,
+    SimpleGrid,
+    Stack,
+    Text,
+    Title,
+    Card,
+    Center,
+    Divider,
+    List,
+    Grid,
+} from "@abuse-sleuth/ui/components/atoms";
+import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
+import { IconCheck } from "@abuse-sleuth/ui/icons";
 
-export default function Pricing() {
+import Navbar from "@components/main/features/Navbar";
+import { AltLayout, Layout } from "@components/main/layouts";
+
+const PricingCard: React.FC<{
+    product: Stripe.Product;
+    price: Stripe.Price;
+}> = (props) => {
     return (
-        <StyledLayout>
-            <StyledHeader />
-
-            <Group
-                position="center"
-                sx={(theme) => ({
-                    height: "100vh",
-                })}>
-                <Paper
-                    shadow={"lg"}
-                    px={"xs"}
-                    sx={(theme) => ({
-                        backgroundColor:
-                            theme.colorScheme === "dark"
-                                ? theme.colors.dark[6]
-                                : "",
-                    })}>
-                    <PricingTable
-                        plans={[
+        <Grid.Col md={3} sm={4} xs={6}>
+            <Card px="lg" py={"xs"} withBorder>
+                <Stack>
+                    <Text align="center" size={24} weight="bold" color="violet">
+                        {props.product.name}
+                    </Text>
+                    <Title align="center" order={1}>
+                        {((props.price.unit_amount ?? 0) / 100).toLocaleString(
+                            "en-GB",
                             {
-                                planName: "Free",
-                                price: "Free",
+                                style: "currency",
+                                currency: props.price.currency,
+                            }
+                        )}
+                    </Title>
+                    <Button color={"violet"}>Get started</Button>
+                </Stack>
 
-                                dailyIPScans: 1000,
-                                dailyDomainScans: 200,
+                <Card.Section my="sm">
+                    <Divider />
+                </Card.Section>
 
-                                reportLimit: 4,
-                                reportRetentionWeeks: 1,
-
-                                canExport: false,
-                            },
-                            {
-                                planName: "Basic",
-                                price: 5.0,
-
-                                dailyIPScans: 5000,
-                                dailyDomainScans: 400,
-
-                                reportLimit: 6,
-                                reportRetentionWeeks: 2,
-
-                                canExport: true,
-                            },
-                            {
-                                planName: "Advanced",
-                                price: 25.0,
-
-                                dailyIPScans: 10000,
-                                dailyDomainScans: 600,
-
-                                reportLimit: 8,
-                                reportRetentionWeeks: 4,
-
-                                canExport: true,
-                            },
-                            {
-                                planName: "PAYG",
-                                price: "Vary",
-
-                                dailyIPScans: "Pay-as-you-go",
-                                dailyDomainScans: "Pay-as-you-go",
-
-                                reportLimit: "Unlimited",
-                                reportRetentionWeeks: 12,
-
-                                canExport: true,
-                            },
-                        ]}
-                    />
-                </Paper>
-            </Group>
-        </StyledLayout>
+                <Group>
+                    <List icon={<IconCheck />}>
+                        <List.Item>
+                            {props.product.metadata["usersLimit"] ??
+                                "usersLimit Missing"}{" "}
+                            Users on Team
+                        </List.Item>
+                        <List.Item>
+                            {props.product.metadata["reportsLimit"] ??
+                                "reportsLimit Missing"}{" "}
+                            Reports on Team
+                        </List.Item>
+                        <List.Item>
+                            {props.product.metadata["scansLimit"] ??
+                                "scansLimit Missing"}{" "}
+                            Scans on Team
+                        </List.Item>
+                        <List.Item>1 Week Retention on Reports</List.Item>
+                    </List>
+                </Group>
+            </Card>
+        </Grid.Col>
     );
+};
+
+interface PricingProps {
+    products: Stripe.Product[];
 }
+
+const Pricing: NextPage<PricingProps> = (props) => {
+    return (
+        <AltLayout>
+            <Navbar />
+            <Center>
+                <Stack align={"center"}>
+                    <Title>Pricing</Title>
+                    <Text>
+                        All Pricing plans used for each team you create.
+                    </Text>
+                    <Grid mx={"sm"} grow justify={"center"}>
+                        {props.products.map((v, i) => (
+                            <PricingCard
+                                key={i}
+                                product={v}
+                                price={v.default_price as Stripe.Price}
+                            />
+                        ))}
+                    </Grid>
+                </Stack>
+            </Center>
+        </AltLayout>
+    );
+};
+
+export default Pricing;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const stripeProducts = await stripe.products.list({
+        active: true,
+        expand: ["data.default_price"],
+    });
+
+    const sortedProducts = stripeProducts.data.sort((a, b) => {
+        const aPrice = a.default_price as Stripe.Price;
+        const bPrice = b.default_price as Stripe.Price;
+
+        return (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0);
+    });
+
+    return {
+        // Passed to the page component as props
+        props: { products: sortedProducts },
+    };
+};

@@ -1,34 +1,37 @@
-import { useMediaQuery } from "@mantine/hooks";
+import type { NextPage } from "next";
 import Link from "next/link";
 
 import {
     Button,
     Group,
-    Title,
-    Text,
-    useMantineTheme,
-    MediaQuery,
     SimpleGrid,
-    StyledLayout,
-} from "@abuse-sleuth/ui";
+    Stack,
+    Text,
+    Title,
+} from "@abuse-sleuth/ui/components/atoms";
+import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
-import StyledHeader from "@components/navigation/StyledHeader";
+//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import Navbar from "@components/main/features/Navbar";
+import { Layout } from "@components/main/layouts";
+import routes from "@utils/routes";
 
-export default function Home() {
+const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
 
-    return (
-        <StyledLayout>
-            <StyledHeader />
+    //const { data, status } = useSession();
 
+    return (
+        <Layout>
+            <Navbar />
             <Group
                 position="center"
                 sx={(theme) => ({
                     height: "100vh",
                 })}>
                 <SimpleGrid cols={isMobile ? 1 : 2}>
-                    <Group direction="column" spacing={0} p="xl">
+                    <Stack justify={"center"} spacing={0} p="xl">
                         <Title order={2}>Welcome to</Title>
                         <Title
                             sx={(theme) => ({
@@ -37,7 +40,7 @@ export default function Home() {
                             Abuse Sleuth
                         </Title>
                         <Title order={3}>
-                            IP Analysis and Aggregration SaaS
+                            Domain/IP Analysis and Aggregration SaaS
                         </Title>
                         <Text>
                             Take one centralised application, several analytical
@@ -53,21 +56,40 @@ export default function Home() {
                             Scan, Block and Repeat!
                         </Text>
 
-                        <Link passHref href={"/login"}>
-                            <Button
-                                component="a"
-                                sx={(theme) => ({
-                                    width: "150px",
-                                    backgroundColor: theme.colors.violet[6],
-                                    ":hover": {
-                                        backgroundColor: theme.colors.violet[7],
-                                    },
-                                })}
-                                mt="md">
-                                Join Now!
-                            </Button>
-                        </Link>
-                    </Group>
+                        {true ? (
+                            <Link passHref href={routes.auth.login}>
+                                <Button
+                                    component="a"
+                                    sx={(theme) => ({
+                                        width: "150px",
+                                        backgroundColor: theme.colors.violet[6],
+                                        ":hover": {
+                                            backgroundColor:
+                                                theme.colors.violet[7],
+                                        },
+                                    })}
+                                    mt="md">
+                                    Join Now!
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Link passHref href={routes.dashboard.home}>
+                                <Button
+                                    component="a"
+                                    sx={(theme) => ({
+                                        width: "150px",
+                                        backgroundColor: theme.colors.violet[6],
+                                        ":hover": {
+                                            backgroundColor:
+                                                theme.colors.violet[7],
+                                        },
+                                    })}
+                                    mt="md">
+                                    View Dashboard
+                                </Button>
+                            </Link>
+                        )}
+                    </Stack>
 
                     {!isMobile && (
                         <Group position="center">
@@ -80,6 +102,8 @@ export default function Home() {
                     )}
                 </SimpleGrid>
             </Group>
-        </StyledLayout>
+        </Layout>
     );
-}
+};
+
+export default Home;

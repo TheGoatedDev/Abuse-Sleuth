@@ -1,11 +1,10 @@
 {
-  "name": "@abuse-sleuth/tsconfig",
-  "version": "0.0.0",
-  "private": true,
-  "main": "index.js",
-  "files": [
-    "base.json",
-    "nextjs.json",
-    "react-library.json"
-  ]
+    "name": "@abuse-sleuth/tsconfig",
+    "version": "0.0.0",
+    "private": true,
+    "files": [
+        "base.tsconfig.json",
+        "nextjs.tsconfig.json",
+        "ui-lib.tsconfig.json"
+    ]
 }

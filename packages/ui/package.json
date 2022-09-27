@@ -1,37 +1,38 @@
 {
     "name": "@abuse-sleuth/ui",
     "version": "0.0.0",
-    "main": "./src/index.tsx",
-    "types": "./src/index.tsx",
-    "sideEffects": false,
-    "private": true,
-    "files": [
-        "src/**"
-    ],
-    "license": "MIT",
+    "exports": {
+        "./components/atoms": "./components/atoms",
+        "./components/molecules": "./components/molecules",
+        "./components/compounds": "./components/compounds",
+        "./hooks": "./hooks",
+        "./shared": "./shared",
+        "./icons": "./icons.tsx",
+        "./types": "./types"
+    },
     "scripts": {
-        "clean": "rimraf node_modules .turbo",
-        "--------- Production ---------": "",
-        "--------- Development ---------": "",
-        "--------- Linting ---------": "",
-        "lint": "eslint ./src/**/*.ts*"
+        "clean": "rimraf node_modules .turbo"
     },
     "devDependencies": {
         "@abuse-sleuth/tsconfig": "*",
-        "@types/react": "17.0.2",
-        "@types/react-dom": "17.0.2",
+        "@types/react": "^18.0.18",
+        "@types/react-dom": "^18.0.6",
+        "eslint": "^7.32.0",
         "eslint-config-custom": "*",
-        "rimraf": "^3.0.2",
-        "tsup": "^6.1.2",
-        "typescript": "^4.5.2"
+        "next": "^12.3.0",
+        "typescript": "^4.7.4"
     },
     "dependencies": {
-        "@mantine/core": "^4.2.9",
-        "@mantine/form": "^4.2.9",
-        "@mantine/hooks": "^4.2.9",
-        "@mantine/modals": "^4.2.9",
-        "@mantine/next": "^4.2.9",
-        "@mantine/notifications": "^4.2.9",
-        "next": "^12.1.6"
+        "@abuse-sleuth/prisma": "*",
+        "@emotion/react": "^11.10.0",
+        "@emotion/server": "^11.10.0",
+        "@mantine/core": "^5.2.0",
+        "@mantine/form": "^5.3.3",
+        "@mantine/hooks": "^5.2.0",
+        "@mantine/modals": "^5.2.0",
+        "@mantine/next": "^5.3.0",
+        "@mantine/notifications": "^5.2.0",
+        "@tabler/icons": "^1.91.0",
+        "zod": "^3.19.1"
     }
 }
