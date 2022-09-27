@@ -140,6 +140,21 @@ export const teamsRouter = trpc.router({
             })
         )
         .mutation(async (opts) => {
+            // Check if the Team is Locked
+            const lockedTeam = await prisma.team.findFirst({
+                where: {
+                    id: opts.input.teamId,
+                    locked: true,
+                },
+            });
+
+            if (lockedTeam) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Team is Locked, Cannot Add Members",
+                });
+            }
+
             // Check if User Exists
             const user = await prisma.user.findUnique({
                 where: {
