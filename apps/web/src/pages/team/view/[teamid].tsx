@@ -7,8 +7,9 @@ import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
     Button,
     Group,
+    Loader,
     Skeleton,
-    Title,
+    Title
 } from "@abuse-sleuth/ui/components/atoms";
 import { IconEdit } from "@abuse-sleuth/ui/icons";
 
@@ -20,6 +21,18 @@ const TeamViewSingle: NextPage = () => {
     const getSelfTeamQuery = trpcClient.teams.getSelfTeam.useQuery({
         teamId: router.query.teamid as string,
     });
+
+    if (getSelfTeamQuery.isLoading) {
+        return (
+            <Layout>
+                <Group position="center" sx={() => ({
+                    height: "100vh"
+                })}>
+                    <Loader size={"xl"} color="violet" />
+                </Group>
+            </Layout>
+        );
+    }
 
     return (
         <Layout>
