@@ -5,13 +5,13 @@ import { useRouter } from "next/router";
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
-    Button,
-    Group,
+    Button, Group,
+    Icon,
     Loader,
     Skeleton,
-    Title
+    Stack, Text, Title
 } from "@abuse-sleuth/ui/components/atoms";
-import { IconEdit } from "@abuse-sleuth/ui/icons";
+import { IconEdit, IconExclamationMark, IconLock } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
 import routes from "@utils/routes";
@@ -21,6 +21,7 @@ const TeamViewSingle: NextPage = () => {
     const getSelfTeamQuery = trpcClient.teams.getSelfTeam.useQuery({
         teamId: router.query.teamid as string,
     });
+
 
     if (getSelfTeamQuery.isLoading) {
         return (
@@ -34,21 +35,45 @@ const TeamViewSingle: NextPage = () => {
         );
     }
 
+    if (getSelfTeamQuery.isError || !getSelfTeamQuery.data) {
+        return (
+            <Layout>
+                <Group position="center" sx={() => ({
+                    height: "100vh"
+                })}>
+
+                    <Stack spacing={"xs"} align={"center"} >
+                        <Icon icon={<IconExclamationMark />} color={"red"} size={56} stroke={3} />
+                        <Title>Error has Occurred</Title>
+                        <Text>Error: {getSelfTeamQuery.error?.message}</Text>
+                        <Text color={"dimmed"} size="xs">Check the Console, if you are tech-savvy...</Text>
+
+                    </Stack>
+
+                </Group>
+            </Layout>
+        );
+    };
+
+
+
     return (
         <Layout>
             <Group position="apart">
                 <Title>
-                    {getSelfTeamQuery.data?.teamName ?? <Skeleton width={45} />}
+                    {getSelfTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
                 <Link
                     passHref
-                    href={routes.team.editTeam(
-                        getSelfTeamQuery.data?.id ?? ""
-                    )}>
+                    href={getSelfTeamQuery.data.locked ? "#" : routes.team.editTeam(
+                        getSelfTeamQuery.data.id
+                    )}
+                >
                     <Button
                         component="a"
                         color="violet"
-                        rightIcon={<IconEdit />}>
+                        leftIcon={getSelfTeamQuery.data.locked ? <IconLock size="16px" /> : <IconEdit size="16px" />}
+                        disabled={getSelfTeamQuery.data.locked}>
                         Edit Team
                     </Button>
                 </Link>

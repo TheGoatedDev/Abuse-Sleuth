@@ -15,7 +15,7 @@ export const teamsRouter = trpc.router({
             });
         }
 
-        return await prisma.team.findMany({
+        const teams = await prisma.team.findMany({
             where: {
                 users: {
                     some: {
@@ -26,6 +26,8 @@ export const teamsRouter = trpc.router({
                 },
             },
         });
+
+        return teams
     }),
 
     getSelfTeam: trpc.procedure
@@ -42,7 +44,7 @@ export const teamsRouter = trpc.router({
                 });
             }
 
-            return await prisma.team.findFirst({
+            const team = await prisma.team.findFirstOrThrow({
                 where: {
                     id: opts.input.teamId,
                     users: {
@@ -54,6 +56,8 @@ export const teamsRouter = trpc.router({
                     },
                 },
             });
+
+            return team
         }),
 
     getSelfActiveTeam: trpc.procedure.query(async (opts) => {
