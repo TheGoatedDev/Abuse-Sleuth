@@ -17,7 +17,7 @@ const getBaseUrl = () => {
 };
 
 export const trpcClient = createTRPCNext<AppRouter>({
-    config({}) {
+    config({ }) {
         const url = `${getBaseUrl()}/api/trpc`;
         return {
             url,
@@ -34,6 +34,14 @@ export const trpcClient = createTRPCNext<AppRouter>({
                     url,
                 }),
             ],
+            queryClientConfig: {
+                defaultOptions: {
+                    queries: {
+                        refetchOnWindowFocus: false,
+                        refetchOnMount: false
+                    }
+                }
+            }
         };
     },
 });
