@@ -68,7 +68,7 @@ export const teamsRouter = trpc.router({
             });
         }
 
-        const userWithActiveTeam = await prisma.user.findUnique({
+        const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
             where: {
                 id: opts.ctx.session.user?.id,
             },
