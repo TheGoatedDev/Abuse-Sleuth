@@ -1,25 +1,20 @@
-import { GetServerSideProps, NextPage } from "next";
-import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import {
+    Anchor,
     Group,
     Paper,
     Stack,
     Title,
-    Button,
-    Anchor,
-    Text,
 } from "@abuse-sleuth/ui/components/atoms";
-import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
-import { MantineColor } from "@abuse-sleuth/ui/types";
 
 import Navbar from "@components/main/features/Navbar";
 import { Layout } from "@components/main/layouts";
-import routes from "@utils/routes";
+import Routes from "@utils/routes";
 
 const NewUser: NextPage = () => {
     const { data: session } = useSession();
@@ -68,7 +63,7 @@ const NewUser: NextPage = () => {
                         </Stack>
 
                         <Group position="center">
-                            <Link href={routes.dashboard.home} passHref>
+                            <Link href={Routes.dashboard.home} passHref>
                                 <Anchor color={"violet"}>
                                     Click here for your Dashboard
                                 </Anchor>

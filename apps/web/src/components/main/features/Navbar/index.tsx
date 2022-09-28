@@ -1,17 +1,17 @@
 import Link from "next/link";
 
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
-import { Group, Space, Text, Image } from "@abuse-sleuth/ui/components/atoms";
+import { Group, Image, Space } from "@abuse-sleuth/ui/components/atoms";
 import { NavLink } from "@abuse-sleuth/ui/components/molecules";
 
-import routes from "@utils/routes";
+import Routes from "@utils/routes";
 
 const StyledHeader: React.FC = (props) => {
     const { status } = useSession();
 
     return (
         <Group position="apart" px="md" py="sm">
-            <Link href={routes.home}>
+            <Link href={Routes.home}>
                 <Image
                     height={"40px"}
                     width={"40px"}
@@ -20,16 +20,16 @@ const StyledHeader: React.FC = (props) => {
                 />
             </Link>
             <Group position="right" spacing="xl">
-                <NavLink href={routes.pricing} color="#FFF">
+                <NavLink href={Routes.pricing} color="#FFF">
                     Pricing
                 </NavLink>
                 <Space h="xl" />
                 {status === "authenticated" ? (
-                    <NavLink href={routes.dashboard.home} color="#FFF">
+                    <NavLink href={Routes.dashboard.home} color="#FFF">
                         Dashboard
                     </NavLink>
                 ) : (
-                    <NavLink href={routes.auth.login} color="#FFF">
+                    <NavLink href={Routes.auth.login} color="#FFF">
                         Login / Signup
                     </NavLink>
                 )}

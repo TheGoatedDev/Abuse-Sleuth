@@ -1,4 +1,4 @@
-export const routes = {
+export const Routes = {
     home: "/",
     pricing: "/pricing",
 
@@ -20,9 +20,9 @@ export const routes = {
         addMember: (teamId: string) => `/team/${teamId}/addmember`,
     },
     report: {
-        viewReports: "/report/",
-        createReport: "/report/create",
+        viewAll: "/report/",
+        create: "/report/create",
     },
 };
 
-export default routes;
+export default Routes;

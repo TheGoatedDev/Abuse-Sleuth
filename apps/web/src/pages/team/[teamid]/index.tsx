@@ -23,7 +23,7 @@ import {
 } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
-import routes from "@utils/routes";
+import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
@@ -95,7 +95,7 @@ const TeamViewSingle: NextPage = () => {
                     href={
                         getTeamQuery.data.locked
                             ? "#"
-                            : routes.team.edit(getTeamQuery.data.id)
+                            : Routes.team.edit(getTeamQuery.data.id)
                     }>
                     <Button
                         component="a"
@@ -121,7 +121,7 @@ const TeamViewSingle: NextPage = () => {
                         href={
                             getTeamQuery.data.locked
                                 ? "#"
-                                : routes.team.addMember(getTeamQuery.data.id)
+                                : Routes.team.addMember(getTeamQuery.data.id)
                         }>
                         <Button
                             component="a"

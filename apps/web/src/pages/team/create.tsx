@@ -17,7 +17,7 @@ import { useForm } from "@abuse-sleuth/ui/hooks";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
 
 import { Layout } from "@components/dashboard/layouts";
-import routes from "@utils/routes";
+import Routes from "@utils/routes";
 
 // TODO: Make this a Model, a entire page is not needed.
 
@@ -41,7 +41,7 @@ const TeamCreate: NextPage = () => {
 
     useEffect(() => {
         if (createNewTeamMutation.data) {
-            router.push(routes.team.view(createNewTeamMutation.data.id));
+            router.push(Routes.team.view(createNewTeamMutation.data.id));
         }
     });
 

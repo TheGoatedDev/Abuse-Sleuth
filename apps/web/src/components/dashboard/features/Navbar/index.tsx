@@ -14,7 +14,7 @@ import {
     IconFilePlus,
 } from "@abuse-sleuth/ui/icons";
 
-import routes from "@utils/routes";
+import Routes from "@utils/routes";
 
 import { NavAccount } from "./NavAccount";
 import { NavTeamSelector } from "./NavTeamSelector";
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
         <MantineNavbar width={{ base: 300 }}>
             <MantineNavbar.Section mt="xs">
                 <Center>
-                    <Link href={routes.home}>
+                    <Link href={Routes.home}>
                         <Image
                             src="/logo.svg"
                             width={"45px"}
@@ -37,21 +37,21 @@ const Navbar: React.FC = () => {
             <MantineNavbar.Section grow px={"xs"} mt="xs">
                 <Stack spacing={4}>
                     <DashboardNavLink
-                        href={routes.dashboard.home}
+                        href={Routes.dashboard.home}
                         label="Home"
                         color={"blue"}
                         icon={<IconDashboard />}
                     />
 
                     <DashboardNavLink
-                        href={routes.report.createReport}
+                        href={Routes.report.create}
                         label="New Report"
                         color={"green"}
                         icon={<IconFilePlus />}
                     />
 
                     <DashboardNavLink
-                        href={routes.report.viewReports}
+                        href={Routes.report.viewAll}
                         label="View Reports"
                         color={"violet"}
                         icon={<IconFileDescription />}
