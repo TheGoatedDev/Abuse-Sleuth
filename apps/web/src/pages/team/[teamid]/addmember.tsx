@@ -26,7 +26,8 @@ const TeamAddMember: NextPage = () => {
 
     const teamId = router.query.teamid as string;
 
-    const addUserToTeamMutation = trpcClient.teams.addUserToTeam.useMutation();
+    const addUserToTeamMutation =
+        trpcClient.teams.member.addMember.useMutation();
 
     const form = useForm({
         initialValues: {
