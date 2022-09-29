@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
+    ActionIcon,
     Button,
     Divider,
     Group,
@@ -20,6 +21,7 @@ import {
     IconExclamationMark,
     IconLock,
     IconPlus,
+    IconX,
 } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
@@ -27,13 +29,18 @@ import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
+    const teamId = router.query.teamid as string;
+
     const getTeamQuery = trpcClient.teams.get.useQuery({
-        teamId: router.query.teamid as string,
+        teamId,
     });
 
     const getTeamMembersQuery = trpcClient.teams.members.getMembers.useQuery({
-        teamId: router.query.teamid as string,
+        teamId,
     });
+
+    const removeTeamMember =
+        trpcClient.teams.members.removeMember.useMutation();
 
     if (getTeamQuery.isLoading || getTeamMembersQuery.isLoading) {
         return (
@@ -136,6 +143,18 @@ const TeamViewSingle: NextPage = () => {
                     <Group key={i}>
                         <Text>{x.user.name}</Text>
                         <Text>{x.role}</Text>
+                        <ActionIcon
+                            color={"red"}
+                            variant="filled"
+                            onClick={async () => {
+                                await removeTeamMember.mutateAsync({
+                                    teamId,
+                                    userEmail: x.user.email,
+                                });
+                                getTeamMembersQuery.refetch();
+                            }}>
+                            <IconX />
+                        </ActionIcon>
                     </Group>
                 ))}
             </Stack>

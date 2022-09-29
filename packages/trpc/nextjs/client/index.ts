@@ -39,7 +39,6 @@ export const trpcClient = createTRPCNext<AppRouter>({
                     queries: {
                         retry: 2,
                         refetchOnWindowFocus: false,
-                        refetchOnMount: false,
                     },
                 },
             },
