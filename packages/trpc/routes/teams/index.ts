@@ -11,7 +11,7 @@ import { teamsMemberRouter } from "./member";
 export const teamsRouter = trpc.router({
     member: teamsMemberRouter,
 
-    getSelfAllTeam: requireLoggedInProcedure.query(async (opts) => {
+    getSelfAll: requireLoggedInProcedure.query(async (opts) => {
         const teams = await prisma.team.findMany({
             where: {
                 users: {
@@ -27,7 +27,7 @@ export const teamsRouter = trpc.router({
         return teams;
     }),
 
-    getTeam: requireLoggedInProcedure
+    get: requireLoggedInProcedure
         .use(requiredTeamRole(["USER", "MANAGER", "OWNER"]))
         .input(
             z.object({
@@ -51,7 +51,7 @@ export const teamsRouter = trpc.router({
             return team;
         }),
 
-    getSelfActiveTeam: requireLoggedInProcedure.query(async (opts) => {
+    getSelfActive: requireLoggedInProcedure.query(async (opts) => {
         const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
             where: {
                 id: opts.ctx.user?.id,
@@ -64,7 +64,7 @@ export const teamsRouter = trpc.router({
         return userWithActiveTeam?.activeTeam;
     }),
 
-    createNewTeam: requireLoggedInProcedure
+    create: requireLoggedInProcedure
         .input(
             z.object({
                 teamName: z.string(),
