@@ -1,115 +1,18 @@
-import { z } from "zod";
-
-import { prisma } from "@abuse-sleuth/prisma";
-import stripe, { Stripe } from "@abuse-sleuth/stripe";
-
+import createController from "../../controllers/teams/create";
+import { getController } from "../../controllers/teams/get";
+import getActiveSelfController from "../../controllers/teams/getActiveSelf";
+import getAllSelfController from "../../controllers/teams/getAllSelf";
 import { trpc } from "../../initTRPC";
-import { requiredTeamRole } from "../../middlewares/requiredTeamRole";
-import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 import { teams_membersRouter } from "./members";
 
 export const teamsRouter = trpc.router({
     members: teams_membersRouter,
 
-    getSelfAll: requireLoggedInProcedure.query(async (opts) => {
-        const teams = await prisma.team.findMany({
-            where: {
-                users: {
-                    some: {
-                        user: {
-                            id: opts.ctx.user?.id,
-                        },
-                    },
-                },
-            },
-        });
+    getAllSelf: getAllSelfController,
 
-        return teams;
-    }),
+    get: getController,
 
-    get: requireLoggedInProcedure
-        .use(requiredTeamRole(["USER", "MANAGER", "OWNER"]))
-        .input(
-            z.object({
-                teamId: z.string(),
-            })
-        )
-        .query(async (opts) => {
-            const team = await prisma.team.findFirstOrThrow({
-                where: {
-                    id: opts.input.teamId,
-                    users: {
-                        some: {
-                            user: {
-                                id: opts.ctx.user?.id,
-                            },
-                        },
-                    },
-                },
-            });
+    getActiveSelf: getActiveSelfController,
 
-            return team;
-        }),
-
-    getSelfActive: requireLoggedInProcedure.query(async (opts) => {
-        const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
-            where: {
-                id: opts.ctx.user?.id,
-            },
-            include: {
-                activeTeam: true,
-            },
-        });
-
-        return userWithActiveTeam?.activeTeam;
-    }),
-
-    create: requireLoggedInProcedure
-        .input(
-            z.object({
-                teamName: z.string(),
-            })
-        )
-        .mutation(async (opts) => {
-            const stripeProducts = await stripe.products.list({
-                active: true,
-                expand: ["data.default_price"],
-            });
-
-            const sortedProducts = stripeProducts.data.sort((a, b) => {
-                const aPrice = a.default_price as Stripe.Price;
-                const bPrice = b.default_price as Stripe.Price;
-
-                return (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0);
-            });
-
-            const stripeSub = await stripe.subscriptions.create({
-                customer: opts.ctx.user?.stripeCustomerId as string,
-                items: [
-                    {
-                        price: (sortedProducts[0].default_price as Stripe.Price)
-                            .id,
-                    },
-                ],
-            });
-
-            const team = await prisma.team.create({
-                data: {
-                    teamName: opts.input.teamName,
-                    stripeSubId: stripeSub.id,
-                    users: {
-                        create: {
-                            role: "OWNER",
-                            user: {
-                                connect: {
-                                    id: opts.ctx.user?.id as string,
-                                },
-                            },
-                        },
-                    },
-                },
-            });
-
-            return team;
-        }),
+    create: createController,
 });
