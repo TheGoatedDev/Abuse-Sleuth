@@ -24,20 +24,22 @@ export const TeamsProvider: FCC = ({ children }) => {
 
     const enabled = status === "authenticated";
 
-    const getSelfAllTeamQuery = trpcClient.teams.getSelfAllTeam.useQuery(
+    const getSelfAllTeamQuery = trpcClient.teams.getSelfAll.useQuery(
         undefined,
         { enabled }
     );
-    const getSelfActiveTeamQuery = trpcClient.teams.getSelfActiveTeam.useQuery(
+    const getSelfActiveTeamQuery = trpcClient.teams.getSelfActive.useQuery(
         undefined,
         { enabled }
     );
     const userSetActiveTeamMutation =
-        trpcClient.users.setActiveTeam.useMutation();
+        trpcClient.users.setSelfActiveTeam.useMutation();
 
     const [teams, setTeams] = useState<Team[]>([]);
     const [activeTeam, setActiveTeamState] = useState<Team>();
-    const [isLoading, setIsLoading] = useState<boolean>(getSelfActiveTeamQuery.isLoading || getSelfAllTeamQuery.isLoading);
+    const [isLoading, setIsLoading] = useState<boolean>(
+        getSelfActiveTeamQuery.isLoading || getSelfAllTeamQuery.isLoading
+    );
 
     const setActiveTeam = async (teamId: string) => {
         await userSetActiveTeamMutation.mutateAsync({ teamId });
@@ -45,8 +47,10 @@ export const TeamsProvider: FCC = ({ children }) => {
     };
 
     useEffect(() => {
-        setIsLoading(getSelfAllTeamQuery.isLoading || getSelfActiveTeamQuery.isLoading)
-    }, [[getSelfAllTeamQuery.isLoading, getSelfActiveTeamQuery.isLoading]])
+        setIsLoading(
+            getSelfAllTeamQuery.isLoading || getSelfActiveTeamQuery.isLoading
+        );
+    }, [[getSelfAllTeamQuery.isLoading, getSelfActiveTeamQuery.isLoading]]);
 
     useEffect(() => {
         setTeams(getSelfAllTeamQuery.data ?? []);
@@ -59,7 +63,7 @@ export const TeamsProvider: FCC = ({ children }) => {
                 allTeams: teams ?? [],
                 setActiveTeam: setActiveTeam,
                 activeTeam: activeTeam,
-                isLoading: isLoading
+                isLoading: isLoading,
             }}>
             {children}
         </TeamsContext.Provider>
