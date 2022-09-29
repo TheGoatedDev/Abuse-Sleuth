@@ -13,7 +13,8 @@ import Routes from "@utils/routes";
 
 export const NavAccount: React.FC = () => {
     const { data: session } = useSession();
-    const getBillingPortalQuery = trpcClient.users.getBillingPortal.useQuery();
+    const getBillingPortalQuery =
+        trpcClient.users.billing.getPortalURL.useQuery();
 
     return (
         <DashboardNavAccount
