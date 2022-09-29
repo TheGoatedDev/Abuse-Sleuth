@@ -10,15 +10,26 @@ import { usersBillingRouter } from "./billing";
 export const usersRouter = trpc.router({
     billing: usersBillingRouter,
 
-    getSelf: requireLoggedInProcedure.query((opts) => {
-        return prisma.user.findFirstOrThrow({
-            where: {
-                id: opts.ctx.user?.id,
-            },
-        });
-    }),
+    getSelf: requireLoggedInProcedure
+        .input(
+            z.object({
+                include: z
+                    .object({
+                        activeTeam: z.boolean().optional(),
+                    })
+                    .optional(),
+            })
+        )
+        .query((opts) => {
+            return prisma.user.findFirstOrThrow({
+                where: {
+                    id: opts.ctx.user?.id,
+                },
+                include: opts.input.include,
+            });
+        }),
 
-    setActiveTeam: requireLoggedInProcedure
+    setSelfActiveTeam: requireLoggedInProcedure
         .input(
             z.object({
                 teamId: z.string(),
