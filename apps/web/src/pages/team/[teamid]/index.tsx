@@ -27,11 +27,11 @@ import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
-    const getTeamQuery = trpcClient.teams.getTeam.useQuery({
+    const getTeamQuery = trpcClient.teams.get.useQuery({
         teamId: router.query.teamid as string,
     });
 
-    const getTeamMembersQuery = trpcClient.teams.getTeamMembers.useQuery({
+    const getTeamMembersQuery = trpcClient.teams.member.getMembers.useQuery({
         teamId: router.query.teamid as string,
     });
 
