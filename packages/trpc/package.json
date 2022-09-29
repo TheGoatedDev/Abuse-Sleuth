@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@abuse-sleuth/authentication": "*",
 		"@abuse-sleuth/stripe": "*",
+        "@abuse-sleuth/prisma": "*",
 		"@tanstack/react-query": "^4.3.9",
 		"@trpc/client": "^10.0.0-proxy-beta.0",
 		"@trpc/next": "^10.0.0-proxy-beta.0",

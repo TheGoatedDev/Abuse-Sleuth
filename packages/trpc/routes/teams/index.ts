@@ -15,7 +15,7 @@ export const teamsRouter = trpc.router({
                 users: {
                     some: {
                         user: {
-                            id: opts.ctx.session?.user?.id,
+                            id: opts.ctx.user?.id,
                         },
                     },
                 },
@@ -39,7 +39,7 @@ export const teamsRouter = trpc.router({
                     users: {
                         some: {
                             user: {
-                                id: opts.ctx.session?.user?.id,
+                                id: opts.ctx.user?.id,
                             },
                         },
                     },
@@ -72,7 +72,7 @@ export const teamsRouter = trpc.router({
     getSelfActiveTeam: requireLoggedInProcedure.query(async (opts) => {
         const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
             where: {
-                id: opts.ctx.session?.user?.id,
+                id: opts.ctx.user?.id,
             },
             include: {
                 activeTeam: true,
@@ -102,7 +102,7 @@ export const teamsRouter = trpc.router({
             });
 
             const stripeSub = await stripe.subscriptions.create({
-                customer: opts.ctx.session?.user?.stripeCustomerId as string,
+                customer: opts.ctx.user?.stripeCustomerId as string,
                 items: [
                     {
                         price: (sortedProducts[0].default_price as Stripe.Price)
@@ -120,7 +120,7 @@ export const teamsRouter = trpc.router({
                             role: "OWNER",
                             user: {
                                 connect: {
-                                    id: opts.ctx.session?.user?.id as string,
+                                    id: opts.ctx.user?.id as string,
                                 },
                             },
                         },

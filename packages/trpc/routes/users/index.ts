@@ -11,14 +11,14 @@ export const usersRouter = trpc.router({
     getSelf: requireLoggedInProcedure.query((opts) => {
         return prisma.user.findFirstOrThrow({
             where: {
-                id: opts.ctx.session.user.id,
+                id: opts.ctx.user?.id,
             },
         });
     }),
 
     getBillingPortal: requireLoggedInProcedure.query(async (opts) => {
         const session = await stripe.billingPortal.sessions.create({
-            customer: opts.ctx.session.user.stripeCustomerId ?? "",
+            customer: opts.ctx.user?.stripeCustomerId ?? "",
         });
 
         return session.url;
@@ -34,7 +34,7 @@ export const usersRouter = trpc.router({
             // Check if User is apart of team
             const userOnTeam = await prisma.userOnTeam.findFirstOrThrow({
                 where: {
-                    userId: opts.ctx.session.user.id,
+                    userId: opts.ctx.user?.id,
                     teamId: opts.input.teamId,
                 },
                 include: {
@@ -54,7 +54,7 @@ export const usersRouter = trpc.router({
                     activeTeamId: opts.input.teamId,
                 },
                 where: {
-                    id: opts.ctx.session.user.id,
+                    id: opts.ctx.user?.id,
                 },
             });
 
