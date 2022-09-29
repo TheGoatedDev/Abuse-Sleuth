@@ -2,7 +2,7 @@ import { prisma } from "@abuse-sleuth/prisma";
 
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 
-export const getActiveSelfController = requireLoggedInProcedure.query(
+export const getActiveTeamSelfController = requireLoggedInProcedure.query(
     async (opts) => {
         const userWithActiveTeam = await prisma.user.findUniqueOrThrow({
             where: {
@@ -17,4 +17,4 @@ export const getActiveSelfController = requireLoggedInProcedure.query(
     }
 );
 
-export default getActiveSelfController;
+export default getActiveTeamSelfController;
