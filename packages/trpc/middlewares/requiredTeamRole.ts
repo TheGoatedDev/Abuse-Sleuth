@@ -24,7 +24,7 @@ export const requiredTeamRole = (allowedRoles: TeamMemberRole[]) => {
 
         const userInTeam = await prisma.userOnTeam.findFirst({
             where: {
-                userId: ctx.session?.user?.id,
+                userId: ctx.user?.id,
                 teamId: teamId,
             },
         });

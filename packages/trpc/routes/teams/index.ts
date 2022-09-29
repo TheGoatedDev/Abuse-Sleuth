@@ -6,10 +6,10 @@ import stripe, { Stripe } from "@abuse-sleuth/stripe";
 import { trpc } from "../../initTRPC";
 import { requiredTeamRole } from "../../middlewares/requiredTeamRole";
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
-import { teamsMemberRouter } from "./member";
+import { teams_membersRouter } from "./members";
 
 export const teamsRouter = trpc.router({
-    member: teamsMemberRouter,
+    members: teams_membersRouter,
 
     getSelfAll: requireLoggedInProcedure.query(async (opts) => {
         const teams = await prisma.team.findMany({

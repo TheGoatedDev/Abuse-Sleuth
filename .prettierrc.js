@@ -13,7 +13,7 @@ module.exports = {
 
     importOrder: [
         "^@(abuse-sleuth)/(.*)$",
-        "^@(services|components|layouts|hooks|utils|routes)/(.*)$",
+        "^@(services|components|layouts|hooks|utils|routes|controllers|routes|root|middlewares|procedures)/(.*)$",
         "^[./]",
     ],
     importOrderSeparation: true,

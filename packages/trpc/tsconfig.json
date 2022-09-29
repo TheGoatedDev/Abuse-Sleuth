@@ -1,8 +1,5 @@
 {
     "extends": "@abuse-sleuth/tsconfig/base.tsconfig.json",
-    "compilerOptions": {
-
-    },
     "include": ["**/*.ts"],
     "exclude": ["node_modules"]
 }
