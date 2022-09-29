@@ -31,7 +31,7 @@ const TeamViewSingle: NextPage = () => {
         teamId: router.query.teamid as string,
     });
 
-    const getTeamMembersQuery = trpcClient.teams.member.getMembers.useQuery({
+    const getTeamMembersQuery = trpcClient.teams.members.getMembers.useQuery({
         teamId: router.query.teamid as string,
     });
 

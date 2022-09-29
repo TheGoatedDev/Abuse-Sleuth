@@ -24,16 +24,16 @@ export const TeamsProvider: FCC = ({ children }) => {
 
     const enabled = status === "authenticated";
 
-    const getSelfAllTeamQuery = trpcClient.teams.getSelfAll.useQuery(
+    const getSelfAllTeamQuery = trpcClient.teams.getAllSelf.useQuery(
         undefined,
         { enabled }
     );
-    const getSelfActiveTeamQuery = trpcClient.teams.getSelfActive.useQuery(
+    const getSelfActiveTeamQuery = trpcClient.users.getActiveTeamSelf.useQuery(
         undefined,
         { enabled }
     );
     const userSetActiveTeamMutation =
-        trpcClient.users.setSelfActiveTeam.useMutation();
+        trpcClient.users.setActiveTeamSelf.useMutation();
 
     const [teams, setTeams] = useState<Team[]>([]);
     const [activeTeam, setActiveTeamState] = useState<Team>();
