@@ -2,26 +2,20 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { prisma, Team } from "@abuse-sleuth/prisma";
-import stripe from "@abuse-sleuth/stripe";
 
 import { trpc } from "../../initTRPC";
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
+import { usersBillingRouter } from "./billing";
 
 export const usersRouter = trpc.router({
+    billing: usersBillingRouter,
+
     getSelf: requireLoggedInProcedure.query((opts) => {
         return prisma.user.findFirstOrThrow({
             where: {
                 id: opts.ctx.user?.id,
             },
         });
-    }),
-
-    getBillingPortal: requireLoggedInProcedure.query(async (opts) => {
-        const session = await stripe.billingPortal.sessions.create({
-            customer: opts.ctx.user?.stripeCustomerId ?? "",
-        });
-
-        return session.url;
     }),
 
     setActiveTeam: requireLoggedInProcedure
