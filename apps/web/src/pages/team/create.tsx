@@ -22,7 +22,12 @@ import Routes from "@utils/routes";
 // TODO: Make this a Model, a entire page is not needed.
 
 const TeamCreate: NextPage = () => {
-    const createNewTeamMutation = trpcClient.teams.create.useMutation();
+    const context = trpcClient.useContext();
+    const createNewTeamMutation = trpcClient.teams.create.useMutation({
+        onSuccess(input) {
+            context.teams.getAllSelf.invalidate();
+        },
+    });
 
     const router = useRouter();
 

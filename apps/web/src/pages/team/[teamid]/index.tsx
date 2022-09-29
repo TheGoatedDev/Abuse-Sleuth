@@ -107,6 +107,7 @@ const TeamViewSingle: NextPage = () => {
                     <Button
                         component="a"
                         color="violet"
+                        variant="light"
                         leftIcon={
                             getTeamQuery.data.locked ? (
                                 <IconLock size="16px" />
@@ -133,6 +134,7 @@ const TeamViewSingle: NextPage = () => {
                         <Button
                             component="a"
                             color="green"
+                            variant="light"
                             leftIcon={<IconPlus size={16} />}
                             disabled={getTeamQuery.data.locked}>
                             Add User
@@ -143,18 +145,20 @@ const TeamViewSingle: NextPage = () => {
                     <Group key={i}>
                         <Text>{x.user.name}</Text>
                         <Text>{x.role}</Text>
-                        <ActionIcon
-                            color={"red"}
-                            variant="filled"
-                            onClick={async () => {
-                                await removeTeamMember.mutateAsync({
-                                    teamId,
-                                    userEmail: x.user.email,
-                                });
-                                getTeamMembersQuery.refetch();
-                            }}>
-                            <IconX />
-                        </ActionIcon>
+                        {x.role !== "OWNER" && (
+                            <ActionIcon
+                                color={"red"}
+                                variant="light"
+                                onClick={async () => {
+                                    await removeTeamMember.mutateAsync({
+                                        teamId,
+                                        userEmail: x.user.email,
+                                    });
+                                    getTeamMembersQuery.refetch();
+                                }}>
+                                <IconX />
+                            </ActionIcon>
+                        )}
                     </Group>
                 ))}
             </Stack>

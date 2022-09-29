@@ -9,7 +9,6 @@ import {
 import {
     IconChevronRight,
     IconDots,
-    IconList,
     IconLock,
     IconPlus,
     IconUsers,
@@ -65,7 +64,6 @@ type DashboardNavTeamButtonProps = {
     teams: Team[];
     hrefGenerator: (id: string) => string;
     teamCreatehref: string;
-    teamViewAllhref: string;
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
     activeTeam?: Team;
@@ -110,11 +108,6 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                     : "Loading"}
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
-                <Link href={props.teamViewAllhref} passHref>
-                    <Menu.Item component="a" icon={<IconList />}>
-                        View All Teams
-                    </Menu.Item>
-                </Link>
                 <Link href={props.teamCreatehref} passHref>
                     <Menu.Item component="a" icon={<IconPlus />}>
                         Create Team

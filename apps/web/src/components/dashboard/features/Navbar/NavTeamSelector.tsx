@@ -1,6 +1,7 @@
 import { useTeams } from "@contexts/TeamsContext";
 
 import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { DashboardNavTeamButton } from "@abuse-sleuth/ui/components/compounds";
 
 import Routes from "@utils/routes";
@@ -9,6 +10,15 @@ export const NavTeamSelector: React.FC = () => {
     const { data: session } = useSession();
     const teams = useTeams();
 
+    const context = trpcClient.useContext();
+
+    const userSetActiveTeamMutation =
+        trpcClient.users.setActiveTeamSelf.useMutation({
+            onSuccess() {
+                context.users.getActiveTeamSelf.invalidate();
+            },
+        });
+
     return (
         <DashboardNavTeamButton
             teams={teams.allTeams.sort(
@@ -16,9 +26,10 @@ export const NavTeamSelector: React.FC = () => {
             )}
             hrefGenerator={(id) => Routes.team.view(id)}
             teamCreatehref={Routes.team.create}
-            teamViewAllhref={Routes.team.viewAll}
             session={session}
-            setActiveTeam={teams.setActiveTeam}
+            setActiveTeam={(teamId) =>
+                userSetActiveTeamMutation.mutate({ teamId })
+            }
             activeTeam={teams.activeTeam}
         />
     );
