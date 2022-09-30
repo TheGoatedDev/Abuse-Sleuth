@@ -6,6 +6,7 @@ import { Session } from "@abuse-sleuth/authentication";
 import { SessionProvider } from "@abuse-sleuth/authentication/nextjs/client";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { ThemeSwitcher } from "@abuse-sleuth/ui/components/molecules";
+import { ModalsProvider } from "@abuse-sleuth/ui/modals";
 import { GlobalStyling, MantineProvider } from "@abuse-sleuth/ui/shared";
 
 function App(props: AppProps<{ session?: Session }>) {
@@ -24,9 +25,11 @@ function App(props: AppProps<{ session?: Session }>) {
             <SessionProvider session={pageProps.session}>
                 <TeamsProvider>
                     <MantineProvider>
-                        <GlobalStyling />
-                        <Component {...pageProps} />
-                        <ThemeSwitcher />
+                        <ModalsProvider>
+                            <GlobalStyling />
+                            <Component {...pageProps} />
+                            <ThemeSwitcher />
+                        </ModalsProvider>
                     </MantineProvider>
                 </TeamsProvider>
             </SessionProvider>

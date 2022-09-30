@@ -17,12 +17,15 @@ import {
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import {
+    IconArrowDown,
+    IconArrowUp,
     IconEdit,
     IconExclamationMark,
     IconLock,
     IconPlus,
     IconX,
 } from "@abuse-sleuth/ui/icons";
+import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
 
 import { Layout } from "@components/dashboard/layouts";
 import Routes from "@utils/routes";
@@ -30,6 +33,8 @@ import Routes from "@utils/routes";
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
     const teamId = router.query.teamid as string;
+
+    const trpcContext = trpcClient.useContext();
 
     const getTeamQuery = trpcClient.teams.get.useQuery({
         teamId,
@@ -39,8 +44,24 @@ const TeamViewSingle: NextPage = () => {
         teamId,
     });
 
-    const removeTeamMember =
-        trpcClient.teams.members.removeMember.useMutation();
+    const removeTeamMember = trpcClient.teams.members.removeMember.useMutation({
+        onSuccess() {
+            trpcContext.teams.members.getMembers.invalidate();
+        },
+    });
+
+    const promoteTeamMember =
+        trpcClient.teams.members.promoteMember.useMutation({
+            onSuccess() {
+                trpcContext.teams.members.getMembers.invalidate();
+            },
+        });
+
+    const demoteTeamMember = trpcClient.teams.members.demoteMember.useMutation({
+        onSuccess() {
+            trpcContext.teams.members.getMembers.invalidate();
+        },
+    });
 
     if (getTeamQuery.isLoading || getTeamMembersQuery.isLoading) {
         return (
@@ -123,7 +144,7 @@ const TeamViewSingle: NextPage = () => {
             <Divider my="md" />
             <Stack>
                 <Group position="apart">
-                    <Title>Team Members</Title>
+                    <Title>Members</Title>
                     <Link
                         passHref
                         href={
@@ -145,17 +166,54 @@ const TeamViewSingle: NextPage = () => {
                     <Group key={i}>
                         <Text>{x.user.name}</Text>
                         <Text>{x.role}</Text>
+                        {x.role === "USER" && (
+                            <ActionIcon
+                                color={"teal"}
+                                variant="light"
+                                onClick={() =>
+                                    openConfirmationModal({
+                                        actionDescription: `You are about to Promote ${x.user.name} to a Manager`,
+                                        onConfirm: () =>
+                                            promoteTeamMember.mutate({
+                                                teamId,
+                                                userEmail: x.user.email,
+                                            }),
+                                    })
+                                }>
+                                <IconArrowUp />
+                            </ActionIcon>
+                        )}
+                        {x.role === "MANAGER" && (
+                            <ActionIcon
+                                color={"red"}
+                                variant="light"
+                                onClick={() =>
+                                    openConfirmationModal({
+                                        actionDescription: `You are about to Demote ${x.user.name} to a User`,
+                                        onConfirm: () =>
+                                            demoteTeamMember.mutate({
+                                                teamId,
+                                                userEmail: x.user.email,
+                                            }),
+                                    })
+                                }>
+                                <IconArrowDown />
+                            </ActionIcon>
+                        )}
                         {x.role !== "OWNER" && (
                             <ActionIcon
                                 color={"red"}
                                 variant="light"
-                                onClick={async () => {
-                                    await removeTeamMember.mutateAsync({
-                                        teamId,
-                                        userEmail: x.user.email,
-                                    });
-                                    getTeamMembersQuery.refetch();
-                                }}>
+                                onClick={() =>
+                                    openConfirmationModal({
+                                        actionDescription: `You are about to Remove ${x.user.name} from the Team`,
+                                        onConfirm: () =>
+                                            removeTeamMember.mutate({
+                                                teamId,
+                                                userEmail: x.user.email,
+                                            }),
+                                    })
+                                }>
                                 <IconX />
                             </ActionIcon>
                         )}

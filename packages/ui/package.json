@@ -6,6 +6,7 @@
         "./components/molecules": "./components/molecules",
         "./components/compounds": "./components/compounds",
         "./hooks": "./hooks",
+        "./modals": "./modals",
         "./shared": "./shared",
         "./icons": "./icons.tsx",
         "./types": "./types"
