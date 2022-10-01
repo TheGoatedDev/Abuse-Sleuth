@@ -18,7 +18,7 @@ export * from "./SimpleGrid";
 export * from "./Skeleton";
 export * from "./Space";
 export * from "./Stack";
+export * from "./Table";
 export * from "./Text";
 export * from "./TextInput";
 export * from "./Title";
-

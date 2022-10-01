@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
-    ActionIcon,
     Button,
     Divider,
     Group,
@@ -17,17 +16,14 @@ import {
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import {
-    IconArrowDown,
-    IconArrowUp,
     IconEdit,
     IconExclamationMark,
     IconLock,
     IconPlus,
-    IconX,
 } from "@abuse-sleuth/ui/icons";
-import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
 
 import { Layout } from "@components/dashboard/layouts";
+import MembersTable from "@components/teams/features/MembersTable";
 import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
@@ -142,7 +138,7 @@ const TeamViewSingle: NextPage = () => {
                 </Link>
             </Group>
             <Divider my="md" />
-            <Stack>
+            <Stack spacing={"xs"}>
                 <Group position="apart">
                     <Title>Members</Title>
                     <Link
@@ -162,63 +158,7 @@ const TeamViewSingle: NextPage = () => {
                         </Button>
                     </Link>
                 </Group>
-                {getTeamMembersQuery.data.map((x, i) => (
-                    <Group key={i}>
-                        <Text>{x.user.name}</Text>
-                        <Text>{x.role}</Text>
-                        {x.role === "USER" && (
-                            <ActionIcon
-                                color={"teal"}
-                                variant="light"
-                                onClick={() =>
-                                    openConfirmationModal({
-                                        actionDescription: `You are about to Promote ${x.user.name} to a Manager`,
-                                        onConfirm: () =>
-                                            promoteTeamMember.mutate({
-                                                teamId,
-                                                userEmail: x.user.email,
-                                            }),
-                                    })
-                                }>
-                                <IconArrowUp />
-                            </ActionIcon>
-                        )}
-                        {x.role === "MANAGER" && (
-                            <ActionIcon
-                                color={"red"}
-                                variant="light"
-                                onClick={() =>
-                                    openConfirmationModal({
-                                        actionDescription: `You are about to Demote ${x.user.name} to a User`,
-                                        onConfirm: () =>
-                                            demoteTeamMember.mutate({
-                                                teamId,
-                                                userEmail: x.user.email,
-                                            }),
-                                    })
-                                }>
-                                <IconArrowDown />
-                            </ActionIcon>
-                        )}
-                        {x.role !== "OWNER" && (
-                            <ActionIcon
-                                color={"red"}
-                                variant="light"
-                                onClick={() =>
-                                    openConfirmationModal({
-                                        actionDescription: `You are about to Remove ${x.user.name} from the Team`,
-                                        onConfirm: () =>
-                                            removeTeamMember.mutate({
-                                                teamId,
-                                                userEmail: x.user.email,
-                                            }),
-                                    })
-                                }>
-                                <IconX />
-                            </ActionIcon>
-                        )}
-                    </Group>
-                ))}
+                <MembersTable teamId={teamId} />
             </Stack>
         </Layout>
     );
