@@ -1,36 +1,44 @@
 {
-    "name": "@abuse-sleuth/web",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "--------- Production ---------": "",
-        "build": "next build",
-        "start": "next start",
-        "--------- Development ---------": "",
-        "clean": "rimraf node_modules .turbo .next",
-        "dev": "next dev -p 3000",
-        "--------- Linting ---------": "",
-        "lint": "next lint"
-    },
-    "dependencies": {
-        "@abuse-sleuth/authentication": "*",
-        "@abuse-sleuth/prisma": "*",
-        "@abuse-sleuth/stripe": "*",
-        "@abuse-sleuth/trpc": "*",
-        "@abuse-sleuth/ui": "*",
-        "next": "^12.3.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "zod": "^3.19.1"
-    },
-    "devDependencies": {
-        "@abuse-sleuth/tsconfig": "*",
-        "@types/node": "18.7.8",
-        "@types/react": "^18.0.18",
-        "@types/react-dom": "^18.0.6",
-        "eslint": "8.22.0",
-        "eslint-config-next": "12.2.5",
-        "next-transpile-modules": "^9.0.0",
-        "typescript": "4.7.4"
-    }
+  "name": "@abuse-sleuth/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "--------- Production ---------": "",
+    "build": "next build",
+    "start": "next start",
+    "--------- Development ---------": "",
+    "clean": "rimraf node_modules .turbo .next",
+    "dev": "next dev -p 3000",
+    "--------- Linting ---------": "",
+    "lint": "next lint",
+    "--------- Testing ---------": "",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "",
+    "test:unit:watch": "",
+    "test:e2e": "playwright test --reporter=list",
+    "test:e2e:watch": "playwright-watch exec npm run test:e2e",
+    "test:e2e:report": "playwright show-report"
+  },
+  "dependencies": {
+    "@abuse-sleuth/authentication": "*",
+    "@abuse-sleuth/prisma": "*",
+    "@abuse-sleuth/stripe": "*",
+    "@abuse-sleuth/trpc": "*",
+    "@abuse-sleuth/ui": "*",
+    "next": "^12.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@abuse-sleuth/tsconfig": "*",
+    "@playwright/test": "^1.26.1",
+    "@types/node": "18.7.8",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "8.22.0",
+    "next-transpile-modules": "^9.0.0",
+    "playwright-watch": "^1.3.23",
+    "typescript": "4.7.4"
+  }
 }

@@ -2,11 +2,10 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 
 import { Session } from "@abuse-sleuth/authentication";
-import { SessionProvider } from "@abuse-sleuth/authentication/nextjs/client";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import { ThemeSwitcher } from "@abuse-sleuth/ui/components/molecules";
-import { ModalsProvider } from "@abuse-sleuth/ui/modals";
-import { GlobalStyling, MantineProvider } from "@abuse-sleuth/ui/shared";
+
+import { ProviderWrapper } from "@components/shared/ProviderWrapper";
 
 function App(props: AppProps<{ session?: Session }>) {
     const { Component, pageProps } = props;
@@ -21,15 +20,10 @@ function App(props: AppProps<{ session?: Session }>) {
                 />
             </Head>
 
-            <SessionProvider session={pageProps.session}>
-                <MantineProvider>
-                    <ModalsProvider>
-                        <GlobalStyling />
-                        <Component {...pageProps} />
-                        <ThemeSwitcher />
-                    </ModalsProvider>
-                </MantineProvider>
-            </SessionProvider>
+            <ProviderWrapper session={pageProps.session}>
+                <Component {...pageProps} />
+                <ThemeSwitcher />
+            </ProviderWrapper>
         </>
     );
 }
