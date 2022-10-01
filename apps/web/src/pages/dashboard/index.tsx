@@ -43,6 +43,7 @@ const Dashboard: NextPage = () => {
                         current: Math.floor(Math.random() * 10000),
                         max: 10000,
                     }}
+                    withAbbreviation
                     color={"indigo"}
                     icon={"unchanged"}
                 />

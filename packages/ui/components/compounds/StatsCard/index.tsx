@@ -11,9 +11,9 @@ import {
     IconArrowDownRight,
     IconArrowUpRight,
     IconEqual,
-    IconLine,
     TablerIcon,
 } from "@tabler/icons";
+import { abbreviateNumber } from "js-abbreviation-number";
 import React, { useEffect, useState } from "react";
 
 type Progress = {
@@ -26,6 +26,7 @@ type Icons = "up" | "down" | "unchanged";
 interface IStatsCard {
     label: string;
     progress: Progress | number;
+    withAbbreviation?: boolean;
     color: MantineColor;
     icon: Icons;
 }
@@ -52,6 +53,10 @@ export const StatsCard: React.FC<IStatsCard> = (props) => {
         setStat(
             typeof props.progress == "number"
                 ? `${props.progress}%`
+                : props.withAbbreviation
+                ? `${abbreviateNumber(
+                      props.progress.current
+                  )}/${abbreviateNumber(props.progress.max)}`
                 : `${props.progress.current}/${props.progress.max}`
         );
     }, [props.progress, props.icon]);
