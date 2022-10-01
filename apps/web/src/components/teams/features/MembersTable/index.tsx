@@ -1,6 +1,19 @@
+import { useEffect, useState } from "react";
+
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
-import { ActionIcon, Group, Table } from "@abuse-sleuth/ui/components/atoms";
-import { IconArrowDown, IconArrowUp, IconX } from "@abuse-sleuth/ui/icons";
+import {
+    ActionIcon,
+    Group,
+    Icon,
+    LoadingOverlay,
+    Table,
+} from "@abuse-sleuth/ui/components/atoms";
+import {
+    IconArrowDown,
+    IconArrowUp,
+    IconUser,
+    IconX,
+} from "@abuse-sleuth/ui/icons";
 import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
 import { FCC } from "@abuse-sleuth/ui/types";
 
@@ -10,6 +23,12 @@ type MembersTableProps = {
 
 export const MembersTable: FCC<MembersTableProps> = ({ teamId }) => {
     const trpcContext = trpcClient.useContext();
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const getTeamMemberSelfQuery = trpcClient.teams.members.getSelf.useQuery({
+        teamId,
+    });
 
     const getTeamMembersQuery = trpcClient.teams.members.getMembers.useQuery({
         teamId,
@@ -40,6 +59,12 @@ export const MembersTable: FCC<MembersTableProps> = ({ teamId }) => {
         },
     });
 
+    useEffect(() => {
+        setIsLoading(
+            getTeamMemberSelfQuery.isFetching || getTeamMembersQuery.isFetching
+        );
+    }, [getTeamMemberSelfQuery.isFetching, getTeamMembersQuery.isFetching]);
+
     return (
         <Table striped highlightOnHover>
             <thead>
@@ -49,10 +74,19 @@ export const MembersTable: FCC<MembersTableProps> = ({ teamId }) => {
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style={{ position: "relative" }}>
+                <LoadingOverlay visible={isLoading} />
                 {getTeamMembersQuery.data?.map((x, i) => (
                     <tr key={i}>
-                        <td>{x.user.name}</td>
+                        <td>
+                            <Group>
+                                {x.user.name}
+                                {getTeamMemberSelfQuery.data?.userId ===
+                                    x.userId && (
+                                    <Icon icon={<IconUser />} color="violet" />
+                                )}
+                            </Group>
+                        </td>
                         <td>{x.role}</td>
                         <td>
                             <Group>

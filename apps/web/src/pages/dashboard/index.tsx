@@ -1,27 +1,28 @@
-import { useTeams } from "@contexts/TeamsContext";
 import type { GetServerSideProps, NextPage } from "next";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
+import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
     Group,
     Loader,
     SimpleGrid,
-    Title
+    Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import { StatsCard } from "@abuse-sleuth/ui/components/compounds";
 
 import { Layout } from "@components/dashboard/layouts";
 
 const Dashboard: NextPage = () => {
-    const teams = useTeams();
+    const getActiveTeam = trpcClient.users.getActiveTeamSelf.useQuery();
 
-
-    if (teams.isLoading) {
+    if (getActiveTeam.isFetching) {
         return (
             <Layout>
-                <Group position="center" sx={() => ({
-                    height: "100vh"
-                })}>
+                <Group
+                    position="center"
+                    sx={() => ({
+                        height: "100vh",
+                    })}>
                     <Loader size={"xl"} color="violet" />
                 </Group>
             </Layout>
@@ -32,7 +33,7 @@ const Dashboard: NextPage = () => {
         <Layout>
             <Group mb="md">
                 <Title>
-                    Dashboard for {teams.activeTeam?.teamName ?? "Loading"}
+                    Dashboard for {getActiveTeam.data?.teamName ?? "Loading"}
                 </Title>
             </Group>
             <SimpleGrid cols={3}>

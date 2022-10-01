@@ -11,6 +11,7 @@ export * from "./Icon";
 export * from "./Image";
 export * from "./List";
 export * from "./Loader";
+export * from "./LoadingOverlay";
 export * from "./Menu";
 export * from "./Navbar";
 export * from "./Paper";
