@@ -40,25 +40,6 @@ const TeamViewSingle: NextPage = () => {
         teamId,
     });
 
-    const removeTeamMember = trpcClient.teams.members.removeMember.useMutation({
-        onSuccess() {
-            trpcContext.teams.members.getMembers.invalidate();
-        },
-    });
-
-    const promoteTeamMember =
-        trpcClient.teams.members.promoteMember.useMutation({
-            onSuccess() {
-                trpcContext.teams.members.getMembers.invalidate();
-            },
-        });
-
-    const demoteTeamMember = trpcClient.teams.members.demoteMember.useMutation({
-        onSuccess() {
-            trpcContext.teams.members.getMembers.invalidate();
-        },
-    });
-
     if (getTeamQuery.isLoading || getTeamMembersQuery.isLoading) {
         return (
             <Layout>

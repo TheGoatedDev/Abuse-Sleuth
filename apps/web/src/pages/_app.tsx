@@ -1,4 +1,3 @@
-import { TeamsProvider } from "@contexts/TeamsContext";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
@@ -23,15 +22,13 @@ function App(props: AppProps<{ session?: Session }>) {
             </Head>
 
             <SessionProvider session={pageProps.session}>
-                <TeamsProvider>
-                    <MantineProvider>
-                        <ModalsProvider>
-                            <GlobalStyling />
-                            <Component {...pageProps} />
-                            <ThemeSwitcher />
-                        </ModalsProvider>
-                    </MantineProvider>
-                </TeamsProvider>
+                <MantineProvider>
+                    <ModalsProvider>
+                        <GlobalStyling />
+                        <Component {...pageProps} />
+                        <ThemeSwitcher />
+                    </ModalsProvider>
+                </MantineProvider>
             </SessionProvider>
         </>
     );
