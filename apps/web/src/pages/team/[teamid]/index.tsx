@@ -30,8 +30,6 @@ const TeamViewSingle: NextPage = () => {
     const router = useRouter();
     const teamId = router.query.teamid as string;
 
-    const trpcContext = trpcClient.useContext();
-
     const getTeamQuery = trpcClient.teams.get.useQuery({
         teamId,
     });
@@ -40,6 +38,7 @@ const TeamViewSingle: NextPage = () => {
         teamId,
     });
 
+    //  TODO: Improve this, Make it Centralised
     if (getTeamQuery.isLoading || getTeamMembersQuery.isLoading) {
         return (
             <Layout>
@@ -54,6 +53,7 @@ const TeamViewSingle: NextPage = () => {
         );
     }
 
+    // TODO: Improve this, Make it Centralised
     if (
         getTeamQuery.isError ||
         !getTeamQuery.data ||

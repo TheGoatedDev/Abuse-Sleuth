@@ -5,6 +5,7 @@
         "./components/atoms": "./components/atoms",
         "./components/molecules": "./components/molecules",
         "./components/compounds": "./components/compounds",
+        "./notifications": "./notifications",
         "./hooks": "./hooks",
         "./modals": "./modals",
         "./shared": "./shared",

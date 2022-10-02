@@ -11,8 +11,8 @@ import {
 import {
     IconArrowDown,
     IconArrowUp,
+    IconDoorExit,
     IconUser,
-    IconX,
 } from "@abuse-sleuth/ui/icons";
 import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
 import { FCC } from "@abuse-sleuth/ui/types";
@@ -138,7 +138,7 @@ export const MembersTable: FCC<MembersTableProps> = ({ teamId }) => {
                                                     }),
                                             })
                                         }>
-                                        <IconX />
+                                        <IconDoorExit />
                                     </ActionIcon>
                                 )}
                             </Group>

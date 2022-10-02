@@ -11,5 +11,4 @@ const stripe = new Stripe(process.env.STRIPE_SECRET, {
 });
 
 export { Stripe };
-
 export default stripe;

@@ -28,11 +28,11 @@
         "@abuse-sleuth/tsconfig": "*",
         "eslint": "^7.32.0",
         "eslint-config-custom": "*",
-        "prisma": "^4.2.1",
+        "prisma": "^4.4.0",
         "zod-prisma": "^0.5.4"
     },
     "dependencies": {
-        "@prisma/client": "^4.2.1",
-        "@abuse-sleuth/stripe": "*"
+        "@abuse-sleuth/stripe": "*",
+        "@prisma/client": "^4.4.0"
     }
 }
