@@ -12,7 +12,7 @@ import {
     Stack,
     Text,
     TextInput,
-    Title
+    Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import { useForm } from "@abuse-sleuth/ui/hooks";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
@@ -26,15 +26,14 @@ const TeamEdit: NextPage = () => {
 
     const teamId = router.query.teamid as string;
 
-    const trpcContext = trpcClient.useContext()
-    const editTeam =
-        trpcClient.teams.edit.useMutation({
-            onSuccess() {
-                trpcContext.teams.get.invalidate({ teamId})
-                trpcContext.teams.getAllSelf.invalidate()
-                trpcContext.users.getActiveTeamSelf.invalidate()
-            }
-        });
+    const trpcContext = trpcClient.useContext();
+    const editTeam = trpcClient.teams.edit.useMutation({
+        onSuccess() {
+            trpcContext.teams.get.invalidate({ teamId });
+            trpcContext.teams.getAllSelf.invalidate();
+            trpcContext.users.getActiveTeamSelf.invalidate();
+        },
+    });
 
     const form = useForm({
         initialValues: {
@@ -61,8 +60,8 @@ const TeamEdit: NextPage = () => {
                             editTeam.mutate({
                                 teamId: values.teamId,
                                 data: {
-                                    teamName: values.teamName
-                                }
+                                    teamName: values.teamName,
+                                },
                             });
                         })}>
                         <Stack>
