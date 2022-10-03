@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "@abuse-sleuth/stripe": "*",
-        "@prisma/client": "^4.4.0"
+        "@prisma/client": "^4.4.0",
+        "zod": "^3.19.1"
     }
 }
