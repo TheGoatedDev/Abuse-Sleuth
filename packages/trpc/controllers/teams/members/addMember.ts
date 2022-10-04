@@ -59,6 +59,9 @@ export const addMemberController = requireLoggedInProcedure
                         },
                     },
                 },
+                include: {
+                    user: true,
+                },
             });
 
             return userOnTeam;

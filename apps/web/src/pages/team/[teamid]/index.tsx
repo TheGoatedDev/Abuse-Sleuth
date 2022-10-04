@@ -1,5 +1,4 @@
 import type { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
@@ -22,10 +21,10 @@ import {
     IconPlus,
 } from "@abuse-sleuth/ui/icons";
 
+import { openTeamAddMemberModal } from "@components/dashboard/features/modals/TeamAddMemberModal";
 import { openTeamEditModal } from "@components/dashboard/features/modals/TeamEditModal";
 import { Layout } from "@components/dashboard/layouts";
 import MembersTable from "@components/teams/features/MembersTable";
-import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
@@ -116,22 +115,15 @@ const TeamViewSingle: NextPage = () => {
             <Stack spacing={"xs"}>
                 <Group position="apart">
                     <Title>Members</Title>
-                    <Link
-                        passHref
-                        href={
-                            getTeamQuery.data.locked
-                                ? "#"
-                                : Routes.team.addMember(getTeamQuery.data.id)
-                        }>
-                        <Button
-                            component="a"
-                            color="green"
-                            variant="light"
-                            leftIcon={<IconPlus size={16} />}
-                            disabled={getTeamQuery.data.locked}>
-                            Add User
-                        </Button>
-                    </Link>
+
+                    <Button
+                        color="green"
+                        variant="light"
+                        leftIcon={<IconPlus size={16} />}
+                        disabled={getTeamQuery.data.locked}
+                        onClick={() => openTeamAddMemberModal({ teamId })}>
+                        Add User
+                    </Button>
                 </Group>
                 <MembersTable teamId={teamId} />
             </Stack>

@@ -5,6 +5,7 @@ import { NotificationsProvider } from "@abuse-sleuth/ui/notifications";
 import { GlobalStyling, MantineProvider } from "@abuse-sleuth/ui/shared";
 import { FCC } from "@abuse-sleuth/ui/types";
 
+import TeamAddMemberModal from "@components/dashboard/features/modals/TeamAddMemberModal";
 import TeamCreateModal from "@components/dashboard/features/modals/TeamCreateModal";
 import TeamEditModal from "@components/dashboard/features/modals/TeamEditModal";
 
@@ -20,6 +21,7 @@ export const ProviderWrapper: FCC<{ session?: Session }> = ({
                         modals={{
                             teamCreate: TeamCreateModal,
                             teamEdit: TeamEditModal,
+                            teamAddMember: TeamAddMemberModal,
                         }}
                         modalProps={{
                             centered: true,
