@@ -1,7 +1,9 @@
 import {
     ActionIcon,
     Group,
+    Loader,
     Menu,
+    ScrollArea,
     Text,
     ThemeIcon,
     UnstyledButton,
@@ -82,30 +84,39 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
 
             <Menu.Dropdown>
                 <Menu.Label>Teams</Menu.Label>
-                {props.teams
-                    ? props.teams.map((team, i) => (
-                          <Menu.Item
-                              onClick={() => {
-                                  props.setActiveTeam(team.id);
-                              }}
-                              key={i}
-                              rightSection={
-                                  <Link
-                                      href={props.hrefGenerator(team.id)}
-                                      passHref>
-                                      <ActionIcon component="a" color={"dark"}>
-                                          <IconDots size={"20px"} />
-                                      </ActionIcon>
-                                  </Link>
-                              }>
-                              <Group>
-                                  {team.locked && <IconLock size={"18px"} />}
+                <ScrollArea
+                    type="auto"
+                    offsetScrollbars
+                    style={{ height: "150px" }}>
+                    {props.teams ? (
+                        props.teams.map((team, i) => (
+                            <Menu.Item
+                                onClick={() => {
+                                    props.setActiveTeam(team.id);
+                                }}
+                                key={i}
+                                rightSection={
+                                    <Link
+                                        href={props.hrefGenerator(team.id)}
+                                        passHref>
+                                        <ActionIcon
+                                            component="a"
+                                            color={"dark"}>
+                                            <IconDots size={"20px"} />
+                                        </ActionIcon>
+                                    </Link>
+                                }>
+                                <Group>
+                                    {team.locked && <IconLock size={"18px"} />}
 
-                                  <Text lineClamp={1}>{team.teamName}</Text>
-                              </Group>
-                          </Menu.Item>
-                      ))
-                    : "Loading"}
+                                    <Text lineClamp={1}>{team.teamName}</Text>
+                                </Group>
+                            </Menu.Item>
+                        ))
+                    ) : (
+                        <Loader />
+                    )}
+                </ScrollArea>
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
                 <Menu.Item

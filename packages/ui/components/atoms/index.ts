@@ -15,6 +15,7 @@ export * from "./LoadingOverlay";
 export * from "./Menu";
 export * from "./Navbar";
 export * from "./Paper";
+export * from "./ScrollArea";
 export * from "./SimpleGrid";
 export * from "./Skeleton";
 export * from "./Space";

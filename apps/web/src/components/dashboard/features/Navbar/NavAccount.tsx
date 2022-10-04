@@ -13,8 +13,7 @@ import Routes from "@utils/routes";
 
 export const NavAccount: React.FC = () => {
     const { data: session } = useSession();
-    const getBillingPortalQuery =
-        trpcClient.users.billing.getPortalURL.useQuery();
+    const getBillingPortal = trpcClient.users.billing.getPortalURL.useQuery();
 
     return (
         <DashboardNavAccount
@@ -31,7 +30,7 @@ export const NavAccount: React.FC = () => {
                     </Menu.Item>
                     <Menu.Item
                         component="a"
-                        href={getBillingPortalQuery.data ?? "#"}
+                        href={getBillingPortal.data ?? "#"}
                         icon={<IconCash size={"18px"} />}>
                         View Billing
                     </Menu.Item>
