@@ -11,27 +11,33 @@ import {
     TextInput,
 } from "@abuse-sleuth/ui/components/atoms";
 import { useForm } from "@abuse-sleuth/ui/hooks";
-import { IconCheck, IconPlus, IconX } from "@abuse-sleuth/ui/icons";
+import { IconCheck, IconEdit, IconX } from "@abuse-sleuth/ui/icons";
 import { ContextModalProps, openContextModal } from "@abuse-sleuth/ui/modals";
 import { showNotification } from "@abuse-sleuth/ui/notifications";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
 
-export const TeamCreateModal: FC<ContextModalProps> = ({
+type TeamEditModalInnerProps = { teamId: string };
+
+export const TeamEditModal: FC<ContextModalProps<TeamEditModalInnerProps>> = ({
     context,
     id,
     innerProps,
 }) => {
+    const { teamId } = innerProps;
+
     const trpcContext = trpcClient.useContext();
 
-    const createTeam = trpcClient.teams.create.useMutation({
-        onSuccess(input) {
+    const editTeam = trpcClient.teams.edit.useMutation({
+        onSuccess() {
             showNotification({
-                title: "Team Created!",
-                message: `${input.teamName} has been created!`,
+                title: "Team Edited!",
+                message: `Team has been editted!`,
                 color: "green",
                 icon: <IconCheck />,
             });
+            trpcContext.teams.get.invalidate({ teamId });
             trpcContext.teams.getAllSelf.invalidate();
+            trpcContext.users.getActiveTeamSelf.invalidate();
             context.closeModal(id);
         },
         onError(error) {
@@ -46,13 +52,12 @@ export const TeamCreateModal: FC<ContextModalProps> = ({
 
     const form = useForm({
         initialValues: {
+            teamId: teamId,
             teamName: "",
         },
         validate: zodResolver(
             z.object({
-                teamName: z
-                    .string()
-                    .min(3, "Team Name must be at least 3 letters"),
+                teamName: z.string(),
             })
         ),
     });
@@ -61,8 +66,11 @@ export const TeamCreateModal: FC<ContextModalProps> = ({
         <>
             <form
                 onSubmit={form.onSubmit((values) => {
-                    createTeam.mutate({
-                        teamName: values.teamName,
+                    editTeam.mutate({
+                        teamId: values.teamId,
+                        data: {
+                            teamName: values.teamName,
+                        },
                     });
                 })}>
                 <Stack>
@@ -70,28 +78,28 @@ export const TeamCreateModal: FC<ContextModalProps> = ({
                         label="Team Name"
                         {...form.getInputProps("teamName")}
                     />
-                    <Button type="submit">Create</Button>
+                    <Button type="submit">Edit</Button>
                 </Stack>
             </form>
         </>
     );
 };
 
-export const openTeamCreateModal = () =>
+export const openTeamEditModal = (props: TeamEditModalInnerProps) =>
     openContextModal({
-        modal: "teamCreate",
+        modal: "teamEdit",
         title: (
             <Group>
                 <Icon
-                    icon={<IconPlus stroke={3.5} size={28} />}
-                    color={"green"}
+                    icon={<IconEdit stroke={2.5} size={28} />}
+                    color={"violet"}
                 />
                 <Text weight={"bold"} size={"lg"}>
-                    Create Team
+                    Edit Team
                 </Text>
             </Group>
         ),
-        innerProps: {},
+        innerProps: props,
     });
 
-export default TeamCreateModal;
+export default TeamEditModal;

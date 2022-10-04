@@ -22,6 +22,7 @@ import {
     IconPlus,
 } from "@abuse-sleuth/ui/icons";
 
+import { openTeamEditModal } from "@components/dashboard/features/modals/TeamEditModal";
 import { Layout } from "@components/dashboard/layouts";
 import MembersTable from "@components/teams/features/MembersTable";
 import Routes from "@utils/routes";
@@ -95,28 +96,21 @@ const TeamViewSingle: NextPage = () => {
                 <Title>
                     {getTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
-                <Link
-                    passHref
-                    href={
-                        getTeamQuery.data.locked
-                            ? "#"
-                            : Routes.team.edit(getTeamQuery.data.id)
-                    }>
-                    <Button
-                        component="a"
-                        color="violet"
-                        variant="light"
-                        leftIcon={
-                            getTeamQuery.data.locked ? (
-                                <IconLock size="16px" />
-                            ) : (
-                                <IconEdit size="16px" />
-                            )
-                        }
-                        disabled={getTeamQuery.data.locked}>
-                        Edit Team
-                    </Button>
-                </Link>
+                <Button
+                    component="a"
+                    color="violet"
+                    variant="light"
+                    leftIcon={
+                        getTeamQuery.data.locked ? (
+                            <IconLock size="16px" />
+                        ) : (
+                            <IconEdit size="16px" />
+                        )
+                    }
+                    disabled={getTeamQuery.data.locked}
+                    onClick={() => openTeamEditModal({ teamId })}>
+                    Edit Team
+                </Button>
             </Group>
             <Divider my="md" />
             <Stack spacing={"xs"}>
