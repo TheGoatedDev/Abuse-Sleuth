@@ -5,6 +5,8 @@ import { NotificationsProvider } from "@abuse-sleuth/ui/notifications";
 import { GlobalStyling, MantineProvider } from "@abuse-sleuth/ui/shared";
 import { FCC } from "@abuse-sleuth/ui/types";
 
+import TeamCreateModal from "@components/dashboard/features/modals/TeamCreateModal";
+
 export const ProviderWrapper: FCC<{ session?: Session }> = ({
     session,
     children,
@@ -12,8 +14,12 @@ export const ProviderWrapper: FCC<{ session?: Session }> = ({
     return (
         <SessionProvider session={session}>
             <MantineProvider>
-                <NotificationsProvider position="top-right">
-                    <ModalsProvider>
+                <NotificationsProvider autoClose={5000}>
+                    <ModalsProvider
+                        modals={{ teamCreate: TeamCreateModal }}
+                        modalProps={{
+                            centered: true,
+                        }}>
                         <GlobalStyling />
                         {children}
                     </ModalsProvider>

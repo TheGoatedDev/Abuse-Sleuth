@@ -4,6 +4,8 @@ import { DashboardNavTeamButton } from "@abuse-sleuth/ui/components/compounds";
 
 import Routes from "@utils/routes";
 
+import { openTeamCreateModal } from "../modals/TeamCreateModal";
+
 export const NavTeamSelector: React.FC = () => {
     const { data: session } = useSession();
 
@@ -28,7 +30,7 @@ export const NavTeamSelector: React.FC = () => {
                 ) ?? []
             }
             hrefGenerator={(id) => Routes.team.view(id)}
-            teamCreatehref={Routes.team.create}
+            teamCreateOnClick={() => openTeamCreateModal()}
             session={session}
             setActiveTeam={(teamId) =>
                 userSetActiveTeamMutation.mutate({ teamId })

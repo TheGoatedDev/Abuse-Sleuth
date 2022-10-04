@@ -63,7 +63,7 @@ const TeamButton = forwardRef<
 type DashboardNavTeamButtonProps = {
     teams: Team[];
     hrefGenerator: (id: string) => string;
-    teamCreatehref: string;
+    teamCreateOnClick: () => void;
     session: Session | null;
     setActiveTeam: (teamId: string) => void;
     activeTeam?: Team;
@@ -108,11 +108,11 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                     : "Loading"}
                 <Menu.Divider />
                 <Menu.Label>Actions</Menu.Label>
-                <Link href={props.teamCreatehref} passHref>
-                    <Menu.Item component="a" icon={<IconPlus />}>
-                        Create Team
-                    </Menu.Item>
-                </Link>
+                <Menu.Item
+                    onClick={props.teamCreateOnClick}
+                    icon={<IconPlus />}>
+                    Create Team
+                </Menu.Item>
             </Menu.Dropdown>
         </Menu>
     );
