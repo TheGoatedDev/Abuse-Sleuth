@@ -72,7 +72,9 @@ export const TeamAddMemberModal: FC<
                         label="Email"
                         {...form.getInputProps("userEmail")}
                     />
-                    <Button type="submit">Add</Button>
+                    <Button loading={editTeam.isLoading} type="submit">
+                        Add
+                    </Button>
                 </Stack>
             </form>
         </>

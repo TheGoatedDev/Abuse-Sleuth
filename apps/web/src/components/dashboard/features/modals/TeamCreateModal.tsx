@@ -70,7 +70,9 @@ export const TeamCreateModal: FC<ContextModalProps> = ({
                         label="Team Name"
                         {...form.getInputProps("teamName")}
                     />
-                    <Button type="submit">Create</Button>
+                    <Button loading={createTeam.isLoading} type="submit">
+                        Create
+                    </Button>
                 </Stack>
             </form>
         </>

@@ -78,7 +78,9 @@ export const TeamEditModal: FC<ContextModalProps<TeamEditModalInnerProps>> = ({
                         label="Team Name"
                         {...form.getInputProps("teamName")}
                     />
-                    <Button type="submit">Edit</Button>
+                    <Button loading={editTeam.isLoading} type="submit">
+                        Edit
+                    </Button>
                 </Stack>
             </form>
         </>
