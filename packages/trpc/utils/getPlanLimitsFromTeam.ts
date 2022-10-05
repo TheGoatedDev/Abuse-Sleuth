@@ -6,7 +6,7 @@ import stripe from "@abuse-sleuth/stripe";
 type PlanLimits = {
     reportsLimit: number;
     scansLimit: number;
-    usersLimit: number;
+    membersLimit: number;
     reportRetentionLimit: number;
 };
 
@@ -34,7 +34,7 @@ export const getPlanLimitsFromTeam = async (
         .object({
             reportsLimit: z.string().transform(Number),
             scansLimit: z.string().transform(Number),
-            usersLimit: z.string().transform(Number),
+            membersLimit: z.string().transform(Number),
             reportRetentionLimit: z.string().transform(Number),
         })
         .safeParseAsync(stripeProduct.metadata);

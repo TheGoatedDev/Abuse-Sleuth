@@ -13,7 +13,7 @@ export const getMembersController = requireLoggedInProcedure
         })
     )
     .query(async (opts) => {
-        const teamMembers = await prisma.userOnTeam.findMany({
+        const teamMembers = await prisma.teamMember.findMany({
             where: {
                 teamId: opts.input.teamId,
             },

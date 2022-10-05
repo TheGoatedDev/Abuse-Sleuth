@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteUserOnTeam, RelatedUserOnTeamModel, CompleteUser, RelatedUserModel } from "./index"
+import { CompleteTeamMember, RelatedTeamMemberModel, CompleteUser, RelatedUserModel } from "./index"
 
 export const TeamModel = z.object({
   id: z.string(),
@@ -11,7 +11,7 @@ export const TeamModel = z.object({
 })
 
 export interface CompleteTeam extends z.infer<typeof TeamModel> {
-  users: CompleteUserOnTeam[]
+  members: CompleteTeamMember[]
   User: CompleteUser[]
 }
 
@@ -21,6 +21,6 @@ export interface CompleteTeam extends z.infer<typeof TeamModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedTeamModel: z.ZodSchema<CompleteTeam> = z.lazy(() => TeamModel.extend({
-  users: RelatedUserOnTeamModel.array(),
+  members: RelatedTeamMemberModel.array(),
   User: RelatedUserModel.array(),
 }))

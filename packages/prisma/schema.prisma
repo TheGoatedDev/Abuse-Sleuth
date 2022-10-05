@@ -60,7 +60,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    teams UserOnTeam[] // All Teams that user are apart of.
+    teams TeamMember[] // All Teams that user are apart of.
 
     activeTeamId String?
     activeTeam   Team?   @relation(fields: [activeTeamId], references: [id])
@@ -86,14 +86,14 @@ model Team {
     locked      Boolean @default(false)
 
     // Relationships
-    users UserOnTeam[]
+    members TeamMember[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     User      User[]
 }
 
-model UserOnTeam {
+model TeamMember {
     // Fields
     role TeamMemberRole @default(USER)
 

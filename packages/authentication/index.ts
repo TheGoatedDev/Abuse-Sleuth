@@ -49,69 +49,62 @@ export const nextAuthOptions: NextAuthOptions = {
     },
     events: {
         createUser: async ({ user }) => {
-            try {
-                const stripeCustomer = await stripe.customers.create({
-                    email: user.email as string,
-                    metadata: {
-                        databaseUserId: user.id,
+            const stripeCustomer = await stripe.customers.create({
+                email: user.email as string,
+                metadata: {
+                    databaseUserId: user.id,
+                },
+            });
+
+            const stripeProducts = await stripe.products.list({
+                active: true,
+                expand: ["data.default_price"],
+            });
+
+            const sortedProducts = stripeProducts.data.sort((a, b) => {
+                const aPrice = a.default_price as Stripe.Price;
+                const bPrice = b.default_price as Stripe.Price;
+
+                return (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0);
+            });
+
+            const stripeSub = await stripe.subscriptions.create({
+                customer: stripeCustomer.id,
+                items: [
+                    {
+                        price: (sortedProducts[0].default_price as Stripe.Price)
+                            .id,
                     },
-                });
+                ],
+            });
 
-                const stripeProducts = await stripe.products.list({
-                    active: true,
-                    expand: ["data.default_price"],
-                });
-
-                const sortedProducts = stripeProducts.data.sort((a, b) => {
-                    const aPrice = a.default_price as Stripe.Price;
-                    const bPrice = b.default_price as Stripe.Price;
-
-                    return (
-                        (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0)
-                    );
-                });
-
-                const stripeSub = await stripe.subscriptions.create({
-                    customer: stripeCustomer.id,
-                    items: [
-                        {
-                            price: (
-                                sortedProducts[0].default_price as Stripe.Price
-                            ).id,
-                        },
-                    ],
-                });
-
-                const team = await prisma.team.create({
-                    data: {
-                        teamName: "Personal",
-                        locked: true,
-                        stripeSubId: stripeSub.id,
-                        users: {
-                            create: {
-                                role: "OWNER",
-                                user: {
-                                    connect: {
-                                        id: user.id as string,
-                                    },
+            const team = await prisma.team.create({
+                data: {
+                    teamName: "Personal",
+                    locked: true,
+                    stripeSubId: stripeSub.id,
+                    members: {
+                        create: {
+                            role: "OWNER",
+                            user: {
+                                connect: {
+                                    id: user.id as string,
                                 },
                             },
                         },
                     },
-                });
+                },
+            });
 
-                await prisma.user.update({
-                    data: {
-                        activeTeamId: team.id,
-                        stripeCustomerId: stripeCustomer.id,
-                    },
-                    where: {
-                        email: user.email as string,
-                    },
-                });
-            } catch (error: any) {
-                throw new Error(error);
-            }
+            await prisma.user.update({
+                data: {
+                    activeTeamId: team.id,
+                    stripeCustomerId: stripeCustomer.id,
+                },
+                where: {
+                    email: user.email as string,
+                },
+            });
         },
     },
 };

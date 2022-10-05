@@ -1,4 +1,5 @@
 import { trpc } from "../initTRPC";
-import { isLoggedin } from "../middlewares/isLoggedIn";
+import { isLoggedinMiddleware } from "../middlewares/auth/isLoggedInMiddleware";
 
-export const requireLoggedInProcedure = trpc.procedure.use(isLoggedin);
+export const requireLoggedInProcedure =
+    trpc.procedure.use(isLoggedinMiddleware);

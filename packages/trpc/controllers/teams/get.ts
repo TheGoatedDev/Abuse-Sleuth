@@ -16,7 +16,7 @@ export const getController = requireLoggedInProcedure
         const team = await prisma.team.findFirstOrThrow({
             where: {
                 id: opts.input.teamId,
-                users: {
+                members: {
                     some: {
                         user: {
                             id: opts.ctx.user?.id,

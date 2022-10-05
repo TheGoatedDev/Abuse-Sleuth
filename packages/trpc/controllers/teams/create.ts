@@ -38,7 +38,7 @@ export const createController = requireLoggedInProcedure
             data: {
                 teamName: opts.input.teamName,
                 stripeSubId: stripeSub.id,
-                users: {
+                members: {
                     create: {
                         role: "OWNER",
                         user: {

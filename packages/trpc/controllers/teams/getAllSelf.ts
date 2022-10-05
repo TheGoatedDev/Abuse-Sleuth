@@ -6,7 +6,7 @@ export const getAllSelfController = requireLoggedInProcedure.query(
     async (opts) => {
         const teams = await prisma.team.findMany({
             where: {
-                users: {
+                members: {
                     some: {
                         user: {
                             id: opts.ctx.user?.id,

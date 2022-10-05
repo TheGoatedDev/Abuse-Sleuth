@@ -13,7 +13,7 @@ export const getSelf = requireLoggedInProcedure
         })
     )
     .query(async (opts) => {
-        const teamMember = await prisma.userOnTeam.findUnique({
+        const teamMember = await prisma.teamMember.findUnique({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,

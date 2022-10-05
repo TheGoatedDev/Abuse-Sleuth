@@ -29,7 +29,7 @@ export const promoteMemberController = requireLoggedInProcedure
             });
         }
 
-        const userOnTeam = await prisma.userOnTeam.findUnique({
+        const userOnTeam = await prisma.teamMember.findUnique({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,
@@ -52,7 +52,7 @@ export const promoteMemberController = requireLoggedInProcedure
             });
         }
 
-        return await prisma.userOnTeam.update({
+        return await prisma.teamMember.update({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,

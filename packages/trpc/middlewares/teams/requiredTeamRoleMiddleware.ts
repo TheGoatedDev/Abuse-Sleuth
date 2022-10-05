@@ -22,7 +22,7 @@ export const requiredTeamRoleMiddleware = (allowedRoles: TeamMemberRole[]) => {
 
         const { teamId } = result.data;
 
-        const userInTeam = await prisma.userOnTeam.findFirst({
+        const userInTeam = await prisma.teamMember.findFirst({
             where: {
                 userId: ctx.user?.id,
                 teamId: teamId,

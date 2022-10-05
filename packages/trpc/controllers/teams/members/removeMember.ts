@@ -29,7 +29,7 @@ export const removeMemberController = requireLoggedInProcedure
             });
         }
 
-        const userOnTeam = await prisma.userOnTeam.findUniqueOrThrow({
+        const userOnTeam = await prisma.teamMember.findUniqueOrThrow({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,
@@ -53,7 +53,7 @@ export const removeMemberController = requireLoggedInProcedure
         }
 
         try {
-            const results = await prisma.userOnTeam.delete({
+            const results = await prisma.teamMember.delete({
                 where: {
                     userId_teamId: {
                         teamId: opts.input.teamId,

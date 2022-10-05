@@ -47,7 +47,7 @@ export const addMemberController = requireLoggedInProcedure
         }
 
         try {
-            const userOnTeam = await prisma.userOnTeam.create({
+            const userOnTeam = await prisma.teamMember.create({
                 data: {
                     role: "USER",
                     user: {
