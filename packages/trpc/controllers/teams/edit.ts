@@ -3,11 +3,11 @@ import { z } from "zod";
 import { prisma } from "@abuse-sleuth/prisma";
 import { TeamModel } from "@abuse-sleuth/prisma/validator";
 
-import { requiredTeamRole } from "../../middlewares/requiredTeamRole";
+import { requiredTeamRoleMiddleware } from "../../middlewares/teams/requiredTeamRoleMiddleware";
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 
 export const editController = requireLoggedInProcedure
-    .use(requiredTeamRole(["OWNER"]))
+    .use(requiredTeamRoleMiddleware(["OWNER"]))
     .input(
         z.object({
             teamId: z.string(),

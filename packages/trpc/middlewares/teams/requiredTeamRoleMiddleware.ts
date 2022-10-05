@@ -3,9 +3,9 @@ import { z } from "zod";
 
 import { prisma, TeamMemberRole } from "@abuse-sleuth/prisma";
 
-import { trpc } from "../initTRPC";
+import { trpc } from "../../initTRPC";
 
-export const requiredTeamRole = (allowedRoles: TeamMemberRole[]) => {
+export const requiredTeamRoleMiddleware = (allowedRoles: TeamMemberRole[]) => {
     return trpc.middleware(async ({ ctx, next, rawInput }) => {
         const shape = z.object({
             teamId: z.string(),

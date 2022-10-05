@@ -34,6 +34,7 @@
         "@mantine/modals": "^5.4.2",
         "@mantine/next": "^5.4.2",
         "@mantine/notifications": "^5.4.2",
+        "@mantine/utils": "^5.5.2",
         "@tabler/icons": "^1.91.0",
         "js-abbreviation-number": "^1.4.0",
         "zod": "^3.19.1"

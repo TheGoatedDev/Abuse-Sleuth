@@ -26,17 +26,21 @@ export const getPlanLimitsFromTeam = async (
         stripeSubId ?? ""
     );
 
+    const stripeProduct = await stripe.products.retrieve(
+        stripeSubscription.items.data[0].plan.product as string
+    );
+
     const results = await z
         .object({
-            reportsLimit: z.number(),
-            scansLimit: z.number(),
-            usersLimit: z.number(),
-            reportRetentionLimit: z.number(),
+            reportsLimit: z.string().transform(Number),
+            scansLimit: z.string().transform(Number),
+            usersLimit: z.string().transform(Number),
+            reportRetentionLimit: z.string().transform(Number),
         })
-        .safeParseAsync(stripeSubscription.metadata);
+        .safeParseAsync(stripeProduct.metadata);
 
     if (!results.success) {
-        throw new Error("Subscription didn't contain all needed Limits");
+        throw new Error(results.error.message);
     }
 
     const planLimits: PlanLimits = results.data;

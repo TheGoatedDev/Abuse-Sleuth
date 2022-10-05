@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 
+//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
+import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import {
     Button,
     Group,
@@ -11,7 +13,6 @@ import {
 } from "@abuse-sleuth/ui/components/atoms";
 import { useMantineTheme, useMediaQuery } from "@abuse-sleuth/ui/hooks";
 
-//import { useSession } from "@abuse-sleuth/authentication/nextjs/client";
 import Navbar from "@components/main/features/Navbar";
 import { Layout } from "@components/main/layouts";
 import Routes from "@utils/routes";
@@ -20,7 +21,7 @@ const Home: NextPage = () => {
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.xs}px)`);
 
-    //const { data, status } = useSession();
+    const { data, status } = useSession();
 
     return (
         <Layout>
@@ -56,18 +57,14 @@ const Home: NextPage = () => {
                             Scan, Block and Repeat!
                         </Text>
 
-                        {true ? (
+                        {status !== "authenticated" ? (
                             <Link passHref href={Routes.auth.login}>
                                 <Button
                                     component="a"
                                     sx={(theme) => ({
                                         width: "150px",
-                                        backgroundColor: theme.colors.violet[6],
-                                        ":hover": {
-                                            backgroundColor:
-                                                theme.colors.violet[7],
-                                        },
                                     })}
+                                    color={"violet"}
                                     mt="md">
                                     Join Now!
                                 </Button>
@@ -78,12 +75,8 @@ const Home: NextPage = () => {
                                     component="a"
                                     sx={(theme) => ({
                                         width: "150px",
-                                        backgroundColor: theme.colors.violet[6],
-                                        ":hover": {
-                                            backgroundColor:
-                                                theme.colors.violet[7],
-                                        },
                                     })}
+                                    color={"violet"}
                                     mt="md">
                                     View Dashboard
                                 </Button>

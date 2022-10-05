@@ -2,11 +2,11 @@ import { z } from "zod";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
-import { requiredTeamRole } from "../../../middlewares/requiredTeamRole";
+import { requiredTeamRoleMiddleware } from "../../../middlewares/teams/requiredTeamRoleMiddleware";
 import { requireLoggedInProcedure } from "../../../procedures/requireLoggedInProcedure";
 
 export const getSelf = requireLoggedInProcedure
-    .use(requiredTeamRole(["USER", "MANAGER", "OWNER"]))
+    .use(requiredTeamRoleMiddleware(["USER", "MANAGER", "OWNER"]))
     .input(
         z.object({
             teamId: z.string(),

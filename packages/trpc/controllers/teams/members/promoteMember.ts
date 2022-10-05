@@ -3,11 +3,11 @@ import { z } from "zod";
 
 import { prisma } from "@abuse-sleuth/prisma";
 
-import { requiredTeamRole } from "../../../middlewares/requiredTeamRole";
+import { requiredTeamRoleMiddleware } from "../../../middlewares/teams/requiredTeamRoleMiddleware";
 import { requireLoggedInProcedure } from "../../../procedures/requireLoggedInProcedure";
 
 export const promoteMemberController = requireLoggedInProcedure
-    .use(requiredTeamRole(["MANAGER", "OWNER"]))
+    .use(requiredTeamRoleMiddleware(["MANAGER", "OWNER"]))
     .input(
         z.object({
             teamId: z.string(),

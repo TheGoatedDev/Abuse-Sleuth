@@ -3,11 +3,13 @@ import { z } from "zod";
 
 import { prisma, Prisma } from "@abuse-sleuth/prisma";
 
-import { requiredTeamRole } from "../../../middlewares/requiredTeamRole";
+import { canAddMemberMiddleware } from "../../../middlewares/teams/canAddMemberMiddleware";
+import { requiredTeamRoleMiddleware } from "../../../middlewares/teams/requiredTeamRoleMiddleware";
 import { requireLoggedInProcedure } from "../../../procedures/requireLoggedInProcedure";
 
 export const addMemberController = requireLoggedInProcedure
-    .use(requiredTeamRole(["MANAGER", "OWNER"]))
+    .use(requiredTeamRoleMiddleware(["MANAGER", "OWNER"]))
+    .use(canAddMemberMiddleware)
     .input(
         z.object({
             teamId: z.string(),

@@ -96,7 +96,6 @@ const TeamViewSingle: NextPage = () => {
                     {getTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
                 <Button
-                    component="a"
                     color="violet"
                     variant="light"
                     leftIcon={
