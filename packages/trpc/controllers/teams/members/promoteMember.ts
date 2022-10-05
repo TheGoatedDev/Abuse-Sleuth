@@ -29,7 +29,7 @@ export const promoteMemberController = requireLoggedInProcedure
             });
         }
 
-        const userOnTeam = await prisma.teamMember.findUnique({
+        const teamMember = await prisma.teamMember.findUnique({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,
@@ -38,14 +38,14 @@ export const promoteMemberController = requireLoggedInProcedure
             },
         });
 
-        if (!userOnTeam) {
+        if (!teamMember) {
             throw new TRPCError({
                 code: "BAD_REQUEST",
                 message: "User Email doesn't exist",
             });
         }
 
-        if (userOnTeam.role === "MANAGER") {
+        if (teamMember.role === "MANAGER") {
             throw new TRPCError({
                 code: "BAD_REQUEST",
                 message: "User on Team is Already a Manager",

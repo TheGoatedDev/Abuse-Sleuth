@@ -13,7 +13,7 @@ export const setActiveTeamSelfController = requireLoggedInProcedure
     )
     .mutation(async (opts) => {
         // Check if User is apart of team
-        const userOnTeam = await prisma.userOnTeam.findFirstOrThrow({
+        const teamMember = await prisma.teamMember.findFirstOrThrow({
             where: {
                 userId: opts.ctx.user?.id,
                 teamId: opts.input.teamId,
@@ -23,7 +23,7 @@ export const setActiveTeamSelfController = requireLoggedInProcedure
             },
         });
 
-        if (!userOnTeam) {
+        if (!teamMember) {
             throw new TRPCError({
                 message: "User and TeamId don't exist",
                 code: "UNAUTHORIZED",
@@ -39,7 +39,7 @@ export const setActiveTeamSelfController = requireLoggedInProcedure
             },
         });
 
-        return userOnTeam.team as Team;
+        return teamMember.team as Team;
     });
 
 export default setActiveTeamSelfController;

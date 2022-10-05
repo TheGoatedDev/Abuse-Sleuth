@@ -47,7 +47,7 @@ export const addMemberController = requireLoggedInProcedure
         }
 
         try {
-            const userOnTeam = await prisma.teamMember.create({
+            const teamMember = await prisma.teamMember.create({
                 data: {
                     role: "USER",
                     user: {
@@ -66,7 +66,7 @@ export const addMemberController = requireLoggedInProcedure
                 },
             });
 
-            return userOnTeam;
+            return teamMember;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
                 if (error.code === "P2002") {

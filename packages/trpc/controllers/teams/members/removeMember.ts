@@ -29,7 +29,7 @@ export const removeMemberController = requireLoggedInProcedure
             });
         }
 
-        const userOnTeam = await prisma.teamMember.findUniqueOrThrow({
+        const teamMember = await prisma.teamMember.findUniqueOrThrow({
             where: {
                 userId_teamId: {
                     teamId: opts.input.teamId,
@@ -38,14 +38,14 @@ export const removeMemberController = requireLoggedInProcedure
             },
         });
 
-        if (!userOnTeam) {
+        if (!teamMember) {
             throw new TRPCError({
                 code: "BAD_REQUEST",
                 message: "User doesn't exist on Team",
             });
         }
 
-        if (userOnTeam.role === "OWNER") {
+        if (teamMember.role === "OWNER") {
             throw new TRPCError({
                 code: "FORBIDDEN",
                 message: "Can't remove the Owner of the Team",
