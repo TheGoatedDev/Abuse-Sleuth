@@ -10,6 +10,7 @@ import {
     Icon,
     Loader,
     Skeleton,
+    Space,
     Stack,
     Text,
     Title,
@@ -26,6 +27,7 @@ import { openTeamAddMemberModal } from "@components/dashboard/features/modals/Te
 import { openTeamEditModal } from "@components/dashboard/features/modals/TeamEditModal";
 import { Layout } from "@components/dashboard/layouts";
 import MembersTable from "@components/teams/features/MembersTable";
+import ReportsTable from "@components/teams/features/ReportsTable";
 import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
@@ -151,6 +153,9 @@ const TeamViewSingle: NextPage = () => {
                     </Button>
                 </Group>
                 <MembersTable teamId={teamId} />
+                <Space h={"xl"} />
+                <Title>Reports</Title>
+                <ReportsTable teamId={teamId} />
             </Stack>
         </Layout>
     );

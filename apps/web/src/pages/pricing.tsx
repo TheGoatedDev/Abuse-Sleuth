@@ -64,6 +64,7 @@ const Pricing: NextPage<PricingProps> = (props) => {
                                 `${v.metadata["scansLimit"]} Scans`,
                                 `${v.metadata["reportsLimit"]} Reports`,
                                 `${v.metadata["reportRetentionLimit"]} Weeks Report Retention`,
+                                "Many More Features Included",
                             ]}
                         />
                     );

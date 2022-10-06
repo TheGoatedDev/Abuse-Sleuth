@@ -19,7 +19,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
     pricing,
     currency,
     listItems,
-    button = <Button>This Button does nothing</Button>,
+    button = <Button disabled>This Button does nothing</Button>,
 }) => {
     return (
         <Stack spacing={"md"}>
