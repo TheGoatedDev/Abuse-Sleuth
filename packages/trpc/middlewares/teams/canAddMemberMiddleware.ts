@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { trpc } from "../../initTRPC";
-import { canAddMemberToTeam } from "../../utils/canAddMemberToTeam";
+import { canAddMemberToTeam } from "../../services/stripe/canAddMemberToTeam";
 
 export const canAddMemberMiddleware = trpc.middleware(
     async ({ ctx, next, rawInput }) => {

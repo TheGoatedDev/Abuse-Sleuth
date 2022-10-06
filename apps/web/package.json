@@ -9,6 +9,8 @@
     "--------- Development ---------": "",
     "clean": "rimraf node_modules .turbo .next",
     "dev": "next dev -p 3000",
+    "--------- Stripe ---------": "",
+    "stripe:webhook:dev": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
     "--------- Linting ---------": "",
     "lint": "next lint",
     "--------- Testing ---------": "",

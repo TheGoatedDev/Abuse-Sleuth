@@ -34,6 +34,8 @@ const stripeWebhookHandler = async (
             bufferString: buf.toString(),
             signature: sig as string,
         });
+
+        res.status(200).send("");
     } catch (err) {
         const errorMessage =
             err instanceof Error ? err.message : "Unknown error";
