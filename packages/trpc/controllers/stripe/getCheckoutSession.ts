@@ -2,9 +2,11 @@ import { z } from "zod";
 
 import stripe from "@abuse-sleuth/stripe";
 
+import { requiredTeamRoleMiddleware } from "../../middlewares/teams/requiredTeamRoleMiddleware";
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 
 export const getCheckoutSessionController = requireLoggedInProcedure
+    .use(requiredTeamRoleMiddleware(["OWNER"]))
     .input(
         z.object({
             teamId: z.string(),
