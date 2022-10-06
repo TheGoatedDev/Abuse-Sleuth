@@ -30,6 +30,7 @@ import { IconExclamationMark, IconInfoSquare } from "@abuse-sleuth/ui/icons";
 import { Layout } from "@components/dashboard/layouts";
 import Routes from "@utils/routes";
 
+// TODO: MOVE TO SEPERATE FILE
 const CheckoutButton: FC<{ productId: string; teamId: string }> = ({
     productId,
     teamId,
