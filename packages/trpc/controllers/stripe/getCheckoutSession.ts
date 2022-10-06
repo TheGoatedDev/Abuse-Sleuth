@@ -17,7 +17,7 @@ export const getCheckoutSessionController = requireLoggedInProcedure
             }),
         })
     )
-    .mutation(async ({ input, ctx }) => {
+    .query(async ({ input, ctx }) => {
         // Get Product
         const product = await stripe.products.retrieve(input.productId);
         // Get Default Pricing

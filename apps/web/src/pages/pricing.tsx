@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 
-import stripe, { Stripe } from "@abuse-sleuth/stripe";
+import stripe from "@abuse-sleuth/stripe";
+import { Stripe } from "@abuse-sleuth/stripe/Stripe";
 import {
     Group,
     SimpleGrid,

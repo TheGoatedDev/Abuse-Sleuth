@@ -2,7 +2,8 @@
     "name": "@abuse-sleuth/stripe",
     "version": "0.0.0",
     "exports": {
-        ".": "./index.ts"
+        ".": "./index.ts",
+        "./Stripe": "./Stripe.ts"
     },
     "scripts": {
         "clean": "rimraf .turbo node_modules dist"
