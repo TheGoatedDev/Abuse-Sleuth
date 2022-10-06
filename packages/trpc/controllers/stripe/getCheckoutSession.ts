@@ -31,19 +31,34 @@ export const getCheckoutSessionController = requireLoggedInProcedure
             // Customer
             customer: ctx.user!.stripeCustomerId!,
 
-            // Billing Address Requirement
-            billing_address_collection: "required",
+            // Tax
+            automatic_tax: {
+                enabled: true,
+            },
+
+            customer_update: {
+                shipping: "auto",
+                address: "auto",
+            },
 
             // Subscription Items
             line_items: [
                 {
                     price: defaultPricingId,
+                    quantity: 1,
                 },
             ],
+
+            // MetaData
+            subscription_data: {
+                metadata: {
+                    teamId: input.teamId,
+                },
+            },
         });
 
         // Send back Checkout Session
-        return checkoutSession.url;
+        return checkoutSession.url ?? "";
     });
 
 export default getCheckoutSessionController;

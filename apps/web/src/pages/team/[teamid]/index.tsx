@@ -18,6 +18,7 @@ import {
     IconEdit,
     IconExclamationMark,
     IconLock,
+    IconPigMoney,
     IconPlus,
 } from "@abuse-sleuth/ui/icons";
 
@@ -25,6 +26,7 @@ import { openTeamAddMemberModal } from "@components/dashboard/features/modals/Te
 import { openTeamEditModal } from "@components/dashboard/features/modals/TeamEditModal";
 import { Layout } from "@components/dashboard/layouts";
 import MembersTable from "@components/teams/features/MembersTable";
+import Routes from "@utils/routes";
 
 const TeamViewSingle: NextPage = () => {
     const router = useRouter();
@@ -38,8 +40,16 @@ const TeamViewSingle: NextPage = () => {
         teamId,
     });
 
+    const getSelfRole = trpcClient.teams.members.getSelf.useQuery({
+        teamId,
+    });
+
     //  TODO: Improve this, Make it Centralised
-    if (getTeamQuery.isLoading || getTeamMembersQuery.isLoading) {
+    if (
+        getTeamQuery.isLoading ||
+        getTeamMembersQuery.isLoading ||
+        getSelfRole.isLoading
+    ) {
         return (
             <Layout>
                 <Group
@@ -58,7 +68,9 @@ const TeamViewSingle: NextPage = () => {
         getTeamQuery.isError ||
         !getTeamQuery.data ||
         getTeamMembersQuery.isError ||
-        !getTeamMembersQuery.data
+        !getTeamMembersQuery.data ||
+        getSelfRole.isError ||
+        !getSelfRole.data
     ) {
         return (
             <Layout>
@@ -78,7 +90,8 @@ const TeamViewSingle: NextPage = () => {
                         <Text>
                             Error:{" "}
                             {getTeamQuery.error?.message ||
-                                getTeamMembersQuery.error?.message}
+                                getTeamMembersQuery.error?.message ||
+                                getSelfRole.error?.message}
                         </Text>
                         <Text color={"dimmed"} size="xs">
                             Check the Console, if you are tech-savvy...
@@ -95,20 +108,33 @@ const TeamViewSingle: NextPage = () => {
                 <Title>
                     {getTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
-                <Button
-                    color="violet"
-                    variant="light"
-                    leftIcon={
-                        getTeamQuery.data.locked ? (
-                            <IconLock size="16px" />
-                        ) : (
-                            <IconEdit size="16px" />
-                        )
-                    }
-                    disabled={getTeamQuery.data.locked}
-                    onClick={() => openTeamEditModal({ teamId })}>
-                    Edit Team
-                </Button>
+                <Group>
+                    <Button
+                        color="violet"
+                        variant="light"
+                        leftIcon={
+                            getTeamQuery.data.locked ? (
+                                <IconLock size="16px" />
+                            ) : (
+                                <IconEdit size="16px" />
+                            )
+                        }
+                        disabled={getTeamQuery.data.locked}
+                        onClick={() => openTeamEditModal({ teamId })}>
+                        Edit
+                    </Button>
+                    {getSelfRole.data.role === "OWNER" && (
+                        <Button
+                            color="cyan"
+                            variant="light"
+                            leftIcon={<IconPigMoney size={"16px"} />}
+                            onClick={() =>
+                                router.push(Routes.team.billing(teamId))
+                            }>
+                            Billing
+                        </Button>
+                    )}
+                </Group>
             </Group>
             <Divider my="md" />
             <Stack spacing={"xs"}>

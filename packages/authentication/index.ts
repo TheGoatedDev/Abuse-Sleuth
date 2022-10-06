@@ -96,6 +96,12 @@ export const nextAuthOptions: NextAuthOptions = {
                 },
             });
 
+            await stripe.subscriptions.update(stripeSub.id, {
+                metadata: {
+                    teamId: team.id,
+                },
+            });
+
             await prisma.user.update({
                 data: {
                     activeTeamId: team.id,

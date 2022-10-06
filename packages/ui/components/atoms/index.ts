@@ -24,3 +24,4 @@ export * from "./Table";
 export * from "./Text";
 export * from "./TextInput";
 export * from "./Title";
+export * from "./Tooltip";

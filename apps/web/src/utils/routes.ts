@@ -16,8 +16,7 @@ export const Routes = {
         viewAll: "/team/",
         view: (teamId: string) => `/team/${teamId}`,
         create: "/team/create",
-        edit: (teamId: string) => `/team/${teamId}/edit`,
-        addMember: (teamId: string) => `/team/${teamId}/addmember`,
+        billing: (teamId: string) => `/team/${teamId}/billing`,
     },
     report: {
         viewAll: "/report/",
