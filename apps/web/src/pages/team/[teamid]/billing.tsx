@@ -129,8 +129,8 @@ const TeamBilling: NextPage = () => {
         <Layout>
             <Group position="apart">
                 <Title>
-                    {getTeamQuery.data.teamName ?? <Skeleton width={45} />}{" "}
-                    Billing
+                    Billing -{" "}
+                    {getTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
             </Group>
             <Divider my="md" />
