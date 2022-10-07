@@ -1,9 +1,12 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import stripe, { Stripe } from "@abuse-sleuth/stripe";
+import { prisma } from "@abuse-sleuth/prisma";
+import stripe from "@abuse-sleuth/stripe";
+import { Stripe } from "@abuse-sleuth/stripe/Stripe";
 
 import { trpc } from "../../initTRPC";
+import getSortedProducts from "../../services/stripe/getSortedProducts";
 
 export const processWebhookController = trpc.procedure
     .input(
@@ -12,7 +15,7 @@ export const processWebhookController = trpc.procedure
             signature: z.string(),
         })
     )
-    .mutation(({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
         const StripeWebhookSecret = process.env["STRIPE_WEBHOOK_SECRET"]!;
 
         let event: Stripe.Event;
@@ -34,11 +37,92 @@ export const processWebhookController = trpc.procedure
             });
         }
 
+        // TODO: FIX THIS IT BROKE AF
         switch (event.type) {
             case "customer.subscription.created":
+                const createdSubscription = event.data
+                    .object as Stripe.Subscription;
+                let createdSubTeamId = createdSubscription.metadata["teamId"];
+
+                const team = await prisma.team.findUniqueOrThrow({
+                    where: {
+                        id: createdSubTeamId,
+                    },
+                });
+
+                // Only Adds Stripe Subscription to Team if no exist Subscription
+                if (
+                    team.stripeSubId === null &&
+                    createdSubscription.status === "active"
+                ) {
+                    await prisma.team.update({
+                        where: { id: createdSubTeamId },
+                        data: {
+                            stripeSubId: createdSubscription.id,
+                        },
+                    });
+                    return;
+                }
+
+                // Removes Old Subscription and Add New to Team
+                if (team.stripeSubId) {
+                    await stripe.subscriptions.del(team.stripeSubId);
+
+                    await prisma.team.update({
+                        where: { id: createdSubTeamId },
+                        data: {
+                            stripeSubId: createdSubscription.id,
+                        },
+                    });
+                    return;
+                }
+
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "Unknown Error in: customer.subscription.created",
+                });
+
             case "customer.subscription.updated":
+                const updatedSubscription = event.data
+                    .object as Stripe.Subscription;
+                let updatedSubteamId = updatedSubscription.metadata["teamId"];
+
+                if (updatedSubscription.status !== "active") {
+                    // Lock and Block Team
+                    return;
+                }
+
+                break;
+
             case "customer.subscription.deleted":
-                console.log("OOF");
+                const deletedSubscription = event.data
+                    .object as Stripe.Subscription;
+                let deletedSubTeamId = deletedSubscription.metadata["teamId"];
+
+                const products = await getSortedProducts();
+
+                // Stops if this is the Free Product
+                if (
+                    deletedSubscription.items.data[0].price.id ===
+                    (products[0].default_price as Stripe.Price).id
+                ) {
+                    return;
+                }
+
+                // Creates New Free Plan
+                await stripe.subscriptions.create({
+                    customer: deletedSubscription.customer.toString(),
+                    items: [
+                        {
+                            price: (products[0].default_price as Stripe.Price)
+                                .id,
+                        },
+                    ],
+                    metadata: {
+                        teamId: deletedSubTeamId,
+                    },
+                });
+
                 break;
 
             default:

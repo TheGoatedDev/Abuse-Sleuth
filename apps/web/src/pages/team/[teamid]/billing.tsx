@@ -138,7 +138,7 @@ const TeamBilling: NextPage = () => {
                             key={i}
                             title={x.name}
                             description={x.description ?? ""}
-                            pricing={pricing.unit_amount!}
+                            pricing={pricing.unit_amount ?? 0}
                             currency={pricing.currency}
                             listItems={[
                                 <Tooltip
@@ -173,7 +173,7 @@ const TeamBilling: NextPage = () => {
     );
 };
 
-// TODO: Check if OWNER
+// TODO: Make it look nicer
 export const getServerSideProps: GetServerSideProps = requireAuth(
     async (context) => {
         const teamId = context.query["teamid"] as string;

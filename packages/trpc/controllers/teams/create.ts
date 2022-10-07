@@ -25,19 +25,9 @@ export const createController = requireLoggedInProcedure
             return (aPrice.unit_amount ?? 0) - (bPrice.unit_amount ?? 0);
         });
 
-        const stripeSub = await stripe.subscriptions.create({
-            customer: opts.ctx.user?.stripeCustomerId as string,
-            items: [
-                {
-                    price: (sortedProducts[0].default_price as Stripe.Price).id,
-                },
-            ],
-        });
-
         const team = await prisma.team.create({
             data: {
                 teamName: opts.input.teamName,
-                stripeSubId: stripeSub.id,
                 members: {
                     create: {
                         role: "OWNER",
@@ -48,6 +38,18 @@ export const createController = requireLoggedInProcedure
                         },
                     },
                 },
+            },
+        });
+
+        await stripe.subscriptions.create({
+            customer: opts.ctx.user?.stripeCustomerId as string,
+            items: [
+                {
+                    price: (sortedProducts[0].default_price as Stripe.Price).id,
+                },
+            ],
+            metadata: {
+                teamId: team.id,
             },
         });
 

@@ -22,26 +22,35 @@ export const requiredTeamRoleMiddleware = (allowedRoles: TeamMemberRole[]) => {
 
         const { teamId } = result.data;
 
-        const userInTeam = await prisma.teamMember.findFirst({
-            where: {
-                userId: ctx.user?.id,
-                teamId: teamId,
-            },
-        });
-
-        if (!userInTeam) {
-            throw new TRPCError({
-                code: "BAD_REQUEST",
-                message: "User Doesn't Belong in this Team",
+        try {
+            const userInTeam = await prisma.teamMember.findUniqueOrThrow({
+                where: {
+                    userId_teamId: {
+                        teamId: teamId,
+                        userId: ctx.user?.id ?? "",
+                    },
+                },
             });
-        }
 
-        if (!allowedRoles.includes(userInTeam.role)) {
+            if (!userInTeam) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "User Doesn't Belong in this Team",
+                });
+            }
+
+            if (!allowedRoles.includes(userInTeam.role)) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: `User Isn't a Team Roles: '${allowedRoles.join(
+                        ", "
+                    )}'`,
+                });
+            }
+        } catch (error) {
             throw new TRPCError({
-                code: "BAD_REQUEST",
-                message: `User Isn't a Team Roles: '${allowedRoles.join(
-                    ", "
-                )}'`,
+                code: "INTERNAL_SERVER_ERROR",
+                message: "ERROR IN TEAMROLEMIDDLEWARE",
             });
         }
 
