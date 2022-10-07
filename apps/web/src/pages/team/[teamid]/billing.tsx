@@ -67,8 +67,17 @@ const TeamBilling: NextPage = () => {
 
     const getAllProducts = trpcClient.stripe.products.getAllProducts.useQuery();
 
+    const getTeamProduct =
+        trpcClient.stripe.products.getProductFromTeamId.useQuery({
+            teamId,
+        });
+
     //  TODO: Improve this, Make it Centralised
-    if (getTeamQuery.isLoading || getAllProducts.isLoading) {
+    if (
+        getTeamQuery.isLoading ||
+        getAllProducts.isLoading ||
+        getTeamProduct.isLoading
+    ) {
         return (
             <Layout>
                 <Group
@@ -87,7 +96,9 @@ const TeamBilling: NextPage = () => {
         getTeamQuery.isError ||
         !getTeamQuery.data ||
         getAllProducts.isError ||
-        !getAllProducts.data
+        !getAllProducts.data ||
+        getTeamProduct.isError ||
+        !getTeamProduct.data
     ) {
         return (
             <Layout>
@@ -160,10 +171,14 @@ const TeamBilling: NextPage = () => {
                                 "Many More Features Included",
                             ]}
                             button={
-                                <CheckoutButton
-                                    teamId={teamId}
-                                    productId={x.id}
-                                />
+                                x.id !== getTeamProduct.data.id ? (
+                                    <CheckoutButton
+                                        teamId={teamId}
+                                        productId={x.id}
+                                    />
+                                ) : (
+                                    <Button disabled>Current Plan</Button>
+                                )
                             }
                         />
                     );

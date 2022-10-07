@@ -37,7 +37,6 @@ export const processWebhookController = trpc.procedure
             });
         }
 
-        // TODO: FIX THIS IT BROKE AF
         switch (event.type) {
             case "customer.subscription.created":
                 const createdSubscription = event.data
