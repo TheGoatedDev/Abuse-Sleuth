@@ -1,0 +1,8 @@
+{
+    "extends": "@abuse-sleuth/tsconfig/base.tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "."
+    },
+    "include": ["**/*.ts", "../shared_types/next-auth.d.ts", "../shared_types/prisma.d.ts"],
+    "exclude": ["node_modules"]
+}

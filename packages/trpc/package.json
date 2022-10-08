@@ -1,0 +1,30 @@
+{
+	"name": "@abuse-sleuth/trpc",
+	"version": "0.0.0",
+	"exports": {
+		".": "./index.ts",
+		"./nextjs/client": "./nextjs/client",
+		"./nextjs/server": "./nextjs/server"
+	},
+	"scripts": {
+		"clean": "rimraf node_modules .turborepo"
+	},
+	"dependencies": {
+		"@abuse-sleuth/authentication": "*",
+		"@abuse-sleuth/prisma": "*",
+		"@abuse-sleuth/stripe": "*",
+		"@tanstack/react-query": "^4.3.9",
+		"@trpc/client": "^10.0.0-proxy-beta.0",
+		"@trpc/next": "^10.0.0-proxy-beta.0",
+		"@trpc/react": "^10.0.0-proxy-beta.0",
+		"@trpc/server": "^10.0.0-proxy-beta.0",
+		"rimraf": "3.0.2",
+		"superjson": "1.9.1",
+		"zod": "^3.19.1"
+	},
+	"devDependencies": {
+		"@abuse-sleuth/tsconfig": "*",
+		"eslint": "^7.32.0",
+		"eslint-config-custom": "*"
+	}
+}

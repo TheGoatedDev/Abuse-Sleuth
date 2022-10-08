@@ -1,0 +1,19 @@
+{
+    "name": "@abuse-sleuth/stripe",
+    "version": "0.0.0",
+    "exports": {
+        ".": "./index.ts",
+        "./Stripe": "./Stripe.ts"
+    },
+    "scripts": {
+        "clean": "rimraf .turbo node_modules dist"
+    },
+    "devDependencies": {
+        "@abuse-sleuth/tsconfig": "*",
+        "eslint": "^7.32.0",
+        "eslint-config-custom": "*"
+    },
+    "dependencies": {
+        "stripe": "^10.8.0"
+    }
+}

@@ -1,5 +1,9 @@
-const withTM = require("next-transpile-modules")(["ui"]);
+const withTM = require("next-transpile-modules")(["@abuse-sleuth/ui", "@abuse-sleuth/authentication", "@abuse-sleuth/prisma", "@abuse-sleuth/trpc"]);
 
-module.exports = withTM({
-  reactStrictMode: true,
-});
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    reactStrictMode: true,
+    swcMinify: true,
+};
+
+module.exports = withTM(nextConfig);

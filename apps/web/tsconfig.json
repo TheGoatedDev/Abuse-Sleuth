@@ -1,5 +1,17 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+    "extends": "@abuse-sleuth/tsconfig/nextjs.tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "paths": {
+            "@contexts/*": ["contexts/*"],
+            "@hooks/*": ["hooks/*"],
+            "@utils/*": ["utils/*"],
+            "@services/*": ["services/*"],
+            "@components/*": ["components/*"],
+            "@pages/*": ["pages/*"],
+            "@tests/*": ["__test__/*"]
+        }
+    },
+    "include": ["../../packages/shared_types/next-auth.d.ts", "next-env.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+    "exclude": ["node_modules"]
 }

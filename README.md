@@ -1,78 +1,48 @@
-# Turborepo starter
+<p align="center">
+    <img src="apps/web/public/logo.svg" height="100px" />
+    <h2 align="center">What is Abuse Sleuth?</h2>
+</p>
 
-This is an official Yarn v1 starter turborepo.
+Abuse Sleuth is a free-to-use data analyse platform for IP Address related information. This platform's intended use is to gather data from multiple data sources and be able to aggregate it, so that it can determine is the IP Address is currently being used for malicous intent or if it is still being used for malicious intent. Network Admins, System Admins and Blue Team Security Experts will be able to use this tool to be able to block or blacklist IP Addresses that have been hitting there firewall or IPS (Intrusion Prevent System).
 
-## What's inside?
+## Tech Stack
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
+### General
 
-### Apps and Packages
+-   NodeJS - Runtime Engine
+-   TypeScript - Language
+-   TurboRepo - Monorepo and Building Management
+-   Eslint - Linter
+-   Prettier - Formatter
+-   Husky - Git Hooks
 
-- `docs`: a [Next.js](https://nextjs.org) app
-- `web`: another [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+### Infrastructure
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+-   Pulumi - IaC (Infrastructure as Code) Provisioning Resources
+-   AWS - Cloud Provider
 
-### Utilities
+### Frontend
 
-This turborepo has some additional tools already setup for you:
+-   NextJS - SSR React Frontend
+-   Mantine - UI Component Library
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Jest](https://jestjs.io) test runner for all things JavaScript
-- [Prettier](https://prettier.io) for code formatting
+### Backend
 
-## Setup
+-   Prisma - ORM
+-   Fastify - API Framework
+-   tRPC - E2E Type Safe API "helper/framework"
+-   Postgres - SQL Database
 
-This repository is used in the `npx create-turbo` command, and selected when choosing which package manager you wish to use with your monorepo (Yarn).
+### Testing
 
-### Build
+-   Jest - Unit Testing
+-   Cypress - E2E Testing
 
-To build all apps and packages, run the following command:
+## Contributing
 
-```
-cd my-turborepo
-yarn run build
-```
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Please make sure to update tests as appropriate.
 
-### Develop
+## License
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Pipelines](https://turborepo.org/docs/features/pipelines)
-- [Caching](https://turborepo.org/docs/features/caching)
-- [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching)
-- [Scoped Tasks](https://turborepo.org/docs/features/scopes)
-- [Configuration Options](https://turborepo.org/docs/reference/configuration)
-- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)
+[GNU AGPLv3](https://choosealicense.com/licenses/agpl-3.0/)
