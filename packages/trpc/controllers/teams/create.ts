@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 import { prisma } from "@abuse-sleuth/prisma";
-import stripe, { Stripe } from "@abuse-sleuth/stripe";
+import stripe from "@abuse-sleuth/stripe";
+import { Stripe } from "@abuse-sleuth/stripe/Stripe";
 
 import { requireLoggedInProcedure } from "../../procedures/requireLoggedInProcedure";
 

@@ -1,14 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC } from "react";
 
 import {
     nextAuthOptions,
     unstable_getServerSession,
 } from "@abuse-sleuth/authentication";
 import { requireAuth } from "@abuse-sleuth/authentication/nextjs";
-import { Stripe } from "@abuse-sleuth/stripe/Stripe";
 import { appRouter } from "@abuse-sleuth/trpc";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
@@ -17,45 +15,17 @@ import {
     Group,
     Icon,
     Loader,
-    SimpleGrid,
     Skeleton,
+    Space,
     Stack,
     Text,
     Title,
-    Tooltip,
 } from "@abuse-sleuth/ui/components/atoms";
-import { PricingCard } from "@abuse-sleuth/ui/components/compounds";
-import { IconExclamationMark, IconInfoSquare } from "@abuse-sleuth/ui/icons";
+import { IconExclamationMark, IconHome } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
+import { PlanSwitcher } from "@components/teams/billing/features/PlanSwitcher";
 import Routes from "@utils/routes";
-
-// TODO: MOVE TO SEPERATE FILE
-const CheckoutButton: FC<{ productId: string; teamId: string }> = ({
-    productId,
-    teamId,
-}) => {
-    const getCheckoutSession = trpcClient.stripe.getCheckoutSession.useQuery({
-        teamId,
-        productId,
-        checkout: {
-            cancel_url:
-                process.env["NEXT_PUBLIC_VERCEL_URL"] +
-                Routes.team.view(teamId),
-            success_url:
-                process.env["NEXT_PUBLIC_VERCEL_URL"] +
-                Routes.team.billing(teamId),
-        },
-    });
-
-    return (
-        <Link href={getCheckoutSession.data ?? "#"} passHref>
-            <Button component={"a"} loading={getCheckoutSession.isLoading}>
-                Switch Plan
-            </Button>
-        </Link>
-    );
-};
 
 const TeamBilling: NextPage = () => {
     const router = useRouter();
@@ -65,19 +35,8 @@ const TeamBilling: NextPage = () => {
         teamId,
     });
 
-    const getAllProducts = trpcClient.stripe.products.getAllProducts.useQuery();
-
-    const getTeamProduct =
-        trpcClient.stripe.products.getProductFromTeamId.useQuery({
-            teamId,
-        });
-
     //  TODO: Improve this, Make it Centralised
-    if (
-        getTeamQuery.isLoading ||
-        getAllProducts.isLoading ||
-        getTeamProduct.isLoading
-    ) {
+    if (getTeamQuery.isLoading) {
         return (
             <Layout>
                 <Group
@@ -92,14 +51,7 @@ const TeamBilling: NextPage = () => {
     }
 
     // TODO: Improve this, Make it Centralised
-    if (
-        getTeamQuery.isError ||
-        !getTeamQuery.data ||
-        getAllProducts.isError ||
-        !getAllProducts.data ||
-        getTeamProduct.isError ||
-        !getTeamProduct.data
-    ) {
+    if (getTeamQuery.isError || !getTeamQuery.data) {
         return (
             <Layout>
                 <Group
@@ -132,58 +84,21 @@ const TeamBilling: NextPage = () => {
                     Billing -{" "}
                     {getTeamQuery.data.teamName ?? <Skeleton width={45} />}
                 </Title>
+
+                <Link href={Routes.team.view(teamId)} passHref>
+                    <Button
+                        component={"a"}
+                        color={"violet"}
+                        leftIcon={<IconHome />}>
+                        Return
+                    </Button>
+                </Link>
             </Group>
             <Divider my="md" />
-            <SimpleGrid
-                spacing={"xl"}
-                breakpoints={[
-                    { minWidth: "md", cols: getAllProducts.data.length },
-                    { minWidth: "sm", cols: 2 },
-                    { minWidth: "xs", cols: 1 },
-                ]}>
-                {getAllProducts.data.map((x, i) => {
-                    const pricing = x.default_price! as Stripe.Price;
-
-                    return (
-                        <PricingCard
-                            key={i}
-                            title={x.name}
-                            description={x.description ?? ""}
-                            pricing={pricing.unit_amount ?? 0}
-                            currency={pricing.currency}
-                            listItems={[
-                                <Tooltip
-                                    key={i + "-members"}
-                                    withArrow
-                                    position="bottom"
-                                    label={
-                                        "This includes yourself as a Member"
-                                    }>
-                                    <Group>
-                                        {x.metadata["membersLimit"]} Team
-                                        Members
-                                        <IconInfoSquare size={16} />
-                                    </Group>
-                                </Tooltip>,
-                                `${x.metadata["scansLimit"]} Scans`,
-                                `${x.metadata["reportsLimit"]} Reports`,
-                                `${x.metadata["reportRetentionLimit"]} Weeks Report Retention`,
-                                "Many More Features Included",
-                            ]}
-                            button={
-                                x.id !== getTeamProduct.data.id ? (
-                                    <CheckoutButton
-                                        teamId={teamId}
-                                        productId={x.id}
-                                    />
-                                ) : (
-                                    <Button disabled>Current Plan</Button>
-                                )
-                            }
-                        />
-                    );
-                })}
-            </SimpleGrid>
+            <Title mb={"sm"}>Plans</Title>
+            <PlanSwitcher teamId={teamId} />
+            <Space h={"xl"} />
+            <Title>Invoices</Title>
         </Layout>
     );
 };

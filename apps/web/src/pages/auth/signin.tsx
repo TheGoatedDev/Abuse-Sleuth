@@ -1,17 +1,15 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { requireNoAuth } from "@abuse-sleuth/authentication/nextjs";
 import {
+    Button,
     Group,
     Paper,
     Stack,
-    Title,
-    Button,
-    Anchor,
     Text,
+    Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import { IconBrandGithub, IconBrandGoogle } from "@abuse-sleuth/ui/icons";
 import { MantineColor } from "@abuse-sleuth/ui/types";
@@ -94,7 +92,7 @@ const SignIn: NextPage<{ providers: Record<string, ClientSafeProvider> }> = ({
                                             })
                                         }
                                         leftIcon={settings.icon}>
-                                        Sign in with {provider.name}
+                                        {`Sign in with ${provider.name}`}
                                     </Button>
                                 );
                             })}
