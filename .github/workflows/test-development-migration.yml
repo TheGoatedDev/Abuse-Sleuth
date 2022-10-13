@@ -1,11 +1,14 @@
 name: Test Prisma Migration
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - production
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
