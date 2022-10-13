@@ -34,7 +34,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Development
-    need: test
+    needs: test
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
