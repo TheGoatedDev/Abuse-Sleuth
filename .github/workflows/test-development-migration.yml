@@ -1,4 +1,4 @@
-name: Deploy Production Migration
+name: Test Prisma Migration
 on:
   pull_request:
     branches:
