@@ -10,11 +10,13 @@ FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 # ARG EXTRA_NODE_VERSION=10
 # RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"
 
-# [Optional] Uncomment if you want to install more global node modules
-RUN su node -c "npm install -g eslint typescript"
-
-# Install Stripe
 RUN curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list
-RUN sudo apt update
-RUN sudo apt install stripe
+RUN apt update
+#RUN apt install stripe
+
+# [Optional] Uncomment if you want to install more global node modules
+RUN su node -c "npm install -g eslint typescript prettier"
+
+# Install Stripe
+
