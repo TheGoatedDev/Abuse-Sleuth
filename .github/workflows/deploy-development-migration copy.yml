@@ -1,8 +1,8 @@
-name: Test Prisma Migration
+name: Deploy Development Migration
 on:
-  pull_request:
+  push:
     branches:
-      - production
+      - development
 
 jobs:
   test:
@@ -23,6 +23,19 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/testdb
 
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: yarn install
+      - run: yarn prisma db:deploy
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Development
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
