@@ -42,4 +42,5 @@ jobs:
         with:
           node-version: 16
       - run: yarn install
+      - run: echo "The Dev is:${{env.DATABASE_URL}}"
       - run: yarn prisma db:deploy
