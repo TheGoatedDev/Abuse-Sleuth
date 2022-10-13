@@ -1,8 +1,5 @@
 name: Test Prisma Migration
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - production
