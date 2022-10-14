@@ -5,7 +5,11 @@ import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
     Group,
     Loader,
+    Paper,
     SimpleGrid,
+    Space,
+    Stack,
+    Text,
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import { StatsCard } from "@abuse-sleuth/ui/components/compounds";
@@ -63,6 +67,21 @@ const Dashboard: NextPage = () => {
                     icon={"unchanged"}
                 />
             </SimpleGrid>
+            <Space h={"md"} />
+            <Paper withBorder p={"xs"}>
+                <Title order={2}>News</Title>
+                <Stack>
+                    <Paper p={"sm"}>
+                        <Group>
+                            <Title order={3}>Title</Title>
+                            <Text color={"dimmed"} size={"xs"}>
+                                {new Date().toLocaleString()}
+                            </Text>
+                        </Group>
+                        <Text>CONTENT</Text>
+                    </Paper>
+                </Stack>
+            </Paper>
         </Layout>
     );
 };
