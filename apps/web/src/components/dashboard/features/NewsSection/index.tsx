@@ -10,7 +10,7 @@ import {
 } from "@abuse-sleuth/ui/components/atoms";
 
 export const NewsSection = () => {
-    const getHackerNews = trpcClient.news.getHackerNews.useQuery();
+    const getHackerNews = trpcClient.news.getHackerNews.useQuery({});
 
     if (!getHackerNews.isLoading && !getHackerNews.data) {
         <Paper withBorder p={"xs"}>
@@ -37,7 +37,7 @@ export const NewsSection = () => {
                         {getHackerNews.data?.items.map((v, i) => (
                             <Paper pb={"xs"} key={i}>
                                 <Group>
-                                    <Title order={3}>{v.title}</Title>
+                                    <Title order={4}>{v.title}</Title>
                                     <Text color={"dimmed"} size={"xs"}>
                                         {new Date(
                                             v.isoDate as string
@@ -45,7 +45,8 @@ export const NewsSection = () => {
                                     </Text>
                                 </Group>
                                 <Text>
-                                    {v.contentSnippet}{" "}
+                                    {v.contentSnippet}
+                                    {"... "}
                                     <Anchor href={v.link}>Read more.</Anchor>
                                 </Text>
                             </Paper>
