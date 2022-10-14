@@ -17,4 +17,4 @@ const ReportIndex: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = requireAuth();
 
-export default ReportINdex;
+export default ReportIndex;
