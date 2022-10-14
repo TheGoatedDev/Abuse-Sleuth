@@ -7,14 +7,14 @@ import { Layout } from "@components/dashboard/layouts";
 
 // TODO: Flesh Out the Page
 
-const TeamIndex: NextPage = () => {
+const ReportIndex: NextPage = () => {
     return (
         <Layout>
-            <Title>Your Teams</Title>
+            <Title>Your Reports</Title>
         </Layout>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = requireAuth();
 
-export default TeamIndex;
+export default ReportINdex;
