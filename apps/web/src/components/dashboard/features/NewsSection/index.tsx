@@ -3,7 +3,6 @@ import { useState } from "react";
 import { trpcClient } from "@abuse-sleuth/trpc/nextjs/client";
 import {
     ActionIcon,
-    Anchor,
     Button,
     Group,
     Loader,
@@ -14,6 +13,8 @@ import {
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import { IconRefresh } from "@abuse-sleuth/ui/icons";
+
+import { NewsItem } from "./NewsItem";
 
 // TODO: It works but dislike the "Load More" functionallity.
 export const NewsSection = () => {
@@ -57,21 +58,14 @@ export const NewsSection = () => {
                                 height: "260px",
                             })}>
                             {getHackerNews.data?.items.map((v, i) => (
-                                <Paper pb={"xs"} key={i}>
-                                    <Group>
-                                        <Title order={4}>{v.title}</Title>
-                                        <Text color={"dimmed"} size={"xs"}>
-                                            {new Date(
-                                                v.isoDate as string
-                                            ).toLocaleString()}
-                                        </Text>
-                                    </Group>
-                                    <Text>
-                                        {v.contentSnippet}
-                                        {"... "}
-                                        <Anchor href={v.link}>Read more</Anchor>
-                                    </Text>
-                                </Paper>
+                                <NewsItem
+                                    title={v.title ?? "Unknown Title"}
+                                    date={new Date(v.isoDate as string)}
+                                    content={
+                                        v.contentSnippet ?? "Unknown Content"
+                                    }
+                                    link={v.link ?? "#"}
+                                />
                             ))}
                         </ScrollArea>
                         <Button onClick={() => setLimit((old) => old + 3)}>
