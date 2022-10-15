@@ -20,7 +20,7 @@ export const NewsItem: FC<NewsItemProps> = ({ title, date, content, link }) => {
     return (
         <Paper pb={"xs"}>
             <Group>
-                <Title order={4}>{title}</Title>
+                <Title order={5}>{title}</Title>
                 <Text color={"dimmed"} size={"xs"}>
                     {date.toLocaleString()}
                 </Text>
