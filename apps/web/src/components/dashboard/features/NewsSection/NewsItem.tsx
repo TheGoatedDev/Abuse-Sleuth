@@ -15,7 +15,6 @@ type NewsItemProps = {
     link: string;
 };
 
-// TODO: It works but dislike the "Load More" functionallity.
 export const NewsItem: FC<NewsItemProps> = ({ title, date, content, link }) => {
     return (
         <Paper pb={"xs"}>
