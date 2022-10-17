@@ -46,8 +46,8 @@ export const PricingCard: React.FC<PricingCardProps> = ({
             <List
                 withPadding
                 icon={<Icon icon={<IconCheck />} color={"green"} />}>
-                {listItems?.map((v) => (
-                    <List.Item>{v}</List.Item>
+                {listItems?.map((v, i) => (
+                    <List.Item key={i}>{v}</List.Item>
                 ))}
             </List>
         </Stack>
