@@ -5,7 +5,12 @@ export const TeamModel = z.object({
   id: z.string(),
   stripeSubId: z.string().nullish(),
   teamName: z.string(),
-  locked: z.boolean(),
+  canBillingTeam: z.boolean(),
+  canDeleteTeam: z.boolean(),
+  canEditTeam: z.boolean(),
+  canAddMember: z.boolean(),
+  canScan: z.boolean(),
+  canGenerateReport: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })

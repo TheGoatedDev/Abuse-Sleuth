@@ -14,7 +14,12 @@ export const editController = requireLoggedInProcedure
             data: TeamModel.omit({
                 id: true,
                 stripeSubId: true,
-                locked: true,
+                canAddMember: true,
+                canBillingTeam: true,
+                canDeleteTeam: true,
+                canEditTeam: true,
+                canGenerateReport: true,
+                canScan: true,
                 createdAt: true,
                 updatedAt: true,
             }).partial(),

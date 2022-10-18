@@ -89,7 +89,7 @@ const TeamBilling: NextPage = () => {
                     <Button
                         component={"a"}
                         color={"violet"}
-                        leftIcon={<IconHome />}>
+                        leftIcon={<IconHome size={"16px"} />}>
                         Return
                     </Button>
                 </Link>
@@ -99,6 +99,7 @@ const TeamBilling: NextPage = () => {
             <PlanSwitcher teamId={teamId} />
             <Space h={"xl"} />
             <Title>Invoices</Title>
+            <Text>Coming Soon</Text>
         </Layout>
     );
 };

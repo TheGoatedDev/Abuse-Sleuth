@@ -83,7 +83,13 @@ model Team {
     // Fields
     stripeSubId String?
     teamName    String
-    locked      Boolean @default(false)
+
+    canBillingTeam    Boolean @default(true) // Ability to do Billing
+    canDeleteTeam     Boolean @default(true) // Ability to Delete Team
+    canEditTeam       Boolean @default(true) // Ability to Edit Team
+    canAddMember      Boolean @default(true) // Ability to Add Members
+    canScan           Boolean @default(true) // Ability to Scan
+    canGenerateReport Boolean @default(true) // Ability to Generate Report
 
     // Relationships
     members TeamMember[]

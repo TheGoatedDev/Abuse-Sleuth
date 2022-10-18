@@ -18,7 +18,6 @@ import {
 import {
     IconEdit,
     IconExclamationMark,
-    IconLock,
     IconPigMoney,
     IconPlus,
 } from "@abuse-sleuth/ui/icons";
@@ -114,22 +113,16 @@ const TeamViewSingle: NextPage = () => {
                     <Button
                         color="violet"
                         variant="light"
-                        leftIcon={
-                            getTeamQuery.data.locked ? (
-                                <IconLock size="16px" />
-                            ) : (
-                                <IconEdit size="16px" />
-                            )
-                        }
-                        disabled={getTeamQuery.data.locked}
+                        leftIcon={<IconEdit size={"16px"} />}
+                        disabled={!getTeamQuery.data.canEditTeam}
                         onClick={() => openTeamEditModal({ teamId })}>
                         Edit
                     </Button>
                     {getSelfRole.data.role === "OWNER" && (
                         <Button
                             color="cyan"
-                            variant="light"
                             leftIcon={<IconPigMoney size={"16px"} />}
+                            disabled={!getTeamQuery.data.canBillingTeam}
                             onClick={() =>
                                 router.push(Routes.team.billing(teamId))
                             }>
@@ -145,9 +138,8 @@ const TeamViewSingle: NextPage = () => {
 
                     <Button
                         color="green"
-                        variant="light"
                         leftIcon={<IconPlus size={16} />}
-                        disabled={getTeamQuery.data.locked}
+                        disabled={!getTeamQuery.data.canAddMember}
                         onClick={() => openTeamAddMemberModal({ teamId })}>
                         Add User
                     </Button>
@@ -156,6 +148,19 @@ const TeamViewSingle: NextPage = () => {
                 <Space h={"xl"} />
                 <Title>Reports</Title>
                 <ReportsTable teamId={teamId} />
+
+                {getSelfRole.data.role === "OWNER" && (
+                    <Stack align={"center"}>
+                        <Title order={3}>Deleting Team</Title>
+                        <Group>
+                            <Button
+                                color={"red"}
+                                leftIcon={<IconExclamationMark />}>
+                                Delete This Team
+                            </Button>
+                        </Group>
+                    </Stack>
+                )}
             </Stack>
         </Layout>
     );

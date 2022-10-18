@@ -6,6 +6,9 @@ export const canAddMemberToTeam = async (teamId: string): Promise<boolean> => {
     const members = await prisma.teamMember.count({
         where: {
             teamId,
+            team: {
+                canAddMember: true,
+            },
         },
     });
 

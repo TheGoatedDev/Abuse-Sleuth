@@ -73,7 +73,9 @@ export const nextAuthOptions: NextAuthOptions = {
             const team = await prisma.team.create({
                 data: {
                     teamName: "Personal",
-                    locked: true,
+                    canBillingTeam: false,
+                    canDeleteTeam: false,
+                    canAddMember: false,
                     members: {
                         create: {
                             role: "OWNER",

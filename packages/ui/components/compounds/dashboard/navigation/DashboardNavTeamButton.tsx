@@ -107,7 +107,9 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
                                     </Link>
                                 }>
                                 <Group>
-                                    {team.locked && <IconLock size={"18px"} />}
+                                    {!team.canDeleteTeam && (
+                                        <IconLock size={"18px"} />
+                                    )}
 
                                     <Text lineClamp={1}>{team.teamName}</Text>
                                 </Group>

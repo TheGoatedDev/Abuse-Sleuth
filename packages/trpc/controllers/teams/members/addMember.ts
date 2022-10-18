@@ -17,18 +17,18 @@ export const addMemberController = requireLoggedInProcedure
         })
     )
     .mutation(async (opts) => {
-        // Check if the Team is Locked
+        // Check if the Team is able to add members
         const lockedTeam = await prisma.team.findFirst({
             where: {
                 id: opts.input.teamId,
-                locked: true,
+                canAddMember: true,
             },
         });
 
         if (lockedTeam) {
             throw new TRPCError({
                 code: "BAD_REQUEST",
-                message: "Team is Locked, Cannot Add Members",
+                message: "Team cannot Add Members",
             });
         }
 
