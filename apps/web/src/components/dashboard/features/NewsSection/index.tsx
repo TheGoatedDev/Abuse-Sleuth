@@ -59,6 +59,7 @@ export const NewsSection = () => {
                             })}>
                             {getHackerNews.data?.items.map((v, i) => (
                                 <NewsItem
+                                    key={i}
                                     title={v.title ?? "Unknown Title"}
                                     date={new Date(v.isoDate as string)}
                                     content={

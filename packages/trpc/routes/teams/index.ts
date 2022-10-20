@@ -1,4 +1,5 @@
 import createController from "../../controllers/teams/create";
+import { deleteController } from "../../controllers/teams/delete";
 import editController from "../../controllers/teams/edit";
 import { getController } from "../../controllers/teams/get";
 import getAllSelfController from "../../controllers/teams/getAllSelf";
@@ -13,4 +14,5 @@ export const teamsRouter = trpc.router({
     get: getController,
     edit: editController,
     create: createController,
+    delete: deleteController,
 });

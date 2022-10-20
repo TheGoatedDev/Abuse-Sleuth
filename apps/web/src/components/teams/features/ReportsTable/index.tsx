@@ -37,11 +37,8 @@ export const ReportsTable: FCC<ReportsTableProps> = ({ teamId }) => {
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody style={{ position: "relative" }}>
-                <LoadingOverlay
-                    visible={isLoading}
-                    style={{ height: "100px" }}
-                />
+            <tbody style={{ position: "relative", height: "100px" }}>
+                <LoadingOverlay visible={isLoading} />
                 {reports.map((x, i) => (
                     <tr key={i}>
                         <td>Report-{x}</td>

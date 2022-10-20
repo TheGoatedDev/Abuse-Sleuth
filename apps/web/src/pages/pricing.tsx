@@ -1,8 +1,10 @@
 import type { GetStaticProps, NextPage } from "next";
+import Link from "next/link";
 
 import stripe from "@abuse-sleuth/stripe";
 import { Stripe } from "@abuse-sleuth/stripe/Stripe";
 import {
+    Button,
     Group,
     SimpleGrid,
     Stack,
@@ -15,6 +17,7 @@ import { IconInfoSquare } from "@abuse-sleuth/ui/icons";
 
 import Navbar from "@components/main/features/Navbar";
 import { AltLayout } from "@components/main/layouts";
+import Routes from "@utils/routes";
 
 interface PricingProps {
     products: Stripe.Product[];
@@ -48,6 +51,13 @@ const Pricing: NextPage<PricingProps> = (props) => {
                             description={v.description ?? ""}
                             pricing={pricing.unit_amount ?? 0}
                             currency={pricing.currency}
+                            button={
+                                <Link href={Routes.dashboard.home} passHref>
+                                    <Button component={"a"} color={"violet"}>
+                                        Get Started!
+                                    </Button>
+                                </Link>
+                            }
                             listItems={[
                                 <Tooltip
                                     key={i + "-members"}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FC } from "react";
 
 import { Stripe } from "@abuse-sleuth/stripe/Stripe";
@@ -19,33 +18,8 @@ import { PricingCard } from "@abuse-sleuth/ui/components/compounds";
 import { IconExclamationMark, IconInfoSquare } from "@abuse-sleuth/ui/icons";
 
 import { Layout } from "@components/dashboard/layouts";
-import Routes from "@utils/routes";
 
-const CheckoutButton: FC<{ productId: string; teamId: string }> = ({
-    productId,
-    teamId,
-}) => {
-    const getCheckoutSession = trpcClient.stripe.getCheckoutSession.useQuery({
-        teamId,
-        productId,
-        checkout: {
-            cancel_url:
-                process.env["NEXT_PUBLIC_VERCEL_URL"] +
-                Routes.team.view(teamId),
-            success_url:
-                process.env["NEXT_PUBLIC_VERCEL_URL"] +
-                Routes.team.billing(teamId),
-        },
-    });
-
-    return (
-        <Link href={getCheckoutSession.data ?? "#"} passHref>
-            <Button component={"a"} loading={getCheckoutSession.isLoading}>
-                Switch Plan
-            </Button>
-        </Link>
-    );
-};
+import CheckoutButton from "./CheckoutButton";
 
 type PlanSwitcherProps = {
     teamId: string;

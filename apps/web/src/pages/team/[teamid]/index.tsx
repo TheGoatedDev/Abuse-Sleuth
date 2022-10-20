@@ -16,11 +16,17 @@ import {
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import {
+    IconCheck,
     IconEdit,
     IconExclamationMark,
     IconPigMoney,
     IconPlus,
 } from "@abuse-sleuth/ui/icons";
+import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
+import {
+    showNotification,
+    trpcErrorNotification,
+} from "@abuse-sleuth/ui/notifications";
 
 import { openTeamAddMemberModal } from "@components/dashboard/features/modals/TeamAddMemberModal";
 import { openTeamEditModal } from "@components/dashboard/features/modals/TeamEditModal";
@@ -33,6 +39,8 @@ const TeamViewSingle: NextPage = () => {
     const router = useRouter();
     const teamId = router.query.teamid as string;
 
+    const trpcContext = trpcClient.useContext();
+
     const getTeamQuery = trpcClient.teams.get.useQuery({
         teamId,
     });
@@ -43,6 +51,22 @@ const TeamViewSingle: NextPage = () => {
 
     const getSelfRole = trpcClient.teams.members.getSelf.useQuery({
         teamId,
+    });
+
+    const deleteTeam = trpcClient.teams.delete.useMutation({
+        onSuccess: () => {
+            router.push(Routes.dashboard.home);
+            trpcContext.teams.getAllSelf.invalidate();
+            showNotification({
+                title: "Team Deleted!",
+                message: `Team is now Deleted.`,
+                color: "green",
+                icon: <IconCheck />,
+            });
+        },
+        onError: (error) => {
+            trpcErrorNotification(error.message);
+        },
     });
 
     //  TODO: Improve this, Make it Centralised
@@ -155,7 +179,15 @@ const TeamViewSingle: NextPage = () => {
                         <Group>
                             <Button
                                 color={"red"}
-                                leftIcon={<IconExclamationMark />}>
+                                leftIcon={<IconExclamationMark />}
+                                onClick={() =>
+                                    openConfirmationModal({
+                                        actionDescription: `You are about to delete ${getTeamQuery.data.teamName}`,
+                                        onConfirm: () => {
+                                            deleteTeam.mutate({ teamId });
+                                        },
+                                    })
+                                }>
                                 Delete This Team
                             </Button>
                         </Group>
