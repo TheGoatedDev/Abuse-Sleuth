@@ -16,7 +16,6 @@ import {
     Title,
 } from "@abuse-sleuth/ui/components/atoms";
 import {
-    IconCheck,
     IconEdit,
     IconExclamationMark,
     IconPigMoney,
@@ -24,7 +23,7 @@ import {
 } from "@abuse-sleuth/ui/icons";
 import { openConfirmationModal } from "@abuse-sleuth/ui/modals";
 import {
-    showNotification,
+    showSuccessNotification,
     trpcErrorNotification,
 } from "@abuse-sleuth/ui/notifications";
 
@@ -57,11 +56,8 @@ const TeamViewSingle: NextPage = () => {
         onSuccess: () => {
             router.push(Routes.dashboard.home);
             trpcContext.teams.getAllSelf.invalidate();
-            showNotification({
-                title: "Team Deleted!",
+            showSuccessNotification({
                 message: `Team is now Deleted.`,
-                color: "green",
-                icon: <IconCheck />,
             });
         },
         onError: (error) => {

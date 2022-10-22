@@ -11,9 +11,12 @@ import {
     TextInput,
 } from "@abuse-sleuth/ui/components/atoms";
 import { useForm } from "@abuse-sleuth/ui/hooks";
-import { IconCheck, IconEdit, IconX } from "@abuse-sleuth/ui/icons";
+import { IconEdit } from "@abuse-sleuth/ui/icons";
 import { ContextModalProps, openContextModal } from "@abuse-sleuth/ui/modals";
-import { showNotification } from "@abuse-sleuth/ui/notifications";
+import {
+    showErrorNotification,
+    showSuccessNotification,
+} from "@abuse-sleuth/ui/notifications";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
 
 type TeamEditModalInnerProps = { teamId: string };
@@ -29,11 +32,9 @@ export const TeamEditModal: FC<ContextModalProps<TeamEditModalInnerProps>> = ({
 
     const editTeam = trpcClient.teams.edit.useMutation({
         onSuccess() {
-            showNotification({
+            showSuccessNotification({
                 title: "Team Edited!",
                 message: `Team has been editted!`,
-                color: "green",
-                icon: <IconCheck />,
             });
             trpcContext.teams.get.invalidate({ teamId });
             trpcContext.teams.getAllSelf.invalidate();
@@ -41,11 +42,9 @@ export const TeamEditModal: FC<ContextModalProps<TeamEditModalInnerProps>> = ({
             context.closeModal(id);
         },
         onError(error) {
-            showNotification({
+            showErrorNotification({
                 title: "Error Occurred!",
                 message: error.message,
-                color: "red",
-                icon: <IconX />,
             });
         },
     });

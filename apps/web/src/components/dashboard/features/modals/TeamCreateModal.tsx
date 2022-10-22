@@ -11,9 +11,12 @@ import {
     TextInput,
 } from "@abuse-sleuth/ui/components/atoms";
 import { useForm } from "@abuse-sleuth/ui/hooks";
-import { IconCheck, IconPlus, IconX } from "@abuse-sleuth/ui/icons";
+import { IconPlus } from "@abuse-sleuth/ui/icons";
 import { ContextModalProps, openContextModal } from "@abuse-sleuth/ui/modals";
-import { showNotification } from "@abuse-sleuth/ui/notifications";
+import {
+    showErrorNotification,
+    showSuccessNotification,
+} from "@abuse-sleuth/ui/notifications";
 import { zodResolver } from "@abuse-sleuth/ui/shared";
 
 export const TeamCreateModal: FC<ContextModalProps> = ({
@@ -25,21 +28,17 @@ export const TeamCreateModal: FC<ContextModalProps> = ({
 
     const createTeam = trpcClient.teams.create.useMutation({
         onSuccess(input) {
-            showNotification({
+            showSuccessNotification({
                 title: "Team Created!",
                 message: `${input.teamName} has been created!`,
-                color: "green",
-                icon: <IconCheck />,
             });
             trpcContext.teams.getAllSelf.invalidate();
             context.closeModal(id);
         },
         onError(error) {
-            showNotification({
+            showErrorNotification({
                 title: "Error Occurred!",
                 message: error.message,
-                color: "red",
-                icon: <IconX />,
             });
         },
     });
