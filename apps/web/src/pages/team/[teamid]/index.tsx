@@ -176,6 +176,7 @@ const TeamViewSingle: NextPage = () => {
                             <Button
                                 color={"red"}
                                 leftIcon={<IconExclamationMark />}
+                                disabled={!getTeamQuery.data.canDeleteTeam}
                                 onClick={() =>
                                     openConfirmationModal({
                                         actionDescription: `You are about to delete ${getTeamQuery.data.teamName}`,

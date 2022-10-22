@@ -84,10 +84,7 @@ export const DashboardNavTeamButton: React.FC<DashboardNavTeamButtonProps> = (
 
             <Menu.Dropdown>
                 <Menu.Label>Teams</Menu.Label>
-                <ScrollArea
-                    type="auto"
-                    offsetScrollbars
-                    style={{ height: "150px" }}>
+                <ScrollArea type="auto" style={{ height: "150px" }}>
                     {props.teams ? (
                         props.teams.map((team, i) => (
                             <Menu.Item
