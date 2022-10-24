@@ -29,10 +29,9 @@
         "test": "run-s test:unit test:e2e",
         "test:unit": "turbo run test:unit",
         "test:e2e": "turbo run test:e2e",
-        "--------- Infrastructure ---------": "",
-        "infra": "yarn workspace @abuse-sleuth/infrastructure",
-        "infra:up": "yarn infra up",
-        "infra:down": "yarn infra down",
+        "--------- Docker ---------": "",
+        "database:up": "docker-compose -f ./docker/database/docker-compose.yml up -d",
+        "database:down": "docker-compose -f ./docker/database/docker-compose.yml down",
         "--------- NPM Setups ---------": "",
         "prepare": "husky install"
     },

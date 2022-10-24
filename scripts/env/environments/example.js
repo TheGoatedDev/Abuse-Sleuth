@@ -20,8 +20,10 @@ const envVars = {
     },
     packages: {
         prisma: {
-            DATABASE_URL: "postgres://postgres:postgres@db:5432/abusesleuth",
-            SHADOW_DATABASE_URL: "postgres://postgres:postgres@db:5432/shadow",
+            DATABASE_URL:
+                "postgres://postgres:postgres@localhost:5432/abusesleuth",
+            SHADOW_DATABASE_URL:
+                "postgres://postgres:postgres@localhost:5432/shadow",
         },
     },
 };
